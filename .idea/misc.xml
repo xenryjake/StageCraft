@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="EntryPointsManager">
+    <list size="1">
+      <item index="0" class="java.lang.String" itemvalue="org.bukkit.event.EventHandler" />
+    </list>
+    <pattern value="com.xenry.stagecraft.builder.BuildArea" />
+    <pattern value="com.xenry.stagecraft.builder.BuildArea" method="setAZ" />
+    <pattern value="com.xenry.stagecraft.builder.BuildArea" method="setBX" />
+    <pattern value="com.xenry.stagecraft.builder.BuildArea" method="setBZ" />
+    <pattern value="com.xenry.stagecraft.builder.BuildArea" method="setName" />
+    </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/out" />
+  </component>
+</project>

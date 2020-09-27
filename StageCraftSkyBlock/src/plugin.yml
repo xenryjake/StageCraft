@@ -1,0 +1,9 @@
+name: StageCraftSkyBlock
+version: 2020.09.25.1
+api-version: "1.16"
+author: Xenry
+main: com.xenry.stagecraft.skyblock.StageCraftSkyBlock
+depend: [StageCraftCore]
+softdepend: [ProtocolLib,Vault,Essentials,TitleManager,GriefPrevention]
+commands:
+

@@ -1,0 +1,110 @@
+name: StageCraftCore
+version: 2020.09.11.1
+api-version: "1.16"
+author: Xenry
+main: com.xenry.stagecraft.Core
+softdepend: [ProtocolLib,Vault,Essentials,TitleManager,GriefPrevention]
+commands:
+
+# GENERAL COMMANDS
+  betafeatures:
+    description: "Toggle if beta features are enabled"
+  scdebug:
+    description: "Toggle if the server is in debug mode"
+  commands:
+    description: "Manage commands"
+    aliases: [command,cmds,cmd]
+  webregister:
+    description: "Register with the online map"
+    aliases: [webreg]
+  waypoint:
+    description: "Manage waypoints"
+    aliases: [wayp,wp]
+  help:
+    description: "Help"
+  diceroll:
+    description: "Roll some dice"
+    aliases: [dieroll,rolldice,rolldie]
+
+# SERVER COMMANDS
+  motd:
+    description: "Manage the MOTD"
+  reloadserversettings:
+    description: "Reload server settings"
+  shutdown:
+    description: "Shutdown the server"
+    aliases: [stop]
+
+# PROFILE COMMANDS
+  lookup:
+    description: "Lookup a player's information from the database"
+    aliases: [whois]
+  rank:
+    description: "Manage ranks"
+  seen:
+    description: "Check when a player has last been online"
+  nick:
+    description: "Set a nickname"
+  downloadprofiles:
+    description: "Download profiles from the database"
+    aliases: [updateprofiles,dlpfs]
+  playtime:
+    description: "View a player's playtime"
+  me:
+    description: "Lookup your own profile"
+    aliases: [myprofile]
+  profilelist:
+    description: "View the list of all profiles"
+
+# HOLOGRAM COMMANDS
+  hologram:
+    description: "Manage holograms"
+    aliases: [holo]
+
+# CHAT COMMANDS
+  chat:
+    description: "Manage chat"
+    aliases: [ch]
+  fm:
+    description: "Send a fake message"
+  staffchat:
+    description: "Chat in staff chat"
+    aliases: [sc]
+  msg:
+    description: "Send a private message"
+    aliases: [message,m,tell,t,whisper,w,privatemessage,pmsg,pm]
+  reply:
+    description: "Reply to a private message"
+    aliases: [reply,respond,r]
+  socialspy:
+    description: "Enable/disable socialspy"
+  emotes:
+    description: "View available emotes"
+    aliases: [emotelist,emote]
+  say:
+    description: "Send a message in chat"
+
+# PUNISHMENT COMMANDS
+  punishment:
+    description: "Manage punishments"
+    aliases: [punishments,punish,punishs,pun,puns]
+  ban:
+    description: "Ban a player"
+  mute:
+    description: "Mute a player"
+  kick:
+    description: "Kick a player"
+  disconnect:
+    description: "Disconnect a player from the server"
+    aliases: [discon]
+  jail:
+    description: "Jail a player"
+  setjail:
+    description: "Set a jail"
+    aliases: [addjail,jailset,jailadd]
+  deletejail:
+    description: "Delete a jail"
+    aliases: [removejail,deljail,jaildelete,jailremove,jaildel]
+  listjails:
+    description: "See all jails"
+    aliases: [jails,jaillist,jailslist,listjail]

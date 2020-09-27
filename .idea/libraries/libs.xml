@@ -1,0 +1,17 @@
+<component name="libraryTable">
+  <library name="libs">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../depend/EssentialsX-2.17.1.54.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../depend/Vault.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../depend/TitleManager-2.3.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../depend/GriefPrevention.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../depend/mongo-java-driver-3.2.0-rc0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../depend/ProtocolLib.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../depend/spigot-1.16.3.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/../depend/spigot-1.16.3.jar!/" />
+    </SOURCES>
+  </library>
+</component>
