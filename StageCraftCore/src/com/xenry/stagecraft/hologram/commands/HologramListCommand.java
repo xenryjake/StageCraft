@@ -32,7 +32,7 @@ public final class HologramListCommand extends Command<Core,HologramManager> {
 	
 	@Override
 	protected void serverPerform(CommandSender sender, String[] args, String label) {
-		sender.sendMessage(M.arrow(M.msg + "List of holograms:"));
+		sender.sendMessage(M.msg + "List of holograms on " + M.elm + manager.plugin.getServerName() + M.msg + ":");
 		StringBuilder sb = new StringBuilder();
 		for(Hologram hologram : manager.getHolograms()){
 			sb.append(M.elm).append(hologram.getName()).append(M.msg).append(", ");

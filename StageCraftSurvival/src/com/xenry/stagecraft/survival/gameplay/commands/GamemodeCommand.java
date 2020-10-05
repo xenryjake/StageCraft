@@ -25,6 +25,10 @@ import java.util.List;
 public final class GamemodeCommand extends Command<Survival,GameplayManager> {
 	
 	//todo add ** selector
+	//todo fix tab completeion for /gmc,/gms,/gmsp,/gma, etc...
+	
+	//private static final String[] allLabels = ;
+	//private static final String[] noTabCompleteLabels = ;
 	
 	public GamemodeCommand(GameplayManager manager){
 		super(manager, Rank.ADMIN, "gamemode", "gm", "gmc", "gms", "gmsp", "gma", "creative", "survival",

@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -23,7 +24,7 @@ import java.util.List;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public class ItemLoreCommand extends Command<Survival,GameplayManager> {
+public final class ItemLoreCommand extends Command<Survival,GameplayManager> {
 	
 	public ItemLoreCommand(GameplayManager manager){
 		super(manager, Rank.ADMIN, "itemlore", "ilore");
@@ -61,6 +62,9 @@ public class ItemLoreCommand extends Command<Survival,GameplayManager> {
 		List<String> newLore = Arrays.asList(ChatColor.translateAlternateColorCodes('&',
 				sb.toString().trim()).split("\\\\n"));
 		List<String> lore = im.getLore();
+		if(lore == null){
+			lore = new ArrayList<>();
+		}
 		if(args[0].equalsIgnoreCase("set")){
 			lore = newLore;
 		}else if(args[0].equalsIgnoreCase("add")){

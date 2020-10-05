@@ -3,10 +3,12 @@ import com.xenry.stagecraft.commands.Command;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
 import com.xenry.stagecraft.survival.Survival;
+import com.xenry.stagecraft.survival.profile.SurvivalProfile;
 import com.xenry.stagecraft.survival.teleportation.Teleportation;
 import com.xenry.stagecraft.survival.teleportation.TeleportationManager;
+import com.xenry.stagecraft.util.LocationVector;
 import com.xenry.stagecraft.util.M;
-import com.xenry.stagecraft.util.Vector3D;
+import com.xenry.stagecraft.util.Vector3DDouble;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -41,21 +43,15 @@ public final class TPOfflineCommand extends Command<Survival,TeleportationManage
 			profile.sendMessage(M.usage("/" + label + " <player>"));
 			return;
 		}
-		Profile target;
+		SurvivalProfile target;
 		if(args[0].length() <= 17){
 			if(Bukkit.getPlayer(args[0]) != null){
-				target = manager.getCore().getProfileManager().getProfile(Bukkit.getPlayer(args[0]));
+				target = manager.plugin.getSurvivalProfileManager().getProfile(Bukkit.getPlayer(args[0]));
 			}else{
-				target = getCore().getProfileManager().getProfileByLatestUsername(args[0]);
-				/*try {
-					target = manager.plugin.getProfileManager().getProfileByUUID(UUIDFetcher.getUUIDOf(args[0]).toString());
-				} catch(Exception ex) {
-					sender.sendMessage(M.error("That username is invalid."));
-					return;
-				}*/
+				target = manager.plugin.getSurvivalProfileManager().getProfileByLatestUsername(args[0]);
 			}
 		}else{
-			target = getCore().getProfileManager().getProfileByUUID(args[0]);
+			target = manager.plugin.getSurvivalProfileManager().getProfileByUUID(args[0]);
 		}
 		if(target == null){
 			profile.sendMessage(M.error("There is no profile for that player."));
@@ -65,8 +61,8 @@ public final class TPOfflineCommand extends Command<Survival,TeleportationManage
 			profile.sendMessage(M.error("That player is online!"));
 			return;
 		}
-		Vector3D coords = target.getLastLocation();
-		if(coords.y < 1){
+		LocationVector vector = target.getLastLocationVector();
+		if(vector.y < 0){
 			profile.sendMessage(M.error("Invalid last location."));
 			return;
 		}
@@ -78,7 +74,7 @@ public final class TPOfflineCommand extends Command<Survival,TeleportationManage
 		
 		Player player = profile.getPlayer();
 		boolean isAdmin = TPCommand.SELF_RANK.has(profile);
-		manager.createAndExecuteTeleportation(player, player, player.getLocation(), new Location(world, coords.x, coords.y, coords.z), isAdmin ? Teleportation.Type.ADMIN : Teleportation.Type.WARP, !isAdmin);
+		manager.createAndExecuteTeleportation(player, player, player.getLocation(), new Location(world, vector.x, vector.y, vector.z, vector.yaw, vector.pitch), isAdmin ? Teleportation.Type.ADMIN : Teleportation.Type.WARP, !isAdmin);
 	}
 	
 	@Override

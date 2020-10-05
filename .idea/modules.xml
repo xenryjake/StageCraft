@@ -2,9 +2,12 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/StageCraftBungee/StageCraftBungee.iml" filepath="$PROJECT_DIR$/StageCraftBungee/StageCraftBungee.iml" />
       <module fileurl="file://$PROJECT_DIR$/StageCraftCore/StageCraftCore.iml" filepath="$PROJECT_DIR$/StageCraftCore/StageCraftCore.iml" />
+      <module fileurl="file://$PROJECT_DIR$/StageCraftCreative/StageCraftCreative.iml" filepath="$PROJECT_DIR$/StageCraftCreative/StageCraftCreative.iml" />
       <module fileurl="file://$PROJECT_DIR$/StageCraftSkyBlock/StageCraftSkyBlock.iml" filepath="$PROJECT_DIR$/StageCraftSkyBlock/StageCraftSkyBlock.iml" />
       <module fileurl="file://$PROJECT_DIR$/StageCraftSurvival/StageCraftSurvival.iml" filepath="$PROJECT_DIR$/StageCraftSurvival/StageCraftSurvival.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Test/Test.iml" filepath="$PROJECT_DIR$/Test/Test.iml" />
     </modules>
   </component>
 </project>

@@ -4,6 +4,7 @@ import com.xenry.stagecraft.survival.Survival;
 import com.xenry.stagecraft.survival.gameplay.GameplayManager;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
+import com.xenry.stagecraft.survival.profile.SurvivalProfile;
 import com.xenry.stagecraft.util.M;
 import org.bukkit.command.CommandSender;
 
@@ -33,7 +34,8 @@ public final class RulesCommand extends Command<Survival,GameplayManager> {
 	
 	@Override
 	protected void playerPerform(Profile sender, String[] args, String label) {
-		if(!sender.hasAcceptedRules()){
+		SurvivalProfile sp = manager.plugin.getSurvivalProfileManager().getProfileByUUID(sender.getUUID());
+		if(sp != null && !sp.hasAcceptedRules()){
 			sender.sendMessage(M.elm + M.BOLD + "You must accept the rules before playing.");
 		}
 		sender.sendMessage(M.msg + "View the §a§lStage§9§lCraft" + M.msg + " server rules at " + M.elm + "town hall" + M.msg + " or at " + M.elm + M.BOLD + "http://mc.xenry.com/rules");

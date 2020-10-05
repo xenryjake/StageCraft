@@ -1,4 +1,5 @@
 package com.xenry.stagecraft.punishment.commands;
+import com.xenry.stagecraft.Core;
 import com.xenry.stagecraft.commands.Command;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
@@ -19,7 +20,7 @@ import java.util.List;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public final class DisconnectCommand extends Command<PunishmentManager> {
+public final class DisconnectCommand extends Command<Core,PunishmentManager> {
 	
 	public DisconnectCommand(PunishmentManager manager){
 		super(manager, Rank.ADMIN, "disconnect", "discon");

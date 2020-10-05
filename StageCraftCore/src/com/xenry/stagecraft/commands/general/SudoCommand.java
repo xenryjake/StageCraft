@@ -1,7 +1,7 @@
-package com.xenry.stagecraft.survival.gameplay.commands;
+package com.xenry.stagecraft.commands.general;
+import com.xenry.stagecraft.Core;
 import com.xenry.stagecraft.commands.Command;
-import com.xenry.stagecraft.survival.Survival;
-import com.xenry.stagecraft.survival.gameplay.GameplayManager;
+import com.xenry.stagecraft.commands.CommandManager;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
 import com.xenry.stagecraft.util.M;
@@ -20,9 +20,9 @@ import java.util.List;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public final class SudoCommand extends Command<Survival,GameplayManager> {
+public final class SudoCommand extends Command<Core,CommandManager> {
 	
-	public SudoCommand(GameplayManager manager){
+	public SudoCommand(CommandManager manager){
 		super(manager, Rank.ADMIN, "sudo");
 		setCanBeDisabled(true);
 	}
@@ -56,13 +56,13 @@ public final class SudoCommand extends Command<Survival,GameplayManager> {
 		}
 		String command = sb.toString().trim();
 		if(command.toLowerCase().startsWith("c:")){
+			sender.sendMessage(M.msg + "Forcing " + M.elm + targetName + M.msg + " to chat: " + M.WHITE + command);
 			command = command.substring(2);
 			chat(target, command);
-			sender.sendMessage(M.msg + "Forced " + M.elm + targetName + M.msg + " to chat: " + M.WHITE + command);
 		}else{
-			chat(target, "/" + target);
-			sender.sendMessage(M.msg + "Forced " + M.elm + targetName + M.msg + " to execute command: " + M.WHITE
+			sender.sendMessage(M.msg + "Forcing " + M.elm + targetName + M.msg + " to execute command: " + M.WHITE
 					+ "/" + command);
+			chat(target, "/" + target);
 		}
 	}
 	

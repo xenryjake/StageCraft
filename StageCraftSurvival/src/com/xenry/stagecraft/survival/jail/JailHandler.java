@@ -24,7 +24,7 @@ public final class JailHandler extends Handler<Survival,JailManager> {
 	
 	public JailHandler(JailManager manager){
 		super(manager);
-		collection = getCore().getMongoManager().getCoreCollection("jails");
+		collection = getCore().getMongoManager().getCoreCollection("survivalJails");
 		collection.setObjectClass(Jail.class);
 		jails = new ArrayList<>();
 	}

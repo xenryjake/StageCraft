@@ -18,7 +18,7 @@ public final class LocationUtil {
 	private LocationUtil(){}
 	
 	public static final int SAFE_LOCATION_RADIUS = 3;
-	public static final Vector3D[] SAFE_LOCATION_VOLUME;
+	public static final Vector3DInt[] SAFE_LOCATION_VOLUME;
 	
 	public static final Set<Material> HOLLOW_MATERIALS = new HashSet<>();
 	public static final Set<Material> TRANSPARENT_MATERIALS = new HashSet<>();
@@ -40,16 +40,16 @@ public final class LocationUtil {
 		//HOLLOW_MATERIALS.add(Material.WATER);
 		TRANSPARENT_MATERIALS.addAll(HOLLOW_MATERIALS);
 		
-		List<Vector3D> pos = new ArrayList<>();
+		List<Vector3DInt> pos = new ArrayList<>();
 		for (int x = -SAFE_LOCATION_RADIUS; x <= SAFE_LOCATION_RADIUS; x++) {
 			for (int y = -SAFE_LOCATION_RADIUS; y <= SAFE_LOCATION_RADIUS; y++) {
 				for (int z = -SAFE_LOCATION_RADIUS; z <= SAFE_LOCATION_RADIUS; z++) {
-					pos.add(new Vector3D(x, y, z));
+					pos.add(new Vector3DInt(x, y, z));
 				}
 			}
 		}
 		pos.sort(Comparator.comparingInt(a -> (a.x * a.x + a.y * a.y + a.z * a.z)));
-		SAFE_LOCATION_VOLUME = pos.toArray(new Vector3D[0]);
+		SAFE_LOCATION_VOLUME = pos.toArray(new Vector3DInt[0]);
 	}
 	
 	public static boolean isBlockUnsafe(Location location, Player player){

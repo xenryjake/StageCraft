@@ -6,7 +6,6 @@ import com.xenry.stagecraft.util.Log;
 import com.xenry.stagecraft.util.M;
 import com.xenry.stagecraft.util.time.TimeUtil;
 import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -52,10 +51,10 @@ public class PunishmentExecution {
 		Punishment.Type type = punishment.getType();
 		punishedBy.sendMessage(M.msg + "You have " + M.elm + type.verb + M.msg + " player " + M.elm + punished.getLatestUsername() + M.msg + ":");
 		if(type != Punishment.Type.KICK){
-			punishedBy.sendMessage(M.arrow(M.WHITE + "Duration: " + M.elm + TimeUtil.simplerString(punishment.getDurationSeconds())));
+			punishedBy.sendMessage(M.arrow("Duration: " + M.WHITE + TimeUtil.simplerString(punishment.getDurationSeconds())));
 		}
 		if(!punishment.getReason().isEmpty()) {
-			punishedBy.sendMessage(M.arrow(M.WHITE + "Reason: " + M.gry + punishment.getReason()));
+			punishedBy.sendMessage(M.arrow("Reason: " + M.WHITE + punishment.getReason()));
 		}
 	}
 	

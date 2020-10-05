@@ -1,0 +1,4 @@
+name: StageCraftBungee
+main: com.xenry.stagecraft.bungee.Bungee
+version: 2020.09.25.1
+author: Xenry

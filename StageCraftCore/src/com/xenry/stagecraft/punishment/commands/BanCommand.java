@@ -1,4 +1,5 @@
 package com.xenry.stagecraft.punishment.commands;
+import com.xenry.stagecraft.Core;
 import com.xenry.stagecraft.commands.Command;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
@@ -21,7 +22,7 @@ import java.util.List;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public final class BanCommand extends Command<PunishmentManager> {
+public final class BanCommand extends Command<Core,PunishmentManager> {
 	
 	public BanCommand(PunishmentManager manager){
 		super(manager, Rank.MOD, "ban");
@@ -35,7 +36,7 @@ public final class BanCommand extends Command<PunishmentManager> {
 	
 	@Override
 	protected void serverPerform(CommandSender sender, String[] args, String label) {
-		doBan(sender, args, label, Punishment.CONSOLE_NAME);
+		doBan(sender, args, label, M.CONSOLE_NAME);
 	}
 	
 	private void doBan(CommandSender sender, String[] args, String label, String punishedBy) {

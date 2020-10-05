@@ -54,7 +54,7 @@ public final class HologramCreateCommand extends Command<Core,HologramManager> {
 			sb.append(args[i]).append(" ");
 		}
 		String text = ChatColor.translateAlternateColorCodes('&', sb.toString().trim());
-		hologram = new Hologram(name, profile.getPlayer().getLocation(), true);
+		hologram = new Hologram(manager.plugin.getServerName(), name, profile.getPlayer().getLocation(), true);
 		hologram.addLine(text);
 		manager.addHologram(hologram);
 		manager.save(hologram);

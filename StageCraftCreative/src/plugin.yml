@@ -1,0 +1,9 @@
+name: StageCraftCreative
+version: 2020.10.3.1
+api-version: "1.16"
+author: Xenry
+main: com.xenryjake.stagecraft.creative.Creative
+depend: [StageCraftCore]
+softdepend: [ProtocolLib,Vault,Essentials,TitleManager,GriefPrevention]
+commands: []
+

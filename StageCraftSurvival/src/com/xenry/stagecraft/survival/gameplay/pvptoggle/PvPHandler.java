@@ -5,7 +5,6 @@ import com.xenry.stagecraft.util.Cooldown;
 import com.xenry.stagecraft.survival.gameplay.GameplayManager;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Setting;
-import com.xenry.stagecraft.punishment.Punishment;
 import com.xenry.stagecraft.util.M;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -37,19 +36,20 @@ public final class PvPHandler extends Handler<Survival,GameplayManager> {
 	}
 	
 	public boolean isPvPEnabled(Profile profile){
-		return profile.getSetting(Setting.PVP_ENABLED) || getCore().getPunishmentManager().getOutstandingPunishment(profile, Punishment.Type.JAIL) != null;
+		return profile.getSetting(Setting.SURVIVAL_PVP_ENABLED)
+				|| manager.plugin.getJailManager().getOutstandingSentence(profile) != null;
 	}
 	
 	public boolean isPvPEnabled(Player player){
 		Profile profile = getCore().getProfileManager().getProfile(player);
 		if(profile == null){
-			return Setting.PVP_ENABLED.getDefaultValue();
+			return Setting.SURVIVAL_PVP_ENABLED.getDefaultValue();
 		}
 		return isPvPEnabled(profile);
 	}
 	
 	public void setPvPEnabled(Profile profile, boolean enabled){
-		profile.setSetting(Setting.PVP_ENABLED, enabled);
+		profile.setSetting(Setting.SURVIVAL_PVP_ENABLED, enabled);
 	}
 	
 	public void setPvPEnabled(Player player, boolean enabled){
@@ -77,7 +77,8 @@ public final class PvPHandler extends Handler<Survival,GameplayManager> {
 			damager = (Player)projectile.getShooter();
 		}else if(event.getDamager() instanceof Firework){
 			damager = null;
-		}else if(event.getDamager() instanceof LightningStrike && event.getDamager().getMetadata("pvpTrident").size() > 0){
+		}else if(event.getDamager() instanceof LightningStrike
+				&& event.getDamager().getMetadata("pvpTrident").size() > 0){
 			damager = null;
 		}else{
 			return;
@@ -105,7 +106,8 @@ public final class PvPHandler extends Handler<Survival,GameplayManager> {
 	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	public void onLightningStrike(LightningStrikeEvent event){
 		if(event.getCause() == LightningStrikeEvent.Cause.TRIDENT){
-			event.getLightning().setMetadata("pvpTrident", new FixedMetadataValue(getCore(), event.getLightning().getLocation()));
+			event.getLightning().setMetadata("pvpTrident", new FixedMetadataValue(getCore(),
+					event.getLightning().getLocation()));
 		}
 	}
 	

@@ -17,7 +17,7 @@ import java.util.List;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public class ReloadServerSettingsCommand extends Command<Core,ServerManager> {
+public final class ReloadServerSettingsCommand extends Command<Core,ServerManager> {
 	
 	public ReloadServerSettingsCommand(ServerManager manager){
 		super(manager, Rank.ADMIN, "reloadserversettings");

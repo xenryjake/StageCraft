@@ -25,7 +25,7 @@ import java.util.ArrayList;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public class ShulkerBoxListener extends Handler<Survival,GameplayManager> {
+public final class ShulkerBoxListener extends Handler<Survival,GameplayManager> {
 	
 	private final ShulkerBoxHandler handler;
 	

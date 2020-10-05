@@ -10,7 +10,9 @@ import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.punishment.commands.*;
 import com.xenry.stagecraft.util.Log;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.player.PlayerJoinEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -130,6 +132,19 @@ public final class PunishmentManager extends Manager<Core> {
 			event.setCancelled(true);
 			profile.sendMessage(mute.getMessage());
 			Log.info("Muted player " + profile.getLatestUsername() + " tried to send a private message: " + event.getMessage());
+		}
+	}
+	
+	@EventHandler
+	public void onJoin(PlayerJoinEvent event){
+		Player player = event.getPlayer();
+		Profile profile = plugin.getProfileManager().getProfile(player);
+		if(profile == null){
+			return;
+		}
+		Punishment punishment = getOutstandingPunishment(profile, Punishment.Type.MUTE);
+		if(punishment != null){
+			player.sendMessage(punishment.getMessage());
 		}
 	}
 	

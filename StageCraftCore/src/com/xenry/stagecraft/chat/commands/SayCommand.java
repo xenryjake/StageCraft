@@ -17,7 +17,7 @@ import org.bukkit.command.CommandSender;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public class SayCommand extends Command<Core,ChatManager> {
+public final class SayCommand extends Command<Core,ChatManager> {
 	
 	public SayCommand(ChatManager manager){
 		super(manager, Rank.MEMBER, "say");

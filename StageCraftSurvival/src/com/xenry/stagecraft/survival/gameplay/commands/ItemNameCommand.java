@@ -22,7 +22,7 @@ import java.util.List;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public class ItemNameCommand extends Command<Survival,GameplayManager> {
+public final class ItemNameCommand extends Command<Survival,GameplayManager> {
 	
 	public ItemNameCommand(GameplayManager manager) {
 		super(manager, Rank.ADMIN, "itemname", "iname");

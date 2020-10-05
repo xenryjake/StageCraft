@@ -28,7 +28,7 @@ public final class WarpHandler extends Handler<Survival,TeleportationManager> {
 	
 	public WarpHandler(TeleportationManager manager){
 		super(manager);
-		collection = manager.plugin.getCore().getMongoManager().getCoreCollection("warps");
+		collection = manager.plugin.getCore().getMongoManager().getCoreCollection("survivalWarps");
 		collection.setObjectClass(Warp.class);
 		warps = new ArrayList<>();
 	}

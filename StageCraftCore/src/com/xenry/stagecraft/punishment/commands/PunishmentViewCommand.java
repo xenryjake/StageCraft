@@ -1,4 +1,5 @@
 package com.xenry.stagecraft.punishment.commands;
+import com.xenry.stagecraft.Core;
 import com.xenry.stagecraft.commands.Command;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
@@ -21,7 +22,7 @@ import java.util.List;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public final class PunishmentViewCommand extends Command<PunishmentManager> {
+public final class PunishmentViewCommand extends Command<Core,PunishmentManager> {
 	
 	public static final int ITEMS_PER_PAGE = 10;
 	
@@ -70,10 +71,6 @@ public final class PunishmentViewCommand extends Command<PunishmentManager> {
 			case "mutes":
 				type = Punishment.Type.MUTE;
 				break;
-			case "jail":
-			case "jails":
-				type = Punishment.Type.JAIL;
-				break;
 			default:
 				sender.sendMessage(M.error("Invalid punishment type: " + args[1]));
 				return;
@@ -103,15 +100,15 @@ public final class PunishmentViewCommand extends Command<PunishmentManager> {
 		int firstItem = (page-1) * ITEMS_PER_PAGE;
 		int itemsOnThisPage = Math.min(list.size() - firstItem, ITEMS_PER_PAGE);
 		if(list.size() > ITEMS_PER_PAGE){
-			sender.sendMessage(M.msg + "Showing " + M.elm + type.name + M.msg + " punishments, page " + M.elm + page + M.msg + " of " + M.elm + maxPages + M.msg + " (" + M.elm + firstItem + M.msg + "-" + M.elm + (firstItem + itemsOnThisPage) + M.msg + " of " + M.elm + list.size() + M.msg + " homes):");
+			sender.sendMessage(M.msg + "Showing " + M.elm + type.name + M.msg + " punishments, page " + M.elm + page + M.msg + " of " + M.elm + maxPages + M.msg + " (" + M.elm + (firstItem+1) + M.msg + "-" + M.elm + (firstItem + itemsOnThisPage) + M.msg + " of " + M.elm + list.size() + M.msg + "):");
 		}else{
 			sender.sendMessage(M.msg + "Showing all " + M.elm + type.name + M.msg + " punishments:");
 		}
 		List<Punishment> punishmentsToDisplay = list.subList(firstItem, firstItem + itemsOnThisPage);
 		for(Punishment pun : punishmentsToDisplay){
 			String punishedByString;
-			if(pun.getPunishedByUUID().equals(Punishment.CONSOLE_NAME)){
-				punishedByString = Punishment.CONSOLE_NAME;
+			if(pun.getPunishedByUUID().equals(M.CONSOLE_NAME)){
+				punishedByString = M.CONSOLE_NAME;
 			}else{
 				Profile punishedBy = manager.plugin.getProfileManager().getProfileByUUID(pun.getPunishedByUUID());
 				if(punishedBy == null){
@@ -120,7 +117,7 @@ public final class PunishmentViewCommand extends Command<PunishmentManager> {
 					punishedByString = punishedBy.getLatestUsername();
 				}
 			}
-			sender.sendMessage(M.arrow((pun.isActive() ? "§a§lACTIVE§r " + M.msg : "")) + type.name + " at " + M.elm + TimeUtil.dateFormat(pun.getTimestamp() * TimeLength.SECOND) + M.msg + " by " + M.elm + punishedByString + M.msg + (type == Punishment.Type.JAIL ? ". Jail: " + M.WHITE + pun.getJailName() : "") + (pun.getReason().isEmpty() ? "" : " Reason: " + M.WHITE + pun.getReason()));
+			sender.sendMessage(M.arrow((pun.isActive() ? "§a§lACTIVE§r " + M.msg : "")) + type.name + " at " + M.elm + TimeUtil.dateFormat(pun.getTimestamp() * TimeLength.SECOND) + M.msg + " by " + M.elm + punishedByString + M.msg + (pun.getReason().isEmpty() ? "" : " Reason: " + M.WHITE + pun.getReason()));
 		}
 	}
 	
@@ -136,7 +133,7 @@ public final class PunishmentViewCommand extends Command<PunishmentManager> {
 			case 1:
 				return null;
 			case 2:
-				return Arrays.asList("ban", "mute", "jail");
+				return Arrays.asList("ban", "mute", "kick");
 			default:
 				return Collections.emptyList();
 		}

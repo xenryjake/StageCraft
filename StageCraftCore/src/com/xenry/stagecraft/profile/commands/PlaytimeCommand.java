@@ -48,7 +48,8 @@ public final class PlaytimeCommand extends Command<Core,ProfileManager> {
 			sender.sendMessage(M.error("There is no profile for that player."));
 			return;
 		}
-		sender.sendMessage(M.elm + target.getLatestUsername() + M.msg + "'s total playtime: " + M.WHITE + TimeUtil.simplerString(target.getTotalPlaytime()));
+		//todo include both network-wide and per-server
+		sender.sendMessage(M.elm + target.getLatestUsername() + M.msg + "'s total playtime: " + M.WHITE + TimeUtil.simplerString(target.getPlaytime(manager.plugin.getServerName())));
 	}
 	
 	@Override
@@ -77,7 +78,8 @@ public final class PlaytimeCommand extends Command<Core,ProfileManager> {
 			sender.sendMessage(M.error("There is no profile for that player."));
 			return;
 		}
-		sender.sendMessage(M.elm + target.getLatestUsername() + M.msg + "'s total playtime: " + M.WHITE + TimeUtil.simplerString(target.getTotalPlaytime()));
+		//todo include both network-wide and per-server
+		sender.sendMessage(M.elm + target.getLatestUsername() + M.msg + "'s total playtime: " + M.WHITE + TimeUtil.simplerString(target.getPlaytime(manager.plugin.getServerName())));
 	}
 	
 	@Override

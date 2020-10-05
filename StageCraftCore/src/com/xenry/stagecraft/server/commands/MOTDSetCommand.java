@@ -18,7 +18,7 @@ import java.util.List;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public class MOTDSetCommand extends Command<Core,ServerManager> {
+public final class MOTDSetCommand extends Command<Core,ServerManager> {
 	
 	public MOTDSetCommand(ServerManager manager){
 		super(manager, Rank.ADMIN, "set");

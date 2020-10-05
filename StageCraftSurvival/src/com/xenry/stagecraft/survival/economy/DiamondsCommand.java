@@ -13,7 +13,7 @@ import org.bukkit.command.CommandSender;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public class DiamondsCommand extends Command<Survival,EconomyManager> {
+public final class DiamondsCommand extends Command<Survival,EconomyManager> {
 	
 	public DiamondsCommand(EconomyManager manager){
 		super(manager, Rank.ADMIN, "diamonds");

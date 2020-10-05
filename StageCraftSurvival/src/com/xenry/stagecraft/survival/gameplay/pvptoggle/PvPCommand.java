@@ -56,11 +56,11 @@ public final class PvPCommand extends Command<Survival,GameplayManager> {
 		}else if(args[0].startsWith("off") || args[0].startsWith("dis")){
 			value = false;
 		}else{
-			value = profile.getSetting(Setting.PVP_ENABLED);
+			value = profile.getSetting(Setting.SURVIVAL_PVP_ENABLED);
 			sender.sendMessage(M.elm + target.getName() + M.msg + "'s PvP is currently " + (value ? "§aon" : "§coff") + M.msg + ".");
 			return;
 		}
-		profile.setSetting(Setting.PVP_ENABLED, value);
+		profile.setSetting(Setting.SURVIVAL_PVP_ENABLED, value);
 		sender.sendMessage(M.elm + target.getName() + M.msg + "'s PvP is now " + (value ? "§aon" : "§coff") + M.msg + ".");
 		target.sendMessage(M.msg + "Your PvP is now " + (value ? "§aon" : "§coff") + M.msg + ".");
 	}
@@ -95,10 +95,10 @@ public final class PvPCommand extends Command<Survival,GameplayManager> {
 		}else if(args[0].startsWith("off") || args[0].startsWith("dis")){
 			value = false;
 		}else{
-			value = targetProfile.getSetting(Setting.PVP_ENABLED);
+			value = targetProfile.getSetting(Setting.SURVIVAL_PVP_ENABLED);
 			profile.sendMessage((profile == targetProfile ? M.msg + "Your" : M.elm + target.getName() + M.msg + "'s") + " PvP is currently " + (value ? "§aon" : "§coff") + M.msg + ".");
 		}
-		targetProfile.setSetting(Setting.PVP_ENABLED, value);
+		targetProfile.setSetting(Setting.SURVIVAL_PVP_ENABLED, value);
 		if(profile == targetProfile){
 			profile.sendMessage(M.msg + "Your PvP is now " + (value ? "§aon" : "§coff") + M.msg + ".");
 		}else{

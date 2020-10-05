@@ -23,7 +23,7 @@ import java.util.List;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public class ProfileListCommand extends Command<Core,ProfileManager> {
+public final class ProfileListCommand extends Command<Core,ProfileManager> {
 	
 	public static final int ITEMS_PER_PAGE = 20;
 	

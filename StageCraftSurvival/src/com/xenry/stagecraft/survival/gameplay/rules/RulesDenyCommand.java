@@ -4,6 +4,8 @@ import com.xenry.stagecraft.survival.Survival;
 import com.xenry.stagecraft.survival.gameplay.GameplayManager;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
+import com.xenry.stagecraft.survival.profile.SurvivalProfile;
+import com.xenry.stagecraft.util.Log;
 import com.xenry.stagecraft.util.M;
 import org.bukkit.command.CommandSender;
 
@@ -30,7 +32,11 @@ public final class RulesDenyCommand extends Command<Survival,GameplayManager> {
 	
 	@Override
 	protected void playerPerform(Profile profile, String[] args, String label) {
-		profile.setHasAcceptedRules(false);
+		SurvivalProfile sp = manager.plugin.getSurvivalProfileManager().getProfileByUUID(profile.getUUID());
+		if(sp == null){
+			throw new NullPointerException("No SurvivalProfile exists for " + profile.getLatestUsername());
+		}
+		sp.setHasAcceptedRules(false);
 		profile.getPlayer().kickPlayer(M.err + "You cannot play on StageCraft if you do not accept the rules.");
 	}
 	

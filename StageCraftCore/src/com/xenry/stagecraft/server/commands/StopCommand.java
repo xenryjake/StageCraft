@@ -14,7 +14,7 @@ import org.bukkit.command.CommandSender;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public class StopCommand extends Command<Core,ServerManager> {
+public final class StopCommand extends Command<Core,ServerManager> {
 	
 	//private HashMap<String,String> confirmations;
 	

@@ -38,12 +38,12 @@ public final class NickCommand extends Command<Core,ProfileManager> {
 		}else{
 			if(args[0].length() <= 17){
 				if(Bukkit.getPlayer(args[0]) != null){
-					target = manager.getProfile(Bukkit.getPlayer(args[1]));
+					target = manager.getProfile(Bukkit.getPlayer(args[0]));
 				}else{
-					target = manager.getProfileByLatestUsername(args[1]);
+					target = manager.getProfileByLatestUsername(args[0]);
 				}
 			}else{
-				target = manager.getProfileByUUID(args[1]);
+				target = manager.getProfileByUUID(args[0]);
 			}
 			if(target == null){
 				sender.sendMessage(M.error("There is no profile for that player."));
@@ -86,18 +86,18 @@ public final class NickCommand extends Command<Core,ProfileManager> {
 	@Override
 	protected void serverPerform(CommandSender sender, String[] args, String label) {
 		if(args.length < 2){
-			sender.sendMessage(M.usage("/" + label + " <nickname> <player>"));
+			sender.sendMessage(M.usage("/" + label + " <player|me> <nickname>"));
 			return;
 		}
 		Profile target;
-		if(args[1].length() <= 17){
-			if(Bukkit.getPlayer(args[1]) != null){
-				target = manager.getProfile(Bukkit.getPlayer(args[1]));
+		if(args[0].length() <= 17){
+			if(Bukkit.getPlayer(args[0]) != null){
+				target = manager.getProfile(Bukkit.getPlayer(args[0]));
 			}else{
-				target = manager.getProfileByLatestUsername(args[1]);
+				target = manager.getProfileByLatestUsername(args[0]);
 			}
 		}else{
-			target = manager.getProfileByUUID(args[1]);
+			target = manager.getProfileByUUID(args[0]);
 		}
 		if(target == null){
 			sender.sendMessage(M.error("There is no profile for that player."));
@@ -105,7 +105,7 @@ public final class NickCommand extends Command<Core,ProfileManager> {
 		}
 		String nick;
 		boolean disable = false;
-		switch(args[0].toLowerCase()){
+		switch(args[1].toLowerCase()){
 			case "none":
 			case "off":
 			case "clear":
@@ -113,9 +113,14 @@ public final class NickCommand extends Command<Core,ProfileManager> {
 				nick = "none";
 				break;
 			default:
-				nick = ChatColor.translateAlternateColorCodes('&', args[0]);
+				StringBuilder sb = new StringBuilder();
+				for(int i = 1; i < args.length; i++){
+					sb.append(args[i]).append(" ");
+				}
+				nick = ChatColor.translateAlternateColorCodes('&', sb.toString().trim());
 				break;
 		}
+		
 		if(ChatColor.stripColor(nick).length() > 32){
 			sender.sendMessage(M.error("Nicknames must be no longer than 32 characters."));
 			return;

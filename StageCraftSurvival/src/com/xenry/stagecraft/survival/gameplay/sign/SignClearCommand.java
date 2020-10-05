@@ -22,7 +22,7 @@ import java.util.List;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public class SignClearCommand extends Command<Survival,GameplayManager> {
+public final class SignClearCommand extends Command<Survival,GameplayManager> {
 	
 	public SignClearCommand(GameplayManager manager){
 		super(manager, Rank.MEMBER, "clear");

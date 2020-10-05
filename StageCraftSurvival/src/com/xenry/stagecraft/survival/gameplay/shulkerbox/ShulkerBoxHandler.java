@@ -26,7 +26,7 @@ import java.util.HashMap;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public class ShulkerBoxHandler extends Handler<Survival,GameplayManager> {
+public final class ShulkerBoxHandler extends Handler<Survival,GameplayManager> {
 	
 	public static final Access CAN_OPEN_WITHOUT_PLACING = Rank.MEMBER;
 	

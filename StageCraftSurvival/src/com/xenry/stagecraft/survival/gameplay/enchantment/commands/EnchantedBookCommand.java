@@ -8,7 +8,6 @@ import com.xenry.stagecraft.profile.Rank;
 import com.xenry.stagecraft.util.ItemUtil;
 import com.xenry.stagecraft.util.M;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
@@ -36,7 +35,6 @@ public final class EnchantedBookCommand extends Command<Survival,GameplayManager
 		onlyForPlayers(sender);
 	}
 	
-	@SuppressWarnings("deprecation")
 	@Override
 	protected void playerPerform(Profile profile, String[] args, String label) {
 		if(args.length < 1){

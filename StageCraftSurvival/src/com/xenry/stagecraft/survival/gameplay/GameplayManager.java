@@ -145,7 +145,6 @@ public final class GameplayManager extends Manager<Survival> {
 		registerCommand(new FeedCommand(this));
 		registerCommand(new WeatherCommand(this));
 		registerCommand(new TimeCommand(this));
-		registerCommand(new ListCommand(this));
 		registerCommand(new BurnCommand(this));
 		registerCommand(new ExtinguishCommand(this));
 		registerCommand(new MoreCommand(this));
@@ -157,7 +156,6 @@ public final class GameplayManager extends Manager<Survival> {
 		registerCommand(new ItemNameCommand(this));
 		registerCommand(new ItemLoreCommand(this));
 		registerCommand(new SkullCommand(this));
-		registerCommand(new SudoCommand(this));
 		registerCommand(new ExperienceCommand(this));
 		
 		registerCommand(new WebRegisterCommand(this));

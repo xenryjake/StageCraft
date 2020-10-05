@@ -17,7 +17,7 @@ import java.util.List;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public class MOTDCommand extends Command<Core,ServerManager> {
+public final class MOTDCommand extends Command<Core,ServerManager> {
 	
 	public MOTDCommand(ServerManager manager){
 		super(manager, Rank.MOD, "motd");

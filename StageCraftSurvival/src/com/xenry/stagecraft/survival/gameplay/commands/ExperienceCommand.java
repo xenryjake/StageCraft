@@ -20,7 +20,7 @@ import java.util.List;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public class ExperienceCommand extends Command<Survival,GameplayManager> {
+public final class ExperienceCommand extends Command<Survival,GameplayManager> {
 	
 	public ExperienceCommand(GameplayManager manager){
 		super(manager, Rank.ADMIN, "experience", "exp", "xp");

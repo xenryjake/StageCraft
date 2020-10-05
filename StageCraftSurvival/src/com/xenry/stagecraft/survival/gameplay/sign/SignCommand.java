@@ -18,7 +18,7 @@ import java.util.List;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public class SignCommand extends Command<Survival,GameplayManager> {
+public final class SignCommand extends Command<Survival,GameplayManager> {
 	
 	public SignCommand(GameplayManager manager){
 		super(manager, Rank.MEMBER, "sign");

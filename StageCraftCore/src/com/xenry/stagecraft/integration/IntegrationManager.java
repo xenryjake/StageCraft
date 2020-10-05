@@ -20,7 +20,7 @@ import org.jetbrains.annotations.Nullable;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public class IntegrationManager extends Manager<Core> {
+public final class IntegrationManager extends Manager<Core> {
 	
 	private ProtocolManager protocolManager;
 	private Economy vaultEconomy;

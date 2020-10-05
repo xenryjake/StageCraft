@@ -18,7 +18,7 @@ import java.util.List;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public class DeleteWarpAliasCommand extends Command<Survival,TeleportationManager> {
+public final class DeleteWarpAliasCommand extends Command<Survival,TeleportationManager> {
 	
 	public DeleteWarpAliasCommand(TeleportationManager manager){
 		super(manager, Rank.MOD, "deletewarpalias", "removewarpalias", "delwarpalias");

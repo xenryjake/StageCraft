@@ -1,5 +1,5 @@
 name: StageCraftSurvival
-version: 2020.09.25.1
+version: 2020.10.04.1
 api-version: "1.16"
 author: Xenry
 main: com.xenry.stagecraft.survival.Survival
@@ -230,3 +230,18 @@ commands:
     description: "Manage damage indicators"
     aliases: [damageindicators,di]
 
+  # JAIL COMMANDS
+  jail:
+    description: "Jail a player"
+  setjail:
+    description: "Set a jail"
+    aliases: [addjail,jailset,jailadd]
+  deletejail:
+    description: "Delete a jail"
+    aliases: [removejail,deljail,jaildelete,jailremove,jaildel]
+  listjails:
+    description: "See all jails"
+    aliases: [jails,jaillist,jailslist,listjail]
+  sentence:
+    description: "Manage jail sentences"
+    aliases: [jailsentence,jailsentences]

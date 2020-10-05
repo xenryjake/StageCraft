@@ -25,7 +25,7 @@ import java.util.List;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public class SignEditCommand extends Command<Survival,GameplayManager> {
+public final class SignEditCommand extends Command<Survival,GameplayManager> {
 	
 	public SignEditCommand(GameplayManager manager){
 		super(manager, Rank.MEMBER, "edit");

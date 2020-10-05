@@ -1,5 +1,5 @@
 name: StageCraftCore
-version: 2020.09.11.1
+version: 2020.10.04.1
 api-version: "1.16"
 author: Xenry
 main: com.xenry.stagecraft.Core
@@ -45,9 +45,6 @@ commands:
     description: "Check when a player has last been online"
   nick:
     description: "Set a nickname"
-  downloadprofiles:
-    description: "Download profiles from the database"
-    aliases: [updateprofiles,dlpfs]
   playtime:
     description: "View a player's playtime"
   me:
@@ -97,14 +94,3 @@ commands:
   disconnect:
     description: "Disconnect a player from the server"
     aliases: [discon]
-  jail:
-    description: "Jail a player"
-  setjail:
-    description: "Set a jail"
-    aliases: [addjail,jailset,jailadd]
-  deletejail:
-    description: "Delete a jail"
-    aliases: [removejail,deljail,jaildelete,jailremove,jaildel]
-  listjails:
-    description: "See all jails"
-    aliases: [jails,jaillist,jailslist,listjail]

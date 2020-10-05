@@ -2,7 +2,6 @@ package com.xenry.stagecraft.hologram;
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.xenry.stagecraft.Core;
-import com.xenry.stagecraft.StageCraftPlugin;
 import com.xenry.stagecraft.chat.emotes.Emote;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;

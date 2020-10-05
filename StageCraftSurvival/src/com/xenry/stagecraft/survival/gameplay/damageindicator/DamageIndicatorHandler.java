@@ -32,7 +32,7 @@ import java.util.*;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public class DamageIndicatorHandler extends Handler<Survival,GameplayManager> {
+public final class DamageIndicatorHandler extends Handler<Survival,GameplayManager> {
 	
 	public static final String METADATA_KEY = "SC-DAMAGE-INDICATOR";
 	public static final FixedMetadataValue METADATA_VALUE = new FixedMetadataValue(Core.getInstance(), 0);

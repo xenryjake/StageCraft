@@ -17,7 +17,7 @@ import java.util.List;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public class EmotesCommand extends Command<Core,ChatManager> {
+public final class EmotesCommand extends Command<Core,ChatManager> {
 	
 	public static final int EMOTES_PER_PAGE = 10;
 	

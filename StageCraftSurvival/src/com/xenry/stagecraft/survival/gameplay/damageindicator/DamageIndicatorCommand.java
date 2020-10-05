@@ -17,7 +17,7 @@ import java.util.List;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public class DamageIndicatorCommand extends Command<Survival,GameplayManager> {
+public final class DamageIndicatorCommand extends Command<Survival,GameplayManager> {
 	
 	public DamageIndicatorCommand(GameplayManager manager){
 		super(manager, Rank.MEMBER, "damageindicator", "damageindicators", "di");

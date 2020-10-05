@@ -1,4 +1,5 @@
 package com.xenry.stagecraft.punishment.commands;
+import com.xenry.stagecraft.Core;
 import com.xenry.stagecraft.commands.Command;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
@@ -17,7 +18,7 @@ import java.util.List;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public final class PunishmentCommand extends Command<PunishmentManager> {
+public final class PunishmentCommand extends Command<Core,PunishmentManager> {
 	
 	public PunishmentCommand(PunishmentManager manager){
 		super(manager, Rank.MOD, "punishment", "punishments", "punish", "pun", "punishs", "puns");
@@ -41,10 +42,6 @@ public final class PunishmentCommand extends Command<PunishmentManager> {
 		sender.sendMessage(M.help("kick <player> [reason]", "Kick a player from the server."));
 		sender.sendMessage(M.help("mute <player> <duration> [reason]", "Mute a player from using chat."));
 		sender.sendMessage(M.help("ban <player> <duration> [reason]", "Ban a player from the server."));
-		sender.sendMessage(M.help("jail <player> <duration> <jail-name>", "Send a player to jail."));
-		sender.sendMessage(M.help("setjail <name>", "Set the location for a new jail."));
-		sender.sendMessage(M.help("deljail <name>", "Delete an existing jail."));
-		sender.sendMessage(M.help("jails", "View the list of jails."));
 	}
 	
 	@Override

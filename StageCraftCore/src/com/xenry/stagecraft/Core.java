@@ -27,9 +27,7 @@ public final class Core extends StageCraftPlugin {
 	public static boolean betaFeaturesEnabled = false;
 	private static Core instance;
 	
-	private final Random random;
-	private final HashMap<Manager<?>,StageCraftPlugin> managers;
-	private String serverName = "NONE";
+	private String serverName = "none";
 	
 	private MongoManager mongoManager;
 	private ServerManager serverManager;
@@ -44,71 +42,40 @@ public final class Core extends StageCraftPlugin {
 		super("Core", null);
 		core = this;
 		instance = this;
-		managers = new HashMap<>();
-		random = new Random();
 	}
 	
 	@Override
-	public void onLoad() {
+	public void onLoadPreManager() {
 		saveDefaultConfig();
 		serverName = getConfig().getString("server-name");
 		if(serverName != null){
-			serverName = serverName.toUpperCase();
+			serverName = serverName.toLowerCase();
 		}
-		if(serverName == null || serverName.equals("") || serverName.replaceAll("[^A-Z0-9_-]","").equals("")){
+		if(serverName == null || serverName.equals("") || serverName.replaceAll("[^a-z0-9_-]","").equals("")){
 			throw new IllegalArgumentException("Invalid server-name option in config");
 		}
-		
+	}
+	
+	@Override
+	public void loadManagers() {
 		try{
-			mongoManager = (MongoManager) loadManager(this, MongoManager.class);
-			serverManager = (ServerManager) loadManager(this, ServerManager.class);
-			integrationManager = (IntegrationManager) loadManager(this, IntegrationManager.class);
-			profileManager = (ProfileManager) loadManager(this, ProfileManager.class);
-			commandManager = (CommandManager) loadManager(this, CommandManager.class);
-			punishmentManager = (PunishmentManager) loadManager(this, PunishmentManager.class);
-			hologramManager = (HologramManager) loadManager(this, HologramManager.class);
-			chatManager = (ChatManager) loadManager(this, ChatManager.class);
+			mongoManager = loadManager(this, MongoManager.class);
+			serverManager = loadManager(this, ServerManager.class);
+			integrationManager = loadManager(this, IntegrationManager.class);
+			profileManager = loadManager(this, ProfileManager.class);
+			commandManager = loadManager(this, CommandManager.class);
+			punishmentManager = loadManager(this, PunishmentManager.class);
+			hologramManager = loadManager(this, HologramManager.class);
+			chatManager = loadManager(this, ChatManager.class);
 		}catch(Exception ex){
 			ex.printStackTrace();
-			Log.severe("Something went wrong while loading the core managers!");
+			Log.severe("Something went wrong while loading the Core managers!");
 		}
 	}
 	
 	@Override
-	public void onEnable() {
-		try{
-			for(Manager<?> manager : managers.keySet()){
-				enable(manager);
-			}
-			for(Manager<?> manager : managers.keySet()){
-				postEnable(manager);
-			}
-		}catch(Exception ex){
-			ex.printStackTrace();
-			Log.severe("Something went wrong while enabling the managers!");
-			return;
-		}
-		
-		Log.info("Plugin successfully enabled.");
-		
-		getServer().getScheduler().runTaskLater(this, () -> Log.toCS("§a§lThe server has loaded."), 1L);
-	}
-	
-	@Override
-	public void onDisable() {
-		try{
-			ArrayList<Manager<?>> reversed = new ArrayList<>(managers.keySet());
-			Collections.reverse(reversed);
-			for(Manager<?> manager : reversed){
-				disable(manager);
-			}
-		}catch(Exception ex){
-			ex.printStackTrace();
-			Log.severe("Something went wrong while disabling the managers!");
-			return;
-		}
-		
-		Log.info("Plugin successfully disabled!");
+	protected void onServerEnabled(){
+		Log.toCS("§a§lThe server has loaded.");
 	}
 	
 	public static Core getInstance() {
@@ -145,68 +112,6 @@ public final class Core extends StageCraftPlugin {
 	
 	public ChatManager getChatManager() {
 		return chatManager;
-	}
-	
-	public Manager<?> loadManager(StageCraftPlugin plugin, Class<? extends Manager<?>> clazz){
-		Manager<?> manager;
-		try{
-			manager = clazz.getConstructor(plugin.getClass()).newInstance(plugin);
-			managers.put(manager, plugin);
-			return manager;
-		}catch(Exception ex){
-			Log.severe("Failed to load manager \"" + clazz + "\":");
-			ex.printStackTrace();
-			return null;
-		}
-	}
-	
-	private void enable(Manager<?> manager){
-		if(manager == null){
-			Log.severe("Cannot enable null manager.");
-			return;
-		}
-		try{
-			long time = System.currentTimeMillis();
-			manager.enable();
-			Log.info("Enabled manager: " + manager.name + ". Took " + (System.currentTimeMillis()-time) + "ms");
-		}catch(Exception ex){
-			Log.severe("Failed to enable manager \"" + manager.name + "\":");
-			ex.printStackTrace();
-		}
-	}
-	
-	private void postEnable(Manager<?> manager){
-		if(manager == null){
-			Log.severe("Cannot PostEnable null manager.");
-			return;
-		}
-		if(!manager.isEnabled()){
-			Log.warn("Cannot PostEnable disabled manager.");
-			return;
-		}
-		try{
-			manager.postEnable();
-		}catch(Exception ex){
-			Log.severe("Failed to PostEnable manager \"" + manager.name + "\":");
-			ex.printStackTrace();
-		}
-	}
-	
-	private void disable(Manager<?> manager){
-		if(manager == null){
-			Log.severe("Cannot disable null manager.");
-			return;
-		}
-		try{
-			manager.disable();
-		}catch(Exception ex){
-			Log.severe("Failed to disable manager \"" + manager.name + "\":");
-			ex.printStackTrace();
-		}
-	}
-	
-	public Random getRandom() {
-		return random;
 	}
 	
 	public String getServerName() {

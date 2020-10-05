@@ -26,7 +26,7 @@ public final class HomeHandler extends Handler<Survival,TeleportationManager> {
 	
 	public HomeHandler(TeleportationManager manager){
 		super(manager);
-		collection = getCore().getMongoManager().getCoreCollection("homes");
+		collection = getCore().getMongoManager().getCoreCollection("survivalHomes");
 		collection.setObjectClass(Home.class);
 		homes = new ArrayList<>();
 	}

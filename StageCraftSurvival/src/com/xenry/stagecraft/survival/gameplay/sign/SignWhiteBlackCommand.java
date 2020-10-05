@@ -15,7 +15,7 @@ import org.bukkit.command.CommandSender;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public class SignWhiteBlackCommand extends Command<Survival,GameplayManager> {
+public final class SignWhiteBlackCommand extends Command<Survival,GameplayManager> {
 	
 	public SignWhiteBlackCommand(GameplayManager manager){
 		super(manager, Rank.MEMBER, "white", "black");

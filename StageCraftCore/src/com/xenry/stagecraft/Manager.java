@@ -31,9 +31,6 @@ public abstract class Manager<T extends StageCraftPlugin> implements Listener {
 		if(enabled){
 			return;
 		}
-		if(registerAsListener){
-			registerListener(this);
-		}
 		this.onEnable();
 		enabled = true;
 	}
@@ -41,6 +38,9 @@ public abstract class Manager<T extends StageCraftPlugin> implements Listener {
 	public final void postEnable(){
 		if(!enabled){
 			return;
+		}
+		if(registerAsListener){
+			registerListener(this);
 		}
 		this.onPostEnable();
 	}

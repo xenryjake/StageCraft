@@ -4,6 +4,8 @@ import com.xenry.stagecraft.survival.Survival;
 import com.xenry.stagecraft.survival.gameplay.GameplayManager;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
+import com.xenry.stagecraft.survival.profile.SurvivalProfile;
+import com.xenry.stagecraft.util.Log;
 import com.xenry.stagecraft.util.M;
 import org.bukkit.command.CommandSender;
 
@@ -30,11 +32,15 @@ public final class RulesAcceptCommand extends Command<Survival,GameplayManager> 
 	
 	@Override
 	protected void playerPerform(Profile profile, String[] args, String label) {
-		if(profile.hasAcceptedRules()){
+		SurvivalProfile sp = manager.plugin.getSurvivalProfileManager().getProfileByUUID(profile.getUUID());
+		if(sp == null){
+			throw new NullPointerException("No SurvivalProfile exists for " + profile.getLatestUsername());
+		}
+		if(sp.hasAcceptedRules()){
 			profile.sendMessage(M.error("You've already accepted the rules!"));
 			return;
 		}
-		profile.setHasAcceptedRules(true);
+		sp.setHasAcceptedRules(true);
 		profile.sendMessage(M.msg + "Thanks for accepting the rules! You may now break and place blocks!");
 	}
 	

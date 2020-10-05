@@ -8,7 +8,6 @@ import com.xenry.stagecraft.survival.gameplay.enchantment.specialitem.SpecialIte
 import com.xenry.stagecraft.survival.gameplay.enchantment.telekinesis.TelekinesisEnchantment;
 import com.xenry.stagecraft.survival.gameplay.grapplinghook.GrapplingHookEnchantment;
 import com.xenry.stagecraft.util.ItemUtil;
-import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentTarget;
 import org.bukkit.inventory.ItemStack;
@@ -36,7 +35,6 @@ public abstract class CustomEnchantment extends Enchantment {
 	
 	private boolean registered = false;
 	
-	@SuppressWarnings("deprecation")
 	protected CustomEnchantment(String id){
 		super(ItemUtil.key(id));
 	}

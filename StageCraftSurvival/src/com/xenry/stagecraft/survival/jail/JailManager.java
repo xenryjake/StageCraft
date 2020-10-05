@@ -3,12 +3,10 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.xenry.stagecraft.Manager;
-import com.xenry.stagecraft.profile.Profile;
-import com.xenry.stagecraft.survival.jail.commands.DeleteJailCommand;
-import com.xenry.stagecraft.survival.jail.commands.JailCommand;
-import com.xenry.stagecraft.survival.jail.commands.JailListCommand;
-import com.xenry.stagecraft.survival.jail.commands.SetJailCommand;
+import com.xenry.stagecraft.profile.GenericProfile;
+import com.xenry.stagecraft.survival.jail.commands.*;
 import com.xenry.stagecraft.survival.Survival;
+import com.xenry.stagecraft.survival.profile.SurvivalProfile;
 import com.xenry.stagecraft.survival.teleportation.PreTeleportationEvent;
 import com.xenry.stagecraft.survival.teleportation.Teleportation;
 import com.xenry.stagecraft.survival.teleportation.TeleportationEvent;
@@ -48,7 +46,7 @@ public final class JailManager extends Manager<Survival> {
 	
 	public JailManager(Survival plugin) {
 		super("Jail", plugin);
-		collection = getCore().getMongoManager().getCoreCollection("survival_jail_sentences");
+		collection = getCore().getMongoManager().getCoreCollection("survivalJailSentences");
 		collection.setObjectClass(Sentence.class);
 		sentences = new ArrayList<>();
 	}
@@ -57,11 +55,13 @@ public final class JailManager extends Manager<Survival> {
 	protected void onEnable() {
 		jailHandler = new JailHandler(this);
 		jailHandler.downloadJails();
+		downloadSentences();
 		
 		registerCommand(new JailCommand(this));
 		registerCommand(new SetJailCommand(this));
 		registerCommand(new DeleteJailCommand(this));
 		registerCommand(new JailListCommand(this));
+		registerCommand(new SentenceCommand(this));
 		
 		jailTickTaskID = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, this::handleJailTick, 10L, 10L);
 	}
@@ -99,10 +99,11 @@ public final class JailManager extends Manager<Survival> {
 	
 	public void delete(Sentence sentence){
 		sentences.remove(sentence);
-		Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> collection.remove(new BasicDBObject("_id", sentence.get("_id"))));
+		Bukkit.getScheduler().runTaskAsynchronously(plugin,
+				() -> collection.remove(new BasicDBObject("_id", sentence.get("_id"))));
 	}
 	
-	public List<Sentence> getSentences(Profile profile){
+	public List<Sentence> getSentences(GenericProfile profile){
 		List<Sentence> list = new ArrayList<>();
 		for(Sentence sentence : sentences){
 			if(sentence.getPlayerUUID().equals(profile.getUUID())){
@@ -112,7 +113,7 @@ public final class JailManager extends Manager<Survival> {
 		return list;
 	}
 	
-	public List<Sentence> getActiveSentences(Profile profile){
+	public List<Sentence> getActiveSentences(GenericProfile profile){
 		List<Sentence> list = new ArrayList<>();
 		for(Sentence sentence : sentences){
 			if(sentence.isActive() && sentence.getPlayerUUID().equals(profile.getUUID())){
@@ -122,7 +123,7 @@ public final class JailManager extends Manager<Survival> {
 		return list;
 	}
 	
-	public Sentence getOutstandingSentence(Profile profile){
+	public Sentence getOutstandingSentence(GenericProfile profile){
 		for(Sentence sentence : sentences){
 			if(sentence.isActive() && sentence.getPlayerUUID().equals(profile.getUUID())){
 				return sentence;
@@ -136,7 +137,7 @@ public final class JailManager extends Manager<Survival> {
 		if(event.getTeleportation().type == Teleportation.Type.ADMIN){
 			return;
 		}
-		Profile profile = getCore().getProfileManager().getProfile(event.getTeleportation().target);
+		GenericProfile profile = getCore().getProfileManager().getProfile(event.getTeleportation().target);
 		if(profile == null){
 			return;
 		}
@@ -151,7 +152,7 @@ public final class JailManager extends Manager<Survival> {
 		if(event.getTeleportation().type == Teleportation.Type.ADMIN){
 			return;
 		}
-		Profile profile = getCore().getProfileManager().getProfile(event.getTeleportation().target);
+		GenericProfile profile = getCore().getProfileManager().getProfile(event.getTeleportation().target);
 		if(profile == null){
 			return;
 		}
@@ -164,7 +165,7 @@ public final class JailManager extends Manager<Survival> {
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onJoin(PlayerJoinEvent event){
 		Player player = event.getPlayer();
-		Profile profile = getCore().getProfileManager().getProfile(player);
+		GenericProfile profile = getCore().getProfileManager().getProfile(player);
 		if(profile == null){
 			return;
 		}
@@ -174,6 +175,7 @@ public final class JailManager extends Manager<Survival> {
 			if(jail != null){
 				player.teleport(jail.getLocation());
 				player.setGameMode(GameMode.ADVENTURE);
+				player.sendMessage(sentence.getMessage());
 			}
 		}
 	}
@@ -182,7 +184,7 @@ public final class JailManager extends Manager<Survival> {
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onQuit(PlayerQuitEvent event){
 		Player player = event.getPlayer();
-		Profile profile = getCore().getProfileManager().getProfile(player);
+		GenericProfile profile = getCore().getProfileManager().getProfile(player);
 		if(profile == null){
 			return;
 		}
@@ -201,7 +203,7 @@ public final class JailManager extends Manager<Survival> {
 			return;
 		}
 		Player player = event.getPlayer();
-		Profile profile = getCore().getProfileManager().getProfile(player);
+		GenericProfile profile = getCore().getProfileManager().getProfile(player);
 		if(profile == null){
 			return;
 		}
@@ -213,7 +215,7 @@ public final class JailManager extends Manager<Survival> {
 	
 	public void handleJailTick(){
 		for(Player player : Bukkit.getOnlinePlayers()){
-			Profile profile = getCore().getProfileManager().getProfile(player);
+			SurvivalProfile profile = plugin.getSurvivalProfileManager().getProfile(player);
 			if(profile == null){
 				continue;
 			}
@@ -224,7 +226,8 @@ public final class JailManager extends Manager<Survival> {
 					player.setGameMode(GameMode.SURVIVAL);
 					Warp spawn = plugin.getTeleportationManager().getWarpHandler().getSpawn();
 					if(spawn != null){
-						plugin.getTeleportationManager().createAndExecuteTeleportation(player, null, player.getLocation(), spawn.getLocation(), Teleportation.Type.ADMIN, false);
+						plugin.getTeleportationManager().createAndExecuteTeleportation(player, null,
+								player.getLocation(), spawn.getLocation(), Teleportation.Type.ADMIN, false);
 					}
 				}
 				continue;
@@ -248,7 +251,7 @@ public final class JailManager extends Manager<Survival> {
 	
 	@EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
 	public void onBreak(BlockBreakEvent event){
-		Profile profile = getCore().getProfileManager().getProfile(event.getPlayer());
+		GenericProfile profile = getCore().getProfileManager().getProfile(event.getPlayer());
 		if(profile == null){
 			return;
 		}
@@ -259,7 +262,7 @@ public final class JailManager extends Manager<Survival> {
 	
 	@EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
 	public void onPlace(BlockPlaceEvent event){
-		Profile profile = getCore().getProfileManager().getProfile(event.getPlayer());
+		GenericProfile profile = getCore().getProfileManager().getProfile(event.getPlayer());
 		if(profile == null){
 			return;
 		}
@@ -270,7 +273,7 @@ public final class JailManager extends Manager<Survival> {
 	
 	@EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
 	public void onInteract(PlayerInteractEvent event){
-		Profile profile = getCore().getProfileManager().getProfile(event.getPlayer());
+		GenericProfile profile = getCore().getProfileManager().getProfile(event.getPlayer());
 		if(profile == null){
 			return;
 		}

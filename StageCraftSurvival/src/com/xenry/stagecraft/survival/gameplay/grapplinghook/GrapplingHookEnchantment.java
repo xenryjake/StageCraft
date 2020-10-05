@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public class GrapplingHookEnchantment extends CustomEnchantment {
+public final class GrapplingHookEnchantment extends CustomEnchantment {
 	
 	public GrapplingHookEnchantment(){
 		super("grappling_hook");

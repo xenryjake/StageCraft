@@ -1,8 +1,10 @@
 package com.xenry.stagecraft.skyblock;
 import com.xenry.stagecraft.Core;
 import com.xenry.stagecraft.StageCraftPlugin;
+import com.xenry.stagecraft.skyblock.island.IslandManager;
+import com.xenry.stagecraft.skyblock.profile.SkyBlockProfileManager;
+import com.xenry.stagecraft.util.Log;
 import org.bukkit.generator.ChunkGenerator;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -13,14 +15,36 @@ import org.jetbrains.annotations.Nullable;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public class SkyBlock extends StageCraftPlugin {
+public final class SkyBlock extends StageCraftPlugin {
+	
+	private SkyBlockProfileManager skyBlockProfileManager;
+	private IslandManager islandManager;
 	
 	public SkyBlock(){
 		super("SkyBlock", Core.getInstance());
 	}
 	
 	@Override
-	public @Nullable ChunkGenerator getDefaultWorldGenerator(@NotNull String worldName, @Nullable String id) {
+	public void loadManagers() {
+		try{
+			skyBlockProfileManager = loadManager(this, SkyBlockProfileManager.class);
+			islandManager = loadManager(this, IslandManager.class);
+		}catch(Exception ex){
+			ex.printStackTrace();
+			Log.severe("Something went wrong while loading the SkyBlock managers!");
+		}
+	}
+	
+	public SkyBlockProfileManager getSkyBlockProfileManager() {
+		return skyBlockProfileManager;
+	}
+	
+	public IslandManager getIslandManager() {
+		return islandManager;
+	}
+	
+	@Override
+	public ChunkGenerator getDefaultWorldGenerator(@NotNull String worldName, @Nullable String id) {
 		return new VoidGenerator();
 	}
 	

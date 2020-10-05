@@ -18,7 +18,7 @@ import java.util.List;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public class GrapplingHookCommand extends Command<Survival,GameplayManager> {
+public final class GrapplingHookCommand extends Command<Survival,GameplayManager> {
 
 	public GrapplingHookCommand(GameplayManager manager){
 		super(manager, Rank.ADMIN, "graphook");

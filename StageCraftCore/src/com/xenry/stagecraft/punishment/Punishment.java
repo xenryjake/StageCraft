@@ -7,8 +7,6 @@ import com.xenry.stagecraft.util.M;
 import com.xenry.stagecraft.util.time.TimeUtil;
 import net.md_5.bungee.api.ChatColor;
 
-import static com.xenry.stagecraft.util.M.CONSOLE_NAME;
-
 
 /**
  * StageCraft created by Henry Blasingame (Xenry) on 6/26/20

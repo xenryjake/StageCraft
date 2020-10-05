@@ -19,7 +19,7 @@ import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public class BloodHandler extends Handler<Survival,GameplayManager> {
+public final class BloodHandler extends Handler<Survival,GameplayManager> {
 	
 	private static final String NO_BLOOD_METADATA = "SC-NO-BLOOD";
 	private static final List<DamageCause> DISABLED_CAUSES = Arrays.asList(DamageCause.CRAMMING, DamageCause.DROWNING,

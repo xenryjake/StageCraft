@@ -8,7 +8,6 @@ import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.ProfileManager;
 import com.xenry.stagecraft.profile.Rank;
 import com.xenry.stagecraft.util.M;
-import com.xenry.stagecraft.util.Vector3D;
 import com.xenry.stagecraft.util.time.TimeUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -93,14 +92,15 @@ public final class LookupCommand extends Command<Core,ProfileManager> {
 			}
 		}
 		
-		Vector3D lastLoc = profile.getLastLocation();
+		//Vector3D lastLoc = profile.getLastLocation();
 		boolean online = profile.isOnline();
 
 		sender.sendMessage(M.msg + "Profile of " + M.elm + profile.getLatestUsername() + M.msg + ":");
 		sender.sendMessage(M.arrow("UUID: " + M.WHITE + profile.getUUID()));
 		sender.sendMessage(M.arrow("Rank: " + profile.getRank().getColor() + profile.getRank().getName()));
 		sender.sendMessage(M.arrow("Logged Usernames: " + M.elm + profile.getUsernames().size() + M.gry + " §o(/lookup " + profile.getLatestUsername() + " names)"));
-		sender.sendMessage(M.arrow("Total Playtime: " + M.WHITE + TimeUtil.simplerString(profile.getTotalPlaytime())));
+		//todo include both network-wide and per-server
+		sender.sendMessage(M.arrow("Total Playtime: " + M.WHITE + TimeUtil.simplerString(profile.getPlaytime(manager.plugin.getServerName()))));
 		sender.sendMessage(M.arrow("Nickname: " + profile.getDisplayName()));
 		if(detailedAccess){
 			sender.sendMessage(M.arrow("Address: " + M.WHITE + profile.getLatestAddress()));
@@ -111,9 +111,11 @@ public final class LookupCommand extends Command<Core,ProfileManager> {
 				sender.sendMessage(M.arrow("AFK: " + (ess.getUser(profile.getPlayer()).isAfk() ? "§ayes" : "§cno")));
 			}
 		}else{
-			sender.sendMessage(M.arrow("Last Location: " + M.elm + "(" + lastLoc.x + "," + lastLoc.y + "," + lastLoc.z + ") [" + profile.getLastLocationWorldName() + "]"));
+			//todo add to survivial somehow?
+			//sender.sendMessage(M.arrow("Last Location: " + M.elm + "(" + lastLoc.x + "," + lastLoc.y + "," + lastLoc.z + ") [" + profile.getLastLocationWorldName() + "]"));
 		}
-		sender.sendMessage(M.arrow("Status: " + (online ? "§aOnline " + M.msg + "(" + M.elm + TimeUtil.simplerString(profile.getSecondsSinceLastLogin()) + M.msg + ")" : "§cOffline " + M.msg + "(" + M.elm + TimeUtil.simplerString(profile.getSecondsSinceLastLogout()) + M.msg + ")")));
+		//todo include both network-wide and per-server
+		sender.sendMessage(M.arrow("Status: " + (online ? "§aOnline " + M.msg + "(" + M.elm + TimeUtil.simplerString(profile.getSecondsSinceLastLogin(manager.plugin.getServerName())) + M.msg + ")" : "§cOffline " + M.msg + "(" + M.elm + TimeUtil.simplerString(profile.getSecondsSinceLastLogout(manager.plugin.getServerName())) + M.msg + ")")));
 	}
 	
 	@Override

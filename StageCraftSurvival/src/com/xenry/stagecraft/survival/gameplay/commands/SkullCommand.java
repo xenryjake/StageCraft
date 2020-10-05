@@ -24,7 +24,7 @@ import java.util.List;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public class SkullCommand extends Command<Survival,GameplayManager> {
+public final class SkullCommand extends Command<Survival,GameplayManager> {
 	
 	public static final Access SPAWN_SKULL = Rank.ADMIN;
 	

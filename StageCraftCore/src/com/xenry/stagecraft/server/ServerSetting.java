@@ -17,9 +17,20 @@ public class ServerSetting extends BasicDBObject {
 		//required for Mongo instantiation
 	}
 	
-	public ServerSetting(String key, Type type){
+	public ServerSetting(String serverName, String key, Type type){
+		put("serverName", serverName);
 		put("key", key);
 		put("type", type.name());
+	}
+	
+	public String getServerName(){
+		Object obj = get("serverName");
+		if(obj instanceof String){
+			return (String)obj;
+		}else{
+			put("serverName", "NONE");
+			return getServerName();
+		}
 	}
 	
 	public String getKey(){

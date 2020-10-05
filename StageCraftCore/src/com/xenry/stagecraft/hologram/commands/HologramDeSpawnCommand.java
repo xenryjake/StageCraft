@@ -21,7 +21,7 @@ import java.util.List;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public class HologramDeSpawnCommand extends Command<Core,HologramManager> {
+public final class HologramDeSpawnCommand extends Command<Core,HologramManager> {
 	
 	public HologramDeSpawnCommand(HologramManager manager){
 		super(manager, Rank.ADMIN, "despawn");

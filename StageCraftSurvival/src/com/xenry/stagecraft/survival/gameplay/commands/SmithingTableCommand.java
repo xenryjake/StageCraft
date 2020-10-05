@@ -22,7 +22,7 @@ import java.util.List;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public class SmithingTableCommand extends Command<Survival,GameplayManager> {
+public final class SmithingTableCommand extends Command<Survival,GameplayManager> {
 	
 	public SmithingTableCommand(GameplayManager manager){
 		super(manager, Rank.MEMBER, "smith", "smithingtable", "smithing");

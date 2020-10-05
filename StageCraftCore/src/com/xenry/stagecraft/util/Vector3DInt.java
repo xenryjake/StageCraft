@@ -6,13 +6,13 @@ package com.xenry.stagecraft.util;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public class Vector3D {
+public class Vector3DInt {
 	
 	public final int x;
 	public final int y;
 	public final int z;
 	
-	public Vector3D(int x, int y, int z) {
+	public Vector3DInt(int x, int y, int z) {
 		this.x = x;
 		this.y = y;
 		this.z = z;

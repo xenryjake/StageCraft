@@ -1,9 +1,9 @@
 package com.xenry.stagecraft.survival.gameplay.rules;
 import com.xenry.stagecraft.Handler;
 import com.xenry.stagecraft.survival.Survival;
+import com.xenry.stagecraft.survival.profile.SurvivalProfile;
 import com.xenry.stagecraft.util.Cooldown;
 import com.xenry.stagecraft.survival.gameplay.GameplayManager;
-import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.util.M;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -28,7 +28,7 @@ public final class AcceptRulesHandler extends Handler<Survival,GameplayManager> 
 	
 	@EventHandler
 	public void onBreak(BlockBreakEvent event){
-		Profile profile = getCore().getProfileManager().getProfile(event.getPlayer());
+		SurvivalProfile profile = manager.plugin.getSurvivalProfileManager().getProfile(event.getPlayer());
 		if(profile != null && !profile.hasAcceptedRules()){
 			sendAcceptRulesMessage(event.getPlayer());
 			event.setCancelled(true);
@@ -37,7 +37,7 @@ public final class AcceptRulesHandler extends Handler<Survival,GameplayManager> 
 	
 	@EventHandler
 	public void onPlace(BlockPlaceEvent event){
-		Profile profile = getCore().getProfileManager().getProfile(event.getPlayer());
+		SurvivalProfile profile = manager.plugin.getSurvivalProfileManager().getProfile(event.getPlayer());
 		if(profile != null && !profile.hasAcceptedRules()){
 			sendAcceptRulesMessage(event.getPlayer());
 			event.setCancelled(true);

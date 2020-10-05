@@ -17,7 +17,7 @@ import java.util.List;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public class HelpCommand extends Command<Survival,GameplayManager> {
+public final class HelpCommand extends Command<Survival,GameplayManager> {
 	
 	public HelpCommand(GameplayManager manager){
 		super(manager, Rank.MEMBER, "help");

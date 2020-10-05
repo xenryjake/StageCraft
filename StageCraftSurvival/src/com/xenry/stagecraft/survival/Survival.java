@@ -4,9 +4,8 @@ import com.xenry.stagecraft.StageCraftPlugin;
 import com.xenry.stagecraft.survival.economy.EconomyManager;
 import com.xenry.stagecraft.survival.gameplay.GameplayManager;
 import com.xenry.stagecraft.survival.jail.JailManager;
+import com.xenry.stagecraft.survival.profile.SurvivalProfileManager;
 import com.xenry.stagecraft.util.Log;
-import com.xenry.stagecraft.survival.builder.BuilderManager;
-import com.xenry.stagecraft.survival.hidenseek.HideNSeekManager;
 import com.xenry.stagecraft.survival.teleportation.TeleportationManager;
 
 /**
@@ -16,12 +15,11 @@ import com.xenry.stagecraft.survival.teleportation.TeleportationManager;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public class Survival extends StageCraftPlugin {
+public final class Survival extends StageCraftPlugin {
 	
+	private SurvivalProfileManager survivalProfileManager;
 	private GameplayManager gameplayManager;
 	private EconomyManager economyManager;
-	private BuilderManager builderManager;
-	private HideNSeekManager hideNSeekManager;
 	private TeleportationManager teleportationManager;
 	private JailManager jailManager;
 	
@@ -30,19 +28,22 @@ public class Survival extends StageCraftPlugin {
 	}
 	
 	@Override
-	public void onLoad(){
+	public void loadManagers(){
 		try{
-			gameplayManager = (GameplayManager) core.loadManager(this, GameplayManager.class);
-			economyManager = (EconomyManager) core.loadManager(this, EconomyManager.class);
-			builderManager = (BuilderManager) core.loadManager(this, BuilderManager.class);
-			hideNSeekManager = (HideNSeekManager) core.loadManager(this, HideNSeekManager.class);
-			teleportationManager = (TeleportationManager) core.loadManager(this, TeleportationManager.class);
-			jailManager = (JailManager) core.loadManager(this, JailManager.class);
-			//petManager = (PetManager) loadManager(PetManager.class);
+			survivalProfileManager = loadManager(this, SurvivalProfileManager.class);
+			gameplayManager = loadManager(this, GameplayManager.class);
+			economyManager = loadManager(this, EconomyManager.class);
+			teleportationManager =  loadManager(this, TeleportationManager.class);
+			jailManager = loadManager(this, JailManager.class);
+			//petManager = loadManager(PetManager.class);
 		}catch(Exception ex){
 			ex.printStackTrace();
-			Log.severe("Something went wrong while loading the core managers!");
+			Log.severe("Something went wrong while loading the Survival managers!");
 		}
+	}
+	
+	public SurvivalProfileManager getSurvivalProfileManager() {
+		return survivalProfileManager;
 	}
 	
 	public GameplayManager getGameplayManager() {
@@ -51,14 +52,6 @@ public class Survival extends StageCraftPlugin {
 	
 	public EconomyManager getEconomyManager() {
 		return economyManager;
-	}
-	
-	public BuilderManager getBuilderManager() {
-		return builderManager;
-	}
-	
-	public HideNSeekManager getHideNSeekManager() {
-		return hideNSeekManager;
 	}
 	
 	public TeleportationManager getTeleportationManager() {

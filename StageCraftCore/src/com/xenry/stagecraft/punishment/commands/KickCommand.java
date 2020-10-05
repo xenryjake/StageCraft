@@ -1,4 +1,5 @@
 package com.xenry.stagecraft.punishment.commands;
+import com.xenry.stagecraft.Core;
 import com.xenry.stagecraft.commands.Command;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
@@ -20,7 +21,7 @@ import java.util.List;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public final class KickCommand extends Command<PunishmentManager> {
+public final class KickCommand extends Command<Core,PunishmentManager> {
 	
 	public KickCommand(PunishmentManager manager){
 		super(manager, Rank.MOD, "kick");
@@ -34,7 +35,7 @@ public final class KickCommand extends Command<PunishmentManager> {
 	
 	@Override
 	protected void serverPerform(CommandSender sender, String[] args, String label) {
-		doKick(sender, args, label, Punishment.CONSOLE_NAME);
+		doKick(sender, args, label, M.CONSOLE_NAME);
 	}
 	
 	private void doKick(CommandSender sender, String[] args, String label, String punishedBy){

@@ -1,14 +1,12 @@
 package com.xenry.stagecraft.punishment.commands;
+import com.xenry.stagecraft.Core;
 import com.xenry.stagecraft.commands.Command;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
 import com.xenry.stagecraft.punishment.Punishment;
 import com.xenry.stagecraft.punishment.PunishmentManager;
-import com.xenryjake.stagecraft.survival.teleportation.Teleportation;
-import com.xenryjake.stagecraft.survival.teleportation.Warp;
 import com.xenry.stagecraft.util.M;
 import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
 import org.bukkit.command.CommandSender;
 
 import java.util.Arrays;
@@ -22,7 +20,7 @@ import java.util.List;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public final class PunishmentRemoveCommand extends Command<PunishmentManager> {
+public final class PunishmentRemoveCommand extends Command<Core,PunishmentManager> {
 	
 	public PunishmentRemoveCommand(PunishmentManager manager){
 		super(manager, Rank.MOD, "remove", "undo");
@@ -69,10 +67,6 @@ public final class PunishmentRemoveCommand extends Command<PunishmentManager> {
 			case "mutes":
 				type = Punishment.Type.MUTE;
 				break;
-			case "jail":
-			case "jails":
-				type = Punishment.Type.JAIL;
-				break;
 			default:
 				sender.sendMessage(M.error("Invalid punishment type: " + args[1]));
 				return;
@@ -89,13 +83,6 @@ public final class PunishmentRemoveCommand extends Command<PunishmentManager> {
 			i++;
 			pun.setRemoved(true);
 			manager.save(pun);
-		}
-		if(type == Punishment.Type.JAIL && target.isOnline()){
-			target.getPlayer().setGameMode(GameMode.SURVIVAL);
-			Warp spawn = manager.plugin.getTeleportationManager().getWarpHandler().getSpawn();
-			if(spawn != null){
-				manager.plugin.getTeleportationManager().createAndExecuteTeleportation(target.getPlayer(), sender, target.getPlayer().getLocation(), spawn.getLocation(), Teleportation.Type.ADMIN, false);
-			}
 		}
 		
 		sender.sendMessage(M.msg + "Successfully removed " + M.elm + i + M.msg + " active " + M.elm + type.name + M.msg + " punishments from " + M.elm + target.getLatestUsername() + M.msg + "'s profile.");

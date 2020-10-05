@@ -2,7 +2,6 @@ package com.xenry.stagecraft.survival.jail;
 import com.mongodb.BasicDBObject;
 import com.xenry.stagecraft.chat.emotes.Emote;
 import com.xenry.stagecraft.commands.Access;
-import com.xenry.stagecraft.profile.Rank;
 import com.xenry.stagecraft.punishment.Punishment;
 import com.xenry.stagecraft.util.M;
 import com.xenry.stagecraft.util.time.TimeUtil;
@@ -26,7 +25,7 @@ public class Sentence extends BasicDBObject {
 		//required for Mongo instantiation
 	}
 	
-	public Sentence(String playerUUID, String punishedByUUID, String reason, long expiresAt, long duration){
+	private Sentence(String playerUUID, String punishedByUUID, String reason, long expiresAt, long duration){
 		put("player", playerUUID);
 		put("punishedBy", punishedByUUID);
 		put("timestamp", TimeUtil.toSecond(TimeUtil.now()));
@@ -34,10 +33,6 @@ public class Sentence extends BasicDBObject {
 		put("expiresAt", expiresAt);
 		put("duration", duration);
 		put("removed", false);
-	}
-	
-	public Sentence(String playerUUID, String punishedByUUID, String reason){
-		this(playerUUID, punishedByUUID, reason, -1, -1);
 	}
 	
 	public Sentence(Jail jail, String playerUUID, String punishedByUUID, String reason, long expiresAt, long duration){

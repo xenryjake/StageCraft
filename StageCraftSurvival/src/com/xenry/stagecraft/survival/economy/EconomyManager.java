@@ -1,6 +1,6 @@
 package com.xenry.stagecraft.survival.economy;
 import com.xenry.stagecraft.Manager;
-import com.xenry.stagecraft.profile.Profile;
+import com.xenry.stagecraft.profile.GenericProfile;
 import com.xenry.stagecraft.util.Log;
 import com.xenry.stagecraft.util.PlayerUtil;
 import com.xenry.stagecraft.survival.Survival;
@@ -15,7 +15,7 @@ import org.bukkit.inventory.ItemStack;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public class EconomyManager extends Manager<Survival> {
+public final class EconomyManager extends Manager<Survival> {
 	
 	public EconomyManager(Survival plugin){
 		super("Economy", plugin);
@@ -26,7 +26,7 @@ public class EconomyManager extends Manager<Survival> {
 		registerCommand(new DiamondsCommand(this));
 	}
 	
-	public int getAvailableDiamonds(Profile profile){
+	public int getAvailableDiamonds(GenericProfile profile){
 		return getAvailableDiamonds(profile.getPlayer());
 	}
 	

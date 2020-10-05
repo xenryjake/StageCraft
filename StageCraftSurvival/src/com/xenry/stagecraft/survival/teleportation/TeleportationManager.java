@@ -1,6 +1,7 @@
 package com.xenry.stagecraft.survival.teleportation;
 import com.xenry.stagecraft.Manager;
 import com.xenry.stagecraft.survival.Survival;
+import com.xenry.stagecraft.survival.jail.Sentence;
 import com.xenry.stagecraft.util.Cooldown;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.survival.jail.Jail;
@@ -241,9 +242,9 @@ public final class TeleportationManager extends Manager<Survival> {
 		Location respawnLocation = spawn == null ? null : spawn.getLocation();
 		Profile profile = getCore().getProfileManager().getProfile(event.getPlayer());
 		if(profile != null){
-			Punishment jailing = getCore().getPunishmentManager().getOutstandingPunishment(profile, Punishment.Type.JAIL);
-			if(jailing != null){
-				Jail jail = getCore().getPunishmentManager().getJailHandler().getJail(jailing.getJailName());
+			Sentence sentence = plugin.getJailManager().getOutstandingSentence(profile);
+			if(sentence != null){
+				Jail jail = plugin.getJailManager().getJailHandler().getJail(sentence.getJailName());
 				if(jail != null){
 					respawnLocation = jail.getLocation();
 				}

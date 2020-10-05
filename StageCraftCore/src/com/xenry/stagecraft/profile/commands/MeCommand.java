@@ -35,8 +35,9 @@ public final class MeCommand extends Command<Core,ProfileManager> {
 		profile.sendMessage(M.msg + "Profile of " + M.elm + profile.getLatestUsername() + M.msg + ":");
 		profile.sendMessage(M.arrow("UUID: " + M.WHITE + profile.getUUID()));
 		profile.sendMessage(M.arrow("Rank: " + profile.getRank().getColor() + profile.getRank().getName()));
-		profile.sendMessage(M.arrow("Total Playtime: " + M.WHITE + TimeUtil.simplerString(profile.getTotalPlaytime())));
-		profile.sendMessage(M.arrow("Status: " + (profile.isOnline() ? "§aOnline " + M.msg + "(" + M.elm + TimeUtil.simplerString(profile.getSecondsSinceLastLogin()) + M.msg + ")" : "§cOffline " + M.msg + "(" + M.elm + TimeUtil.simplerString(profile.getSecondsSinceLastLogout()) + M.msg + ")")));
+		//todo include both network-wide and per-server
+		profile.sendMessage(M.arrow("Total Playtime: " + M.WHITE + TimeUtil.simplerString(profile.getPlaytime(manager.plugin.getServerName()))));
+		profile.sendMessage(M.arrow("Status: " + (profile.isOnline() ? "§aOnline " + M.msg + "(" + M.elm + TimeUtil.simplerString(profile.getSecondsSinceLastLogin(manager.plugin.getServerName())) + M.msg + ")" : "§cOffline " + M.msg + "(" + M.elm + TimeUtil.simplerString(profile.getSecondsSinceLastLogout(manager.plugin.getServerName())) + M.msg + ")")));
 	}
 	
 	@Override

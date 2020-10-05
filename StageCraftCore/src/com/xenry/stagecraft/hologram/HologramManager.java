@@ -69,7 +69,7 @@ public final class HologramManager extends Manager<Core> {
 	 */
 	private void download(){
 		holograms.clear();
-		DBCursor c = hologramCollection.find(new BasicDBObject("serverType", plugin.getServerName()));
+		DBCursor c = hologramCollection.find(new BasicDBObject("serverName", plugin.getServerName()));
 		while(c.hasNext()) {
 			holograms.add((Hologram)c.next());
 		}

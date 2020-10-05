@@ -48,21 +48,24 @@ public class SentenceExecution {
 	}
 	
 	private void sendMessageToSentencer(){
-		sentencedBy.sendMessage(M.msg + "You have sentenced player " + M.elm + sentenced.getLatestUsername() + M.msg + " to jail:");
-		sentencedBy.sendMessage(M.arrow(M.WHITE + "Duration: " + M.elm + TimeUtil.simplerString(sentence.getDurationSeconds())));
+		StringBuilder sb = new StringBuilder();
+		sb.append(M.msg).append("You have sentenced player ").append(M.elm).append(sentenced.getLatestUsername()).append(M.msg).append(" to jail:\n");
+		sb.append(M.arrow("Duration: " + M.WHITE + TimeUtil.simplerString(sentence.getDurationSeconds()))).append("\n");
+		sb.append(M.arrow("Jail: " + M.WHITE + sentence.getJailName())).append("\n");
 		if(!sentence.getReason().isEmpty()) {
-			sentencedBy.sendMessage(M.arrow(M.WHITE + "Reason: " + M.gry + sentence.getReason()));
+			sb.append(M.arrow("Reason: " + M.WHITE + sentence.getReason()));
 		}
+		sentencedBy.sendMessage(sb.toString().trim());
 	}
 	
 	private void broadcastMessage(){
 		StringBuilder sb = new StringBuilder();
 		sb.append(M.elm).append(sentenced.getLatestUsername()).append(M.msg).append(" has been sentenced to jail by ").append(M.elm).append(sentencedBy.getName()).append(M.msg).append(":").append("\n");
 		sb.append(M.arrow("Duration: ")).append(M.WHITE).append(TimeUtil.simplerString(sentence.getTimeRemaining())).append("\n");
-		if(!sentence.getReason().isEmpty()){
-			sb.append(M.arrow("Reason: ")).append(M.WHITE).append(sentence.getReason()).append("\n");
-		}
 		sb.append(M.arrow("Jail: ")).append(M.WHITE).append(sentence.getJailName()).append("\n");
+		if(!sentence.getReason().isEmpty()){
+			sb.append(M.arrow("Reason: ")).append(M.WHITE).append(sentence.getReason());
+		}
 		String message = sb.toString().trim();
 		for(Player player : Bukkit.getOnlinePlayers()){
 			Profile profile = manager.getCore().getProfileManager().getProfile(player);

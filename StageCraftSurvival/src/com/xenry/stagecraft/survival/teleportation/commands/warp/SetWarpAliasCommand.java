@@ -18,7 +18,7 @@ import java.util.List;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public class SetWarpAliasCommand extends Command<Survival,TeleportationManager> {
+public final class SetWarpAliasCommand extends Command<Survival,TeleportationManager> {
 	
 	public SetWarpAliasCommand(TeleportationManager manager){
 		super(manager, Rank.MOD, "setwarpalias", "addwarpalias");

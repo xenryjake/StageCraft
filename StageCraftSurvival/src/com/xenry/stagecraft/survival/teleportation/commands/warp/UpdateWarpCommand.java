@@ -18,7 +18,7 @@ import java.util.List;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public class UpdateWarpCommand extends Command<Survival,TeleportationManager> {
+public final class UpdateWarpCommand extends Command<Survival,TeleportationManager> {
 	
 	public UpdateWarpCommand(TeleportationManager manager){
 		super(manager, Rank.MOD, "updatewarp", "warpupdate", "changewarp", "warpchange");

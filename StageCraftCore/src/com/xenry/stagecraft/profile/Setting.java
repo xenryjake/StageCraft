@@ -8,7 +8,8 @@ package com.xenry.stagecraft.profile;
  */
 public enum Setting {
 	
-	PVP_ENABLED("pvp", true),
+	SURVIVAL_PVP_ENABLED("survival_pvp", true),
+	SKYBLOCK_PVP_ENABLED("skyblock_pvp", true),
 	SOCIAL_SPY("social_spy", false),
 	WHITE_SIGN_TEXT("white_sign_text", false);
 	

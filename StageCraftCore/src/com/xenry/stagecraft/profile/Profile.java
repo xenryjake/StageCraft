@@ -1,9 +1,6 @@
 package com.xenry.stagecraft.profile;
-import com.mongodb.BasicDBObject;
-import com.xenry.stagecraft.util.Vector3D;
+import com.xenry.stagecraft.util.Log;
 import com.xenry.stagecraft.util.time.TimeUtil;
-import net.md_5.bungee.api.chat.BaseComponent;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.net.InetAddress;
@@ -17,40 +14,28 @@ import java.util.*;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public class Profile extends BasicDBObject {
-	
-	public boolean sessionInJail = false;
+public class Profile extends GenericProfile {
 	
 	@Deprecated
 	public Profile(){
 		//required for Mongo instantiation
 	}
 	
-	public Profile(Player p){
-		put("uuid", p.getUniqueId().toString());
+	public Profile(Player player){
+		super(player);
 		
-		updateUsernames(p.getName());
-		updateAddresses(p.getAddress());
+		updateUsernames(player.getName());
+		updateAddresses(player.getAddress());
 		
-		put("lastLogin", 0L);
-		put("lastLogout", 0L);
+		put("lastLogins", new HashMap<String,Long>());
+		put("lastLogouts", new HashMap<String,Long>());
 		
-		put("lastPlaytimeUpdate", 0L);
-		put("totalPlaytime", 0L);
-		
-		put("lastLocationX", 0);
-		put("lastLocationY", 0);
-		put("lastLocationZ", 0);
-		put("lastLocationWorldName", "world");
+		put("lastPlaytimeUpdates", new HashMap<String,Long>());
+		put("playtimes", new HashMap<String,Long>());
 		
 		put("rank", Rank.MEMBER.toString());
-		
-		put("currency", new HashMap<String,Integer>());
 		put("settings", new HashMap<String,Boolean>());
-		
 		put("nick", "none");
-		
-		put("hasAcceptedRules", false);
 	}
 	
 	public void updateDisplayName(){
@@ -77,15 +62,6 @@ public class Profile extends BasicDBObject {
 	public String getColorlessDisplayName(){
 		String name = getNick();
 		return name.equals("none") ? getLatestUsername() : name;
-	}
-	
-	public String getUUID(){
-		Object obj = get("uuid");
-		if(obj instanceof String){
-			return (String)obj;
-		}else{
-			return "";
-		}
 	}
 	
 	public String getLatestUsername(){
@@ -127,19 +103,23 @@ public class Profile extends BasicDBObject {
 			if(player == null){
 				return "";
 			}
-			updateAddresses();
+			InetSocketAddress socketAddress = player.getAddress();
+			if(socketAddress != null){
+				put("latestAddress", socketAddress.getAddress().toString());
+			}
 			return getLatestAddress();
 		}
 	}
 	
 	public void updateAddresses(InetSocketAddress socketAddress){
 		if(socketAddress == null){
+			Log.debug(getLatestUsername() + "'s socketAddress is null");
 			return;
 		}
 		InetAddress address = socketAddress.getAddress();
 		put("latestAddress", address.toString());
-		if(!getAddresses().contains(address.toString())){
-			List<String> addresses = getAddresses();
+		List<String> addresses = getAddresses();
+		if(!addresses.contains(address.toString())){
 			addresses.add(address.toString());
 			put("addresses", addresses);
 		}
@@ -152,177 +132,143 @@ public class Profile extends BasicDBObject {
 		updateAddresses(getPlayer().getAddress());
 	}
 	
-	public long getLastLogin(){
-		Object obj = get("lastLogin");
-		if(obj instanceof Long){
-			return (Long)obj;
+	@SuppressWarnings("unchecked")
+	public HashMap<String,Long> getLastLogins(){
+		Object obj = get("lastLogins");
+		if(obj instanceof HashMap){
+			return (HashMap<String,Long>)obj;
 		}else{
-			put("lastLogin", 0L);
-			return getLastLogin();
+			put("lastLogins", new HashMap<String,Long>());
+			return getLastLogins();
 		}
 	}
 	
-	public long getSecondsSinceLastLogin(){
-		return TimeUtil.nowSeconds() - getLastLogin();
+	public long getLastLogin(String serverName){
+		return getLastLogins().getOrDefault(serverName, 0L);
 	}
 	
-	public void setLastLogin(long timestampInSeconds){
-		setLastPlaytimeUpdate(timestampInSeconds);
-		put("lastLogin", timestampInSeconds);
+	public void setLastLogin(String serverName, long timestamp){
+		setLastPlaytimeUpdate(serverName, timestamp);
+		HashMap<String,Long> lastLogins = getLastLogins();
+		lastLogins.put(serverName, timestamp);
+		put("lastLogins", lastLogins);
 	}
 	
-	public long getLastLogout(){
-		Object obj = get("lastLogout");
-		if(obj instanceof Long){
-			return (Long)obj;
+	public long getSecondsSinceLastLogin(String serverName){
+		return TimeUtil.nowSeconds() - getLastLogin(serverName);
+	}
+	
+	public long getMostRecentLogin(){
+		long value = 0;
+		for(Long l : getLastLogins().values()){
+			if(l > value){
+				value = l;
+			}
+		}
+		return value;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public HashMap<String,Long> getLastLogouts(){
+		Object obj = get("lastLogouts");
+		if(obj instanceof HashMap){
+			return (HashMap<String,Long>)obj;
 		}else{
-			put("lastLogout", 0L);
-			return getLastLogout();
+			put("lastLogouts", new HashMap<String,Long>());
+			return getLastLogouts();
 		}
 	}
 	
-	public long getSecondsSinceLastLogout(){
-		return TimeUtil.nowSeconds() - getLastLogout();
+	public long getLastLogout(String serverName){
+		return getLastLogouts().getOrDefault(serverName, 0L);
 	}
 	
-	public void setLastLogout(long timestampInSeconds){
-		put("lastLogout", timestampInSeconds);
+	public void setLastLogout(String serverName, long timestamp){
+		HashMap<String,Long> lastLogouts = getLastLogouts();
+		lastLogouts.put(serverName, timestamp);
+		put("lastLogouts", lastLogouts);
 	}
 	
-	public long getLastPlaytimeUpdate(){
-		Object obj = get("lastPlaytimeUpdate");
-		if(obj instanceof Long){
-			return (Long)obj;
+	public long getSecondsSinceLastLogout(String serverName){
+		return TimeUtil.nowSeconds() - getLastLogout(serverName);
+	}
+	
+	public long getMostRecentLogout(){
+		long value = 0;
+		for(Long l : getLastLogouts().values()){
+			if(l > value){
+				value = l;
+			}
+		}
+		return value;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public HashMap<String,Long> getLastPlaytimeUpdates(){
+		Object obj = get("lastPlaytimeUpdates");
+		if(obj instanceof HashMap){
+			return (HashMap<String,Long>)obj;
 		}else{
-			put("lastPlaytimeUpdate", 0L);
-			return getLastPlaytimeUpdate();
+			put("lastPlaytimeUpdates", new HashMap<String,Long>());
+			return getLastPlaytimeUpdates();
 		}
 	}
 	
-	public void setLastPlaytimeUpdate(long seconds){
-		put("lastPlaytimeUpdate", seconds);
+	public long getLastPlaytimeUpdate(String serverName){
+		return getLastPlaytimeUpdates().getOrDefault(serverName, 0L);
 	}
 	
-	public void updateTotalPlaytime(){
+	public void setLastPlaytimeUpdate(String serverName, long timestamp){
+		HashMap<String,Long> lastPlaytimeUpdates = getLastPlaytimeUpdates();
+		lastPlaytimeUpdates.put(serverName, timestamp);
+		put("lastPlaytimeUpdates", lastPlaytimeUpdates);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public HashMap<String,Long> getPlaytimes(){
+		Object obj = get("playtimes");
+		if(obj instanceof HashMap){
+			return (HashMap<String,Long>)obj;
+		}else{
+			put("playtimes", new HashMap<String,Long>());
+			return getPlaytimes();
+		}
+	}
+	
+	private long getPlaytimeValue(String serverName){
+		return getPlaytimes().getOrDefault(serverName, 0L);
+	}
+	
+	public long getPlaytime(String serverName){
+		updatePlaytime(serverName);
+		return getPlaytimeValue(serverName);
+	}
+	
+	private void setPlaytime(String serverName, long time){
+		HashMap<String,Long> playtimes = getPlaytimes();
+		playtimes.put(serverName, time);
+		put("playtimes", playtimes);
+	}
+	
+	private void addToPlaytime(String serverName, long time){
+		setPlaytime(serverName, getPlaytimeValue(serverName) + time);
+	}
+	
+	public void updatePlaytime(String serverName){
 		long now = TimeUtil.nowSeconds();
-		long lastUpdate = getLastPlaytimeUpdate();
+		long lastUpdate = getLastPlaytimeUpdate(serverName);
 		if(lastUpdate > 0L && isOnline()){
-			addToTotalPlaytime(now - lastUpdate);
+			addToPlaytime(serverName, now - lastUpdate);
 		}
-		setLastPlaytimeUpdate(now);
+		setLastPlaytimeUpdate(serverName, now);
 	}
 	
 	public long getTotalPlaytime(){
-		updateTotalPlaytime();
-		return getTotalPlaytimeValue();
-	}
-	
-	private long getTotalPlaytimeValue(){
-		Object obj = get("totalPlaytime");
-		if(obj instanceof Long){
-			return (Long)obj;
-		}else{
-			put("totalPlaytime", 0L);
-			return getTotalPlaytimeValue();
+		long total = 0;
+		for(Long l : getPlaytimes().values()){
+			total += l;
 		}
-	}
-	
-	private void setTotalPlaytime(long seconds){
-		put("totalPlaytime", seconds);
-	}
-	
-	private void addToTotalPlaytime(long seconds){
-		setTotalPlaytime(getTotalPlaytimeValue() + seconds);
-	}
-	
-	public Vector3D getLastLocation(){
-		int x, y, z;
-		Object objX = get("lastLocationX");
-		Object objY = get("lastLocationY");
-		Object objZ = get("lastLocationZ");
-		if(objX instanceof Integer){
-			x = (Integer)objX;
-		}else{
-			put("lastLocationX", 0);
-			x = 0;
-		}
-		if(objY instanceof Integer){
-			y = (Integer)objY;
-		}else{
-			put("lastLocationY", 0);
-			y = 0;
-		}
-		if(objZ instanceof Integer){
-			z = (Integer)objZ;
-		}else{
-			put("lastLocationZ", 0);
-			z = 0;
-		}
-		return new Vector3D(x, y, z);
-	}
-	
-	public String getLastLocationWorldName(){
-		Object obj = get("lastLocationWorldName");
-		if(obj instanceof String){
-			return (String)obj;
-		}else{
-			put("lastLocationWorldName", "world");
-			return getLastLocationWorldName();
-		}
-	}
-	
-	public void setLastLocation(int x, int y, int z){
-		put("lastLocationX", x);
-		put("lastLocationY", y);
-		put("lastLocationZ", z);
-	}
-	
-	public void setLastLocationWorldName(String name){
-		put("lastLocationWorldName", name);
-	}
-	
-	public boolean isOnline(){
-		return getPlayer() != null;
-	}
-	
-	public Player getPlayer(){
-		return Bukkit.getPlayer(UUID.fromString(getUUID()));
-	}
-	
-	public void sendMessage(String message){
-		Player player = getPlayer();
-		if(player == null){
-			return;
-		}
-		player.sendMessage(message);
-	}
-	
-	public void sendMessages(String...messages){
-		Player player = getPlayer();
-		if(player == null){
-			return;
-		}
-		player.sendMessage(messages);
-	}
-	
-	public void sendMessage(BaseComponent component){
-		Player player = getPlayer();
-		if(player == null){
-			return;
-		}
-		player.spigot().sendMessage(component);
-	}
-	
-	public void sendMessage(BaseComponent...components){
-		Player player = getPlayer();
-		if(player == null){
-			return;
-		}
-		player.spigot().sendMessage(components);
-	}
-	
-	public String getOnlinePlayerName(){
-		return getPlayer().getName();
+		return total;
 	}
 	
 	public Rank getRank(){
@@ -343,39 +289,6 @@ public class Profile extends BasicDBObject {
 	public boolean check(Rank rank){
 		return getRank().check(rank);
 	}
-	
-	/*@SuppressWarnings("unchecked")
-	public HashMap<String,Integer> getCurrency(){
-		Object obj = get("currency");
-		if(obj instanceof HashMap){
-			return (HashMap<String,Integer>)obj;
-		}else{
-			put("currency", new HashMap<String,Integer>());
-			return getCurrency();
-		}
-	}
-	
-	public int getCurrency(Currency currency){
-		if(!getCurrency().containsKey(currency.toString()))
-			setCurrency(currency, currency.getStartValue());
-		return getCurrency().get(currency.toString());
-	}
-	
-	public void setCurrency(Currency currency, int value){
-		HashMap<String,Integer> currencies = getCurrency();
-		currencies.put(currency.toString(), value);
-		put("currency", currencies);
-	}
-	
-	public void addCurrency(Currency currency, int amount, boolean notify){
-		if(amount == 0) return;
-		int newAmount = getCurrency(currency) + amount;
-		if(!currency.canBeNegative() && newAmount < 0) newAmount = 0;
-		if(notify && isOnline()){
-			sendMessage("§b" + currency.getName() + (amount < 0 ? "§c-" : "§a+") + currency.getDisplay(amount));
-		}
-		setCurrency(currency, newAmount);
-	}*/
 	
 	@SuppressWarnings("unchecked")
 	public List<String> getUsernames(){
@@ -442,20 +355,6 @@ public class Profile extends BasicDBObject {
 	
 	public void setNick(String nick){
 		put("nick", nick);
-	}
-	
-	public boolean hasAcceptedRules(){
-		Object obj = get("hasAcceptedRules");
-		if(obj instanceof Boolean){
-			return (Boolean)obj;
-		}else{
-			put("hasAcceptedRules", false);
-			return hasAcceptedRules();
-		}
-	}
-	
-	public void setHasAcceptedRules(boolean hasAcceptedRules){
-		put("hasAcceptedRules", hasAcceptedRules);
 	}
 	
 }

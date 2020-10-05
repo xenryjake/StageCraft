@@ -1,4 +1,5 @@
 package com.xenry.stagecraft.server;
+import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.xenry.stagecraft.Handler;
@@ -17,7 +18,7 @@ import static com.xenry.stagecraft.server.ServerSetting.Type;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public class SettingsHandler extends Handler<Core,ServerManager> {
+public final class SettingsHandler extends Handler<Core,ServerManager> {
 	
 	private final DBCollection collection;
 	private final List<ServerSetting> settings;
@@ -31,7 +32,7 @@ public class SettingsHandler extends Handler<Core,ServerManager> {
 	
 	public void downloadSettings(){
 		settings.clear();
-		DBCursor c = collection.find();
+		DBCursor c = collection.find(new BasicDBObject("serverName", manager.plugin.getServerName()));
 		while(c.hasNext()) {
 			settings.add((ServerSetting)c.next());
 		}
@@ -80,7 +81,7 @@ public class SettingsHandler extends Handler<Core,ServerManager> {
 	public boolean getDebugMode(){
 		ServerSetting setting = getSetting("debugMode");
 		if(setting == null){
-			setting = new ServerSetting("debugMode", Type.BOOLEAN).setBooleanValue(false);
+			setting = new ServerSetting(manager.plugin.getServerName(), "debugMode", Type.BOOLEAN).setBooleanValue(false);
 			addSetting(setting);
 		}
 		if(setting.getBooleanValue() == null){
@@ -92,7 +93,7 @@ public class SettingsHandler extends Handler<Core,ServerManager> {
 	public void setDebugMode(boolean debugMode){
 		ServerSetting setting = getSetting("debugMode");
 		if(setting == null){
-			setting = new ServerSetting("debugMode", Type.BOOLEAN);
+			setting = new ServerSetting(manager.plugin.getServerName(), "debugMode", Type.BOOLEAN);
 			addSetting(setting);
 		}
 		setting.setBooleanValue(debugMode);
@@ -103,7 +104,7 @@ public class SettingsHandler extends Handler<Core,ServerManager> {
 	public boolean getBetaFeaturesEnabled(){
 		ServerSetting setting = getSetting("betaFeaturesEnabled");
 		if(setting == null){
-			setting = new ServerSetting("betaFeaturesEnabled", Type.BOOLEAN).setBooleanValue(false);
+			setting = new ServerSetting(manager.plugin.getServerName(), "betaFeaturesEnabled", Type.BOOLEAN).setBooleanValue(false);
 			addSetting(setting);
 		}
 		if(setting.getBooleanValue() == null){
@@ -115,7 +116,7 @@ public class SettingsHandler extends Handler<Core,ServerManager> {
 	public void setBetaFeaturesEnabled(boolean betaFeaturesEnabled){
 		ServerSetting setting = getSetting("betaFeaturesEnabled");
 		if(setting == null){
-			setting = new ServerSetting("betaFeaturesEnabled", Type.BOOLEAN);
+			setting = new ServerSetting(manager.plugin.getServerName(), "betaFeaturesEnabled", Type.BOOLEAN);
 			addSetting(setting);
 		}
 		setting.setBooleanValue(betaFeaturesEnabled);
@@ -126,11 +127,11 @@ public class SettingsHandler extends Handler<Core,ServerManager> {
 	public String getMOTD(){
 		ServerSetting setting = getSetting("motd");
 		if(setting == null){
-			setting = new ServerSetting("motd", Type.STRING).setStringValue("Edition 3 - Join Now!");
+			setting = new ServerSetting(manager.plugin.getServerName(), "motd", Type.STRING).setStringValue("Edition 3 - Join Now!");
 			addSetting(setting);
 		}
 		if(setting.getStringValue() == null){
-			setting.setStringValue("Edition 3 - Join Now!");
+			setting.setStringValue("Edition 3 - Join Now! §7§o" + manager.plugin.getServerName());
 		}
 		return setting.getStringValue();
 	}
@@ -138,7 +139,7 @@ public class SettingsHandler extends Handler<Core,ServerManager> {
 	public void setMOTD(String motd){
 		ServerSetting setting = getSetting("motd");
 		if(setting == null){
-			setting = new ServerSetting("motd", Type.STRING);
+			setting = new ServerSetting(manager.plugin.getServerName(), "motd", Type.STRING);
 			addSetting(setting);
 		}
 		setting.setStringValue(motd);

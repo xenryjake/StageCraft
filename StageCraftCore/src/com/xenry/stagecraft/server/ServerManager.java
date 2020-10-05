@@ -2,6 +2,7 @@ package com.xenry.stagecraft.server;
 import com.xenry.stagecraft.Manager;
 import com.xenry.stagecraft.Core;
 import com.xenry.stagecraft.server.commands.*;
+import com.xenry.stagecraft.server.pluginmessage.PluginMessageHandler;
 import io.puharesource.mc.titlemanager.api.v2.TitleManagerAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -17,11 +18,12 @@ import org.bukkit.scheduler.BukkitTask;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public class ServerManager extends Manager<Core> {
+public final class ServerManager extends Manager<Core> {
 	
 	private boolean willShutDown = false;
 	private BukkitTask shutdownTask;
 	private SettingsHandler settingsHandler;
+	private PluginMessageHandler pluginMessageHandler;
 	
 	public ServerManager(Core plugin){
 		super("Server", plugin);
@@ -31,6 +33,10 @@ public class ServerManager extends Manager<Core> {
 	protected void onEnable() {
 		settingsHandler = new SettingsHandler(this);
 		settingsHandler.downloadSettings();
+		
+		pluginMessageHandler = new PluginMessageHandler(this);
+		plugin.getServer().getMessenger().registerOutgoingPluginChannel(plugin, "BungeeCord");
+		plugin.getServer().getMessenger().registerIncomingPluginChannel(plugin, "BungeeCord", pluginMessageHandler);
 		
 		registerCommand(new ReloadServerSettingsCommand(this));
 		registerCommand(new DebugModeCommand(this));
@@ -42,10 +48,6 @@ public class ServerManager extends Manager<Core> {
 	@Override
 	protected void onDisable() {
 		settingsHandler.saveAllSettingsSync();
-	}
-	
-	public SettingsHandler getSettingsHandler() {
-		return settingsHandler;
 	}
 	
 	@EventHandler
@@ -107,6 +109,14 @@ public class ServerManager extends Manager<Core> {
 	
 	public BukkitTask getShutdownTask() {
 		return shutdownTask;
+	}
+	
+	public SettingsHandler getSettingsHandler() {
+		return settingsHandler;
+	}
+	
+	public PluginMessageHandler getPluginMessageHandler() {
+		return pluginMessageHandler;
 	}
 	
 }

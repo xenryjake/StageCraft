@@ -22,7 +22,7 @@ import java.util.List;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public class DamageIndicatorDeSpawnCommand extends Command<Survival,GameplayManager> {
+public final class DamageIndicatorDeSpawnCommand extends Command<Survival,GameplayManager> {
 
 	public DamageIndicatorDeSpawnCommand(GameplayManager manager){
 		super(manager, Rank.ADMIN, "despawn");

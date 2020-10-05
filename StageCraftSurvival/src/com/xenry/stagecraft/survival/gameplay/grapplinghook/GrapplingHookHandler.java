@@ -26,7 +26,7 @@ import org.bukkit.util.Vector;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public class GrapplingHookHandler extends Handler<Survival,GameplayManager> {
+public final class GrapplingHookHandler extends Handler<Survival,GameplayManager> {
 	
 	public static boolean enabled = true;
 	
