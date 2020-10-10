@@ -1,4 +1,5 @@
 package com.xenry.stagecraft.survival.gameplay.sign;
+import com.google.common.base.Joiner;
 import com.xenry.stagecraft.chat.emotes.Emote;
 import com.xenry.stagecraft.commands.Command;
 import com.xenry.stagecraft.survival.Survival;
@@ -60,12 +61,7 @@ public final class SignEditCommand extends Command<Survival,GameplayManager> {
 			return;
 		}
 		
-		StringBuilder sb = new StringBuilder();
-		for(int i = 1; i < args.length; i++){
-			sb.append(args[i]).append(" ");
-		}
-		String text = sb.toString().trim();
-		
+		String text = Joiner.on(' ').join(args);
 		ChatColor defaultColor = profile.getSetting(Setting.WHITE_SIGN_TEXT) ? ChatColor.WHITE : ChatColor.BLACK;
 		text = defaultColor + text;
 		if(SignEditHandler.COLOR_SIGNS.has(profile)){

@@ -3,6 +3,7 @@ import com.xenry.stagecraft.Manager;
 import com.xenry.stagecraft.Core;
 import com.xenry.stagecraft.server.commands.*;
 import com.xenry.stagecraft.server.pluginmessage.PluginMessageHandler;
+import com.xenry.stagecraft.util.M;
 import io.puharesource.mc.titlemanager.api.v2.TitleManagerAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -22,7 +23,6 @@ public final class ServerManager extends Manager<Core> {
 	
 	private boolean willShutDown = false;
 	private BukkitTask shutdownTask;
-	private SettingsHandler settingsHandler;
 	private PluginMessageHandler pluginMessageHandler;
 	
 	public ServerManager(Core plugin){
@@ -31,35 +31,26 @@ public final class ServerManager extends Manager<Core> {
 	
 	@Override
 	protected void onEnable() {
-		settingsHandler = new SettingsHandler(this);
-		settingsHandler.downloadSettings();
 		
 		pluginMessageHandler = new PluginMessageHandler(this);
 		plugin.getServer().getMessenger().registerOutgoingPluginChannel(plugin, "BungeeCord");
 		plugin.getServer().getMessenger().registerIncomingPluginChannel(plugin, "BungeeCord", pluginMessageHandler);
 		
-		registerCommand(new ReloadServerSettingsCommand(this));
 		registerCommand(new DebugModeCommand(this));
 		registerCommand(new BetaFeaturesCommand(this));
-		registerCommand(new MOTDCommand(this));
 		registerCommand(new StopCommand(this));
-	}
-	
-	@Override
-	protected void onDisable() {
-		settingsHandler.saveAllSettingsSync();
 	}
 	
 	@EventHandler
 	public void onListPing(ServerListPingEvent event){
-		event.setMotd("§9§lStage§a§lCraft\n    §e" + settingsHandler.getMOTD());
+		event.setMotd("StageCraft internal server. Connect to proxy.");
 	}
 	
 	@EventHandler
 	public void on(AsyncPlayerPreLoginEvent event){
 		if(willShutDown){
 			event.setLoginResult(AsyncPlayerPreLoginEvent.Result.KICK_OTHER);
-			event.setKickMessage("The server is about to shut down. Try again later.");
+			event.setKickMessage(M.err + "The server is about to shut down. Try again later.");
 		}
 	}
 	
@@ -109,10 +100,6 @@ public final class ServerManager extends Manager<Core> {
 	
 	public BukkitTask getShutdownTask() {
 		return shutdownTask;
-	}
-	
-	public SettingsHandler getSettingsHandler() {
-		return settingsHandler;
 	}
 	
 	public PluginMessageHandler getPluginMessageHandler() {

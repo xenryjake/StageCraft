@@ -74,7 +74,7 @@ public final class ChatManager extends Manager<Core> {
 		}
 		if(!profile.check(chatRank)){
 			player.sendMessage(M.error("The chat is currently silenced to rank "
-					+ chatRank.getColor() + chatRank.getName() + M.err + "."));
+					+ chatRank.getColoredName() + M.err + "."));
 			Log.info("[Chat Attempt] " + event.getPlayer().getName() + ": " + event.getMessage());
 			event.setCancelled(true);
 			return;

@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -17,18 +18,20 @@ import java.util.List;
  */
 public enum Rank implements Access {
 	
-	ADMIN("Admin", "§4", 100),
-	MOD("Mod", "§c", 50),
-	SPECIAL("Special", "§b", 10),
-	MEMBER("Member", "§7", 0);
+	MEMBER("Member", "§7", 0),
+	SPECIAL("Special", "§b", 10, MEMBER),
+	MOD("Mod", "§c", 50, MEMBER),
+	ADMIN("Admin", "§4", 100, MOD, SPECIAL, MEMBER);
 	
 	private final String name, color;
 	private final int weight;
+	private final List<Rank> inherits;
 	
-	Rank(String name, String color, int weight){
+	Rank(String name, String color, int weight, Rank...inherits){
 		this.name = name;
 		this.color = color;
 		this.weight = weight;
+		this.inherits = Arrays.asList(inherits);
 	}
 	
 	public String getName(){
@@ -47,12 +50,20 @@ public enum Rank implements Access {
 		return this.weight;
 	}
 	
-	public boolean check(Rank rank){
-		return check(rank, 0);
+	public List<Rank> getInherits() {
+		return inherits;
 	}
 	
-	public boolean check(Rank rank, int mod){
-		return this.getWeight() + mod >= rank.getWeight();
+	public boolean checkWeight(Rank rank){
+		return checkWeight(rank, 0);
+	}
+	
+	public boolean checkWeight(Rank rank, int mod){
+		return this.weight + mod >= rank.weight;
+	}
+	
+	public boolean check(Rank rank){
+		return rank == this || this.inherits.contains(rank);
 	}
 	
 	@Override
@@ -84,4 +95,5 @@ public enum Rank implements Access {
 	public String toString() {
 		return name();
 	}
+	
 }

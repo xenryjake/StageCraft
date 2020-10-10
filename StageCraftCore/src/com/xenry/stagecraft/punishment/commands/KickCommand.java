@@ -1,4 +1,5 @@
 package com.xenry.stagecraft.punishment.commands;
+import com.google.common.base.Joiner;
 import com.xenry.stagecraft.Core;
 import com.xenry.stagecraft.commands.Command;
 import com.xenry.stagecraft.profile.Profile;
@@ -11,6 +12,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -61,11 +63,7 @@ public final class KickCommand extends Command<Core,PunishmentManager> {
 		
 		String reason = "";
 		if(args.length > 1){
-			StringBuilder sb = new StringBuilder();
-			for(int i = 1; i < args.length; i++){
-				sb.append(args[i]).append(" ");
-			}
-			reason = sb.toString().trim();
+			reason = Joiner.on(' ').join(Arrays.copyOfRange(args, 1, args.length));
 		}
 		Punishment kick = new Punishment(Punishment.Type.KICK, target.getUniqueId().toString(), punishedBy, reason);
 		PunishmentExecution execution = new PunishmentExecution(manager, kick, sender);

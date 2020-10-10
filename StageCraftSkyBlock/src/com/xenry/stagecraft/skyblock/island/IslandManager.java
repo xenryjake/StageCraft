@@ -17,7 +17,7 @@ import java.util.List;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public class IslandManager extends Manager<SkyBlock> {
+public final class IslandManager extends Manager<SkyBlock> {
 	
 	private final DBCollection collection;
 	private final List<Island> islands;

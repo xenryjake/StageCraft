@@ -1,4 +1,5 @@
 package com.xenry.stagecraft.profile.commands;
+import com.google.common.base.Joiner;
 import com.xenry.stagecraft.Core;
 import com.xenry.stagecraft.commands.Command;
 import com.xenry.stagecraft.profile.Profile;
@@ -9,6 +10,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -60,11 +62,8 @@ public final class NickCommand extends Command<Core,ProfileManager> {
 				nick = "none";
 				break;
 			default:
-				StringBuilder sb = new StringBuilder();
-				for(int i = 1; i < args.length; i++){
-					sb.append(args[i]).append(" ");
-				}
-				nick = ChatColor.translateAlternateColorCodes('&', sb.toString().trim());
+				nick = ChatColor.translateAlternateColorCodes('&',
+						Joiner.on(' ').join(Arrays.copyOfRange(args, 1, args.length)));
 				break;
 		}
 		
@@ -113,11 +112,8 @@ public final class NickCommand extends Command<Core,ProfileManager> {
 				nick = "none";
 				break;
 			default:
-				StringBuilder sb = new StringBuilder();
-				for(int i = 1; i < args.length; i++){
-					sb.append(args[i]).append(" ");
-				}
-				nick = ChatColor.translateAlternateColorCodes('&', sb.toString().trim());
+				nick = ChatColor.translateAlternateColorCodes('&',
+						Joiner.on(' ').join(Arrays.copyOfRange(args, 1, args.length)));
 				break;
 		}
 		

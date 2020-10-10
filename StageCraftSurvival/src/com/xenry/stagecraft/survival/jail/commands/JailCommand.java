@@ -1,4 +1,5 @@
 package com.xenry.stagecraft.survival.jail.commands;
+import com.google.common.base.Joiner;
 import com.xenry.stagecraft.commands.Command;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
@@ -84,11 +85,7 @@ public final class JailCommand extends Command<Survival,JailManager> {
 		
 		String reason = "";
 		if(args.length > 3) {
-			StringBuilder sb = new StringBuilder();
-			for(int i = 3; i < args.length; i++) {
-				sb.append(args[i]).append(" ");
-			}
-			reason = sb.toString().trim();
+			reason = Joiner.on(' ').join(Arrays.copyOfRange(args, 3, args.length));
 		}
 		
 		Sentence sentence = new Sentence(jail, target.getUUID(), punishedBy, reason, duration == -1 ? -1 : TimeUtil.nowSeconds() + duration, duration);

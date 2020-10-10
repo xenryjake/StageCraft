@@ -1,5 +1,5 @@
 name: StageCraftSurvival
-version: 2020.10.04.1
+version: 2020.10.10.1
 api-version: "1.16"
 author: Xenry
 main: com.xenry.stagecraft.survival.Survival

@@ -43,19 +43,6 @@ public final class CommandManager extends Manager<Core> implements TabExecutor {
 		registerCommand(new ListCommand(this));
 	}
 	
-	@Override
-	protected void onPostEnable() {
-		for(org.bukkit.command.Command bukkitCommand : ((CraftServer)plugin.getServer()).getCommandMap().getCommands()){
-			if(bukkitCommand instanceof PluginCommand){
-				PluginCommand pc = (PluginCommand)bukkitCommand;
-				if(pc.getPlugin() == plugin){
-					pc.setTabCompleter(this);
-					pc.setExecutor(this);
-				}
-			}
-		}
-	}
-	
 	public Command<?,?> getCommand(String label){
 		label = label.toLowerCase();
 		for(Command<?,?> command : commands){

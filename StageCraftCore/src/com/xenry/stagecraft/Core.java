@@ -23,8 +23,8 @@ import java.util.Random;
  */
 public final class Core extends StageCraftPlugin {
 	
-	public static boolean debugMode = false;
-	public static boolean betaFeaturesEnabled = false;
+	private static boolean debugMode = false;
+	private static boolean betaFeaturesEnabled = false;
 	private static Core instance;
 	
 	private String serverName = "none";
@@ -54,19 +54,26 @@ public final class Core extends StageCraftPlugin {
 		if(serverName == null || serverName.equals("") || serverName.replaceAll("[^a-z0-9_-]","").equals("")){
 			throw new IllegalArgumentException("Invalid server-name option in config");
 		}
+		Log.info("Setting server-name is: " + serverName);
+		
+		debugMode = getConfig().getBoolean("debug", false);
+		Log.info("Setting debug is: " + debugMode);
+		
+		betaFeaturesEnabled = getConfig().getBoolean("beta-features", false);
+		Log.info("Setting beta-features is: " + betaFeaturesEnabled);
 	}
 	
 	@Override
 	public void loadManagers() {
 		try{
-			mongoManager = loadManager(this, MongoManager.class);
-			serverManager = loadManager(this, ServerManager.class);
-			integrationManager = loadManager(this, IntegrationManager.class);
-			profileManager = loadManager(this, ProfileManager.class);
-			commandManager = loadManager(this, CommandManager.class);
-			punishmentManager = loadManager(this, PunishmentManager.class);
-			hologramManager = loadManager(this, HologramManager.class);
-			chatManager = loadManager(this, ChatManager.class);
+			mongoManager = loadManager(MongoManager.class);
+			serverManager = loadManager(ServerManager.class);
+			integrationManager = loadManager(IntegrationManager.class);
+			profileManager = loadManager(ProfileManager.class);
+			commandManager = loadManager(CommandManager.class);
+			punishmentManager = loadManager(PunishmentManager.class);
+			hologramManager = loadManager(HologramManager.class);
+			chatManager = loadManager(ChatManager.class);
 		}catch(Exception ex){
 			ex.printStackTrace();
 			Log.severe("Something went wrong while loading the Core managers!");
@@ -116,6 +123,26 @@ public final class Core extends StageCraftPlugin {
 	
 	public String getServerName() {
 		return serverName;
+	}
+	
+	public static boolean isDebugMode() {
+		return debugMode;
+	}
+	
+	public static boolean betaFeaturesEnabled() {
+		return betaFeaturesEnabled;
+	}
+	
+	public void setDebugMode(boolean enabled) {
+		betaFeaturesEnabled = enabled;
+		getConfig().set("beta-features", enabled);
+		saveConfig();
+	}
+	
+	public void setBetaFeaturesEnabled(boolean enabled) {
+		betaFeaturesEnabled = enabled;
+		getConfig().set("beta-features", enabled);
+		saveConfig();
 	}
 	
 }

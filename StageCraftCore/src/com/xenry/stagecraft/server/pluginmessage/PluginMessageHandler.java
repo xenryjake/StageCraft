@@ -20,7 +20,7 @@ import java.util.List;
  * is prohibited.
  */
 @SuppressWarnings("UnstableApiUsage")
-public class PluginMessageHandler extends Handler<Core,ServerManager> implements PluginMessageListener {
+public final class PluginMessageHandler extends Handler<Core,ServerManager> implements PluginMessageListener {
 	
 	private final List<PluginMessageChannel> channels;
 	

@@ -28,7 +28,7 @@ import java.util.List;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public class SkyBlockProfileManager extends Manager<SkyBlock> {
+public final class SkyBlockProfileManager extends Manager<SkyBlock> {
 	
 	private final DBCollection collection;
 	private final HashMap<String,SkyBlockProfile> profiles;

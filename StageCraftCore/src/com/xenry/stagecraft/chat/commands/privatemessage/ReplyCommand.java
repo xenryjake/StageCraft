@@ -1,4 +1,5 @@
 package com.xenry.stagecraft.chat.commands.privatemessage;
+import com.google.common.base.Joiner;
 import com.xenry.stagecraft.Core;
 import com.xenry.stagecraft.chat.ChatManager;
 import com.xenry.stagecraft.commands.Command;
@@ -42,11 +43,7 @@ public final class ReplyCommand extends Command<Core,ChatManager> {
 			sender.sendMessage(M.error("The player who you last messaged isn't online."));
 			return;
 		}
-		StringBuilder message = new StringBuilder();
-		for(String arg : args) {
-			message.append(arg).append(" ");
-		}
-		String msg = message.toString().trim();
+		String msg = Joiner.on(' ').join(args);
 		manager.sendPrivateMessage(manager.plugin.getProfileManager().getProfile(to), null, msg);
 	}
 	

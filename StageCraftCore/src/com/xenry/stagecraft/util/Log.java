@@ -27,7 +27,7 @@ public final class Log {
 	}
 	
 	public static void debug(String message){
-		if(Core.debugMode) {
+		if(Core.isDebugMode()) {
 			Core.getInstance().getLogger().info("[DEBUG] " + message);
 		}
 	}

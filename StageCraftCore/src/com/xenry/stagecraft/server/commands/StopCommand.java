@@ -30,7 +30,7 @@ public final class StopCommand extends Command<Core,ServerManager> {
 	@Override
 	protected void serverPerform(CommandSender sender, String[] args, String label) {
 		if(args.length < 1){
-			sender.sendMessage(M.usage("/" + label + " <seconds>"));
+			sender.sendMessage(M.usage("/" + label + " <seconds> [reason]"));
 			return;
 		}
 		if(args[0].equalsIgnoreCase("cancel")){

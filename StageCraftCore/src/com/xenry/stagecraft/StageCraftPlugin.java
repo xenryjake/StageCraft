@@ -1,5 +1,7 @@
 package com.xenry.stagecraft;
 import com.xenry.stagecraft.util.Log;
+import org.bukkit.command.PluginCommand;
+import org.bukkit.craftbukkit.v1_16_R2.CraftServer;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.*;
@@ -17,13 +19,13 @@ public abstract class StageCraftPlugin extends JavaPlugin {
 	protected Core core;
 	
 	private final Random random;
-	private final HashMap<Manager<?>,StageCraftPlugin> managers;
+	private final List<Manager<?>> managers;
 	
 	public StageCraftPlugin(String name, Core core){
 		this.name = name;
 		this.core = core;
 		
-		managers = new LinkedHashMap<>();
+		managers = new ArrayList<>();
 		random = new Random();
 	}
 	
@@ -68,10 +70,10 @@ public abstract class StageCraftPlugin extends JavaPlugin {
 		onEnablePreManager();
 		Log.info("Enabling " + name + " managers...");
 		try{
-			for(Manager<?> manager : managers.keySet()){
+			for(Manager<?> manager : managers){
 				enable(manager);
 			}
-			for(Manager<?> manager : managers.keySet()){
+			for(Manager<?> manager : managers){
 				postEnable(manager);
 			}
 		}catch(Exception ex){
@@ -91,7 +93,7 @@ public abstract class StageCraftPlugin extends JavaPlugin {
 		onDisablePreManager();
 		Log.info("Disabling " + name + " managers...");
 		try{
-			ArrayList<Manager<?>> reversed = new ArrayList<>(managers.keySet());
+			ArrayList<Manager<?>> reversed = new ArrayList<>(managers);
 			Collections.reverse(reversed);
 			for(Manager<?> manager : reversed){
 				disable(manager);
@@ -106,10 +108,10 @@ public abstract class StageCraftPlugin extends JavaPlugin {
 		Log.info("StageCraftPlugin " + name + " disabled.");
 	}
 	
-	protected <M extends Manager<?>> M loadManager(StageCraftPlugin plugin, Class<M> clazz){
+	protected <M extends Manager<?>> M loadManager(Class<M> clazz){
 		try{
-			M manager = clazz.getConstructor(plugin.getClass()).newInstance(plugin);
-			managers.put(manager, plugin);
+			M manager = clazz.getConstructor(this.getClass()).newInstance(this);
+			managers.add(manager);
 			return manager;
 		}catch(Exception ex){
 			Log.severe("Failed to load manager \"" + clazz + "\":");
@@ -131,6 +133,7 @@ public abstract class StageCraftPlugin extends JavaPlugin {
 			Log.severe("Failed to enable manager \"" + manager.name + "\":");
 			ex.printStackTrace();
 		}
+		registerBukkitCommands();
 	}
 	
 	private void postEnable(Manager<?> manager){
@@ -160,6 +163,18 @@ public abstract class StageCraftPlugin extends JavaPlugin {
 		}catch(Exception ex){
 			Log.severe("Failed to disable manager \"" + manager.name + "\":");
 			ex.printStackTrace();
+		}
+	}
+	
+	private void registerBukkitCommands(){
+		for(org.bukkit.command.Command bukkitCommand : ((CraftServer)getServer()).getCommandMap().getCommands()){
+			if(bukkitCommand instanceof PluginCommand){
+				PluginCommand pc = (PluginCommand)bukkitCommand;
+				if(pc.getPlugin() == this){
+					pc.setTabCompleter(core.getCommandManager());
+					pc.setExecutor(core.getCommandManager());
+				}
+			}
 		}
 	}
 	

@@ -97,10 +97,9 @@ public final class LookupCommand extends Command<Core,ProfileManager> {
 
 		sender.sendMessage(M.msg + "Profile of " + M.elm + profile.getLatestUsername() + M.msg + ":");
 		sender.sendMessage(M.arrow("UUID: " + M.WHITE + profile.getUUID()));
-		sender.sendMessage(M.arrow("Rank: " + profile.getRank().getColor() + profile.getRank().getName()));
+		sender.sendMessage(M.arrow("Rank: " + profile.getRank().getColoredName()));
 		sender.sendMessage(M.arrow("Logged Usernames: " + M.elm + profile.getUsernames().size() + M.gry + " §o(/lookup " + profile.getLatestUsername() + " names)"));
-		//todo include both network-wide and per-server
-		sender.sendMessage(M.arrow("Total Playtime: " + M.WHITE + TimeUtil.simplerString(profile.getPlaytime(manager.plugin.getServerName()))));
+		sender.sendMessage(M.arrow("Total Playtime: " + M.WHITE + TimeUtil.simplerString(profile.getTotalPlaytime())));
 		sender.sendMessage(M.arrow("Nickname: " + profile.getDisplayName()));
 		if(detailedAccess){
 			sender.sendMessage(M.arrow("Address: " + M.WHITE + profile.getLatestAddress()));

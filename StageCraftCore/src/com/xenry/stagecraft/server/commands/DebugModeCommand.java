@@ -24,7 +24,7 @@ import java.util.List;
 public final class DebugModeCommand extends Command<Core,ServerManager> {
 	
 	public DebugModeCommand(ServerManager manager){
-		super(manager, Rank.ADMIN, "scdebug");
+		super(manager, Rank.ADMIN, "scdebug", "debugmode");
 	}
 	
 	@Override
@@ -34,7 +34,7 @@ public final class DebugModeCommand extends Command<Core,ServerManager> {
 	
 	@Override
 	protected void serverPerform(CommandSender sender, String[] args, String label) {
-		boolean enabled = manager.getSettingsHandler().getDebugMode();
+		boolean enabled = Core.isDebugMode();
 		if(args.length < 1){
 			sender.sendMessage(M.msg + "Debug mode is currently " + (enabled ? "§aenabled" : "§cdisabled") + M.msg + ".");
 			sender.sendMessage(M.usage("/" + label + " <on|off>"));
@@ -51,7 +51,7 @@ public final class DebugModeCommand extends Command<Core,ServerManager> {
 			sender.sendMessage(M.error("Invalid argument."));
 			return;
 		}
-		manager.getSettingsHandler().setDebugMode(enabled);
+		manager.plugin.setDebugMode(enabled);
 		sender.sendMessage(M.msg + "Debug mode is now " + (enabled ? "§aenabled" : "§cdisabled") + M.msg + ".");
 		for(Player player : Bukkit.getOnlinePlayers()){
 			if(access.has(player)){

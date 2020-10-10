@@ -48,8 +48,16 @@ public final class PlaytimeCommand extends Command<Core,ProfileManager> {
 			sender.sendMessage(M.error("There is no profile for that player."));
 			return;
 		}
-		//todo include both network-wide and per-server
-		sender.sendMessage(M.elm + target.getLatestUsername() + M.msg + "'s total playtime: " + M.WHITE + TimeUtil.simplerString(target.getPlaytime(manager.plugin.getServerName())));
+		String serverName = manager.plugin.getServerName();
+		if(args.length >= 2){
+			serverName = args[2].toLowerCase();
+		}
+		long serverPlaytime = target.getPlaytime(serverName);
+		sender.sendMessage(M.elm + target.getLatestUsername() + M.msg + "'s playtime:");
+		sender.sendMessage(M.arrow("Total: " + M.WHITE + TimeUtil.simplerString(target.getTotalPlaytime())));
+		if(serverPlaytime > 0){
+			sender.sendMessage(M.arrow(manager.plugin.getServerName() + ": " + M.WHITE + TimeUtil.simplerString(target.getPlaytime(manager.plugin.getServerName()))));
+		}
 	}
 	
 	@Override
@@ -64,12 +72,6 @@ public final class PlaytimeCommand extends Command<Core,ProfileManager> {
 				target = manager.getProfile(Bukkit.getPlayer(args[0]));
 			}else{
 				target = manager.getProfileByLatestUsername(args[0]);
-				/*try{
-					target = manager.getProfileByUUID(UUIDFetcher.getUUIDOf(args[0]).toString());
-				}catch(Exception ex){
-					sender.sendMessage(M.error("That username is invalid."));
-					return;
-				}*/
 			}
 		}else{
 			target = manager.getProfileByUUID(args[0]);
@@ -78,8 +80,16 @@ public final class PlaytimeCommand extends Command<Core,ProfileManager> {
 			sender.sendMessage(M.error("There is no profile for that player."));
 			return;
 		}
-		//todo include both network-wide and per-server
-		sender.sendMessage(M.elm + target.getLatestUsername() + M.msg + "'s total playtime: " + M.WHITE + TimeUtil.simplerString(target.getPlaytime(manager.plugin.getServerName())));
+		String serverName = manager.plugin.getServerName();
+		if(args.length >= 2){
+			serverName = args[2].toLowerCase();
+		}
+		long serverPlaytime = target.getPlaytime(serverName);
+		sender.sendMessage(M.elm + target.getLatestUsername() + M.msg + "'s playtime:");
+		sender.sendMessage(M.arrow("Total: " + M.WHITE + TimeUtil.simplerString(target.getTotalPlaytime())));
+		if(serverPlaytime > 0){
+			sender.sendMessage(M.arrow(manager.plugin.getServerName() + ": " + M.WHITE + TimeUtil.simplerString(target.getPlaytime(manager.plugin.getServerName()))));
+		}
 	}
 	
 	@Override

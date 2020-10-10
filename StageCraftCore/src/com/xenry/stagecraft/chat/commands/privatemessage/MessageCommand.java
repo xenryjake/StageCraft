@@ -1,4 +1,5 @@
 package com.xenry.stagecraft.chat.commands.privatemessage;
+import com.google.common.base.Joiner;
 import com.xenry.stagecraft.Core;
 import com.xenry.stagecraft.chat.ChatManager;
 import com.xenry.stagecraft.commands.Command;
@@ -8,6 +9,8 @@ import com.xenry.stagecraft.util.M;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import java.util.Arrays;
 
 /**
  * StageCraft created by Henry Blasingame (Xenry) on 6/26/20
@@ -40,11 +43,7 @@ public final class MessageCommand extends Command<Core,ChatManager> {
 				return;
 			}
 		}
-		StringBuilder message = new StringBuilder();
-		for(int i = 1; i < args.length; i++) {
-			message.append(args[i]).append(" ");
-		}
-		String msg = message.toString().trim();
+		String msg = Joiner.on(' ').join(Arrays.copyOfRange(args, 1, args.length));
 		manager.sendPrivateMessage(manager.plugin.getProfileManager().getProfile(to), null, msg);
 	}
 	

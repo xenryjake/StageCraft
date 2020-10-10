@@ -12,7 +12,7 @@ import com.xenry.stagecraft.util.Log;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public class Creative extends StageCraftPlugin {
+public final class Creative extends StageCraftPlugin {
 	
 	private GameplayManager gameplayManager;
 	
@@ -23,7 +23,7 @@ public class Creative extends StageCraftPlugin {
 	@Override
 	public void loadManagers() {
 		try{
-			gameplayManager = loadManager(this, GameplayManager.class);
+			gameplayManager = loadManager(GameplayManager.class);
 		}catch(Exception ex){
 			ex.printStackTrace();
 			Log.severe("Something went wrong while loading the Creative managers!");

@@ -33,7 +33,7 @@ public final class ChatSilenceCommand extends Command<Core,ChatManager> {
 		if(args.length < 1){
 			Rank rank = manager.getChatRank();
 			sender.sendMessage(M.msg + "The chat is currently silenced to ranks below "
-					+ rank.getColor() + rank.getName() + M.msg + ".");
+					+ rank.getColoredName() + M.msg + ".");
 			return;
 		}
 		args[0] = args[0].toUpperCase();
@@ -48,14 +48,9 @@ public final class ChatSilenceCommand extends Command<Core,ChatManager> {
 				return;
 			}
 		}
-		if(rank.check(Rank.ADMIN, -1)){
-			sender.sendMessage(M.error("You can't silence the chat to ranks higher than " + Rank.ADMIN.getColor()
-					+ Rank.ADMIN.getName() + M.err + "."));
-			return;
-		}
 		manager.setChatRank(rank);
 		Bukkit.broadcastMessage(M.msg + "The chat is now " + (rank == Rank.MEMBER ? "unsilenced" :
-				"silenced to ranks below " + rank.getColor() + rank.getName()) + M.msg + ".");
+				"silenced to ranks below " + rank.getColoredName()) + M.msg + ".");
 	}
 	
 	@Override

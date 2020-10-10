@@ -6,6 +6,7 @@ import com.xenry.stagecraft.Manager;
 import com.xenry.stagecraft.Core;
 import com.xenry.stagecraft.chat.PrivateMessageEvent;
 import com.xenry.stagecraft.chat.PublicChatEvent;
+import com.xenry.stagecraft.profile.GenericProfile;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.punishment.commands.*;
 import com.xenry.stagecraft.util.Log;
@@ -25,6 +26,8 @@ import java.util.List;
  * is prohibited.
  */
 public final class PunishmentManager extends Manager<Core> {
+	
+	//todo only store relevant punishments in memory (online players)
 	
 	private final DBCollection collection;
 	private final List<Punishment> punishments;
@@ -73,12 +76,20 @@ public final class PunishmentManager extends Manager<Core> {
 		Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> collection.remove(new BasicDBObject("_id", punishment.get("_id"))));
 	}
 	
-	public List<Punishment> getPunishments(Profile profile){
+	public List<Punishment> getPunishments(GenericProfile profile){
 		return getPunishments(profile, null);
 	}
 	
-	public List<Punishment> getPunishments(Profile profile, Punishment.Type type){
+	public List<Punishment> getPunishments(GenericProfile profile, Punishment.Type type){
 		List<Punishment> list = new ArrayList<>();
+		/*BasicDBObject query = new BasicDBObject("uuid", profile.getUUID());
+		if(type != null){
+			query.put("type", type.toString());
+		}
+		DBCursor cur = collection.find(query);
+		while(cur.hasNext()){
+			list.add((Punishment)cur.next());
+		}*/
 		for(Punishment punishment : punishments){
 			if(punishment.getPlayerUUID().equals(profile.getUUID()) && (type == null || type == punishment.getType())){
 				list.add(punishment);
@@ -87,11 +98,11 @@ public final class PunishmentManager extends Manager<Core> {
 		return list;
 	}
 	
-	public List<Punishment> getActivePunishments(Profile profile){
+	public List<Punishment> getActivePunishments(GenericProfile profile){
 		return getActivePunishments(profile, null);
 	}
 	
-	public List<Punishment> getActivePunishments(Profile profile, Punishment.Type type){
+	public List<Punishment> getActivePunishments(GenericProfile profile, Punishment.Type type){
 		List<Punishment> list = new ArrayList<>();
 		for(Punishment punishment : punishments){
 			if(punishment.isActive() && punishment.getPlayerUUID().equals(profile.getUUID()) && (type == null || type == punishment.getType())){
@@ -101,7 +112,7 @@ public final class PunishmentManager extends Manager<Core> {
 		return list;
 	}
 	
-	public Punishment getOutstandingPunishment(Profile profile, Punishment.Type type){
+	public Punishment getOutstandingPunishment(GenericProfile profile, Punishment.Type type){
 		for(Punishment punishment : punishments){
 			if(punishment.isActive() && punishment.getPlayerUUID().equals(profile.getUUID()) && type == punishment.getType()){
 				return punishment;

@@ -1,4 +1,5 @@
 package com.xenry.stagecraft.survival.gameplay.commands;
+import com.google.common.base.Joiner;
 import com.xenry.stagecraft.commands.Command;
 import com.xenry.stagecraft.survival.Survival;
 import com.xenry.stagecraft.survival.gameplay.GameplayManager;
@@ -47,11 +48,7 @@ public final class ItemNameCommand extends Command<Survival,GameplayManager> {
 		
 		String name = null;
 		if(args.length > 0){
-			StringBuilder sb = new StringBuilder();
-			for(String string : args){
-				sb.append(string).append(" ");
-			}
-			name = ChatColor.translateAlternateColorCodes('&', sb.toString().trim());
+			name = ChatColor.translateAlternateColorCodes('&', Joiner.on(' ').join(args));
 		}
 		
 		meta.setDisplayName(name);

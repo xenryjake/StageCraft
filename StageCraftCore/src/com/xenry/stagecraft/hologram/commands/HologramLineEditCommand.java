@@ -1,5 +1,6 @@
 package com.xenry.stagecraft.hologram.commands;
 
+import com.google.common.base.Joiner;
 import com.xenry.stagecraft.Core;
 import com.xenry.stagecraft.commands.Command;
 import com.xenry.stagecraft.hologram.Hologram;
@@ -51,11 +52,7 @@ public final class HologramLineEditCommand extends Command<Core,HologramManager>
 			sender.sendMessage(M.err + "Invalid line number provided (must be between " + M.elm + 1 + M.err + " and " + M.elm + hologram.getLines().size() + M.err + ", inclusive).");
 			return;
 		}
-		StringBuilder sb = new StringBuilder();
-		for(int i = 2; i < args.length; i++){
-			sb.append(args[i]).append(" ");
-		}
-		String text = ChatColor.translateAlternateColorCodes('&', sb.toString().trim());
+		String text = ChatColor.translateAlternateColorCodes('&', Joiner.on(' ').join(args, 2, args.length));
 		hologram.editLine(line-1, text);
 		manager.save(hologram);
 		hologram.spawn();

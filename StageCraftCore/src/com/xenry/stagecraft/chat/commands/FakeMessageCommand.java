@@ -1,4 +1,5 @@
 package com.xenry.stagecraft.chat.commands;
+import com.google.common.base.Joiner;
 import com.xenry.stagecraft.Core;
 import com.xenry.stagecraft.chat.ChatManager;
 import com.xenry.stagecraft.commands.Command;
@@ -33,11 +34,7 @@ public final class FakeMessageCommand extends Command<Core,ChatManager> {
 			sender.sendMessage(M.usage("/" + label + " <message>"));
 			return;
 		}
-		StringBuilder sb = new StringBuilder();
-		for(String arg : args){
-			sb.append(arg).append(" ");
-		}
-		Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', sb.toString().trim()));
+		Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', Joiner.on(' ').join(args)));
 	}
 	
 }

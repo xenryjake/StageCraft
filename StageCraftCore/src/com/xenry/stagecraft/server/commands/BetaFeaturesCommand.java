@@ -34,7 +34,7 @@ public final class BetaFeaturesCommand extends Command<Core,ServerManager> {
 	
 	@Override
 	protected void serverPerform(CommandSender sender, String[] args, String label) {
-		boolean enabled = manager.getSettingsHandler().getBetaFeaturesEnabled();
+		boolean enabled = Core.betaFeaturesEnabled();
 		if(args.length < 1){
 			sender.sendMessage(M.msg + "Beta features are currently " + (enabled ? "§aenabled" : "§cdisabled") + M.msg + ".");
 			sender.sendMessage(M.usage("/" + label + " <on|off>"));
@@ -51,7 +51,7 @@ public final class BetaFeaturesCommand extends Command<Core,ServerManager> {
 			sender.sendMessage(M.error("Invalid argument."));
 			return;
 		}
-		manager.getSettingsHandler().setBetaFeaturesEnabled(enabled);
+		manager.plugin.setBetaFeaturesEnabled(enabled);
 		sender.sendMessage(M.msg + "Beta features are now " + (enabled ? "§aenabled" : "§cdisabled") + M.msg + ".");
 		for(Player player : Bukkit.getOnlinePlayers()){
 			if(access.has(player)){

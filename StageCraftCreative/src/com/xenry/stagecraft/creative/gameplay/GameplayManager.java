@@ -9,7 +9,7 @@ import com.xenry.stagecraft.creative.Creative;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public class GameplayManager extends Manager<Creative> {
+public final class GameplayManager extends Manager<Creative> {
 	
 	public GameplayManager(Creative creative){
 		super("Gameplay", creative);

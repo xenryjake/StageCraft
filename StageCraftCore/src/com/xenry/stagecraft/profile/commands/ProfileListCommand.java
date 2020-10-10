@@ -1,5 +1,6 @@
 package com.xenry.stagecraft.profile.commands;
 import com.xenry.stagecraft.Core;
+import com.xenry.stagecraft.commands.Access;
 import com.xenry.stagecraft.commands.Command;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.ProfileManager;
@@ -25,10 +26,11 @@ import java.util.List;
  */
 public final class ProfileListCommand extends Command<Core,ProfileManager> {
 	
+	public static final Access ACCESS = Rank.MOD;
 	public static final int ITEMS_PER_PAGE = 20;
 	
 	public ProfileListCommand(ProfileManager manager){
-		super(manager, Rank.MOD, "profilelist");
+		super(manager, ACCESS, "profilelist");
 	}
 	
 	@Override
@@ -74,11 +76,11 @@ public final class ProfileListCommand extends Command<Core,ProfileManager> {
 		}
 		
 		if(profiles.size() > ITEMS_PER_PAGE){
-			sender.sendMessage(M.msg + "Showing profiles, page " + M.elm + page + M.msg + " of " + M.elm + maxPages
+			sender.sendMessage(M.msg + "Showing network profiles, page " + M.elm + page + M.msg + " of " + M.elm + maxPages
 					+ M.msg + " (" + M.elm + (firstItem+1) + M.msg + "-" + M.elm + (firstItem + itemsOnThisPage) + M.msg
 					+ " of " + M.elm + profiles.size() + M.msg + " profiles):");
 		}else{
-			sender.sendMessage(M.msg + "Showing all profiles:");
+			sender.sendMessage(M.msg + "Showing all network profiles:");
 		}
 		sender.spigot().sendMessage(cb.create());
 	}

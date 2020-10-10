@@ -1,4 +1,5 @@
 package com.xenry.stagecraft.profile;
+import com.xenry.stagecraft.Core;
 import com.xenry.stagecraft.util.Log;
 import com.xenry.stagecraft.util.time.TimeUtil;
 import org.bukkit.entity.Player;
@@ -263,7 +264,12 @@ public class Profile extends GenericProfile {
 		setLastPlaytimeUpdate(serverName, now);
 	}
 	
+	public void updateLocalPlaytime(){
+		updatePlaytime(Core.getInstance().getServerName());
+	}
+	
 	public long getTotalPlaytime(){
+		updateLocalPlaytime();
 		long total = 0;
 		for(Long l : getPlaytimes().values()){
 			total += l;

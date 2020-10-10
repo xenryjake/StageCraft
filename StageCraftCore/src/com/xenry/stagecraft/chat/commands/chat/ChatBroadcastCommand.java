@@ -1,5 +1,6 @@
 package com.xenry.stagecraft.chat.commands.chat;
 
+import com.google.common.base.Joiner;
 import com.xenry.stagecraft.Core;
 import com.xenry.stagecraft.chat.ChatManager;
 import com.xenry.stagecraft.chat.emotes.Emote;
@@ -34,13 +35,9 @@ public final class ChatBroadcastCommand extends Command<Core,ChatManager> {
 			sender.sendMessage(M.usage("/chat " + label + " <message>"));
 			return;
 		}
-		StringBuilder sb = new StringBuilder();
-		for(String str : args) {
-			sb.append(str).append(" ");
-		}
-		String message = Emote.replaceEmotes(sb.toString().trim(), ChatColor.LIGHT_PURPLE);
-		Bukkit.broadcastMessage("§b§l" + (sender instanceof Player ? sender.getName() : M.CONSOLE_NAME)
-				+ "§8: §d" + message);
+		String message = Emote.replaceEmotes(Joiner.on(' ').join(args), ChatColor.LIGHT_PURPLE);
+		Bukkit.broadcastMessage("§b§l" + (sender instanceof Player ? sender.getName() : M.CONSOLE_NAME) + "§8: §d"
+				+ message);
 	}
 	
 }

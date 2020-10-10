@@ -1,4 +1,5 @@
 package com.xenry.stagecraft.punishment.commands;
+import com.google.common.base.Joiner;
 import com.xenry.stagecraft.Core;
 import com.xenry.stagecraft.commands.Command;
 import com.xenry.stagecraft.profile.Profile;
@@ -76,11 +77,7 @@ public final class MuteCommand extends Command<Core,PunishmentManager> {
 		
 		String reason = "";
 		if(args.length > 2) {
-			StringBuilder sb = new StringBuilder();
-			for(int i = 2; i < args.length; i++) {
-				sb.append(args[i]).append(" ");
-			}
-			reason = sb.toString().trim();
+			reason = Joiner.on(' ').join(args, 2, args.length);
 		}
 		Punishment mute = new Punishment(Punishment.Type.MUTE, target.getUUID(), punishedBy, reason, duration == -1 ? -1 : TimeUtil.nowSeconds() + duration, duration);
 		PunishmentExecution execution = new PunishmentExecution(manager, mute, sender);

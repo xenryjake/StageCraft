@@ -1,4 +1,5 @@
 package com.xenry.stagecraft.chat.commands;
+import com.google.common.base.Joiner;
 import com.xenry.stagecraft.Core;
 import com.xenry.stagecraft.chat.ChatManager;
 import com.xenry.stagecraft.chat.emotes.Emote;
@@ -29,11 +30,7 @@ public final class SayCommand extends Command<Core,ChatManager> {
 			profile.sendMessage(M.usage("/say <message>"));
 			return;
 		}
-		StringBuilder sb = new StringBuilder();
-		for(String arg : args){
-			sb.append(arg).append(" ");
-		}
-		profile.getPlayer().chat(sb.toString().trim());
+		profile.getPlayer().chat(Joiner.on(' ').join(args));
 	}
 	
 	@Override

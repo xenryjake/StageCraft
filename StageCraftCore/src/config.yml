@@ -1,3 +1,5 @@
 # Only letters, numbers, underscores, and hyphens
 # Will be translated into lowercase
 server-name: "none"
+debug: false
+beta-features: false

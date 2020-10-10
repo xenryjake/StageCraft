@@ -1,4 +1,5 @@
 package com.xenry.stagecraft.commands.general;
+import com.google.common.base.Joiner;
 import com.xenry.stagecraft.Core;
 import com.xenry.stagecraft.commands.Command;
 import com.xenry.stagecraft.commands.CommandManager;
@@ -10,6 +11,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -49,12 +51,7 @@ public final class SudoCommand extends Command<Core,CommandManager> {
 			}
 		}
 		String targetName = target == null ? "everyone" : target.getName();
-		
-		StringBuilder sb = new StringBuilder();
-		for(int i = 1; i < args.length; i++){
-			sb.append(args[i]).append(" ");
-		}
-		String command = sb.toString().trim();
+		String command = Joiner.on(' ').join(Arrays.copyOfRange(args, 1, args.length));
 		if(command.toLowerCase().startsWith("c:")){
 			sender.sendMessage(M.msg + "Forcing " + M.elm + targetName + M.msg + " to chat: " + M.WHITE + command);
 			command = command.substring(2);

@@ -50,6 +50,7 @@ public abstract class Manager<T extends StageCraftPlugin> implements Listener {
 			return;
 		}
 		this.onDisable();
+		enabled = false;
 	}
 	
 	protected void onEnable(){}

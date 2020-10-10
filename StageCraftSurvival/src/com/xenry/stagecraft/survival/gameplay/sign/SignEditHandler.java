@@ -74,7 +74,7 @@ public final class SignEditHandler extends Handler<Survival,GameplayManager> {
 	
 	@EventHandler
 	public void onInteract(PlayerInteractEvent event){
-		if(!Core.betaFeaturesEnabled){
+		if(!Core.betaFeaturesEnabled()){
 			return;
 		}
 		if (event.getAction() != Action.RIGHT_CLICK_BLOCK) return;

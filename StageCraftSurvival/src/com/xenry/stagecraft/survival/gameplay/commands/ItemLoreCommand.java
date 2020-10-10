@@ -1,4 +1,5 @@
 package com.xenry.stagecraft.survival.gameplay.commands;
+import com.google.common.base.Joiner;
 import com.xenry.stagecraft.commands.Command;
 import com.xenry.stagecraft.survival.Survival;
 import com.xenry.stagecraft.survival.gameplay.GameplayManager;
@@ -55,12 +56,8 @@ public final class ItemLoreCommand extends Command<Survival,GameplayManager> {
 			player.sendMessage(M.msg + "Cleared the lore on " + M.elm + is.getType().name() + M.msg + ".");
 			return;
 		}
-		StringBuilder sb = new StringBuilder();
-		for(int i = 1; i < args.length; i++){
-			sb.append(args[i]).append(" ");
-		}
 		List<String> newLore = Arrays.asList(ChatColor.translateAlternateColorCodes('&',
-				sb.toString().trim()).split("\\\\n"));
+				Joiner.on(' ').join(args, 1, args.length)).split("\\\\n"));
 		List<String> lore = im.getLore();
 		if(lore == null){
 			lore = new ArrayList<>();

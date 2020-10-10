@@ -59,7 +59,7 @@ public final class RankSetCommand extends Command<Core,ProfileManager> {
 			return;
 		}
 		target.setRank(rank);
-		sender.sendMessage(M.msg + "You have set " + M.elm + target.getLatestUsername() + M.msg + "'s rank to " + rank.getColor() + rank.getName() + M.msg + ".");
+		sender.sendMessage(M.msg + "You have set " + M.elm + target.getLatestUsername() + M.msg + "'s rank to " + rank.getColoredName() + M.msg + ".");
 		if(target.isOnline() && !sender.getName().equals(target.getOnlinePlayerName())) {
 			target.getPlayer().sendMessage(M.msg + "Your rank is now " + rank.getColoredName() + M.msg + ".");
 		}

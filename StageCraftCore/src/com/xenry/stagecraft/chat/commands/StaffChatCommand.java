@@ -1,4 +1,5 @@
 package com.xenry.stagecraft.chat.commands;
+import com.google.common.base.Joiner;
 import com.xenry.stagecraft.Core;
 import com.xenry.stagecraft.chat.ChatManager;
 import com.xenry.stagecraft.chat.emotes.Emote;
@@ -35,11 +36,7 @@ public final class StaffChatCommand extends Command<Core,ChatManager> {
 			sender.sendMessage(M.usage("/" + label + " <message>"));
 			return;
 		}
-		StringBuilder sb = new StringBuilder();
-		for(String arg : args){
-			sb.append(arg).append(" ");
-		}
-		String message = Emote.replaceEmotes(sb.toString().trim(), ChatColor.GRAY);
+		String message = Emote.replaceEmotes(Joiner.on(' ').join(args), ChatColor.GRAY);
 		Log.info("[StaffChat] " + sender.getName() + ": " + message);
 		for(Profile profile : manager.plugin.getProfileManager().getOnlineProfiles()){
 			if(profile.check(Rank.MOD)){

@@ -27,8 +27,8 @@ public final class SkyBlock extends StageCraftPlugin {
 	@Override
 	public void loadManagers() {
 		try{
-			skyBlockProfileManager = loadManager(this, SkyBlockProfileManager.class);
-			islandManager = loadManager(this, IslandManager.class);
+			skyBlockProfileManager = loadManager(SkyBlockProfileManager.class);
+			islandManager = loadManager(IslandManager.class);
 		}catch(Exception ex){
 			ex.printStackTrace();
 			Log.severe("Something went wrong while loading the SkyBlock managers!");

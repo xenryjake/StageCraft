@@ -1,5 +1,5 @@
 name: StageCraftCore
-version: 2020.10.04.1
+version: 2020.10.10.1
 api-version: "1.16"
 author: Xenry
 main: com.xenry.stagecraft.Core
@@ -7,10 +7,6 @@ softdepend: [ProtocolLib,Vault,Essentials,TitleManager,GriefPrevention]
 commands:
 
 # GENERAL COMMANDS
-  betafeatures:
-    description: "Toggle if beta features are enabled"
-  scdebug:
-    description: "Toggle if the server is in debug mode"
   commands:
     description: "Manage commands"
     aliases: [command,cmds,cmd]
@@ -27,13 +23,14 @@ commands:
     aliases: [dieroll,rolldice,rolldie]
 
 # SERVER COMMANDS
-  motd:
-    description: "Manage the MOTD"
-  reloadserversettings:
-    description: "Reload server settings"
   shutdown:
     description: "Shutdown the server"
     aliases: [stop]
+  betafeatures:
+    description: "Toggle if beta features are enabled"
+  scdebug:
+    description: "Toggle if the server is in debug mode"
+    aliases: [debugmode]
 
 # PROFILE COMMANDS
   lookup:

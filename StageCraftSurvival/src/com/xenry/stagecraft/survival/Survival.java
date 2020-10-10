@@ -30,11 +30,11 @@ public final class Survival extends StageCraftPlugin {
 	@Override
 	public void loadManagers(){
 		try{
-			survivalProfileManager = loadManager(this, SurvivalProfileManager.class);
-			gameplayManager = loadManager(this, GameplayManager.class);
-			economyManager = loadManager(this, EconomyManager.class);
-			teleportationManager =  loadManager(this, TeleportationManager.class);
-			jailManager = loadManager(this, JailManager.class);
+			survivalProfileManager = loadManager(SurvivalProfileManager.class);
+			gameplayManager = loadManager(GameplayManager.class);
+			economyManager = loadManager(EconomyManager.class);
+			teleportationManager =  loadManager(TeleportationManager.class);
+			jailManager = loadManager(JailManager.class);
 			//petManager = loadManager(PetManager.class);
 		}catch(Exception ex){
 			ex.printStackTrace();

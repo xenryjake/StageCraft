@@ -1,4 +1,5 @@
 package com.xenry.stagecraft.punishment.commands;
+import com.google.common.base.Joiner;
 import com.xenry.stagecraft.Core;
 import com.xenry.stagecraft.commands.Command;
 import com.xenry.stagecraft.profile.Profile;
@@ -48,11 +49,7 @@ public final class DisconnectCommand extends Command<Core,PunishmentManager> {
 		}
 		String message = "Connection lost";
 		if(args.length > 1){
-			StringBuilder sb = new StringBuilder();
-			for(int i = 1; i < args.length; i++){
-				sb.append(args[i]).append(" ");
-			}
-			message = sb.toString().trim();
+			message = Joiner.on(' ').join(args, 1, args.length);
 		}
 		message = ChatColor.translateAlternateColorCodes('&', message);
 		String targetName = target == null ? "everyone" : target.getName();

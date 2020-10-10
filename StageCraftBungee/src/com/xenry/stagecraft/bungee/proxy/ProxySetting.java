@@ -1,36 +1,25 @@
-package com.xenry.stagecraft.server;
+package com.xenry.stagecraft.bungee.proxy;
 import com.mongodb.BasicDBObject;
-import com.xenry.stagecraft.util.NumberUtil;
+import com.xenry.stagecraft.bungee.util.NumberUtil;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * StageCraft created by Henry Blasingame (Xenry) on 7/19/20
+ * StageCraft created by Henry Blasingame (Xenry) on 10/7/20
  * The content in this file and all related files are
  * Copyright (C) 2020 Henry Blasingame.
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public class ServerSetting extends BasicDBObject {
-	
+public class ProxySetting extends BasicDBObject {
+
 	@Deprecated
-	public ServerSetting(){
+	public ProxySetting(){
 		//required for Mongo instantiation
 	}
 	
-	public ServerSetting(String serverName, String key, Type type){
-		put("serverName", serverName);
+	public ProxySetting(String key, Type type){
 		put("key", key);
 		put("type", type.name());
-	}
-	
-	public String getServerName(){
-		Object obj = get("serverName");
-		if(obj instanceof String){
-			return (String)obj;
-		}else{
-			put("serverName", "NONE");
-			return getServerName();
-		}
 	}
 	
 	public String getKey(){
@@ -41,12 +30,11 @@ public class ServerSetting extends BasicDBObject {
 		return Type.valueOf((String)get("type"));
 	}
 	
-	public ServerSetting setStringValue(String stringValue){
+	public void setStringValue(String stringValue){
 		if(getType() != Type.STRING){
 			throw new UnsupportedOperationException("Wrong setting datatype");
 		}
 		put("stringValue", stringValue);
-		return this;
 	}
 	
 	@Nullable
@@ -54,12 +42,11 @@ public class ServerSetting extends BasicDBObject {
 		return (String) get("stringValue");
 	}
 	
-	public ServerSetting setBooleanValue(Boolean booleanValue){
+	public void setBooleanValue(Boolean booleanValue){
 		if(getType() != Type.BOOLEAN){
 			throw new UnsupportedOperationException("Wrong setting datatype");
 		}
 		put("booleanValue", booleanValue);
-		return this;
 	}
 	
 	@Nullable
@@ -67,12 +54,11 @@ public class ServerSetting extends BasicDBObject {
 		return (Boolean) get("booleanValue");
 	}
 	
-	public ServerSetting setIntegerValue(Integer integerValue){
+	public void setIntegerValue(Integer integerValue){
 		if(getType() != Type.INTEGER){
 			throw new UnsupportedOperationException("Wrong setting datatype");
 		}
 		put("integerValue", integerValue);
-		return this;
 	}
 	
 	@Nullable
@@ -80,12 +66,11 @@ public class ServerSetting extends BasicDBObject {
 		return (Integer) get("integerValue");
 	}
 	
-	public ServerSetting setLongValue(Long longValue){
+	public void setLongValue(Long longValue){
 		if(getType() != Type.LONG){
 			throw new UnsupportedOperationException("Wrong setting datatype");
 		}
 		put("longValue", longValue);
-		return this;
 	}
 	
 	@Nullable
@@ -93,12 +78,11 @@ public class ServerSetting extends BasicDBObject {
 		return (Long) get("longValue");
 	}
 	
-	public ServerSetting setFloatValue(Float floatValue){
+	public void setFloatValue(Float floatValue){
 		if(getType() != Type.FLOAT){
 			throw new UnsupportedOperationException("Wrong setting datatype");
 		}
 		put("floatValue", floatValue);
-		return this;
 	}
 	
 	@Nullable
@@ -111,12 +95,11 @@ public class ServerSetting extends BasicDBObject {
 		}
 	}
 	
-	public ServerSetting setDoubleValue(Double doubleValue){
+	public void setDoubleValue(Double doubleValue){
 		if(getType() != Type.DOUBLE){
 			throw new UnsupportedOperationException("Wrong setting datatype");
 		}
 		put("doubleValue", doubleValue);
-		return this;
 	}
 	
 	@Nullable
@@ -127,5 +110,5 @@ public class ServerSetting extends BasicDBObject {
 	public enum Type {
 		STRING, BOOLEAN, INTEGER, LONG, FLOAT, DOUBLE
 	}
-	
+
 }
