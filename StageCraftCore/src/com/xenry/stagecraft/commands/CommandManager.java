@@ -6,9 +6,7 @@ import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.util.Log;
 import com.xenry.stagecraft.util.M;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.PluginCommand;
 import org.bukkit.command.TabExecutor;
-import org.bukkit.craftbukkit.v1_16_R2.CraftServer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
@@ -40,7 +38,6 @@ public final class CommandManager extends Manager<Core> implements TabExecutor {
 		registerCommand(new CommandCommand(this));
 		registerCommand(new DiceRollCommand(this));
 		registerCommand(new SudoCommand(this));
-		registerCommand(new ListCommand(this));
 	}
 	
 	public Command<?,?> getCommand(String label){

@@ -5,5 +5,4 @@ author: Xenry
 main: com.xenryjake.stagecraft.creative.Creative
 depend: [StageCraftCore]
 softdepend: [ProtocolLib,Vault,Essentials,TitleManager,GriefPrevention]
-commands: []
-
+commands:

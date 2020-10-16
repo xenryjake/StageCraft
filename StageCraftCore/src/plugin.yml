@@ -31,6 +31,11 @@ commands:
   scdebug:
     description: "Toggle if the server is in debug mode"
     aliases: [debugmode]
+  serverconfigreload:
+    description: "Reload the plugin config"
+  server:
+    description: "Go to another server"
+    aliases: [goto]
 
 # PROFILE COMMANDS
   lookup:

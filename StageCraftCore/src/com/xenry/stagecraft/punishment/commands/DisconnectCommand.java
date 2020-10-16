@@ -11,6 +11,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -49,7 +50,7 @@ public final class DisconnectCommand extends Command<Core,PunishmentManager> {
 		}
 		String message = "Connection lost";
 		if(args.length > 1){
-			message = Joiner.on(' ').join(args, 1, args.length);
+			message = Joiner.on(' ').join(Arrays.copyOfRange(args, 1, args.length));
 		}
 		message = ChatColor.translateAlternateColorCodes('&', message);
 		String targetName = target == null ? "everyone" : target.getName();

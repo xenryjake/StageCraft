@@ -5,7 +5,6 @@ import com.xenry.stagecraft.survival.gameplay.GameplayManager;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
 import com.xenry.stagecraft.survival.profile.SurvivalProfile;
-import com.xenry.stagecraft.util.Log;
 import com.xenry.stagecraft.util.M;
 import org.bukkit.command.CommandSender;
 

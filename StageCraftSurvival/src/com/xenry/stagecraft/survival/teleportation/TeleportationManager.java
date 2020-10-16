@@ -5,7 +5,6 @@ import com.xenry.stagecraft.survival.jail.Sentence;
 import com.xenry.stagecraft.util.Cooldown;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.survival.jail.Jail;
-import com.xenry.stagecraft.punishment.Punishment;
 import com.xenry.stagecraft.survival.teleportation.commands.*;
 import com.xenry.stagecraft.survival.teleportation.commands.home.*;
 import com.xenry.stagecraft.survival.teleportation.commands.warp.*;

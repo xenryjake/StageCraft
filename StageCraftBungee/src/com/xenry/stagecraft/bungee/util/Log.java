@@ -1,5 +1,7 @@
 package com.xenry.stagecraft.bungee.util;
 import com.xenry.stagecraft.bungee.Bungee;
+import net.md_5.bungee.api.ProxyServer;
+import net.md_5.bungee.api.chat.BaseComponent;
 
 /**
  * StageCraft Created by Henry Blasingame (Xenry) on 1/26/20
@@ -30,12 +32,13 @@ public final class Log {
 		}
 	}
 	
-	/*public static void toCS(String message){
-		Bukkit.getServer().getConsoleSender().sendMessage(message);
+	@Deprecated
+	public static void toCS(String message){
+		ProxyServer.getInstance().getConsole().sendMessage(message);
 	}
 	
-	public static void toCS(BaseComponent...components){
-		Bukkit.getServer().getConsoleSender().spigot().sendMessage(components);
-	}*/
+	public static void toCS(BaseComponent...components) {
+		ProxyServer.getInstance().getConsole().sendMessage(components);
+	}
 	
 }

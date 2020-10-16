@@ -15,7 +15,7 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public class ProxyDebugModeCommand extends ProxyCommand<ProxyManager> {
+public final class ProxyDebugModeCommand extends ProxyCommand<ProxyManager> {
 	
 	public ProxyDebugModeCommand(ProxyManager manager){
 		super(manager, "proxydebugmode", "stagecraft.admin", "proxydebug");

@@ -2,7 +2,6 @@ package com.xenry.stagecraft.server;
 import com.xenry.stagecraft.Manager;
 import com.xenry.stagecraft.Core;
 import com.xenry.stagecraft.server.commands.*;
-import com.xenry.stagecraft.server.pluginmessage.PluginMessageHandler;
 import com.xenry.stagecraft.util.M;
 import io.puharesource.mc.titlemanager.api.v2.TitleManagerAPI;
 import org.bukkit.Bukkit;
@@ -11,6 +10,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.server.ServerListPingEvent;
 import org.bukkit.scheduler.BukkitTask;
+
+import java.util.*;
 
 /**
  * StageCraft created by Henry Blasingame (Xenry) on 7/11/20
@@ -23,7 +24,9 @@ public final class ServerManager extends Manager<Core> {
 	
 	private boolean willShutDown = false;
 	private BukkitTask shutdownTask;
-	private PluginMessageHandler pluginMessageHandler;
+	
+	private HashMap<String,List<String>> networkPlayers;
+	private List<String> allNetworkPlayers;
 	
 	public ServerManager(Core plugin){
 		super("Server", plugin);
@@ -31,14 +34,13 @@ public final class ServerManager extends Manager<Core> {
 	
 	@Override
 	protected void onEnable() {
-		
-		pluginMessageHandler = new PluginMessageHandler(this);
-		plugin.getServer().getMessenger().registerOutgoingPluginChannel(plugin, "BungeeCord");
-		plugin.getServer().getMessenger().registerIncomingPluginChannel(plugin, "BungeeCord", pluginMessageHandler);
+		plugin.getPluginMessageManager().registerSubChannel(new NetworkPlayersUpdatePMSC(this));
 		
 		registerCommand(new DebugModeCommand(this));
 		registerCommand(new BetaFeaturesCommand(this));
 		registerCommand(new StopCommand(this));
+		registerCommand(new ServerConfigReloadCommand(this));
+		registerCommand(new ListCommand(this));
 	}
 	
 	@EventHandler
@@ -102,8 +104,25 @@ public final class ServerManager extends Manager<Core> {
 		return shutdownTask;
 	}
 	
-	public PluginMessageHandler getPluginMessageHandler() {
-		return pluginMessageHandler;
+	public void setNetworkPlayers(HashMap<String,List<String>> map){
+		networkPlayers = map;
+		List<String> all = new ArrayList<>();
+		for(List<String> list : map.values()){
+			all.addAll(list);
+		}
+		allNetworkPlayers = all;
+	}
+	
+	public HashMap<String,List<String>> getNetworkPlayers() {
+		return networkPlayers;
+	}
+	
+	public List<String> getAllNetworkPlayers() {
+		return allNetworkPlayers;
+	}
+	
+	public Set<String> getServerNames(){
+		return networkPlayers.keySet();
 	}
 	
 }

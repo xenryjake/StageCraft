@@ -1,7 +1,6 @@
 <component name="libraryTable">
   <library name="bungee">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../depend/mongo-java-driver-3.2.0-rc0.jar!/" />
       <root url="jar://$PROJECT_DIR$/../depend/BungeeCord.jar!/" />
     </CLASSES>
     <JAVADOC />

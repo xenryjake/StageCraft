@@ -5,5 +5,5 @@ author: Xenry
 main: com.xenry.stagecraft.skyblock.SkyBlock
 depend: [StageCraftCore]
 softdepend: [ProtocolLib,Vault,Essentials,TitleManager,GriefPrevention]
-commands: []
+commands:
 

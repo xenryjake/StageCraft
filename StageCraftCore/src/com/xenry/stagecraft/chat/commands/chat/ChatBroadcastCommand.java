@@ -9,6 +9,9 @@ import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
 import com.xenry.stagecraft.util.M;
 import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -35,9 +38,20 @@ public final class ChatBroadcastCommand extends Command<Core,ChatManager> {
 			sender.sendMessage(M.usage("/chat " + label + " <message>"));
 			return;
 		}
-		String message = Emote.replaceEmotes(Joiner.on(' ').join(args), ChatColor.LIGHT_PURPLE);
-		Bukkit.broadcastMessage("§b§l" + (sender instanceof Player ? sender.getName() : M.CONSOLE_NAME) + "§8: §d"
-				+ message);
+		String senderName = (sender instanceof Player ? sender.getName() : M.CONSOLE_NAME);
+		String message = Joiner.on(' ').join(args);
+		if(ChatManager.COLOR_ACCESS.has(sender)){
+			message = ChatColor.translateAlternateColorCodes('&', message);
+		}
+		if(Emote.EMOTE_ACCESS.has(sender)){
+			message = Emote.replaceEmotes(message, ChatColor.LIGHT_PURPLE);
+		}
+		BaseComponent[] components = new ComponentBuilder(senderName).color(ChatColor.AQUA).bold(true)
+				.append(": ").color(ChatColor.DARK_GRAY).bold(false)
+				.append(TextComponent.fromLegacyText(message, ChatColor.LIGHT_PURPLE)).color(ChatColor.LIGHT_PURPLE).bold(false).create();
+		//todo BungeeUtil.messageRawAll(sender, components);
+		
+		Bukkit.broadcastMessage("§b§l" + senderName + "§8: §d" + message);
 	}
 	
 }

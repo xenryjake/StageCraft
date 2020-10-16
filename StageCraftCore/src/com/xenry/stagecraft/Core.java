@@ -4,15 +4,11 @@ import com.xenry.stagecraft.commands.CommandManager;
 import com.xenry.stagecraft.hologram.HologramManager;
 import com.xenry.stagecraft.integration.IntegrationManager;
 import com.xenry.stagecraft.mongo.MongoManager;
+import com.xenry.stagecraft.pluginmessage.PluginMessageManager;
 import com.xenry.stagecraft.profile.ProfileManager;
 import com.xenry.stagecraft.punishment.PunishmentManager;
 import com.xenry.stagecraft.server.ServerManager;
 import com.xenry.stagecraft.util.Log;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Random;
 
 /**
  * StageCraft Created by Henry Blasingame (Xenry) on 1/26/20
@@ -29,6 +25,7 @@ public final class Core extends StageCraftPlugin {
 	
 	private String serverName = "none";
 	
+	private PluginMessageManager pluginMessageManager;
 	private MongoManager mongoManager;
 	private ServerManager serverManager;
 	private IntegrationManager integrationManager;
@@ -66,6 +63,7 @@ public final class Core extends StageCraftPlugin {
 	@Override
 	public void loadManagers() {
 		try{
+			pluginMessageManager = loadManager(PluginMessageManager.class);
 			mongoManager = loadManager(MongoManager.class);
 			serverManager = loadManager(ServerManager.class);
 			integrationManager = loadManager(IntegrationManager.class);
@@ -87,6 +85,10 @@ public final class Core extends StageCraftPlugin {
 	
 	public static Core getInstance() {
 		return instance;
+	}
+	
+	public PluginMessageManager getPluginMessageManager() {
+		return pluginMessageManager;
 	}
 	
 	public MongoManager getMongoManager() {
@@ -143,6 +145,17 @@ public final class Core extends StageCraftPlugin {
 		betaFeaturesEnabled = enabled;
 		getConfig().set("beta-features", enabled);
 		saveConfig();
+	}
+	
+	public void reloadConfiguration(){
+		reloadConfig();
+		debugMode = getConfig().getBoolean("debug", false);
+		Log.info("Setting debug is: " + debugMode);
+		
+		betaFeaturesEnabled = getConfig().getBoolean("beta-features", false);
+		Log.info("Setting beta-features is: " + betaFeaturesEnabled);
+		
+		chatManager.setGlobalChatPrefix(getConfig().getString("global-chat-prefix", ""));
 	}
 	
 }

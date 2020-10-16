@@ -11,7 +11,7 @@ import net.md_5.bungee.api.CommandSender;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public class ProxyConfigReloadCommand extends ProxyCommand<ProxyManager> {
+public final class ProxyConfigReloadCommand extends ProxyCommand<ProxyManager> {
 	
 	public ProxyConfigReloadCommand(ProxyManager manager){
 		super(manager, "proxyconfigreload", "stagecraft.admin");

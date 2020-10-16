@@ -53,13 +53,13 @@ public final class SudoCommand extends Command<Core,CommandManager> {
 		String targetName = target == null ? "everyone" : target.getName();
 		String command = Joiner.on(' ').join(Arrays.copyOfRange(args, 1, args.length));
 		if(command.toLowerCase().startsWith("c:")){
-			sender.sendMessage(M.msg + "Forcing " + M.elm + targetName + M.msg + " to chat: " + M.WHITE + command);
 			command = command.substring(2);
+			sender.sendMessage(M.msg + "Forcing " + M.elm + targetName + M.msg + " to chat: " + M.WHITE + command);
 			chat(target, command);
 		}else{
 			sender.sendMessage(M.msg + "Forcing " + M.elm + targetName + M.msg + " to execute command: " + M.WHITE
 					+ "/" + command);
-			chat(target, "/" + target);
+			chat(target, "/" + command);
 		}
 	}
 	

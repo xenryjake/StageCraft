@@ -47,7 +47,7 @@ public class Profile extends GenericProfile {
 		updateDisplayName(player);
 	}
 	
-	public void updateDisplayName(Player player){
+	private void updateDisplayName(Player player){
 		if(!player.getUniqueId().toString().equals(getUUID())){
 			return;
 		}

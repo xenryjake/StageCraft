@@ -1,4 +1,4 @@
-package com.xenry.stagecraft.commands.general;
+package com.xenry.stagecraft.server.commands;
 import com.earth2me.essentials.Essentials;
 import com.xenry.stagecraft.Core;
 import com.xenry.stagecraft.commands.Access;
@@ -6,6 +6,7 @@ import com.xenry.stagecraft.commands.Command;
 import com.xenry.stagecraft.commands.CommandManager;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
+import com.xenry.stagecraft.server.ServerManager;
 import com.xenry.stagecraft.util.M;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -22,11 +23,11 @@ import java.util.List;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public final class ListCommand extends Command<Core,CommandManager> {
+public final class ListCommand extends Command<Core,ServerManager> {
 	
 	public static final Access SEE_VANISHED = Rank.ADMIN;
 	
-	public ListCommand(CommandManager manager){
+	public ListCommand(ServerManager manager){
 		super(manager, Rank.MEMBER, "list", "who", "online", "ls");
 		setCanBeDisabled(true);
 	}

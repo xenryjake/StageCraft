@@ -61,7 +61,7 @@ public final class SignEditCommand extends Command<Survival,GameplayManager> {
 			return;
 		}
 		
-		String text = Joiner.on(' ').join(args);
+		String text = Joiner.on(' ').join(Arrays.copyOfRange(args, 1, args.length));
 		ChatColor defaultColor = profile.getSetting(Setting.WHITE_SIGN_TEXT) ? ChatColor.WHITE : ChatColor.BLACK;
 		text = defaultColor + text;
 		if(SignEditHandler.COLOR_SIGNS.has(profile)){

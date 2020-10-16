@@ -2,7 +2,6 @@ package com.xenry.stagecraft.survival.profile;
 import com.xenry.stagecraft.profile.GenericProfile;
 import com.xenry.stagecraft.survival.economy.Currency;
 import com.xenry.stagecraft.util.LocationVector;
-import com.xenry.stagecraft.util.Vector3DDouble;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;

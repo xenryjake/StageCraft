@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +28,19 @@ public final class PlayerUtil {
 			names.add(player.getName());
 		}
 		return names;
+	}
+	
+	@Nullable
+	public static Player getAnyPlayer(){
+		ArrayList<Player> players = new ArrayList<>(Bukkit.getOnlinePlayers());
+		if(players.size() < 1){
+			return null;
+		}
+		return players.get(0);
+	}
+	
+	public static boolean arePlayersOnline(){
+		return Bukkit.getOnlinePlayers().size() > 0;
 	}
 	
 	@SuppressWarnings("ConstantConditions")

@@ -168,8 +168,8 @@ public final class ProfileManager extends Manager<Core> {
 	public void onJoin(PlayerJoinEvent event){
 		Player player = event.getPlayer();
 		Profile profile = getProfile(player);
-		player.setPlayerListHeader("§9§lStage§a§lCraft");
-		player.setPlayerListFooter("§8§o" + plugin.getServerName());
+		//player.setPlayerListHeader("§9§lStage§a§lCraft");
+		//player.setPlayerListFooter("§8§o" + plugin.getServerName());
 		event.setJoinMessage(null);
 		if(profile == null){
 			Log.warn("There is no profile for " + player.getName() + "!");
@@ -179,7 +179,7 @@ public final class ProfileManager extends Manager<Core> {
 		profile.updateAddresses(player.getAddress());
 		profile.updateDisplayName();
 		profile.setLastLogin(plugin.getServerName(), TimeUtil.nowSeconds());
-		Bukkit.broadcastMessage(" §a+§7 " + profile.getDisplayName());
+		//Bukkit.broadcastMessage(" §a+§7 " + profile.getDisplayName());
 		save(profile);
 	}
 	
@@ -194,7 +194,8 @@ public final class ProfileManager extends Manager<Core> {
 		profile.updatePlaytime(plugin.getServerName());
 		save(profile);
 		profiles.remove(profile.getUUID());
-		event.setQuitMessage(" §c-§7 " + player.getDisplayName());
+		event.setQuitMessage(null);
+		//event.setQuitMessage(" §c-§7 " + player.getDisplayName());
 	}
 	
 }

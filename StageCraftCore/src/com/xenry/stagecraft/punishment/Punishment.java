@@ -121,7 +121,12 @@ public class Punishment extends BasicDBObject {
 		if(getExpiresAt() == -1){
 			return -1;
 		}
-		return Math.max(getExpiresAt() - TimeUtil.nowSeconds(), 0);
+		long remaining = getExpiresAt() - TimeUtil.nowSeconds();
+		if(remaining <= 0){
+			setRemoved(true);
+			return 0;
+		}
+		return remaining;
 	}
 	
 	public boolean isActive(){

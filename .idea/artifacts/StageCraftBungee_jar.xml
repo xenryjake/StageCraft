@@ -4,6 +4,7 @@
     <root id="archive" name="StageCraftBungee.jar">
       <element id="module-output" name="StageCraftBungee" />
       <element id="extracted-dir" path="$PROJECT_DIR$/../depend/mongo-java-driver-3.2.0-rc0.jar" path-in-jar="/" />
+      <element id="module-output" name="StageCraftCommon" />
     </root>
   </artifact>
 </component>

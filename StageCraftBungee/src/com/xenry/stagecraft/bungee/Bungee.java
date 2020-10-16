@@ -1,5 +1,7 @@
 package com.xenry.stagecraft.bungee;
+import com.xenry.stagecraft.bungee.chat.ChatManager;
 import com.xenry.stagecraft.bungee.mongo.MongoManager;
+import com.xenry.stagecraft.bungee.pluginmessage.PluginMessageManager;
 import com.xenry.stagecraft.bungee.proxy.ProxyManager;
 import com.xenry.stagecraft.bungee.util.Log;
 import net.md_5.bungee.api.plugin.Plugin;
@@ -26,8 +28,10 @@ public final class Bungee extends Plugin {
 	private final List<Manager> managers;
 	private final ProxyConfiguration configuration;
 	
+	private PluginMessageManager pluginMessageManager;
 	private MongoManager mongoManager;
 	private ProxyManager proxyManager;
+	private ChatManager chatManager;
 	
 	public Bungee(){
 		instance = this;
@@ -44,8 +48,10 @@ public final class Bungee extends Plugin {
 		
 		Log.info("Loading managers...");
 		try{
+			pluginMessageManager = loadManager(PluginMessageManager.class);
 			mongoManager = loadManager(MongoManager.class);
 			proxyManager = loadManager(ProxyManager.class);
+			chatManager = loadManager(ChatManager.class);
 		}catch(Exception ex){
 			ex.printStackTrace();
 			Log.severe("Something went wrong while loading the managers!");
@@ -184,12 +190,20 @@ public final class Bungee extends Plugin {
 		return configuration;
 	}
 	
+	public PluginMessageManager getPluginMessageManager() {
+		return pluginMessageManager;
+	}
+	
 	public MongoManager getMongoManager() {
 		return mongoManager;
 	}
 	
 	public ProxyManager getProxyManager() {
 		return proxyManager;
+	}
+	
+	public ChatManager getChatManager() {
+		return chatManager;
 	}
 	
 }

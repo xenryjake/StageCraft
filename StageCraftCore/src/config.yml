@@ -3,3 +3,4 @@
 server-name: "none"
 debug: false
 beta-features: false
+global-chat-prefix: "[??] "

@@ -43,6 +43,12 @@ public final class ChatManager extends Manager<Core> {
 	private final HashMap<String,ConversationEntry> conversations;
 	private Rank chatRank = Rank.MEMBER;
 	
+	private String globalChatPrefix;
+	
+	private PlayerChatPMSC playerChatPMSC;
+	private PrivateMessagePMSC privateMessagePMSC;
+	private StaffChatPMSC staffChatPMSC;
+	
 	public ChatManager(Core plugin){
 		super("Chat", plugin);
 		conversations = new HashMap<>();
@@ -50,6 +56,15 @@ public final class ChatManager extends Manager<Core> {
 	
 	@Override
 	protected void onEnable(){
+		playerChatPMSC = new PlayerChatPMSC(this);
+		plugin.getPluginMessageManager().registerSubChannel(playerChatPMSC);
+		
+		privateMessagePMSC = new PrivateMessagePMSC(this);
+		plugin.getPluginMessageManager().registerSubChannel(privateMessagePMSC);
+		
+		staffChatPMSC = new StaffChatPMSC(this);
+		plugin.getPluginMessageManager().registerSubChannel(staffChatPMSC);
+		
 		registerCommand(new ChatCommand(this));
 		registerCommand(new FakeMessageCommand(this));
 		registerCommand(new StaffChatCommand(this));
@@ -59,6 +74,12 @@ public final class ChatManager extends Manager<Core> {
 		registerCommand(new SayCommand(this));
 		
 		registerCommand(new EmotesCommand(this));
+		
+		setGlobalChatPrefix(plugin.getConfig().getString("global-chat-prefix", ""));
+	}
+	
+	public StaffChatPMSC getStaffChatPMSC() {
+		return staffChatPMSC;
 	}
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
@@ -73,14 +94,14 @@ public final class ChatManager extends Manager<Core> {
 			return;
 		}
 		if(!profile.check(chatRank)){
-			player.sendMessage(M.error("The chat is currently silenced to rank "
-					+ chatRank.getColoredName() + M.err + "."));
+			player.sendMessage(M.error("The chat is currently silenced to rank " + chatRank.getColoredName() + M.err
+					+ "."));
 			Log.info("[Chat Attempt] " + event.getPlayer().getName() + ": " + event.getMessage());
 			event.setCancelled(true);
 			return;
 		}
 		
-		PublicChatEvent chatEvent = new PublicChatEvent(event.isAsynchronous(), profile, "§7",
+		PublicChatEvent chatEvent = new PublicChatEvent(event.isAsynchronous(), profile, globalChatPrefix,
 				profile.getDisplayName(), event.getMessage());
 		plugin.getServer().getPluginManager().callEvent(chatEvent);
 		if(chatEvent.isCancelled()){
@@ -105,9 +126,7 @@ public final class ChatManager extends Manager<Core> {
 				.append(TextComponent.fromLegacyText("§8:§r ")).event((ClickEvent)null).event((HoverEvent)null)
 				.append(TextComponent.fromLegacyText(chatEvent.getMessage()))
 				.create();
-		for(Player p : Bukkit.getOnlinePlayers()){
-			p.spigot().sendMessage(message);
-		}
+		playerChatPMSC.send(player, message);
 		Log.toCS(message);
 		event.setCancelled(true);
 		//event.setFormat("§r" + chatEvent.getPrefix() + (chatEvent.prefixContainsText() ? " " : "")
@@ -181,6 +200,15 @@ public final class ChatManager extends Manager<Core> {
 				socialSpy.sendMessage(M.DGRAY + "[PM] " + fromName + " to " + toName + ": " + message);
 			}
 		}
+	}
+	
+	public String getGlobalChatPrefix() {
+		return globalChatPrefix;
+	}
+	
+	public void setGlobalChatPrefix(String globalChatPrefix) {
+		this.globalChatPrefix = globalChatPrefix == null ? "" :
+				ChatColor.translateAlternateColorCodes('&', globalChatPrefix);
 	}
 	
 	/**

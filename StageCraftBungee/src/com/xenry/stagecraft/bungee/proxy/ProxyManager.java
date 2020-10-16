@@ -12,8 +12,7 @@ import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
-import net.md_5.bungee.api.event.PreLoginEvent;
-import net.md_5.bungee.api.event.ProxyPingEvent;
+import net.md_5.bungee.api.event.*;
 import net.md_5.bungee.api.scheduler.ScheduledTask;
 import net.md_5.bungee.event.EventHandler;
 
@@ -33,12 +32,17 @@ public final class ProxyManager extends Manager {
 	private String shutdownReason = null;
 	private ScheduledTask shutdownTask = null;
 	
+	private NetworkPlayersUpdatePMSC networkPlayersUpdatePMSC;
+	
 	public ProxyManager(Bungee plugin){
 		super("Proxy", plugin);
 	}
 	
 	@Override
 	protected void onEnable() {
+		networkPlayersUpdatePMSC = new NetworkPlayersUpdatePMSC(this);
+		plugin.getPluginMessageManager().registerSubChannel(networkPlayersUpdatePMSC);
+		
 		registerCommand(new EndCommand(this));
 		registerCommand(new ProxyDebugModeCommand(this));
 		registerCommand(new ProxyBetaFeaturesCommand(this));
@@ -52,6 +56,7 @@ public final class ProxyManager extends Manager {
 		response.setDescriptionComponent(plugin.getConfiguration().getMOTDComponent());
 	}
 	
+	@SuppressWarnings("SameParameterValue")
 	private ServerPing.PlayerInfo[] getSample(int max){
 		ArrayList<ServerPing.PlayerInfo> players = new ArrayList<>();
 		for(ProxiedPlayer player : plugin.getProxy().getPlayers()){
@@ -133,6 +138,26 @@ public final class ProxyManager extends Manager {
 	
 	public ScheduledTask getShutdownTask() {
 		return shutdownTask;
+	}
+	
+	@EventHandler
+	public void onDisconnect(PlayerDisconnectEvent event){
+		plugin.getProxy().getScheduler().schedule(plugin, this::sendNetworkPlayersUpdate, 50L, TimeUnit.MILLISECONDS);
+	}
+	
+	private static final TextComponent TAB_LIST_HEADER = new TextComponent(new ComponentBuilder()
+			.append("Stage").color(ChatColor.BLUE).bold(true)
+			.append("Craft").color(ChatColor.GREEN).bold(true).create());
+	
+	@EventHandler
+	public void onSwitch(ServerSwitchEvent event){
+		event.getPlayer().setTabHeader(TAB_LIST_HEADER, new TextComponent(new ComponentBuilder(
+				event.getPlayer().getServer().getInfo().getName()).color(ChatColor.DARK_GRAY).italic(true).create()));
+		plugin.getProxy().getScheduler().schedule(plugin, this::sendNetworkPlayersUpdate, 50L, TimeUnit.MILLISECONDS);
+	}
+	
+	private void sendNetworkPlayersUpdate(){
+		networkPlayersUpdatePMSC.send();
 	}
 	
 }

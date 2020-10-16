@@ -1,5 +1,4 @@
 package com.xenry.stagecraft.survival.gameplay.sign;
-import com.xenry.stagecraft.Core;
 import com.xenry.stagecraft.Handler;
 import com.xenry.stagecraft.chat.emotes.Emote;
 import com.xenry.stagecraft.commands.Access;
@@ -74,10 +73,14 @@ public final class SignEditHandler extends Handler<Survival,GameplayManager> {
 	
 	@EventHandler
 	public void onInteract(PlayerInteractEvent event){
-		if(!Core.betaFeaturesEnabled()){
+		Player player = event.getPlayer();
+		Profile profile = getCore().getProfileManager().getProfile(player);
+		if(profile == null){
 			return;
 		}
-		if (event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
+		if(player.isSneaking() || event.getAction() != Action.RIGHT_CLICK_BLOCK){
+			return;
+		}
 		Block block = event.getClickedBlock();
 		if(block == null){
 			return;
@@ -86,17 +89,22 @@ public final class SignEditHandler extends Handler<Survival,GameplayManager> {
 		if (!(blockState instanceof Sign)){
 			return;
 		}
-		if(checkPermission(event.getPlayer(), block)){
-			openSignEditor(event.getPlayer(), (Sign)blockState);
+		if(checkPermission(player, block)){
+			ChatColor defaultColor = profile.getSetting(Setting.WHITE_SIGN_TEXT) ? ChatColor.WHITE : ChatColor.BLACK;
+			openSignEditor(player, (Sign)blockState, defaultColor);
 		}
 	}
 	
-	public void openSignEditor(Player player, Sign sign){
+	public void openSignEditor(Player player, Sign sign, ChatColor defaultColor){
 		
 		// remove colors, replace with '&' color codes
 		CraftSign craftSign = (CraftSign)sign;
+		String defColor = defaultColor.toString();
 		for(int i = 0; i < craftSign.getLines().length; i++){
 			String line = craftSign.getLine(i);
+			while(line.startsWith(defColor)){
+				line = line.substring(defColor.length());
+			}
 			if(ChatColor.stripColor(line).trim().isEmpty()){
 				craftSign.setLine(i, "");
 			}else{
@@ -114,19 +122,18 @@ public final class SignEditHandler extends Handler<Survival,GameplayManager> {
 		if(!(tileEntity instanceof TileEntitySign)){
 			return;
 		}
-		TileEntitySign tes = ((TileEntitySign)tileEntity);
-		tes.isEditable = true;
-		tes.update();
 		
 		try {
-			// assign sign to player
-			Field c = tes.getClass().getDeclaredField("c");
+			TileEntitySign tes = ((TileEntitySign)tileEntity);
+			tes.isEditable = true;
+			tes.signEditor = player.getUniqueId();
+			/*Field c = tes.getClass().getDeclaredField("c");
 			c.setAccessible(true);
-			c.set(tes, ((CraftPlayer)player).getHandle());
+			c.set(tes, ((CraftPlayer)player).getHandle());*/
 			
 			PacketPlayOutOpenSignEditor packet = new PacketPlayOutOpenSignEditor(position);
 			Bukkit.getScheduler().runTaskLater(manager.plugin,
-					() -> ((CraftPlayer)player).getHandle().playerConnection.sendPacket(packet), 1);
+					() -> ((CraftPlayer)player).getHandle().playerConnection.sendPacket(packet), 2L);
 		} catch(Exception ex) {
 			ex.printStackTrace();
 		}

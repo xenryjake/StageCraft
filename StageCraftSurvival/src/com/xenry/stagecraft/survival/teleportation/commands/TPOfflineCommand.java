@@ -8,7 +8,6 @@ import com.xenry.stagecraft.survival.teleportation.Teleportation;
 import com.xenry.stagecraft.survival.teleportation.TeleportationManager;
 import com.xenry.stagecraft.util.LocationVector;
 import com.xenry.stagecraft.util.M;
-import com.xenry.stagecraft.util.Vector3DDouble;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
