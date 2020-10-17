@@ -209,9 +209,6 @@ public final class TeleportationManager extends Manager<Survival> {
 			return;
 		}
 		Location to = event.getTo();
-		if(to == null){
-			return;
-		}
 		double distance = teleportation.originalLocation.getWorld() == to.getWorld()
 				? to.distance(teleportation.originalLocation) : 1000000;
 		if(distance > 2){

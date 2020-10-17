@@ -23,8 +23,16 @@ public abstract class GenericProfile extends BasicDBObject {
 		//required for Mongo instantiation
 	}
 	
+	public GenericProfile(String uuid){
+		put("uuid", uuid);
+	}
+	
+	public GenericProfile(UUID uuid){
+		this(uuid.toString());
+	}
+	
 	public GenericProfile(Player player){
-		put("uuid", player.getUniqueId().toString());
+		this(player.getUniqueId().toString());
 	}
 	
 	public String getUUID(){

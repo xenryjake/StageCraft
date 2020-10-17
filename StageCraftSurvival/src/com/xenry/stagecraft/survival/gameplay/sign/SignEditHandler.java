@@ -27,8 +27,6 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-import java.lang.reflect.Field;
-
 /**
  * StageCraft created by Henry Blasingame (Xenry) on 6/25/20
  * The content in this file and all related files are

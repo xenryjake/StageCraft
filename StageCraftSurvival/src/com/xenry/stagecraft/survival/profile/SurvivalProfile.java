@@ -7,6 +7,7 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
+import java.util.UUID;
 
 /**
  * StageCraft created by Henry Blasingame (Xenry) on 9/27/20
@@ -24,8 +25,8 @@ public class SurvivalProfile extends GenericProfile {
 		//required for Mongo instantiation
 	}
 	
-	public SurvivalProfile(Player player){
-		super(player);
+	public SurvivalProfile(UUID uuid){
+		super(uuid);
 		
 		put("lastLocationX", 0.0);
 		put("lastLocationY", 0.0);
@@ -37,6 +38,10 @@ public class SurvivalProfile extends GenericProfile {
 		put("currency", new HashMap<String,Integer>());
 		
 		put("hasAcceptedRules", false);
+	}
+	
+	public SurvivalProfile(Player player){
+		this(player.getUniqueId());
 	}
 	
 	public LocationVector getLastLocationVector(){

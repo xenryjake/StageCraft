@@ -7,13 +7,14 @@ import com.xenry.stagecraft.profile.commands.*;
 import com.xenry.stagecraft.profile.commands.rank.RankCommand;
 import com.xenry.stagecraft.punishment.Punishment;
 import com.xenry.stagecraft.util.Log;
+import com.xenry.stagecraft.util.M;
 import com.xenry.stagecraft.util.time.TimeUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.jetbrains.annotations.Nullable;
 
@@ -144,6 +145,25 @@ public final class ProfileManager extends Manager<Core> {
 	}
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
+	public void onLogin(final AsyncPlayerPreLoginEvent event){
+		if(event.getLoginResult() != AsyncPlayerPreLoginEvent.Result.ALLOWED){
+			return;
+		}
+		Profile profile = (Profile) collection.findOne(new BasicDBObject("uuid", event.getUniqueId().toString()));
+		if(profile == null){
+			profile = new Profile(event.getUniqueId(), event.getName(), event.getAddress());
+		}
+		profiles.put(profile.getUUID(), profile);
+		Log.debug("Loaded profile for " + event.getName());
+		
+		Punishment ban = getCore().getPunishmentManager().getOutstandingPunishment(profile, Punishment.Type.BAN);
+		if(ban != null){
+			event.setLoginResult(AsyncPlayerPreLoginEvent.Result.KICK_BANNED);
+			event.setKickMessage(ban.getMessage());
+		}
+	}
+	
+	/*@EventHandler(priority = EventPriority.HIGHEST)
 	public void onLogin(final PlayerLoginEvent event){
 		if(event.getResult() != PlayerLoginEvent.Result.ALLOWED){
 			return;
@@ -162,7 +182,7 @@ public final class ProfileManager extends Manager<Core> {
 			event.setKickMessage(ban.getMessage());
 		}
 		//});
-	}
+	}*/
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onJoin(PlayerJoinEvent event){
@@ -172,6 +192,7 @@ public final class ProfileManager extends Manager<Core> {
 		//player.setPlayerListFooter("§8§o" + plugin.getServerName());
 		event.setJoinMessage(null);
 		if(profile == null){
+			player.kickPlayer(M.error("Your profile failed to load. Please contact an admin."));
 			Log.warn("There is no profile for " + player.getName() + "!");
 			return;
 		}

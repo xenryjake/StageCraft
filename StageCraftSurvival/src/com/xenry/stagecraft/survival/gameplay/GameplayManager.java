@@ -268,12 +268,10 @@ public final class GameplayManager extends Manager<Survival> {
 		
 		deathMessage = " §4☠§r " + deathMessage.replaceAll(Pattern.quote(event.getEntity().getName()), profile.getDisplayName() + "§r");
 		
-		ScoreboardManager sbManager =  plugin.getServer().getScoreboardManager();
-		if(sbManager != null){
-			Objective objective = sbManager.getMainScoreboard().getObjective("deaths");
-			if(objective != null){
-				deathMessage += " §4#" + (objective.getScore(player.getName()).getScore() + 1);
-			}
+		ScoreboardManager sbManager = plugin.getServer().getScoreboardManager();
+		Objective objective = sbManager.getMainScoreboard().getObjective("deaths");
+		if(objective != null){
+			deathMessage += " §4#" + (objective.getScore(player.getName()).getScore() + 1);
 		}
 		event.setDeathMessage(deathMessage);
 	}

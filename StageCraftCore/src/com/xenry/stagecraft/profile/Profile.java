@@ -1,6 +1,5 @@
 package com.xenry.stagecraft.profile;
 import com.xenry.stagecraft.Core;
-import com.xenry.stagecraft.util.Log;
 import com.xenry.stagecraft.util.time.TimeUtil;
 import org.bukkit.entity.Player;
 
@@ -22,11 +21,13 @@ public class Profile extends GenericProfile {
 		//required for Mongo instantiation
 	}
 	
-	public Profile(Player player){
-		super(player);
+	public Profile(UUID uuid, String name, InetAddress address){
+		super(uuid);
 		
-		updateUsernames(player.getName());
-		updateAddresses(player.getAddress());
+		updateUsernames(name);
+		if(address != null){
+			updateAddresses(address);
+		}
 		
 		put("lastLogins", new HashMap<String,Long>());
 		put("lastLogouts", new HashMap<String,Long>());
@@ -37,6 +38,14 @@ public class Profile extends GenericProfile {
 		put("rank", Rank.MEMBER.toString());
 		put("settings", new HashMap<String,Boolean>());
 		put("nick", "none");
+	}
+	
+	public Profile(UUID uuid, String name, InetSocketAddress socketAddress){
+		this(uuid, name,socketAddress == null ? null : socketAddress.getAddress());
+	}
+	
+	public Profile(Player player){
+		this(player.getUniqueId(), player.getName(), player.getAddress());
 	}
 	
 	public void updateDisplayName(){
@@ -112,18 +121,23 @@ public class Profile extends GenericProfile {
 		}
 	}
 	
-	public void updateAddresses(InetSocketAddress socketAddress){
-		if(socketAddress == null){
-			Log.debug(getLatestUsername() + "'s socketAddress is null");
+	public void updateAddresses(InetAddress address){
+		if(address == null){
 			return;
 		}
-		InetAddress address = socketAddress.getAddress();
 		put("latestAddress", address.toString());
 		List<String> addresses = getAddresses();
 		if(!addresses.contains(address.toString())){
 			addresses.add(address.toString());
 			put("addresses", addresses);
 		}
+	}
+	
+	public void updateAddresses(InetSocketAddress socketAddress){
+		if(socketAddress == null){
+			return;
+		}
+		updateAddresses(socketAddress.getAddress());
 	}
 	
 	public void updateAddresses(){

@@ -13,6 +13,7 @@ import com.xenry.stagecraft.util.Log;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 import java.util.ArrayList;
@@ -144,6 +145,10 @@ public final class PunishmentManager extends Manager<Core> {
 			profile.sendMessage(mute.getMessage());
 			Log.info("Muted player " + profile.getLatestUsername() + " tried to send a private message: " + event.getMessage());
 		}
+	}
+	
+	@EventHandler
+	public void onLogin(AsyncPlayerPreLoginEvent event){
 	}
 	
 	@EventHandler

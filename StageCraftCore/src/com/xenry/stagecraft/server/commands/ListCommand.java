@@ -3,7 +3,6 @@ import com.earth2me.essentials.Essentials;
 import com.xenry.stagecraft.Core;
 import com.xenry.stagecraft.commands.Access;
 import com.xenry.stagecraft.commands.Command;
-import com.xenry.stagecraft.commands.CommandManager;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
 import com.xenry.stagecraft.server.ServerManager;
