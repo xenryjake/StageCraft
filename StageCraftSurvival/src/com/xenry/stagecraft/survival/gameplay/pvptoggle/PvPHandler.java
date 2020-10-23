@@ -19,6 +19,8 @@ import org.bukkit.metadata.FixedMetadataValue;
 
 import java.util.Iterator;
 
+import static com.xenry.stagecraft.survival.gameplay.pvptoggle.PvPLock.*;
+
 /**
  * StageCraft created by Henry Blasingame (Xenry) on 5/14/20
  * The content in this file and all related files are
@@ -29,18 +31,40 @@ import java.util.Iterator;
 public final class PvPHandler extends Handler<Survival,GameplayManager> {
 	
 	private final Cooldown cooldown;
+	private PvPLock lockState;
 	
 	public PvPHandler(GameplayManager manager){
 		super(manager);
 		cooldown = new Cooldown(2000, null);
+		lockState = NONE;
+	}
+	
+	public PvPLock getLockState() {
+		return lockState;
+	}
+	
+	public void setLockState(PvPLock lockState) {
+		this.lockState = lockState;
 	}
 	
 	public boolean isPvPEnabled(Profile profile){
+		if(lockState == LOCK_ON){
+			return true;
+		}
+		if(lockState == LOCK_OFF){
+			return false;
+		}
 		return profile.getSetting(Setting.SURVIVAL_PVP_ENABLED)
 				|| manager.plugin.getJailManager().getOutstandingSentence(profile) != null;
 	}
 	
 	public boolean isPvPEnabled(Player player){
+		if(lockState == LOCK_ON){
+			return true;
+		}
+		if(lockState == LOCK_OFF){
+			return false;
+		}
 		Profile profile = getCore().getProfileManager().getProfile(player);
 		if(profile == null){
 			return Setting.SURVIVAL_PVP_ENABLED.getDefaultValue();

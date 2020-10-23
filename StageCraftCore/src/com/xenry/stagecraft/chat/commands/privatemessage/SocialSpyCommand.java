@@ -26,6 +26,7 @@ public final class SocialSpyCommand extends Command<Core,ChatManager> {
 	
 	public SocialSpyCommand(ChatManager manager){
 		super(manager, ACCESS, "socialspy");
+		setCanBeDisabled(true);
 	}
 	
 	@Override

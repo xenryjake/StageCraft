@@ -6,3 +6,185 @@ main: com.xenryjake.stagecraft.creative.Creative
 depend: [StageCraftCore]
 softdepend: [ProtocolLib,Vault,Essentials,TitleManager,GriefPrevention]
 commands:
+  lockout:
+    description: "Enable or disable lockout mode"
+  override:
+    description: "Enable or disable override mode for a player"
+
+  # TELEPORTATION COMMANDS
+  tp:
+    description: "Teleport to a player"
+    aliases: [tpo]
+  tphere:
+    description: "Teleport a player to you"
+    aliases: [tpohere]
+  warp:
+    description: "Teleport to a warp"
+    aliases: [w,warpo,wo,warps]
+  deletewarp:
+    description: "Delete a warp"
+    aliases: [removewarp,delwarp,warpdelete,warpremove,warpdel]
+  setwarp:
+    description: "Set a warp"
+    aliases: [addwarp,warpset,warpadd]
+  updatewarp:
+    desciprtion: "Update the location of a warp"
+    aliases: [warpupdate,changewarp,warpchange]
+  warpinfo:
+    descipriton: "View info about a warp"
+    aliases: [winfo,warpi,wi]
+  setwarpalias:
+    description: "Set an alais for a warp"
+    aliases: [addwarpalias]
+  deletewarpalias:
+    description: "Delete a warp alias"
+    aliases: [removewarpalias,delwarpalias]
+  home:
+    description: "Teleport to a home"
+    aliases: [h,homeo,ho,homes]
+  deletehome:
+    description: "Delete a home"
+    aliases: [removehome,delhome,homedelete,homeremove,homedel]
+  sethome:
+    description: "Set a home"
+    aliases: [addhome,homeset,homeadd]
+  viewhomes:
+    description: "View a player's homes"
+    aliases: [seehomes,viewhome,seehome,listhomes,listhome]
+  gotohome:
+    description: "Teleport to a player's home"
+  deletehomeother:
+    description: "Delete another player's home"
+    aliases: [removehomeother,delhomeother,homedeleteother,homeremoveother,homedelother]
+  spawn:
+    description: "Teleport to spawn"
+    aliases: [spawno]
+  setspawn:
+    description: "Set the server spawn point"
+    aliases: [setspawn]
+  tpa:
+    description: "Request to teleport to a player"
+  tpahere:
+    description: "Request a player to teleport to you"
+  tpaccept:
+    description: "Accept a teleport request"
+    aliases: [tpyes]
+  tpdeny:
+    description: "Deny a teleport request"
+    aliases: [tpno]
+  tpcancel:
+    description: "Cancel your teleport requests"
+  tpall:
+    description: "Teleport everyone to you"
+    aliases: [tpoall]
+  tpaall:
+    description: "Ask all players to teleport to you"
+  teleportposition:
+    description: "Teleport to a specific position"
+    aliases: [teleportpos,tpposition,tppos]
+  top:
+    description: "Teleport to the highest position"
+  tpoffline:
+    description: "Teleport to an offline player's last location"
+  back:
+    description: "Go back to your last location"
+    aliases: [b,backo,bo]
+  world:
+    description: "Teleport to a world"
+
+  # GAMEPLAY COMMANDS
+  anvil:
+    description: "Open an anvil"
+  cartographytable:
+    description: "Open a cartography table"
+    aliases: [carttable,cartography,cart]
+  grindstone:
+    description: "Open a grindstone"
+    aliases: [grind]
+  loom:
+    description: "Open a loom"
+  enchantingtable:
+    description: "Open an enchanting table"
+    aliases: [enchanttable,enchtable]
+  stonecutter:
+    description: "Open a stonecutter"
+    aliases: [stonecut]
+  gamemode:
+    description: "Change your gamemode or another player's gamemode"
+    aliases: [gm,gmc,gma,gms,gmsp,creative,survival,spectator,adventure]
+  fly:
+    description: "Toggle fly mode for yourself or another player"
+  enderchest:
+    description: "Open your enderchest"
+    aliases: [echest,fec]
+  workbench:
+    description: "Open a workbench"
+    aliases: [workbench,wb,craft,craftingtable]
+  smithingtable:
+    description: "Open a smithing table"
+    aliases: [smithing,smith]
+  repair:
+    description: "Repair your armor and tools"
+    aliases: [fix]
+  suicide:
+    description: "Commit suicide"
+    aliases: [kms,die,kermit]
+  trash:
+    description: "Open a trash can"
+    aliases: [trashcan,disposal,d]
+  kill:
+    description: "Kill a player"
+    aliases: [murder]
+  near:
+    description: "See which players are nearby"
+    aliases: [nearby]
+  heal:
+    description: "Heal players"
+  feed:
+    description: "Feed players"
+    aliases: [eat]
+  weather:
+    description: "Change the weather"
+    aliases: [sun,rain,storm,thunder]
+  time:
+    description: "Change the time"
+    aliases: [day,night,dawn,dusk,noon,midnight]
+  extinguish:
+    description: "Extinguish a player"
+    aliases: [ext]
+  burn:
+    description: "Burn a player"
+  more:
+    description: "Get more of an item."
+  speed:
+    description: "Change your speed"
+  break:
+    description: "Break a block"
+  spawner:
+    description: "Change a mob spawner"
+  lightning:
+    description: "Strike lightning"
+    aliases: [smite,strike]
+  pvp:
+    description: "Toggle PvP"
+  pvplock:
+    description: "Lock PvP"
+  rest:
+    description: "Reset time since last sleep"
+  sign:
+    desciprtion: "Edit signs"
+  itemname:
+    description: "Change the name of an item"
+    aliases: [iname]
+  itemlore:
+    description: "Change the lore of an item"
+    aliases: [ilore]
+  skull:
+    description: "Spawn or change a player skull"
+    aliases: [head]
+  experience:
+    description: "Modify a player's experience levels"
+    aliases: [exp,xp]
+  clearinventory:
+    description: "Clear your inventory"
+    aliases: [clear,ci]

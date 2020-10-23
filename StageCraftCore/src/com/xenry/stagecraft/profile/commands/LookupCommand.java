@@ -110,7 +110,7 @@ public final class LookupCommand extends Command<Core,ProfileManager> {
 				sender.sendMessage(M.arrow("AFK: " + (ess.getUser(profile.getPlayer()).isAfk() ? "§ayes" : "§cno")));
 			}
 		}else{
-			//todo add to survivial somehow?
+			//todo add to survival somehow?
 			//sender.sendMessage(M.arrow("Last Location: " + M.elm + "(" + lastLoc.x + "," + lastLoc.y + "," + lastLoc.z + ") [" + profile.getLastLocationWorldName() + "]"));
 		}
 		//todo include both network-wide and per-server

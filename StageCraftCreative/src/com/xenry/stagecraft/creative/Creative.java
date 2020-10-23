@@ -3,6 +3,8 @@ package com.xenry.stagecraft.creative;
 import com.xenry.stagecraft.Core;
 import com.xenry.stagecraft.StageCraftPlugin;
 import com.xenry.stagecraft.creative.gameplay.GameplayManager;
+import com.xenry.stagecraft.creative.profile.CreativeProfileManager;
+import com.xenry.stagecraft.creative.teleportation.TeleportationManager;
 import com.xenry.stagecraft.util.Log;
 
 /**
@@ -14,7 +16,9 @@ import com.xenry.stagecraft.util.Log;
  */
 public final class Creative extends StageCraftPlugin {
 	
+	private CreativeProfileManager creativeProfileManager;
 	private GameplayManager gameplayManager;
+	private TeleportationManager teleportationManager;
 	
 	public Creative(){
 		super("Creative", Core.getInstance());
@@ -23,15 +27,25 @@ public final class Creative extends StageCraftPlugin {
 	@Override
 	public void loadManagers() {
 		try{
+			creativeProfileManager = loadManager(CreativeProfileManager.class);
 			gameplayManager = loadManager(GameplayManager.class);
+			teleportationManager = loadManager(TeleportationManager.class);
 		}catch(Exception ex){
 			ex.printStackTrace();
 			Log.severe("Something went wrong while loading the Creative managers!");
 		}
 	}
 	
+	public CreativeProfileManager getCreativeProfileManager() {
+		return creativeProfileManager;
+	}
+	
 	public GameplayManager getGameplayManager() {
 		return gameplayManager;
+	}
+	
+	public TeleportationManager getTeleportationManager() {
+		return teleportationManager;
 	}
 	
 }

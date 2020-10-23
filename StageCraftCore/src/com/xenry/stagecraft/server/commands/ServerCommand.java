@@ -15,10 +15,11 @@ import java.util.Set;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public class ServerCommand extends Command<Core,ServerManager> {
+public final class ServerCommand extends Command<Core,ServerManager> {
 	
 	public ServerCommand(ServerManager manager){
 		super(manager, Rank.MEMBER, "server", "goto");
+		setCanBeDisabled(true);
 	}
 	
 	@Override

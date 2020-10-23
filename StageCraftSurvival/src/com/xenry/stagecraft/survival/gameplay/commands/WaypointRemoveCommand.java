@@ -30,7 +30,7 @@ public final class WaypointRemoveCommand extends Command<Survival,GameplayManage
 			return;
 		}
 		String name = args[0];
-		profile.getPlayer().chat("dmarker delete " + name + " set:waypoints");
+		profile.getPlayer().chat("/dmarker delete " + name + " set:waypoints");
 	}
 	
 	@Override

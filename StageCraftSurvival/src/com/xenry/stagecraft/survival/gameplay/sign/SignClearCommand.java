@@ -1,7 +1,6 @@
 package com.xenry.stagecraft.survival.gameplay.sign;
 import com.xenry.stagecraft.commands.Command;
 import com.xenry.stagecraft.survival.Survival;
-import com.xenry.stagecraft.survival.gameplay.FakeBlockBreakEvent;
 import com.xenry.stagecraft.survival.gameplay.GameplayManager;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
@@ -55,9 +54,7 @@ public final class SignClearCommand extends Command<Survival,GameplayManager> {
 			return;
 		}
 		
-		FakeBlockBreakEvent bbe = new FakeBlockBreakEvent(block, player);
-		manager.plugin.getServer().getPluginManager().callEvent(bbe);
-		if(bbe.isCancelled()){
+		if(!manager.getSignEditHandler().checkPermission(player, block)){
 			return;
 		}
 		

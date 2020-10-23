@@ -30,8 +30,9 @@ public final class PunishmentUpdateCommand extends Command<Core,PunishmentManage
 	
 	@Override
 	protected void serverPerform(CommandSender sender, String[] args, String label) {
-		manager.downloadPunishments();
-		sender.sendMessage(M.msg + "Downloaded punishments from database.");
+		sender.sendMessage(M.error("This feature is disabled."));
+		//manager.downloadPunishments();
+		//sender.sendMessage(M.msg + "Downloaded punishments from database.");
 	}
 	
 	@Override

@@ -24,9 +24,7 @@ import java.util.List;
  */
 public final class PvPCommand extends Command<Survival,GameplayManager> {
 	
-	//todo add ** selector
-	
-	public static final Access OTHER_ACCESS = Rank.ADMIN;
+	public static final Access OTHERS = Rank.ADMIN;
 	
 	public PvPCommand(GameplayManager manager){
 		super(manager, Rank.MEMBER, "pvp");
@@ -68,7 +66,7 @@ public final class PvPCommand extends Command<Survival,GameplayManager> {
 	@Override
 	protected void playerPerform(Profile profile, String[] args, String label) {
 		if(args.length < 1){
-			if(OTHER_ACCESS.has(profile)){
+			if(OTHERS.has(profile)){
 				profile.sendMessage(M.usage("/" + label + " <on|off> [player]"));
 			}else{
 				profile.sendMessage(M.usage("/" + label + " <on|off>"));
@@ -76,17 +74,18 @@ public final class PvPCommand extends Command<Survival,GameplayManager> {
 			return;
 		}
 		Player target = profile.getPlayer();
-		if(args.length > 1 && OTHER_ACCESS.has(profile)){
+		Profile targetProfile = profile;
+		if(args.length > 1 && OTHERS.has(profile)){
 			target = Bukkit.getPlayer(args[1]);
 			if(target == null){
 				profile.sendMessage(M.error("Could not find player."));
 				return;
 			}
-		}
-		Profile targetProfile = getCore().getProfileManager().getProfile(target);
-		if(targetProfile == null){
-			profile.sendMessage(M.error("Cannot find profile."));
-			return;
+			targetProfile = getCore().getProfileManager().getProfile(target);
+			if(targetProfile == null){
+				profile.sendMessage(M.error("Cannot find profile."));
+				return;
+			}
 		}
 		args[0] = args[0].toLowerCase();
 		boolean value;
@@ -109,7 +108,19 @@ public final class PvPCommand extends Command<Survival,GameplayManager> {
 	
 	@Override
 	protected List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		return serverTabComplete(profile.getPlayer(), args, label);
+		switch(args.length){
+			case 0:
+			case 1:
+				List<String> values = Arrays.asList("on", "off");
+				if(OTHERS.has(profile)){
+					values.add("view");
+				}
+				return values;
+			case 2:
+				return null;
+			default:
+				return Collections.emptyList();
+		}
 	}
 	
 	@Override
@@ -117,7 +128,7 @@ public final class PvPCommand extends Command<Survival,GameplayManager> {
 		switch(args.length){
 			case 0:
 			case 1:
-				return Arrays.asList("on", "off");
+				return Arrays.asList("on", "off", "view");
 			case 2:
 				return null;
 			default:

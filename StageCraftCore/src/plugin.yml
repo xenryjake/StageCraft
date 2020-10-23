@@ -21,6 +21,8 @@ commands:
   diceroll:
     description: "Roll some dice"
     aliases: [dieroll,rolldice,rolldie]
+  sudo:
+    description: "Force a player to run a command"
 
 # SERVER COMMANDS
   shutdown:
@@ -36,6 +38,9 @@ commands:
   server:
     description: "Go to another server"
     aliases: [goto]
+  list:
+    description: "List online players"
+    aliases: [who,online,ls]
 
 # PROFILE COMMANDS
   lookup:

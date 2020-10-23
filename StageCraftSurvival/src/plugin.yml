@@ -8,23 +8,23 @@ softdepend: [ProtocolLib,Vault,Essentials,TitleManager,GriefPrevention]
 commands:
 
   # BUILDER COMMANDS
-  builder:
-    description: "Toggle builder mode"
-    aliases: [build,bd]
-  builderadmin:
-    description: "Manage builder mode"
-    aliases: [ba]
-  buildergamemode:
-    description: "Change your game mode while in builder mode"
-    aliases: [bgm,bgmc,bgms,bgmsp,bgma]
+#  builder:
+#    description: "Toggle builder mode"
+#    aliases: [build,bd]
+#  builderadmin:
+#    description: "Manage builder mode"
+#    aliases: [ba]
+#  buildergamemode:
+#    description: "Change your game mode while in builder mode"
+#    aliases: [bgm,bgmc,bgms,bgmsp,bgma]
 
   # HIDE'N'SEEK COMMANDS
-  hidenseek:
-    description: "Player Hide'N'Seek"
-    aliases: [hns,sardines]
-  hidenseekadmin:
-    description: "Manage Hide'N'Seek"
-    aliases: [ha,hnsa]
+#  hidenseek:
+#    description: "Player Hide'N'Seek"
+#    aliases: [hns,sardines]
+#  hidenseekadmin:
+#    description: "Manage Hide'N'Seek"
+#    aliases: [ha,hnsa]
 
   # ECONOMY COMMANDS
 #  bank:
@@ -129,14 +129,28 @@ commands:
     description: "Teleport to a world"
 
   # GAMEPLAY COMMANDS
+  anvil:
+    description: "Open an anvil"
+  cartographytable:
+    description: "Open a cartography table"
+    aliases: [carttable,cartography,cart]
+  grindstone:
+    description: "Open a grindstone"
+    aliases: [grind]
+  loom:
+    description: "Open a loom"
+  enchantingtable:
+    description: "Open an enchanting table"
+    aliases: [enchanttable,enchtable]
+  stonecutter:
+    description: "Open a stonecutter"
+    aliases: [stonecut]
   enchantedbook:
     description: "Give yourself an enchanted book with a custom enchantment"
     aliases: [eb]
   giveenchanteditem:
     description: "Give yourself an item with a custom enchantment"
     aliases: [gei]
-  removeportal:
-    description: "Remove a DannPortal"
   shop:
     description: "Access the StageCraft shop"
   gamemode:
@@ -175,13 +189,10 @@ commands:
     aliases: [eat]
   weather:
     description: "Change the weather"
-    aliases: [sun,rain,storm,thunder,clear]
+    aliases: [sun,rain,storm,thunder]
   time:
     description: "Change the time"
     aliases: [day,night,dawn,dusk,noon,midnight]
-  list:
-    description: "List online players"
-    aliases: [who,online,ls]
   extinguish:
     description: "Extinguish a player"
     aliases: [ext]
@@ -200,6 +211,9 @@ commands:
     aliases: [smite,strike]
   pvp:
     description: "Toggle PvP"
+  pvplock:
+    description: "Lock PvP"
+    aliases: [lockpvp]
   rules:
     description: "View and accept the rules"
     aliases: [rule]
@@ -221,14 +235,15 @@ commands:
   skull:
     description: "Spawn or change a player skull"
     aliases: [head]
-  sudo:
-    description: "Force a player to run a command"
   experience:
     description: "Modify a player's experience levels"
     aliases: [exp,xp]
   damageindicator:
     description: "Manage damage indicators"
     aliases: [damageindicators,di]
+  clearinventory:
+    description: "Clear your inventory"
+    aliases: [ clear,ci ]
 
   # JAIL COMMANDS
   jail:

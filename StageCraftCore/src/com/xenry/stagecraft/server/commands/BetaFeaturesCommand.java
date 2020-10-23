@@ -25,6 +25,7 @@ public final class BetaFeaturesCommand extends Command<Core,ServerManager> {
 	
 	public BetaFeaturesCommand(ServerManager manager){
 		super(manager, Rank.ADMIN, "betafeatures");
+		setCanBeDisabled(true);
 	}
 	
 	@Override

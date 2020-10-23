@@ -16,10 +16,9 @@ import org.bukkit.command.CommandSender;
  */
 public final class StopCommand extends Command<Core,ServerManager> {
 	
-	//private HashMap<String,String> confirmations;
-	
 	public StopCommand(ServerManager manager){
 		super(manager, Rank.ADMIN, "stop", "shutdown");
+		setCanBeDisabled(true);
 	}
 	
 	@Override

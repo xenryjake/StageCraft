@@ -16,6 +16,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -92,11 +93,15 @@ public final class ProfileManager extends Manager<Core> {
 	}
 	
 	@Nullable
-	public Profile getProfile(@Nullable Player p){
-		if(p == null){
+	public Profile getProfile(@Nullable Player player){
+		if(player == null){
 			return null;
 		}
-		return profiles.getOrDefault(p.getUniqueId().toString(), null);
+		Profile profile = profiles.getOrDefault(player.getUniqueId().toString(), null);
+		if(player.isOnline() && profile == null){
+			Log.warn("Online player has no profile!");
+		}
+		return profile;
 	}
 	
 	public List<Profile> getOnlineProfiles(){
@@ -140,7 +145,7 @@ public final class ProfileManager extends Manager<Core> {
 		return (Profile) collection.findOne(new BasicDBObject("uuid", uuid));
 	}
 	
-	public boolean hasOfflineProfile(String uuid){
+	public boolean hasProfile(String uuid){
 		return getProfileByUUID(uuid) != null;
 	}
 	
@@ -201,6 +206,7 @@ public final class ProfileManager extends Manager<Core> {
 		profile.updateDisplayName();
 		profile.setLastLogin(plugin.getServerName(), TimeUtil.nowSeconds());
 		//Bukkit.broadcastMessage(" §a+§7 " + profile.getDisplayName());
+		Log.toCS("§a[JOIN] §7" + player.getName());
 		save(profile);
 	}
 	
@@ -217,6 +223,7 @@ public final class ProfileManager extends Manager<Core> {
 		profiles.remove(profile.getUUID());
 		event.setQuitMessage(null);
 		//event.setQuitMessage(" §c-§7 " + player.getDisplayName());
+		Log.toCS("§c[QUIT] §7" + player.getName());
 	}
 	
 }

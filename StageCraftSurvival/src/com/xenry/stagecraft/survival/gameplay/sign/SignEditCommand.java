@@ -3,7 +3,6 @@ import com.google.common.base.Joiner;
 import com.xenry.stagecraft.chat.emotes.Emote;
 import com.xenry.stagecraft.commands.Command;
 import com.xenry.stagecraft.survival.Survival;
-import com.xenry.stagecraft.survival.gameplay.FakeBlockBreakEvent;
 import com.xenry.stagecraft.survival.gameplay.GameplayManager;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
@@ -72,9 +71,7 @@ public final class SignEditCommand extends Command<Survival,GameplayManager> {
 			text = Emote.replaceEmotes(text, defaultColor);
 		}
 		
-		FakeBlockBreakEvent bbe = new FakeBlockBreakEvent(block, player);
-		manager.plugin.getServer().getPluginManager().callEvent(bbe);
-		if(bbe.isCancelled()){
+		if(!manager.getSignEditHandler().checkPermission(player, block)){
 			return;
 		}
 		

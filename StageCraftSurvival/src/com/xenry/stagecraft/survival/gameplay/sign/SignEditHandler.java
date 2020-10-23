@@ -3,7 +3,7 @@ import com.xenry.stagecraft.Handler;
 import com.xenry.stagecraft.chat.emotes.Emote;
 import com.xenry.stagecraft.commands.Access;
 import com.xenry.stagecraft.survival.Survival;
-import com.xenry.stagecraft.survival.gameplay.FakeBlockBreakEvent;
+import com.xenry.stagecraft.util.FakeBlockBreakEvent;
 import com.xenry.stagecraft.survival.gameplay.GameplayManager;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;

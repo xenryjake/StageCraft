@@ -18,6 +18,7 @@ import com.xenry.stagecraft.survival.gameplay.grapplinghook.GrapplingHookCommand
 import com.xenry.stagecraft.survival.gameplay.grapplinghook.GrapplingHookHandler;
 import com.xenry.stagecraft.survival.gameplay.pvptoggle.PvPCommand;
 import com.xenry.stagecraft.survival.gameplay.pvptoggle.PvPHandler;
+import com.xenry.stagecraft.survival.gameplay.pvptoggle.PvPLockCommand;
 import com.xenry.stagecraft.survival.gameplay.rules.AcceptRulesHandler;
 import com.xenry.stagecraft.survival.gameplay.rules.RulesCommand;
 import com.xenry.stagecraft.survival.gameplay.sign.SignCommand;
@@ -66,6 +67,7 @@ public final class GameplayManager extends Manager<Survival> {
 	//private ShulkerBoxHandler shulkerBoxHandler;
 	//private BloodHandler bloodHandler;
 	private DamageIndicatorHandler damageIndicatorHandler;
+	private SignEditHandler signEditHandler;
 	
 	private final List<CustomEnchantment> registeredEnchantments;
 	private OreMinerHandler oreMinerHandler;
@@ -89,6 +91,7 @@ public final class GameplayManager extends Manager<Survival> {
 		pvpHandler = new PvPHandler(this);
 		registerListener(pvpHandler);
 		registerCommand(new PvPCommand(this));
+		registerCommand(new PvPLockCommand(this));
 		
 		acceptRulesHandler = new AcceptRulesHandler(this);
 		registerListener(acceptRulesHandler);
@@ -129,9 +132,13 @@ public final class GameplayManager extends Manager<Survival> {
 		registerCommand(new GiveEnchantedItemCommand(this));
 		registerCommand(new EnchantedBookCommand(this));
 		
+		signEditHandler = new SignEditHandler(this);
+		registerListener(signEditHandler);
+		registerCommand(new SignCommand(this));
+		
 		registerCommand(new ShopCommand(this));
 		
-		registerCommand(new GamemodeCommand(this));
+		registerCommand(new GameModeCommand(this));
 		registerCommand(new FlyCommand(this));
 		registerCommand(new EnderChestCommand(this));
 		registerCommand(new WorkbenchCommand(this));
@@ -157,15 +164,19 @@ public final class GameplayManager extends Manager<Survival> {
 		registerCommand(new ItemLoreCommand(this));
 		registerCommand(new SkullCommand(this));
 		registerCommand(new ExperienceCommand(this));
+		registerCommand(new AnvilCommand(this));
+		registerCommand(new CartographyTableCommand(this));
+		registerCommand(new GrindstoneCommand(this));
+		registerCommand(new LoomCommand(this));
+		registerCommand(new StonecutterCommand(this));
+		registerCommand(new EnchantingTableCommand(this));
+		registerCommand(new ClearInventoryCommand(this));
 		
 		registerCommand(new WebRegisterCommand(this));
 		registerCommand(new WaypointCommand(this));
 		registerCommand(new HelpCommand(this));
 		
 		addGrowthIngredientRecipes();
-		
-		registerCommand(new SignCommand(this));
-		registerListener(new SignEditHandler(this));
 	}
 	
 	private void registerEnchantments(){
@@ -330,6 +341,10 @@ public final class GameplayManager extends Manager<Survival> {
 	
 	public BasicEnchantmentHandler getBasicEnchantmentHandler() {
 		return basicEnchantmentHandler;
+	}
+	
+	public SignEditHandler getSignEditHandler() {
+		return signEditHandler;
 	}
 	
 }

@@ -22,6 +22,7 @@ public final class SayCommand extends Command<Core,ChatManager> {
 	
 	public SayCommand(ChatManager manager){
 		super(manager, Rank.MEMBER, "say");
+		setCanBeDisabled(true);
 	}
 	
 	@Override

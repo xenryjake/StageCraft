@@ -72,6 +72,7 @@ public final class PunishmentRemoveCommand extends Command<Core,PunishmentManage
 				return;
 		}
 		
+		//this queries db when player is offline
 		List<Punishment> list = manager.getActivePunishments(target, type);
 		if(list.isEmpty()){
 			sender.sendMessage(M.error(M.elm + target.getLatestUsername() + M.err + " doesn't have any active " + M.elm + type.name + M.err + " punishments on their record."));
@@ -100,7 +101,7 @@ public final class PunishmentRemoveCommand extends Command<Core,PunishmentManage
 			case 1:
 				return null;
 			case 2:
-				return Arrays.asList("ban", "mute", "jail");
+				return Arrays.asList("ban", "mute");
 			default:
 				return Collections.emptyList();
 		}

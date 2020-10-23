@@ -76,6 +76,7 @@ public final class PunishmentViewCommand extends Command<Core,PunishmentManager>
 				return;
 		}
 		
+		//this downloads from db when player is offline
 		List<Punishment> list = manager.getPunishments(target, type);
 		if(list.isEmpty()){
 			sender.sendMessage(M.error(M.elm + target.getLatestUsername() + M.err + " doesn't have any " + M.elm + type.name + M.err + " punishments on their record."));

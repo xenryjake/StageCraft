@@ -5,7 +5,7 @@ import com.xenry.stagecraft.commands.Command;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
 import com.xenry.stagecraft.punishment.Punishment;
-import com.xenry.stagecraft.punishment.PunishmentExecution;
+import com.xenry.stagecraft.punishment.LocalPunishmentExecution;
 import com.xenry.stagecraft.punishment.PunishmentManager;
 import com.xenry.stagecraft.util.M;
 import org.bukkit.Bukkit;
@@ -66,7 +66,7 @@ public final class KickCommand extends Command<Core,PunishmentManager> {
 			reason = Joiner.on(' ').join(Arrays.copyOfRange(args, 1, args.length));
 		}
 		Punishment kick = new Punishment(Punishment.Type.KICK, target.getUniqueId().toString(), punishedBy, reason);
-		PunishmentExecution execution = new PunishmentExecution(manager, kick, sender);
+		LocalPunishmentExecution execution = new LocalPunishmentExecution(manager, kick, sender);
 		execution.apply();
 	}
 	

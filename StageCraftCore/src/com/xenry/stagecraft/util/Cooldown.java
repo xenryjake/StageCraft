@@ -49,6 +49,14 @@ public class Cooldown {
 		return true;
 	}
 	
+	public boolean canUse(Profile profile){
+		return canUse(profile.getPlayer());
+	}
+	
+	public boolean canUse(Player player){
+		return canUse(player, true);
+	}
+	
 	public boolean canUse(Player player, boolean notify){
 		long timeRemaining = recharges.getOrDefault(player.getUniqueId().toString(), 0L) - System.currentTimeMillis();
 		if(timeRemaining > 0){

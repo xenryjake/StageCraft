@@ -17,10 +17,11 @@ import java.util.List;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public class ServerConfigReloadCommand extends Command<Core,ServerManager> {
+public final class ServerConfigReloadCommand extends Command<Core,ServerManager> {
 	
 	public ServerConfigReloadCommand(ServerManager manager) {
 		super(manager, Rank.ADMIN, "serverconfigreload");
+		setCanBeDisabled(true);
 	}
 	
 	@Override

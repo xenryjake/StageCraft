@@ -1,4 +1,5 @@
 package com.xenry.stagecraft.survival.gameplay.commands;
+import com.xenry.stagecraft.commands.Access;
 import com.xenry.stagecraft.commands.Command;
 import com.xenry.stagecraft.survival.Survival;
 import com.xenry.stagecraft.survival.gameplay.GameplayManager;
@@ -22,15 +23,11 @@ import java.util.List;
  * Usage of this content without written consent of Henry Jake
  * is prohibited.
  */
-public final class GamemodeCommand extends Command<Survival,GameplayManager> {
+public final class GameModeCommand extends Command<Survival,GameplayManager> {
 	
-	//todo add ** selector
-	//todo fix tab completeion for /gmc,/gms,/gmsp,/gma, etc...
+	public static final Access OTHERS = Rank.ADMIN;
 	
-	//private static final String[] allLabels = ;
-	//private static final String[] noTabCompleteLabels = ;
-	
-	public GamemodeCommand(GameplayManager manager){
+	public GameModeCommand(GameplayManager manager){
 		super(manager, Rank.ADMIN, "gamemode", "gm", "gmc", "gms", "gmsp", "gma", "creative", "survival",
 				"spectator", "adventure");
 		setCanBeDisabled(true);
@@ -66,7 +63,7 @@ public final class GamemodeCommand extends Command<Survival,GameplayManager> {
 		}
 		
 		Player target = profile.getPlayer();
-		if(args.length >= 2 && profile.check(Rank.ADMIN)){
+		if(args.length >= 2 && OTHERS.has(profile)){
 			target = Bukkit.getPlayer(args[1]);
 			if(target == null){
 				profile.sendMessage(M.playerNotFound(args[1]));
@@ -152,7 +149,12 @@ public final class GamemodeCommand extends Command<Survival,GameplayManager> {
 	
 	@Override
 	protected List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		switch(args.length){
+		int len = args.length;
+		label = label.replace("gm", "");
+		if(label.startsWith("c") || label.startsWith("s") || label.startsWith("a")){
+			len++;
+		}
+		switch(len){
 			case 0:
 			case 1:
 				return Arrays.asList("creative", "survival", "adventure", "spectator");
@@ -165,7 +167,12 @@ public final class GamemodeCommand extends Command<Survival,GameplayManager> {
 	
 	@Override
 	protected List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
-		switch(args.length){
+		int len = args.length;
+		label = label.replace("gm", "");
+		if(label.startsWith("c") || label.startsWith("s") || label.startsWith("a")){
+			len++;
+		}
+		switch(len){
 			case 0:
 			case 1:
 				return Arrays.asList("creative", "survival", "adventure", "spectator");

@@ -45,8 +45,8 @@ public final class CommandEnableDisableCommand extends Command<Core,CommandManag
 		}
 		boolean disable = label.startsWith("dis");
 		command.setDisabled(disable);
-		sender.sendMessage(M.msg + "Command " + M.elm + args[0] + M.msg + " has been " + (disable ? "§cdisabled"
-				: "§aenabled") + M.msg + ".");
+		sender.sendMessage(M.elm + args[0] + M.msg + " has been " + (disable ? "§cdisabled" : "§aenabled") + M.msg
+				+ " until the next server restart.");
 	}
 	
 	@Override

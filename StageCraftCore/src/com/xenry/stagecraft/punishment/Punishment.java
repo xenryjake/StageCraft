@@ -26,15 +26,19 @@ public class Punishment extends BasicDBObject {
 		//required for Mongo instantiation
 	}
 	
-	public Punishment(Type type, String playerUUID, String punishedByUUID, String reason, long expiresAt, long duration){
+	public Punishment(Type type, String playerUUID, String punishedByUUID, String reason, long timestamp, long expiresAt, long duration){
 		put("type", type.toString());
 		put("player", playerUUID);
 		put("punishedBy", punishedByUUID);
-		put("timestamp", TimeUtil.toSecond(TimeUtil.now()));
 		put("reason", reason);
+		put("timestamp", timestamp);
 		put("expiresAt", expiresAt);
 		put("duration", duration);
 		put("removed", false);
+	}
+	
+	public Punishment(Type type, String playerUUID, String punishedByUUID, String reason, long expiresAt, long duration) {
+		this(type, playerUUID, punishedByUUID, reason, TimeUtil.nowSeconds(), expiresAt, duration);
 	}
 	
 	public Punishment(Type type, String playerUUID, String punishedByUUID, String reason){

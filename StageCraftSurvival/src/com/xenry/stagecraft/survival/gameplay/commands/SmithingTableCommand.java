@@ -4,13 +4,7 @@ import com.xenry.stagecraft.survival.Survival;
 import com.xenry.stagecraft.survival.gameplay.GameplayManager;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
-import net.minecraft.server.v1_16_R2.BlockPosition;
-import net.minecraft.server.v1_16_R2.BlockSmithingTable;
-import net.minecraft.server.v1_16_R2.Blocks;
-import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.v1_16_R2.entity.CraftPlayer;
-import org.bukkit.entity.Player;
 
 import java.util.Collections;
 import java.util.List;
@@ -36,14 +30,7 @@ public final class SmithingTableCommand extends Command<Survival,GameplayManager
 	
 	@Override
 	protected void playerPerform(Profile profile, String[] args, String label) {
-		Player player = profile.getPlayer();
-		Location location = player.getLocation();
-		
-		((CraftPlayer)player).getHandle().openContainer(((BlockSmithingTable)Blocks.SMITHING_TABLE).getInventory(null,
-				((CraftPlayer)player).getHandle().world, new BlockPosition(location.getBlockX(), location.getBlockY(),
-						location.getBlockZ())));
-		((CraftPlayer)player).getHandle().activeContainer.checkReachable = false;
-		((CraftPlayer)player).getHandle().activeContainer.getBukkitView();
+		profile.getPlayer().openSmithingTable(null, true);
 	}
 	
 	@Override

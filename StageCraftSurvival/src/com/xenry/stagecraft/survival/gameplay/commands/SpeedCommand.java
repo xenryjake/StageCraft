@@ -23,8 +23,6 @@ import java.util.List;
  */
 public final class SpeedCommand extends Command<Survival,GameplayManager> {
 	
-	//todo add ** selector
-	
 	public SpeedCommand(GameplayManager manager){
 		super(manager, Rank.ADMIN, "speed");
 		setCanBeDisabled(true);

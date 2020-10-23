@@ -25,6 +25,7 @@ public final class DebugModeCommand extends Command<Core,ServerManager> {
 	
 	public DebugModeCommand(ServerManager manager){
 		super(manager, Rank.ADMIN, "scdebug", "debugmode");
+		setCanBeDisabled(true);
 	}
 	
 	@Override

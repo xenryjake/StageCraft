@@ -35,11 +35,12 @@ public final class WeatherCommand extends Command<Survival,GameplayManager> {
 		types.put("rain", Type.RAIN);
 		types.put("storm", Type.RAIN);
 		types.put("thunder", Type.THUNDER);
+		types.put("thunderstorm", Type.THUNDER);
 		types.put("lightning", Type.THUNDER);
 	}
 	
 	public WeatherCommand(GameplayManager manager){
-		super(manager, Rank.ADMIN, "weather", "sun", "clear", "rain", "storm", "thunder");
+		super(manager, Rank.ADMIN, "weather", "sun", "rain", "storm", "thunder");
 		setCanBeDisabled(true);
 	}
 	

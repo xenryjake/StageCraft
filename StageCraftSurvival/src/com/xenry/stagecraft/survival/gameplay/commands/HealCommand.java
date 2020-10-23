@@ -5,6 +5,7 @@ import com.xenry.stagecraft.survival.gameplay.GameplayManager;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
 import com.xenry.stagecraft.util.M;
+import com.xenry.stagecraft.util.PlayerUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
@@ -13,6 +14,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.potion.PotionEffect;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -25,8 +27,6 @@ import java.util.List;
  * is prohibited.
  */
 public final class HealCommand extends Command<Survival,GameplayManager> {
-	
-	//todo add ** selector
 	
 	private static final List<Integer> potionEffectTypesToRemove = Arrays.asList(7, 17, 19, 20);
 	
@@ -41,10 +41,13 @@ public final class HealCommand extends Command<Survival,GameplayManager> {
 			sender.sendMessage(M.usage("/" + label + " <player>"));
 			return;
 		}
-		Player player = Bukkit.getPlayer(args[0]);
-		if(player == null){
-			sender.sendMessage(M.playerNotFound(args[0]));
-			return;
+		Player player = null;
+		if(!args[0].equals("**")){
+			player = Bukkit.getPlayer(args[0]);
+			if(player == null){
+				sender.sendMessage(M.playerNotFound(args[0]));
+				return;
+			}
 		}
 		healPlayer(player, sender);
 	}
@@ -59,43 +62,66 @@ public final class HealCommand extends Command<Survival,GameplayManager> {
 	}
 	
 	private void healPlayer(Player target, CommandSender healer){
-		AttributeInstance healthAttribute = target.getAttribute(Attribute.GENERIC_MAX_HEALTH);
-		if(healthAttribute == null){
-			healer.sendMessage(M.error("Something went wrong."));
-			return;
+		String targetName;
+		List<Player> targets;
+		if(target == null){
+			targets = new ArrayList<>(Bukkit.getOnlinePlayers());
+			targetName = "everyone";
+		}else{
+			targets = Collections.singletonList(target);
+			targetName = target.getName();
 		}
-		
-		final EntityRegainHealthEvent erhe = new EntityRegainHealthEvent(target,
-				healthAttribute.getValue() - target.getHealth(), EntityRegainHealthEvent.RegainReason.CUSTOM);
-		manager.plugin.getServer().getPluginManager().callEvent(erhe);
-		if (erhe.isCancelled()) {
-			healer.sendMessage(M.error("Unable to heal."));
-			return;
-		}
-		
-		target.setHealth(healthAttribute.getValue());
-		target.setFoodLevel(20);
-		target.setFireTicks(0);
-		for(PotionEffect effect : target.getActivePotionEffects()){
-			//noinspection deprecation
-			if(potionEffectTypesToRemove.contains(effect.getType().getId())){
-				target.removePotionEffect(effect.getType());
+		for(Player player : targets){
+			AttributeInstance healthAttribute = player.getAttribute(Attribute.GENERIC_MAX_HEALTH);
+			if(healthAttribute == null){
+				healer.sendMessage(M.error("Something went wrong."));
+				continue;
 			}
+			
+			final EntityRegainHealthEvent erhe = new EntityRegainHealthEvent(player,
+					healthAttribute.getValue() - player.getHealth(), EntityRegainHealthEvent.RegainReason.CUSTOM);
+			manager.plugin.getServer().getPluginManager().callEvent(erhe);
+			if (erhe.isCancelled()) {
+				healer.sendMessage(M.error("Unable to heal."));
+				continue;
+			}
+			
+			player.setHealth(healthAttribute.getValue());
+			player.setFoodLevel(20);
+			player.setFireTicks(0);
+			for(PotionEffect effect : player.getActivePotionEffects()){
+				//noinspection deprecation
+				if(potionEffectTypesToRemove.contains(effect.getType().getId())){
+					player.removePotionEffect(effect.getType());
+				}
+			}
+			player.sendMessage(M.msg + "You have been healed.");
 		}
-		target.sendMessage(M.msg + "You have been healed.");
 		if(healer != target){
-			healer.sendMessage(M.msg + "You have healed " + M.elm + target.getName() + M.msg + ".");
+			healer.sendMessage(M.msg + "You have healed " + M.elm + targetName + M.msg + ".");
 		}
 	}
 	
 	@Override
 	protected List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		return args.length <= 1 ? null : Collections.emptyList();
+		if(args.length == 1){
+			List<String> players = PlayerUtil.getOnlinePlayerNames();
+			players.add("**");
+			return players;
+		}else{
+			return Collections.emptyList();
+		}
 	}
 	
 	@Override
 	protected List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
-		return args.length <= 1 ? null : Collections.emptyList();
+		if(args.length == 1){
+			List<String> players = PlayerUtil.getOnlinePlayerNames();
+			players.add("**");
+			return players;
+		}else{
+			return Collections.emptyList();
+		}
 	}
 	
 }

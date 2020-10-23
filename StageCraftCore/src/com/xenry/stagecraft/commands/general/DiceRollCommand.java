@@ -33,6 +33,7 @@ public final class DiceRollCommand extends Command<Core,CommandManager> {
 	
 	public DiceRollCommand(CommandManager manager){
 		super(manager, Rank.MEMBER, "diceroll", "dieroll", "rolldice", "rolldie");
+		setCanBeDisabled(true);
 	}
 	
 	@Override

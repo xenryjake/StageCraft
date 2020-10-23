@@ -5,12 +5,14 @@ import com.xenry.stagecraft.survival.gameplay.GameplayManager;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
 import com.xenry.stagecraft.util.M;
+import com.xenry.stagecraft.util.PlayerUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.potion.PotionEffect;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -36,10 +38,8 @@ public final class FeedCommand extends Command<Survival,GameplayManager> {
 			sender.sendMessage(M.usage("/" + label + " <player>"));
 			return;
 		}
-		Player target;
-		if(args[0].equals("**")){
-			target = null;
-		}else{
+		Player target = null;
+		if(!args[0].equals("**")){
 			target = Bukkit.getPlayer(args[0]);
 			if(target == null){
 				sender.sendMessage(M.playerNotFound(args[0]));
@@ -59,36 +59,59 @@ public final class FeedCommand extends Command<Survival,GameplayManager> {
 	}
 	
 	private void feedPlayer(Player target, CommandSender feeder){
-		final FoodLevelChangeEvent flce = new FoodLevelChangeEvent(target, 20);
-		manager.plugin.getServer().getPluginManager().callEvent(flce);
-		if (flce.isCancelled()) {
-			feeder.sendMessage(M.error("Unable to feed " + M.elm + target.getName() + M.err + "."));
-			return;
+		String targetName;
+		List<Player> targets;
+		if(target == null){
+			targets = new ArrayList<>(Bukkit.getOnlinePlayers());
+			targetName = "everyone";
+		}else{
+			targets = Collections.singletonList(target);
+			targetName = target.getName();
 		}
-		
-		target.setFoodLevel(Math.min(flce.getFoodLevel(), 20));
-		target.setSaturation(target.getFoodLevel());
-		target.setExhaustion(0);
-		for(PotionEffect effect : target.getActivePotionEffects()){
-			//noinspection deprecation
-			if(potionEffectTypesToRemove.contains(effect.getType().getId())){
-				target.removePotionEffect(effect.getType());
+		for(Player player : targets){
+			final FoodLevelChangeEvent flce = new FoodLevelChangeEvent(player, 20);
+			manager.plugin.getServer().getPluginManager().callEvent(flce);
+			if (flce.isCancelled()) {
+				feeder.sendMessage(M.error("Unable to feed " + M.elm + player.getName() + M.err + "."));
+				continue;
 			}
+			
+			player.setFoodLevel(Math.min(flce.getFoodLevel(), 20));
+			player.setSaturation(player.getFoodLevel());
+			player.setExhaustion(0);
+			for(PotionEffect effect : player.getActivePotionEffects()){
+				//noinspection deprecation
+				if(potionEffectTypesToRemove.contains(effect.getType().getId())){
+					player.removePotionEffect(effect.getType());
+				}
+			}
+			player.sendMessage(M.msg + "You have been fed.");
 		}
-		target.sendMessage(M.msg + "You have been fed.");
 		if(feeder != target){
-			feeder.sendMessage(M.msg + "You have fed " + M.elm + target.getName() + M.msg + ".");
+			feeder.sendMessage(M.msg + "You have fed " + M.elm + targetName + M.msg + ".");
 		}
 	}
 	
 	@Override
 	protected List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		return args.length <= 1 ? null : Collections.emptyList();
+		if(args.length == 1){
+			List<String> players = PlayerUtil.getOnlinePlayerNames();
+			players.add("**");
+			return players;
+		}else{
+			return Collections.emptyList();
+		}
 	}
 	
 	@Override
 	protected List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
-		return args.length <= 1 ? null : Collections.emptyList();
+		if(args.length == 1){
+			List<String> players = PlayerUtil.getOnlinePlayerNames();
+			players.add("**");
+			return players;
+		}else{
+			return Collections.emptyList();
+		}
 	}
 	
 }

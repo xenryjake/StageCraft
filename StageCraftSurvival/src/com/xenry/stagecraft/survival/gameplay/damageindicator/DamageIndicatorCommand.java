@@ -22,6 +22,7 @@ public final class DamageIndicatorCommand extends Command<Survival,GameplayManag
 	public DamageIndicatorCommand(GameplayManager manager){
 		super(manager, Rank.MEMBER, "damageindicator", "damageindicators", "di");
 		addSubCommand(new DamageIndicatorDeSpawnCommand(manager));
+		addSubCommand(new DamageIndicatorForceDeSpawnCommand(manager));
 		setCanBeDisabled(true);
 	}
 	
@@ -34,6 +35,7 @@ public final class DamageIndicatorCommand extends Command<Survival,GameplayManag
 	protected void serverPerform(CommandSender sender, String[] args, String label) {
 		sender.sendMessage(M.msg + M.BOLD + "Damage Indicator Commands:");
 		sender.sendMessage(M.help(label + " despawn", "Despawn damage indicators from a world."));
+		sender.sendMessage(M.help(label + " forcedespawn", "Forcefully despawn damage indicators from a world."));
 	}
 	
 	@Override

@@ -25,8 +25,6 @@ import java.util.List;
  */
 public final class RepairCommand extends Command<Survival,GameplayManager> {
 	
-	//todo add ** selector
-	
 	public RepairCommand(GameplayManager manager){
 		super(manager, Rank.ADMIN, "repair", "fix");
 		setCanBeDisabled(true);

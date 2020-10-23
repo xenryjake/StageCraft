@@ -23,6 +23,7 @@ public final class EmotesCommand extends Command<Core,ChatManager> {
 	
 	public EmotesCommand(ChatManager manager){
 		super(manager, Emote.EMOTE_ACCESS, "emotes", "emotelist", "emote");
+		setCanBeDisabled(true);
 	}
 	
 	@Override

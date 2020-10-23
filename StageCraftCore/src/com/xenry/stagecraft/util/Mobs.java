@@ -1,5 +1,6 @@
 package com.xenry.stagecraft.util;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Mob;
 
 import java.util.HashMap;
 

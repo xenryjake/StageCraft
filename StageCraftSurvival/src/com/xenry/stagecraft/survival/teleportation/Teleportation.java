@@ -64,6 +64,7 @@ public class Teleportation {
 		manager.setTeleportation(target, this);
 		if(type == Type.ADMIN){
 			teleport();
+			executed = true;
 			return;
 		}
 		if(!manager.cooldown.canUse(target, true)){
@@ -103,7 +104,7 @@ public class Teleportation {
 		}
 		target.sendMessage(M.msg + "Teleporting...");
 		if(type == Type.ADMIN){
-			sendTeleporterMessageIfNotSame(M.msg + "Teleporting "+ M.elm + target.getName() + M.msg + "...");
+			sendTeleporterMessageIfNotSame(M.msg + "Teleporting " + M.elm + target.getName() + M.msg + "...");
 		}
 		if(target.getAllowFlight() && LocationUtil.shouldFlyOnTeleport(finalLocation)){
 			target.setFlying(true);

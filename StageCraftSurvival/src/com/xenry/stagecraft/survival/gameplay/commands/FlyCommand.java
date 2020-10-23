@@ -21,8 +21,6 @@ import java.util.List;
  */
 public final class FlyCommand extends Command<Survival,GameplayManager> {
 	
-	//todo add ** selector
-	
 	public FlyCommand(GameplayManager manager){
 		super(manager, Rank.ADMIN, "fly");
 		setCanBeDisabled(true);

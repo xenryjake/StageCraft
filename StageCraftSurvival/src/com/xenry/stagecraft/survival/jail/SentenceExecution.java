@@ -9,7 +9,7 @@ import org.bukkit.GameMode;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import static com.xenry.stagecraft.punishment.PunishmentExecution.VIEW_ALERTS;
+import static com.xenry.stagecraft.punishment.LocalPunishmentExecution.VIEW_ALERTS;
 
 /**
  * StageCraft created by Henry Blasingame (Xenry) on 9/25/20

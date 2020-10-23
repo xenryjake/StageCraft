@@ -21,6 +21,7 @@ public final class FakeMessageCommand extends Command<Core,ChatManager> {
 	
 	public FakeMessageCommand(ChatManager manager){
 		super(manager, Rank.ADMIN, "fm");
+		setCanBeDisabled(true);
 	}
 	
 	@Override

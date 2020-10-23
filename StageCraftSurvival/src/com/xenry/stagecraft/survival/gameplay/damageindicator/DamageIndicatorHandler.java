@@ -68,6 +68,31 @@ public final class DamageIndicatorHandler extends Handler<Survival,GameplayManag
 				&& !as.hasGravity();
 	}
 	
+	public boolean isDamageIndicatorUnregistered(Entity entity){
+		if(isDamageIndicator(entity)){
+			return true;
+		}
+		if(!(entity instanceof ArmorStand)){
+			return false;
+		}
+		ArmorStand as = (ArmorStand)entity;
+		if(!as.isMarker() || as.isVisible() || !as.isCustomNameVisible() || as.hasGravity() || !as.isSmall()
+				|| as.isCollidable() || !as.isInvulnerable()){
+			return false;
+		}
+		String name = as.getCustomName();
+		if(name == null || (!name.startsWith("§c") && !name.startsWith("§a"))){
+			return false;
+		}
+		try{
+			name = name.substring(2);
+			Double.parseDouble(name);
+			return true;
+		}catch(Exception ex){
+			return false;
+		}
+	}
+	
 	//@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onEntityRegainHealth(EntityRegainHealthEvent event){
 		Entity entity = event.getEntity();

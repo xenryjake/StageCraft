@@ -5,7 +5,7 @@ import com.xenry.stagecraft.commands.Command;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
 import com.xenry.stagecraft.punishment.Punishment;
-import com.xenry.stagecraft.punishment.PunishmentExecution;
+import com.xenry.stagecraft.punishment.LocalPunishmentExecution;
 import com.xenry.stagecraft.punishment.PunishmentManager;
 import com.xenry.stagecraft.util.M;
 import com.xenry.stagecraft.util.time.TimeUtil;
@@ -80,7 +80,7 @@ public final class MuteCommand extends Command<Core,PunishmentManager> {
 			reason = Joiner.on(' ').join(args, 2, args.length);
 		}
 		Punishment mute = new Punishment(Punishment.Type.MUTE, target.getUUID(), punishedBy, reason, duration == -1 ? -1 : TimeUtil.nowSeconds() + duration, duration);
-		PunishmentExecution execution = new PunishmentExecution(manager, mute, sender);
+		LocalPunishmentExecution execution = new LocalPunishmentExecution(manager, mute, sender);
 		execution.apply();
 	}
 	
