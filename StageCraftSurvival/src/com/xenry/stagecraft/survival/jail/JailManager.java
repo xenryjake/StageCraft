@@ -184,7 +184,7 @@ public final class JailManager extends Manager<Survival> {
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onQuit(PlayerQuitEvent event){
 		Player player = event.getPlayer();
-		GenericProfile profile = getCore().getProfileManager().getProfile(player);
+		GenericProfile profile = plugin.getSurvivalProfileManager().getProfile(player);
 		if(profile == null){
 			return;
 		}

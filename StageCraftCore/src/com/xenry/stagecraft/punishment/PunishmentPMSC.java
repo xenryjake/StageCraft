@@ -27,6 +27,8 @@ public class PunishmentPMSC extends PluginMessageSubChannel<Core,PunishmentManag
 	
 	public void send(Player sender, Punishment punishment){
 		ByteArrayDataOutput out = ByteStreams.newDataOutput();
+		out.writeUTF("Forward");
+		out.writeUTF("ALL");
 		out.writeUTF(CHANNEL_NAME);
 		out.writeUTF(subChannelName);
 		out.writeUTF(manager.plugin.getServerName());
@@ -42,7 +44,7 @@ public class PunishmentPMSC extends PluginMessageSubChannel<Core,PunishmentManag
 	
 	@Override
 	protected void receive(ByteArrayDataInput in, Player receiver) {
-		String originServerName = manager.plugin.getServerName();
+		String originServerName = in.readUTF();
 		String typeName = in.readUTF();
 		String uuid = in.readUTF();
 		String punishedByUUID = in.readUTF();
@@ -68,14 +70,10 @@ public class PunishmentPMSC extends PluginMessageSubChannel<Core,PunishmentManag
 			Log.warn("PunishmentPMSC had player uuid with no profile");
 			return;
 		}
-		//todo broadcast message
 		Punishment punishment = new Punishment(type, uuid, punishedByUUID, reason, timestamp, expiresAt, duration);
+		manager.punishments.add(punishment);
 		PunishmentExecution execution = new RemotePunishmentExecution(manager, punishment, profile, null, originServerName);
-		
-		
-		if(profile.isOnline()){
-			//todo execute
-		}
+		execution.apply();
 	}
 	
 }

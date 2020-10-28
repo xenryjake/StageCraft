@@ -1,13 +1,10 @@
 package com.xenry.stagecraft.punishment;
-import com.xenry.stagecraft.commands.Access;
-import com.xenry.stagecraft.profile.Profile;
-import com.xenry.stagecraft.profile.Rank;
-import com.xenry.stagecraft.util.Log;
 import com.xenry.stagecraft.util.M;
 import com.xenry.stagecraft.util.time.TimeUtil;
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * StageCraft created by Henry Blasingame (Xenry) on 6/26/20
@@ -19,15 +16,31 @@ import org.bukkit.entity.Player;
 public class LocalPunishmentExecution extends PunishmentExecution {
 	
 	public final CommandSender punishedBy;
+	private final Player pmscSender;
 	
-	public LocalPunishmentExecution(PunishmentManager manager, Punishment punishment, CommandSender punishedBy){
-		super(manager, punishment, punishedBy instanceof Player ? punishedBy.getName() : M.CONSOLE_NAME);
+	public LocalPunishmentExecution(PunishmentManager manager, @NotNull Punishment punishment, @NotNull CommandSender punishedBy, @Nullable Player pmscSender){
+		super(manager, punishment, punishedBy instanceof Player ? punishedBy.getName() : M.CONSOLE_NAME, manager.getCore().getServerName());
 		this.punishedBy = punishedBy;
+		this.pmscSender = pmscSender;
 	}
 	
 	@Override
-	protected void handleApplication() {
+	public void apply(){
+		Punishment.Type type = punishment.getType();
+		manager.addPunishment(punishment);
+		Player punishedPlayer = punished.getPlayer();
+		if(punishedPlayer != null){
+			if(type == Punishment.Type.MUTE){
+				punishedPlayer.sendMessage(punishment.getMessage());
+			}else{
+				punishedPlayer.kickPlayer(punishment.getMessage());
+			}
+		}
 		sendMessageToPunisher();
+		if(pmscSender != null){
+			manager.getPunishmentPMSC().send(pmscSender, punishment);
+		}
+		broadcastMessage();
 	}
 	
 	private void sendMessageToPunisher(){
@@ -36,30 +49,8 @@ public class LocalPunishmentExecution extends PunishmentExecution {
 		if(type != Punishment.Type.KICK){
 			punishedBy.sendMessage(M.arrow("Duration: " + M.WHITE + TimeUtil.simplerString(punishment.getDurationSeconds())));
 		}
-		if(!punishment.getReason().isEmpty()) {
+		if(!punishment.getReason().trim().isEmpty()) {
 			punishedBy.sendMessage(M.arrow("Reason: " + M.WHITE + punishment.getReason()));
-		}
-	}
-	
-	protected void broadcastMessage(){
-		StringBuilder sb = new StringBuilder();
-		sb.append(M.elm).append(punished.getLatestUsername()).append(M.msg).append(" has been ").append(M.elm).append(punishment.getType().verb).append(M.msg).append(" by ").append(M.elm).append(punishedByName).append(M.msg).append(":").append("\n");
-		if(punishment.getType() != Punishment.Type.KICK){
-			sb.append(M.arrow("Duration: ")).append(M.WHITE).append(TimeUtil.simplerString(punishment.getTimeRemaining())).append("\n");
-		}
-		if(!punishment.getReason().isEmpty()){
-			sb.append(M.arrow("Reason: ")).append(M.WHITE).append(punishment.getReason()).append("\n");
-		}
-		String message = sb.toString().trim();
-		for(Player player : Bukkit.getOnlinePlayers()){
-			Profile profile = manager.plugin.getProfileManager().getProfile(player);
-			if(profile == null || !VIEW_ALERTS.has(profile) || player == punishedBy || player.getUniqueId().toString().equals(punished.getUUID())){
-				continue;
-			}
-			player.sendMessage(message);
-		}
-		if(!(punishedBy instanceof Player)){
-			Log.toCS(message);
 		}
 	}
 	

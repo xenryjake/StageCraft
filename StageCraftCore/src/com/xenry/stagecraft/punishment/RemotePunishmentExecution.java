@@ -1,7 +1,9 @@
 package com.xenry.stagecraft.punishment;
 import com.xenry.stagecraft.profile.Profile;
+import com.xenry.stagecraft.util.BungeeUtil;
 import com.xenry.stagecraft.util.Log;
 import com.xenry.stagecraft.util.M;
+import com.xenry.stagecraft.util.PlayerUtil;
 import com.xenry.stagecraft.util.time.TimeUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -15,35 +17,27 @@ import org.bukkit.entity.Player;
  */
 public class RemotePunishmentExecution extends PunishmentExecution {
 	
-	private final String originServerName;
-	
 	public RemotePunishmentExecution(PunishmentManager manager, Punishment punishment, Profile punished,
 									 String punishedByName, String originServerName) {
-		super(manager, punishment, punished, punishedByName);
-		this.originServerName = originServerName;
+		super(manager, punishment, punished, punishedByName, originServerName);
 	}
 	
 	@Override
-	protected void broadcastMessage(){
-		StringBuilder sb = new StringBuilder();
-		sb.append(M.elm).append(punished.getLatestUsername()).append(M.msg).append(" has been ").append(M.elm).append(punishment.getType().verb).append(M.msg).append(" by ").append(M.elm).append(punishedByName).append(M.msg).append(":").append("\n");
-		if(punishment.getType() != Punishment.Type.KICK){
-			sb.append(M.arrow("Duration: ")).append(M.WHITE).append(TimeUtil.simplerString(punishment.getTimeRemaining())).append("\n");
-		}
-		if(!punishment.getReason().isEmpty()){
-			sb.append(M.arrow("Reason: ")).append(M.WHITE).append(punishment.getReason()).append("\n");
-		}
-		String message = sb.toString().trim();
-		for(Player player : Bukkit.getOnlinePlayers()){
-			Profile profile = manager.plugin.getProfileManager().getProfile(player);
-			if(profile == null || !VIEW_ALERTS.has(profile) || player.getName().equals(punishedByName) || player.getUniqueId().toString().equals(punished.getUUID())){
-				continue;
+	public void apply(){
+		Punishment.Type type = punishment.getType();
+		Player punishedPlayer = punished.getPlayer();
+		if(punishedPlayer != null){
+			if(type == Punishment.Type.MUTE){
+				punishedPlayer.sendMessage(punishment.getMessage());
+			}else{
+				punishedPlayer.kickPlayer(punishment.getMessage());
+				Player player = PlayerUtil.getAnyPlayer();
+				if(player != null && punishedByName != null){
+					BungeeUtil.message(player, punishedByName, M.elm + punishedPlayer.getName() + M.msg + " was kicked from " + manager.getCore().getServerName());
+				}
 			}
-			player.sendMessage(message);
 		}
-		if(!punishedByName.equals(M.CONSOLE_NAME) || !originServerName.equals(manager.plugin.getServerName())){
-			Log.toCS(message);
-		}
+		broadcastMessage();
 	}
 	
 }

@@ -34,7 +34,8 @@ import java.util.List;
 public final class PunishmentManager extends Manager<Core> {
 	
 	private final DBCollection collection;
-	private final List<Punishment> punishments;
+	final List<Punishment> punishments;
+	private PunishmentPMSC punishmentPMSC;
 	
 	public PunishmentManager(Core plugin){
 		super("Punishment", plugin);
@@ -47,11 +48,17 @@ public final class PunishmentManager extends Manager<Core> {
 	protected void onEnable() {
 		//downloadPunishments();
 		
+		punishmentPMSC = new PunishmentPMSC(this);
+		
 		registerCommand(new PunishmentCommand(this));
 		registerCommand(new DisconnectCommand(this));
 		registerCommand(new KickCommand(this));
 		registerCommand(new MuteCommand(this));
 		registerCommand(new BanCommand(this));
+	}
+	
+	public PunishmentPMSC getPunishmentPMSC() {
+		return punishmentPMSC;
 	}
 	
 	public void addPunishment(Punishment punishment){

@@ -41,6 +41,7 @@ public final class ServerManager extends Manager<Core> {
 		registerCommand(new StopCommand(this));
 		registerCommand(new ServerConfigReloadCommand(this));
 		registerCommand(new ListCommand(this));
+		registerCommand(new ServerCommand(this));
 	}
 	
 	@EventHandler

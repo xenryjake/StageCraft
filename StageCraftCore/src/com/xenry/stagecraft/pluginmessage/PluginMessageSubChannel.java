@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public abstract class PluginMessageSubChannel<P extends StageCraftPlugin, M extends Manager<P>> {
+public abstract class PluginMessageSubChannel<P extends StageCraftPlugin,M extends Manager<P>> {
 	
 	public static final String CHANNEL_NAME = "StageCraft";
 	

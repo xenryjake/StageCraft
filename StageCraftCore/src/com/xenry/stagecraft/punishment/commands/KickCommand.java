@@ -8,6 +8,8 @@ import com.xenry.stagecraft.punishment.Punishment;
 import com.xenry.stagecraft.punishment.LocalPunishmentExecution;
 import com.xenry.stagecraft.punishment.PunishmentManager;
 import com.xenry.stagecraft.util.M;
+import com.xenry.stagecraft.util.PlayerUtil;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -32,15 +34,22 @@ public final class KickCommand extends Command<Core,PunishmentManager> {
 	
 	@Override
 	protected void playerPerform(Profile profile, String[] args, String label) {
-		doKick(profile.getPlayer(), args, label, profile.getUUID());
+		Player player = profile.getPlayer();
+		doKick(player, args, label, profile.getUUID(), player);
 	}
 	
 	@Override
 	protected void serverPerform(CommandSender sender, String[] args, String label) {
-		doKick(sender, args, label, M.CONSOLE_NAME);
+		Player pmscSender = PlayerUtil.getAnyPlayer();
+		if(pmscSender == null){
+			sender.sendMessage("");
+			sender.sendMessage(ChatColor.DARK_RED + "WARNING! " + M.err + "No players are online this instance. If player is online network-wide, changes will not take effect until the player switches servers or relogs.");
+			sender.sendMessage("");
+		}
+		doKick(sender, args, label, M.CONSOLE_NAME, pmscSender);
 	}
 	
-	private void doKick(CommandSender sender, String[] args, String label, String punishedBy){
+	private void doKick(CommandSender sender, String[] args, String label, String punishedBy, Player pmscSender){
 		if(args.length < 1){
 			sender.sendMessage(M.usage("/" + label + " <player> [reason]"));
 			return;
@@ -66,7 +75,7 @@ public final class KickCommand extends Command<Core,PunishmentManager> {
 			reason = Joiner.on(' ').join(Arrays.copyOfRange(args, 1, args.length));
 		}
 		Punishment kick = new Punishment(Punishment.Type.KICK, target.getUniqueId().toString(), punishedBy, reason);
-		LocalPunishmentExecution execution = new LocalPunishmentExecution(manager, kick, sender);
+		LocalPunishmentExecution execution = new LocalPunishmentExecution(manager, kick, sender, pmscSender);
 		execution.apply();
 	}
 	

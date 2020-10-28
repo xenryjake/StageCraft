@@ -24,6 +24,8 @@ import java.util.List;
  */
 public final class ListCommand extends Command<Core,ServerManager> {
 	
+	//todo make this network wide
+	
 	public static final Access SEE_VANISHED = Rank.ADMIN;
 	
 	public ListCommand(ServerManager manager){

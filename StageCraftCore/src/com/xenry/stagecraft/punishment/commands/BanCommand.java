@@ -8,9 +8,12 @@ import com.xenry.stagecraft.punishment.Punishment;
 import com.xenry.stagecraft.punishment.LocalPunishmentExecution;
 import com.xenry.stagecraft.punishment.PunishmentManager;
 import com.xenry.stagecraft.util.M;
+import com.xenry.stagecraft.util.PlayerUtil;
 import com.xenry.stagecraft.util.time.TimeUtil;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -32,15 +35,22 @@ public final class BanCommand extends Command<Core,PunishmentManager> {
 	
 	@Override
 	protected void playerPerform(Profile profile, String[] args, String label) {
-		doBan(profile.getPlayer(), args, label, profile.getUUID());
+		Player player = profile.getPlayer();
+		doBan(player, args, label, profile.getUUID(), player);
 	}
 	
 	@Override
 	protected void serverPerform(CommandSender sender, String[] args, String label) {
-		doBan(sender, args, label, M.CONSOLE_NAME);
+		Player pmscSender = PlayerUtil.getAnyPlayer();
+		if(pmscSender == null){
+			sender.sendMessage("");
+			sender.sendMessage(ChatColor.DARK_RED + "WARNING! " + M.err + "No players are online this instance. If player is online network-wide, changes will not take effect until the player switches servers or relogs.");
+			sender.sendMessage("");
+		}
+		doBan(sender, args, label, M.CONSOLE_NAME, pmscSender);
 	}
 	
-	private void doBan(CommandSender sender, String[] args, String label, String punishedBy) {
+	private void doBan(CommandSender sender, String[] args, String label, String punishedBy, Player pmscSender) {
 		if(args.length < 2) {
 			sender.sendMessage(M.usage("/" + label + " <player> <duration> [reason]"));
 			return;
@@ -80,7 +90,7 @@ public final class BanCommand extends Command<Core,PunishmentManager> {
 			reason = Joiner.on(' ').join(args, 2, args.length);
 		}
 		Punishment ban = new Punishment(Punishment.Type.BAN, target.getUUID(), punishedBy, reason, duration == -1 ? -1 : TimeUtil.nowSeconds() + duration, duration);
-		LocalPunishmentExecution execution = new LocalPunishmentExecution(manager, ban, sender);
+		LocalPunishmentExecution execution = new LocalPunishmentExecution(manager, ban, sender, pmscSender);
 		execution.apply();
 	}
 	
