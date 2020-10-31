@@ -212,4 +212,8 @@ public abstract class Command<P extends StageCraftPlugin,M extends Manager<P>> {
 		player.sendMessage("§4You do not have access to that command.");
 	}
 	
+	protected final List<String> allNetworkPlayers(){
+		return manager.getCore().getServerManager().getAllNetworkPlayers();
+	}
+	
 }

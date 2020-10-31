@@ -51,10 +51,9 @@ public abstract class PunishmentExecution {
 		String message = sb.toString().trim();
 		for(Player player : Bukkit.getOnlinePlayers()){
 			Profile profile = manager.plugin.getProfileManager().getProfile(player);
-			if(profile == null || !VIEW_ALERTS.has(profile) || player.getName().equals(punishedByName) || player.getUniqueId().toString().equals(punished.getUUID())){
-				continue;
+			if(profile != null && VIEW_ALERTS.has(profile) && !player.getName().equals(punishedByName) && !player.getUniqueId().toString().equals(punished.getUUID())){
+				player.sendMessage(message);
 			}
-			player.sendMessage(message);
 		}
 		if(!M.CONSOLE_NAME.equals(punishedByName) || !originServerName.equals(manager.plugin.getServerName())){
 			Log.toCS(message);

@@ -1,8 +1,7 @@
 package com.xenry.stagecraft.creative.gameplay;
 import com.xenry.stagecraft.Manager;
 import com.xenry.stagecraft.creative.Creative;
-import com.xenry.stagecraft.creative.gameplay.commands.LockoutCommand;
-import com.xenry.stagecraft.creative.gameplay.commands.OverrideCommand;
+import com.xenry.stagecraft.creative.gameplay.commands.*;
 import com.xenry.stagecraft.creative.gameplay.pvptoggle.PvPCommand;
 import com.xenry.stagecraft.creative.gameplay.pvptoggle.PvPHandler;
 import com.xenry.stagecraft.creative.gameplay.pvptoggle.PvPLockCommand;
@@ -59,6 +58,40 @@ public final class GameplayManager extends Manager<Creative> {
 		
 		registerCommand(new LockoutCommand(this));
 		registerCommand(new OverrideCommand(this));
+		
+		registerCommand(new AnvilCommand(this));
+		registerCommand(new BookCommand(this));
+		registerCommand(new BreakCommand(this));
+		registerCommand(new BurnCommand(this));
+		registerCommand(new CartographyTableCommand(this));
+		registerCommand(new ClearInventoryCommand(this));
+		registerCommand(new EnchantingTableCommand(this));
+		registerCommand(new EnderChestCommand(this));
+		registerCommand(new ExperienceCommand(this));
+		registerCommand(new ExtinguishCommand(this));
+		registerCommand(new FeedCommand(this));
+		registerCommand(new FlyCommand(this));
+		registerCommand(new GameModeCommand(this));
+		registerCommand(new HealCommand(this));
+		registerCommand(new ItemLoreCommand(this));
+		registerCommand(new ItemNameCommand(this));
+		registerCommand(new KillCommand(this));
+		registerCommand(new LightningCommand(this));
+		registerCommand(new LoomCommand(this));
+		registerCommand(new MoreCommand(this));
+		registerCommand(new NearCommand(this));
+		registerCommand(new RepairCommand(this));
+		registerCommand(new RestCommand(this));
+		registerCommand(new SkullCommand(this));
+		registerCommand(new SmithingTableCommand(this));
+		registerCommand(new SmithingTableCommand(this));
+		registerCommand(new SpeedCommand(this));
+		registerCommand(new StonecutterCommand(this));
+		registerCommand(new SuicideCommand(this));
+		registerCommand(new TimeCommand(this));
+		registerCommand(new TrashCommand(this));
+		registerCommand(new WeatherCommand(this));
+		registerCommand(new WorkbenchCommand(this));
 	}
 	
 	public BlacklistHandler getBlacklistHandler() {

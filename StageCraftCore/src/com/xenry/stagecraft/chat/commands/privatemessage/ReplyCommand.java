@@ -27,7 +27,7 @@ public final class ReplyCommand extends Command<Core,ChatManager> {
 		setCanBeDisabled(true);
 	}
 	
-	@Override
+	/*@Override
 	protected void serverPerform(CommandSender sender, String[] args, String label) {
 		if(args.length < 1){
 			sender.sendMessage(M.usage("/" + label + " <message>"));
@@ -45,6 +45,11 @@ public final class ReplyCommand extends Command<Core,ChatManager> {
 		}
 		String msg = Joiner.on(' ').join(args);
 		manager.sendPrivateMessage(manager.plugin.getProfileManager().getProfile(to), null, msg);
+	}*/
+	
+	@Override
+	protected void serverPerform(CommandSender sender, String[] args, String label) {
+		onlyForPlayers(sender);
 	}
 	
 	@Override
@@ -53,7 +58,7 @@ public final class ReplyCommand extends Command<Core,ChatManager> {
 			profile.sendMessage(M.usage("/" + label + " <message>"));
 			return;
 		}
-		String name = manager.getConversation(profile.getLatestUsername());
+		/*String name = manager.getConversation(profile.getLatestUsername());
 		if(name == null){
 			profile.sendMessage(M.error("You haven't messaged anyone recently."));
 			return;
@@ -67,23 +72,20 @@ public final class ReplyCommand extends Command<Core,ChatManager> {
 				profile.sendMessage(M.error("The player who you last messaged isn't online."));
 				return;
 			}
-		}
-		StringBuilder message = new StringBuilder();
-		for(String arg : args) {
-			message.append(arg).append(" ");
-		}
-		String msg = message.toString().trim();
-		manager.sendPrivateMessage(manager.plugin.getProfileManager().getProfile(to), profile, msg);
+		}*/
+		String msg = Joiner.on(' ').join(args);
+		//manager.sendPrivateMessage(manager.plugin.getProfileManager().getProfile(to), profile, msg);
+		manager.handlePrivateMessage(profile, ChatManager.PM_REPLY_KEY, msg);
 	}
 	
 	@Override
 	protected List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		return Collections.emptyList();
+		return allNetworkPlayers();
 	}
 	
 	@Override
 	protected List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
-		return Collections.emptyList();
+		return allNetworkPlayers();
 	}
 	
 }

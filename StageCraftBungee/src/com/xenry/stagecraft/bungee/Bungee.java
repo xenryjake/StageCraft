@@ -129,9 +129,9 @@ public final class Bungee extends Plugin {
 		return random;
 	}
 	
-	protected <M extends Manager> M loadManager(Class<M> clazz){
+	protected <T extends Manager> T loadManager(Class<T> clazz){
 		try{
-			M manager = clazz.getConstructor(this.getClass()).newInstance(this);
+			T manager = clazz.getConstructor(this.getClass()).newInstance(this);
 			managers.add(manager);
 			return manager;
 		}catch(Exception ex){

@@ -43,7 +43,7 @@ public final class KickCommand extends Command<Core,PunishmentManager> {
 		Player pmscSender = PlayerUtil.getAnyPlayer();
 		if(pmscSender == null){
 			sender.sendMessage("");
-			sender.sendMessage(ChatColor.DARK_RED + "WARNING! " + M.err + "No players are online this instance. If player is online network-wide, changes will not take effect until the player switches servers or relogs.");
+			sender.sendMessage(ChatColor.DARK_RED + "WARNING! " + M.err + "No players are online this instance. If the player is online another instance, changes will not take effect until the player switches servers or relogs.");
 			sender.sendMessage("");
 		}
 		doKick(sender, args, label, M.CONSOLE_NAME, pmscSender);
@@ -54,19 +54,27 @@ public final class KickCommand extends Command<Core,PunishmentManager> {
 			sender.sendMessage(M.usage("/" + label + " <player> [reason]"));
 			return;
 		}
-		Player target = Bukkit.getPlayer(args[0]);
+		Profile target;
+		if(args[0].length() <= 17) {
+			Player player = Bukkit.getPlayer(args[0]);
+			if(player != null) {
+				target = manager.plugin.getProfileManager().getProfile(player);
+			} else {
+				target = manager.plugin.getProfileManager().getProfileByLatestUsername(args[0]);
+			}
+		} else {
+			target = manager.plugin.getProfileManager().getProfileByUUID(args[0]);
+		}
 		if(target == null){
-			sender.sendMessage(M.playerNotFound(args[0]));
+			sender.sendMessage(M.error("There is no profile for that player."));
 			return;
 		}
-		
-		Profile targetProfile = manager.plugin.getProfileManager().getProfile(target);
-		if(targetProfile == null){
-			sender.sendMessage(M.error(target.getName() + " doesn't have a profile."));
+		if(!manager.plugin.getServerManager().getAllNetworkPlayers().contains(target.getLatestUsername())){
+			sender.sendMessage(M.error("That player is not online."));
 			return;
 		}
-		if(Punishment.IMMUNITY.has(targetProfile)){
-			sender.sendMessage(M.error(target.getName() + " is immune to punishment."));
+		if(Punishment.IMMUNITY.has(target)){
+			sender.sendMessage(M.error(target.getLatestUsername() + " is immune to punishment."));
 			return;
 		}
 		
@@ -74,19 +82,19 @@ public final class KickCommand extends Command<Core,PunishmentManager> {
 		if(args.length > 1){
 			reason = Joiner.on(' ').join(Arrays.copyOfRange(args, 1, args.length));
 		}
-		Punishment kick = new Punishment(Punishment.Type.KICK, target.getUniqueId().toString(), punishedBy, reason);
+		Punishment kick = new Punishment(Punishment.Type.KICK, target.getUUID(), punishedBy, reason);
 		LocalPunishmentExecution execution = new LocalPunishmentExecution(manager, kick, sender, pmscSender);
 		execution.apply();
 	}
 	
 	@Override
 	protected List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		return args.length <= 1 ? null : Collections.emptyList();
+		return args.length <= 1 ? allNetworkPlayers() : Collections.emptyList();
 	}
 	
 	@Override
 	protected List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
-		return args.length <= 1 ? null : Collections.emptyList();
+		return args.length <= 1 ? allNetworkPlayers() : Collections.emptyList();
 	}
 	
 }

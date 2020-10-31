@@ -3,11 +3,13 @@ import com.xenry.stagecraft.Manager;
 import com.xenry.stagecraft.Core;
 import com.xenry.stagecraft.server.commands.*;
 import com.xenry.stagecraft.util.M;
+import com.xenry.stagecraft.util.PlayerUtil;
 import io.puharesource.mc.titlemanager.api.v2.TitleManagerAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.server.ServerListPingEvent;
 import org.bukkit.scheduler.BukkitTask;
 
@@ -27,14 +29,19 @@ public final class ServerManager extends Manager<Core> {
 	
 	private HashMap<String,List<String>> networkPlayers;
 	private List<String> allNetworkPlayers;
+	private SendPlayersPMSC sendPlayersPMSC;
 	
 	public ServerManager(Core plugin){
 		super("Server", plugin);
+		networkPlayers = new HashMap<>();
+		allNetworkPlayers = new ArrayList<>();
 	}
 	
 	@Override
 	protected void onEnable() {
 		plugin.getPluginMessageManager().registerSubChannel(new NetworkPlayersUpdatePMSC(this));
+		sendPlayersPMSC = new SendPlayersPMSC(this);
+		plugin.getPluginMessageManager().registerSubChannel(new SendPlayersPMSC(this));
 		
 		registerCommand(new DebugModeCommand(this));
 		registerCommand(new BetaFeaturesCommand(this));
@@ -42,6 +49,12 @@ public final class ServerManager extends Manager<Core> {
 		registerCommand(new ServerConfigReloadCommand(this));
 		registerCommand(new ListCommand(this));
 		registerCommand(new ServerCommand(this));
+		registerCommand(new FindCommand(this));
+		registerCommand(new SendCommand(this));
+	}
+	
+	public SendPlayersPMSC getSendPlayersPMSC() {
+		return sendPlayersPMSC;
 	}
 	
 	@EventHandler
@@ -50,11 +63,24 @@ public final class ServerManager extends Manager<Core> {
 	}
 	
 	@EventHandler
-	public void on(AsyncPlayerPreLoginEvent event){
+	public void onLogin(AsyncPlayerPreLoginEvent event){
 		if(willShutDown){
 			event.setLoginResult(AsyncPlayerPreLoginEvent.Result.KICK_OTHER);
 			event.setKickMessage(M.err + "The server is about to shut down. Try again later.");
 		}
+	}
+	
+	@EventHandler
+	public void onQuit(PlayerQuitEvent event){
+		if(Bukkit.getOnlinePlayers().size() > 1){
+			return;
+		}
+		Player player = PlayerUtil.getAnyPlayer();
+		if(player != null && player != event.getPlayer()){
+			return;
+		}
+		allNetworkPlayers = new ArrayList<>();
+		networkPlayers = new HashMap<>();
 	}
 	
 	public void cancelShutdown(){

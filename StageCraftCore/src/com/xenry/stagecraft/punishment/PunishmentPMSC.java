@@ -6,10 +6,7 @@ import com.xenry.stagecraft.Core;
 import com.xenry.stagecraft.pluginmessage.PluginMessageSubChannel;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.util.Log;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-
-import java.util.UUID;
 
 /**
  * StageCraft created by Henry Blasingame (Xenry) on 10/19/20
@@ -19,7 +16,7 @@ import java.util.UUID;
  * is prohibited.
  */
 @SuppressWarnings("UnstableApiUsage")
-public class PunishmentPMSC extends PluginMessageSubChannel<Core,PunishmentManager> {
+public final class PunishmentPMSC extends PluginMessageSubChannel<Core,PunishmentManager> {
 	
 	public PunishmentPMSC(PunishmentManager manager){
 		super("Punishment", manager);
@@ -27,8 +24,6 @@ public class PunishmentPMSC extends PluginMessageSubChannel<Core,PunishmentManag
 	
 	public void send(Player sender, Punishment punishment){
 		ByteArrayDataOutput out = ByteStreams.newDataOutput();
-		out.writeUTF("Forward");
-		out.writeUTF("ALL");
 		out.writeUTF(CHANNEL_NAME);
 		out.writeUTF(subChannelName);
 		out.writeUTF(manager.plugin.getServerName());

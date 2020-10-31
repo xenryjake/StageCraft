@@ -22,7 +22,6 @@ public final class ChatCommand extends Command<Core,ChatManager> {
 	public ChatCommand(ChatManager manager){
 		super(manager, Rank.MOD, "chat", "ch");
 		setCanBeDisabled(true);
-		addSubCommand(new ChatBroadcastCommand(manager));
 		addSubCommand(new ChatSilenceCommand(manager));
 	}
 	
@@ -33,8 +32,14 @@ public final class ChatCommand extends Command<Core,ChatManager> {
 	
 	@Override
 	protected void serverPerform(CommandSender sender, String[] args, String label) {
+		if(args.length > 0 && (args[0].equalsIgnoreCase("broadcast")
+				|| args[0].equalsIgnoreCase("bcast")
+				|| args[0].equalsIgnoreCase("bc"))){
+			sender.sendMessage(M.elm + "Notice: " + M.msg + " This feature has been moved to /broadcast");
+			return;
+		}
 		sender.sendMessage(M.msg + "Available Commands:");
-		sender.sendMessage(M.help(label + " bc", "Broadcast a message in chat"));
+		sender.sendMessage(M.help("broadcast", "Broadcast a message in chat"));
 		sender.sendMessage(M.help(label + " silence", "Silence the chat to a rank"));
 	}
 	

@@ -44,7 +44,7 @@ public final class MuteCommand extends Command<Core,PunishmentManager> {
 		Player pmscSender = PlayerUtil.getAnyPlayer();
 		if(pmscSender == null){
 			sender.sendMessage("");
-			sender.sendMessage(ChatColor.DARK_RED + "WARNING! " + M.err + "No players are online this instance. If player is online network-wide, changes will not take effect until the player switches servers or relogs.");
+			sender.sendMessage(ChatColor.DARK_RED + "WARNING! " + M.err + "No players are online this instance. If the player is online another instance, changes will not take effect until the player switches servers or relogs.");
 			sender.sendMessage("");
 		}
 		doMute(sender, args, label, M.CONSOLE_NAME, pmscSender);
@@ -57,8 +57,9 @@ public final class MuteCommand extends Command<Core,PunishmentManager> {
 		}
 		Profile target;
 		if(args[0].length() <= 17) {
-			if(Bukkit.getPlayer(args[0]) != null) {
-				target = manager.plugin.getProfileManager().getProfile(Bukkit.getPlayer(args[0]));
+			Player player = Bukkit.getPlayer(args[0]);
+			if(player != null) {
+				target = manager.plugin.getProfileManager().getProfile(player);
 			} else {
 				target = manager.plugin.getProfileManager().getProfileByLatestUsername(args[0]);
 			}
@@ -87,7 +88,7 @@ public final class MuteCommand extends Command<Core,PunishmentManager> {
 		
 		String reason = "";
 		if(args.length > 2) {
-			reason = Joiner.on(' ').join(args, 2, args.length);
+			reason = Joiner.on(' ').join(Arrays.copyOfRange(args, 2, args.length));
 		}
 		Punishment mute = new Punishment(Punishment.Type.MUTE, target.getUUID(), punishedBy, reason, duration == -1 ? -1 : TimeUtil.nowSeconds() + duration, duration);
 		LocalPunishmentExecution execution = new LocalPunishmentExecution(manager, mute, sender, pmscSender);
@@ -104,7 +105,7 @@ public final class MuteCommand extends Command<Core,PunishmentManager> {
 		switch(args.length){
 			case 0:
 			case 1:
-				return null;
+				return allNetworkPlayers();
 			case 2:{
 				args[1] = args[1].toLowerCase().replaceAll("[smhd]", "");
 				try{

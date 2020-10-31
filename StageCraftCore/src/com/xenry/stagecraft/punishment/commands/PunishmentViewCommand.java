@@ -132,7 +132,7 @@ public final class PunishmentViewCommand extends Command<Core,PunishmentManager>
 		switch(args.length){
 			case 0:
 			case 1:
-				return null;
+				return allNetworkPlayers();
 			case 2:
 				return Arrays.asList("ban", "mute", "kick");
 			default:

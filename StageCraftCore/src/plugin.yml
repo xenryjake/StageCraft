@@ -37,12 +37,17 @@ commands:
     description: "Reload the plugin config"
   server:
     description: "Go to another server"
-    aliases: [goto]
+    aliases: [goto,servers]
   list:
     description: "List online players"
     aliases: [who,online,ls]
+  find:
+    description: "Locate a player on the network"
+    aliases: [locate,whereis]
+  send:
+    description: "Send a player to another server"
 
-# PROFILE COMMANDS
+  # PROFILE COMMANDS
   lookup:
     description: "Lookup a player's information from the database"
     aliases: [whois]
@@ -69,6 +74,9 @@ commands:
   chat:
     description: "Manage chat"
     aliases: [ch]
+  broadcast:
+    description: "Broadcast a message"
+    aliases: [bcast,bc]
   fm:
     description: "Send a fake message"
   staffchat:

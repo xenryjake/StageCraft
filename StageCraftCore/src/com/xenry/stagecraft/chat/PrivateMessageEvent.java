@@ -17,12 +17,13 @@ public class PrivateMessageEvent extends CancellableEvent {
 	private static final HandlerList handlerList = new HandlerList();
 	
 	@Nullable
-	private final Profile to, from;
+	private final Profile from;
+	private final String targetName;
 	private String message;
 	
-	public PrivateMessageEvent(@Nullable Profile from, @Nullable Profile to, String message){
+	public PrivateMessageEvent(@Nullable Profile from, String toName, String message){
 		this.from = from;
-		this.to = to;
+		this.targetName = toName;
 		this.message = message;
 	}
 	
@@ -30,8 +31,8 @@ public class PrivateMessageEvent extends CancellableEvent {
 		return handlerList;
 	}
 	
-	public @Nullable Profile getTo() {
-		return to;
+	public String getTargetName() {
+		return targetName;
 	}
 	
 	public @Nullable Profile getFrom() {

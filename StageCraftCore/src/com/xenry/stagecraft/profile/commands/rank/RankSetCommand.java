@@ -7,6 +7,7 @@ import com.xenry.stagecraft.profile.ProfileManager;
 import com.xenry.stagecraft.profile.Rank;
 import com.xenry.stagecraft.util.Log;
 import com.xenry.stagecraft.util.M;
+import com.xenry.stagecraft.util.PlayerUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -66,15 +67,23 @@ public final class RankSetCommand extends Command<Core,ProfileManager> {
 		manager.save(target);
 		target.updateDisplayName();
 		
-		String rankUpdateMessage = M.elm + sender.getName() + M.msg + " set " + M.elm + target.getDisplayName() + M.msg + "'s rank to " + rank.getColoredName() + M.msg + ".";
+		String senderName = sender instanceof Player ? sender.getName() : M.CONSOLE_NAME;
+		
+		String rankUpdateMessage = M.elm + senderName + M.msg + " set " + M.elm + target.getLatestUsername() + M.msg + "'s rank to " + rank.getColoredName() + M.msg + ".";
 		Log.toCS(rankUpdateMessage);
 		for(Player player : Bukkit.getOnlinePlayers()){
 			Profile profile = manager.plugin.getProfileManager().getProfile(player);
-			if(profile == null || !SEE_RANK_UPDATES.has(profile)){
-				continue;
+			if(profile != null && SEE_RANK_UPDATES.has(profile) && profile != target){
+				player.sendMessage(rankUpdateMessage);
 			}
-			player.sendMessage(rankUpdateMessage);
 		}
+		
+		Player pluginMessageSender = sender instanceof Player ? (Player)sender : PlayerUtil.getAnyPlayer();
+		if(pluginMessageSender == null){
+			sender.sendMessage(M.err + M.BOLD + "WARNING!" + M.err + " No players are online this instance. If the player is online another instance, the rank update will likely be overwritten.");
+			return;
+		}
+		manager.getProfileRankUpdatePMSC().send(pluginMessageSender, target, senderName);
 	}
 	
 	@Override
@@ -87,7 +96,7 @@ public final class RankSetCommand extends Command<Core,ProfileManager> {
 		switch(args.length){
 			case 0:
 			case 1:
-				return null;
+				return allNetworkPlayers();
 			case 2:
 				return Rank.getRankNames();
 			default:

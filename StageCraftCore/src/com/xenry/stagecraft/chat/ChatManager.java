@@ -1,6 +1,7 @@
 package com.xenry.stagecraft.chat;
 import com.xenry.stagecraft.Manager;
 import com.xenry.stagecraft.Core;
+import com.xenry.stagecraft.chat.commands.BroadcastCommand;
 import com.xenry.stagecraft.chat.commands.FakeMessageCommand;
 import com.xenry.stagecraft.chat.commands.SayCommand;
 import com.xenry.stagecraft.chat.commands.privatemessage.SocialSpyCommand;
@@ -13,21 +14,15 @@ import com.xenry.stagecraft.chat.emotes.EmotesCommand;
 import com.xenry.stagecraft.commands.Access;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
-import com.xenry.stagecraft.profile.Setting;
 import com.xenry.stagecraft.util.Log;
 import com.xenry.stagecraft.util.M;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.*;
 import net.md_5.bungee.api.chat.hover.content.Text;
-import org.bukkit.Bukkit;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.HashMap;
 
 /**
  * StageCraft created by Henry Blasingame (Xenry) on 6/21/20
@@ -39,8 +34,8 @@ import java.util.HashMap;
 public final class ChatManager extends Manager<Core> {
 	
 	public static final Access COLOR_ACCESS = Rank.ADMIN;
+	public static final String PM_REPLY_KEY = "**REPLY**";
 	
-	private final HashMap<String,ConversationEntry> conversations;
 	private Rank chatRank = Rank.MEMBER;
 	
 	private String globalChatPrefix;
@@ -48,10 +43,10 @@ public final class ChatManager extends Manager<Core> {
 	private PlayerChatPMSC playerChatPMSC;
 	private PrivateMessagePMSC privateMessagePMSC;
 	private StaffChatPMSC staffChatPMSC;
+	private BroadcastPMSC broadcastPMSC;
 	
 	public ChatManager(Core plugin){
 		super("Chat", plugin);
-		conversations = new HashMap<>();
 	}
 	
 	@Override
@@ -65,7 +60,11 @@ public final class ChatManager extends Manager<Core> {
 		staffChatPMSC = new StaffChatPMSC(this);
 		plugin.getPluginMessageManager().registerSubChannel(staffChatPMSC);
 		
+		broadcastPMSC = new BroadcastPMSC(this);
+		plugin.getPluginMessageManager().registerSubChannel(broadcastPMSC);
+		
 		registerCommand(new ChatCommand(this));
+		registerCommand(new BroadcastCommand(this));
 		registerCommand(new FakeMessageCommand(this));
 		registerCommand(new StaffChatCommand(this));
 		registerCommand(new MessageCommand(this));
@@ -78,8 +77,20 @@ public final class ChatManager extends Manager<Core> {
 		setGlobalChatPrefix(plugin.getConfig().getString("global-chat-prefix", ""));
 	}
 	
+	public PlayerChatPMSC getPlayerChatPMSC() {
+		return playerChatPMSC;
+	}
+	
+	public PrivateMessagePMSC getPrivateMessagePMSC() {
+		return privateMessagePMSC;
+	}
+	
 	public StaffChatPMSC getStaffChatPMSC() {
 		return staffChatPMSC;
+	}
+	
+	public BroadcastPMSC getBroadcastPMSC() {
+		return broadcastPMSC;
 	}
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
@@ -150,11 +161,29 @@ public final class ChatManager extends Manager<Core> {
 	}
 	
 	/**
+	 * Get the global chat prefix
+	 * @return the prefix
+	 */
+	public String getGlobalChatPrefix() {
+		return globalChatPrefix;
+	}
+	
+	/**
+	 * Set the global chat prefix
+	 * @param globalChatPrefix the prefix
+	 */
+	public void setGlobalChatPrefix(String globalChatPrefix) {
+		this.globalChatPrefix = globalChatPrefix == null ? "" :
+				ChatColor.translateAlternateColorCodes('&', globalChatPrefix);
+	}
+	
+	/* *
 	 * Send a private message
 	 * @param to sender of message (null if console)
 	 * @param from recipient of message (null if console)
 	 * @param message message to be sent
-	 */
+	 * /
+	@Deprecated
 	public void sendPrivateMessage(@Nullable Profile to, @Nullable Profile from, String message) {
 		if(to == from) {
 			if(from == null) {
@@ -193,51 +222,36 @@ public final class ChatManager extends Manager<Core> {
 
 		conversations.put(toName, new ConversationEntry(fromName, System.currentTimeMillis() + 3600000));
 		conversations.put(fromName, new ConversationEntry(toName, System.currentTimeMillis() + 3600000));
-		for(Player player : Bukkit.getOnlinePlayers()){
+		/*for(Player player : Bukkit.getOnlinePlayers()){
 			Profile socialSpy = plugin.getProfileManager().getProfile(player);
 			if(socialSpy != null && socialSpy != to && socialSpy != from && socialSpy.getSetting(Setting.SOCIAL_SPY)
 					&& SocialSpyCommand.ACCESS.has(socialSpy)){
 				socialSpy.sendMessage(M.DGRAY + "[PM] " + fromName + " to " + toName + ": " + message);
 			}
 		}
-	}
+	}*/
 	
-	public String getGlobalChatPrefix() {
-		return globalChatPrefix;
-	}
-	
-	public void setGlobalChatPrefix(String globalChatPrefix) {
-		this.globalChatPrefix = globalChatPrefix == null ? "" :
-				ChatColor.translateAlternateColorCodes('&', globalChatPrefix);
-	}
-	
-	/**
-	 * Get the name of a player's conversation
-	 * @param fromName name of player to lookup
-	 * @return name of player conversing with
-	 */
-	public String getConversation(String fromName){
-		ConversationEntry entry = conversations.get(fromName);
-		if(entry == null){
-			return null;
-		}
-		if(entry.timeout <= System.currentTimeMillis()){
-			conversations.remove(fromName);
-			return null;
-		}
-		return entry.name;
-	}
-	
-	private static class ConversationEntry {
-		
-		public final String name;
-		public final Long timeout;
-		
-		public ConversationEntry(String name, Long timeout){
-			this.name = name;
-			this.timeout = timeout;
+	public void handlePrivateMessage(Profile from, String targetName, String message){
+		if(from.getLatestUsername().equals(targetName)){
+			from.sendMessage(M.error("You can't message yourself."));
+			return;
 		}
 		
+		PrivateMessageEvent event = new PrivateMessageEvent(from, targetName, message);
+		plugin.getServer().getPluginManager().callEvent(event);
+		if(event.isCancelled()) {
+			return;
+		}
+		message = event.getMessage();
+		
+		if(COLOR_ACCESS.has(from)) {
+			message = ChatColor.translateAlternateColorCodes('&', message);
+		}
+		if(Emote.EMOTE_ACCESS.has(from)) {
+			message = Emote.replaceEmotes(message, ChatColor.WHITE);
+		}
+		
+		privateMessagePMSC.send(from.getPlayer(), targetName, message);
 	}
 	
 }

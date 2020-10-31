@@ -1,10 +1,7 @@
 package com.xenry.stagecraft.bungee.proxy;
 import com.xenry.stagecraft.bungee.Bungee;
 import com.xenry.stagecraft.bungee.Manager;
-import com.xenry.stagecraft.bungee.proxy.commands.EndCommand;
-import com.xenry.stagecraft.bungee.proxy.commands.ProxyBetaFeaturesCommand;
-import com.xenry.stagecraft.bungee.proxy.commands.ProxyConfigReloadCommand;
-import com.xenry.stagecraft.bungee.proxy.commands.ProxyDebugModeCommand;
+import com.xenry.stagecraft.bungee.proxy.commands.*;
 import net.md_5.bungee.BungeeTitle;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ServerPing;
@@ -33,6 +30,7 @@ public final class ProxyManager extends Manager {
 	private ScheduledTask shutdownTask = null;
 	
 	private NetworkPlayersUpdatePMSC networkPlayersUpdatePMSC;
+	private PlayerWillSwitchPMSC playerWillSwitchPMSC;
 	
 	public ProxyManager(Bungee plugin){
 		super("Proxy", plugin);
@@ -43,10 +41,30 @@ public final class ProxyManager extends Manager {
 		networkPlayersUpdatePMSC = new NetworkPlayersUpdatePMSC(this);
 		plugin.getPluginMessageManager().registerSubChannel(networkPlayersUpdatePMSC);
 		
+		playerWillSwitchPMSC = new PlayerWillSwitchPMSC(this);
+		plugin.getPluginMessageManager().registerSubChannel(playerWillSwitchPMSC);
+		
+		plugin.getPluginMessageManager().registerSubChannel(new SendPlayersPMSC(this));
+		plugin.getPluginMessageManager().registerSubChannel(new PunishmentPMSC(this));
+		plugin.getPluginMessageManager().registerSubChannel(new PunishmentRemovePMSC(this));
+		plugin.getPluginMessageManager().registerSubChannel(new ProfileRankUpdatePMSC(this));
+		
 		registerCommand(new EndCommand(this));
+		registerCommand(new DotSendCommand(this));
+		registerCommand(new DotFindCommand(this));
+		registerCommand(new DotServerCommand(this));
+		registerCommand(new DotListCommand(this));
 		registerCommand(new ProxyDebugModeCommand(this));
 		registerCommand(new ProxyBetaFeaturesCommand(this));
 		registerCommand(new ProxyConfigReloadCommand(this));
+	}
+	
+	public NetworkPlayersUpdatePMSC getNetworkPlayersUpdatePMSC() {
+		return networkPlayersUpdatePMSC;
+	}
+	
+	public PlayerWillSwitchPMSC getPlayerWillSwitchPMSC() {
+		return playerWillSwitchPMSC;
 	}
 	
 	@EventHandler

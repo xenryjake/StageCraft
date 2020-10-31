@@ -20,7 +20,7 @@ import java.util.List;
  * is prohibited.
  */
 @SuppressWarnings("UnstableApiUsage")
-public class StaffChatPMSC extends PluginMessageSubChannel<ChatManager> {
+public final class StaffChatPMSC extends PluginMessageSubChannel<ChatManager> {
 	
 	public StaffChatPMSC(ChatManager manager) {
 		super("StaffChat", manager);
@@ -30,17 +30,19 @@ public class StaffChatPMSC extends PluginMessageSubChannel<ChatManager> {
 	protected void receive(ByteArrayDataInput in, ProxiedPlayer receiver){
 		String name = in.readUTF();
 		String json = in.readUTF();
-		BaseComponent[] text;
-		try {
-			text = ComponentSerializer.parse(json);
+		send(name, json);
+	}
+	
+	public void send(String name, String json){
+		try{
+			BaseComponent[] text = ComponentSerializer.parse(json);
+			Log.toCS(new ComponentBuilder("[SC] " + name).color(ChatColor.DARK_PURPLE)
+					.append(": ").color(ChatColor.DARK_GRAY)
+					.append(text).color(ChatColor.GRAY).create());
 		}catch(Exception ex){
 			Log.warn("Received malformed json in StaffChatPMSC");
 			return;
 		}
-		Log.toCS(new ComponentBuilder("[SC] " + name).color(ChatColor.DARK_PURPLE)
-				.append(": ").color(ChatColor.DARK_GRAY)
-				.append(text).color(ChatColor.GRAY).create());
-		
 		List<ProxiedPlayer> senders = getSendersForAllServers();
 		if(senders.isEmpty()){
 			return;

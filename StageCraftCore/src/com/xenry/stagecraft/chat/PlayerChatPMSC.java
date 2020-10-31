@@ -15,7 +15,7 @@ import org.bukkit.entity.Player;
  * is prohibited.
  */
 @SuppressWarnings("UnstableApiUsage")
-public class PlayerChatPMSC extends PluginMessageSubChannel<Core,ChatManager> {
+public final class PlayerChatPMSC extends PluginMessageSubChannel<Core,ChatManager> {
 	
 	public PlayerChatPMSC(ChatManager manager){
 		super("PlayerChat", manager);

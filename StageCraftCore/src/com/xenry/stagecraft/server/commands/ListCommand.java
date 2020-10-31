@@ -7,13 +7,17 @@ import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
 import com.xenry.stagecraft.server.ServerManager;
 import com.xenry.stagecraft.util.M;
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * StageCraft created by Henry Blasingame (Xenry) on 6/25/20
@@ -24,7 +28,7 @@ import java.util.List;
  */
 public final class ListCommand extends Command<Core,ServerManager> {
 	
-	//todo make this network wide
+	//todo deal with vanished & afk
 	
 	public static final Access SEE_VANISHED = Rank.ADMIN;
 	
@@ -35,12 +39,40 @@ public final class ListCommand extends Command<Core,ServerManager> {
 	
 	@Override
 	protected void playerPerform(Profile profile, String[] args, String label) {
-		sendList(profile.getPlayer(), SEE_VANISHED.has(profile));
+		sendNetworkList(profile.getPlayer());
+		//sendList(profile.getPlayer(), SEE_VANISHED.has(profile));
 	}
 	
 	@Override
 	protected void serverPerform(CommandSender sender, String[] args, String label) {
-		sendList(sender, true);
+		sendNetworkList(sender);
+		//sendList(sender, true);
+	}
+	
+	private void sendNetworkList(CommandSender sender){
+		Map<String,List<String>> playerServerList = manager.getNetworkPlayers();
+		List<String> allPlayers = allNetworkPlayers();
+		sender.sendMessage(M.msg + "Total online players: " + M.elm + allPlayers.size());
+		for(Map.Entry<String,List<String>> entry : playerServerList.entrySet()){
+			List<String> players = entry.getValue();
+			String server = entry.getKey();
+			ComponentBuilder cb = new ComponentBuilder("  " + server + " ").color(M.msg)
+					.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/server " + server))
+					.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text("Go to " + server)));
+			cb.append("(" + players.size() + ")").color(ChatColor.GRAY).event((ClickEvent)null).event((HoverEvent)null)
+					.append(": ").color(ChatColor.DARK_GRAY);
+			Iterator<String> it = players.iterator();
+			while(it.hasNext()){
+				String name = it.next();
+				ClickEvent ce = new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/msg " + name + " ");
+				HoverEvent he = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text("Message " + name));
+				cb.append(name).color(ChatColor.WHITE).event(ce).event(he);
+				if(it.hasNext()){
+					cb.append(", ").color(ChatColor.DARK_GRAY).event((ClickEvent)null).event((HoverEvent)null);
+				}
+			}
+			sender.sendMessage(cb.create());
+		}
 	}
 	
 	private void sendList(CommandSender sender, boolean seeVanished){

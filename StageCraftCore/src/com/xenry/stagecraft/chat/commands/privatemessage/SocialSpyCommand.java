@@ -5,7 +5,6 @@ import com.xenry.stagecraft.commands.Access;
 import com.xenry.stagecraft.commands.Command;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
-import com.xenry.stagecraft.profile.Setting;
 import com.xenry.stagecraft.util.M;
 import org.bukkit.command.CommandSender;
 
@@ -36,6 +35,11 @@ public final class SocialSpyCommand extends Command<Core,ChatManager> {
 	
 	@Override
 	protected void playerPerform(Profile profile, String[] args, String label) {
+		profile.sendMessage(M.error("This feature is no longer available."));
+	}
+	
+	/*@Override
+	protected void playerPerform(Profile profile, String[] args, String label) {
 		boolean enabled = profile.getSetting(Setting.SOCIAL_SPY);
 		if(args.length < 1){
 			profile.sendMessage(M.msg + "Your SocialSpy is currently " + (enabled ? "§aenabled" : "§cdisabled") + M.msg
@@ -55,7 +59,7 @@ public final class SocialSpyCommand extends Command<Core,ChatManager> {
 		}
 		profile.setSetting(Setting.SOCIAL_SPY, enabled);
 		profile.sendMessage(M.msg + "Your SocialSpy has been " + (enabled ? "§aenabled" : "§cdisabled") + M.msg + ".");
-	}
+	}*/
 	
 	@Override
 	protected List<String> playerTabComplete(Profile profile, String[] args, String label) {

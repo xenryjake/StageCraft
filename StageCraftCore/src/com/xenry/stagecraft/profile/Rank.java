@@ -34,12 +34,6 @@ public enum Rank implements Access {
 		this.inherits = Arrays.asList(inherits);
 	}
 	
-	public static void main(String[] args){
-		System.out.println(ADMIN.check(MOD));
-		System.out.println(MOD.check(ADMIN));
-		System.out.println(MOD.check(MOD));
-	}
-	
 	public String getName(){
 		return name;
 	}

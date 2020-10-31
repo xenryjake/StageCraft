@@ -11,6 +11,7 @@ import com.xenry.stagecraft.util.M;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -52,7 +53,7 @@ public final class HologramLineEditCommand extends Command<Core,HologramManager>
 			sender.sendMessage(M.err + "Invalid line number provided (must be between " + M.elm + 1 + M.err + " and " + M.elm + hologram.getLines().size() + M.err + ", inclusive).");
 			return;
 		}
-		String text = ChatColor.translateAlternateColorCodes('&', Joiner.on(' ').join(args, 2, args.length));
+		String text = ChatColor.translateAlternateColorCodes('&', Joiner.on(' ').join(Arrays.copyOfRange(args, 2, args.length)));
 		hologram.editLine(line-1, text);
 		manager.save(hologram);
 		hologram.spawn();

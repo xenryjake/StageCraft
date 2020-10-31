@@ -8,6 +8,9 @@ import com.xenry.stagecraft.bungee.util.M;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
+import java.util.Arrays;
+import java.util.Collections;
+
 /**
  * StageCraft created by Henry Blasingame (Xenry) on 10/10/20
  * The content in this file and all related files are
@@ -49,6 +52,11 @@ public final class ProxyDebugModeCommand extends ProxyCommand<ProxyManager> {
 			}
 		}
 		Log.info(M.elm + sender.getName() + (enabled ? " §aenabled" : " §cdisabled") + M.msg + " proxy debug mode.");
+	}
+	
+	@Override
+	public Iterable<String> onTabComplete(CommandSender sender, String[] args) {
+		return args.length <= 1 ? Arrays.asList("on", "off") : Collections.emptyList();
 	}
 	
 }

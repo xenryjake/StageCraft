@@ -11,6 +11,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -76,7 +77,7 @@ public final class SudoCommand extends Command<Core,CommandManager> {
 	@Override
 	protected List<String> playerTabComplete(Profile profile, String[] args, String label) {
 		if(args.length == 1){
-			List<String> players = PlayerUtil.getOnlinePlayerNames();
+			List<String> players = new ArrayList<>(allNetworkPlayers());
 			players.add("**");
 			return players;
 		}else{
@@ -87,7 +88,7 @@ public final class SudoCommand extends Command<Core,CommandManager> {
 	@Override
 	protected List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
 		if(args.length == 1){
-			List<String> players = PlayerUtil.getOnlinePlayerNames();
+			List<String> players = new ArrayList<>(allNetworkPlayers());
 			players.add("**");
 			return players;
 		}else{

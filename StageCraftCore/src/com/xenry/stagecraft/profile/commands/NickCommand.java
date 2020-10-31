@@ -6,9 +6,11 @@ import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.ProfileManager;
 import com.xenry.stagecraft.profile.Rank;
 import com.xenry.stagecraft.util.M;
+import com.xenry.stagecraft.util.PlayerUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -72,6 +74,7 @@ public final class NickCommand extends Command<Core,ProfileManager> {
 			return;
 		}
 		target.setNick(nick);
+		manager.save(target);
 		if(disable){
 			sender.sendMessage(M.msg + "Removed " + M.elm + target.getLatestUsername() + M.msg + "'s nickname.");
 		}else{
@@ -122,6 +125,7 @@ public final class NickCommand extends Command<Core,ProfileManager> {
 			return;
 		}
 		target.setNick(nick);
+		manager.save(target);
 		if(disable){
 			sender.sendMessage(M.msg + "Removed " + M.elm + target.getLatestUsername() + M.msg + "'s nickname.");
 		}else{
@@ -134,12 +138,12 @@ public final class NickCommand extends Command<Core,ProfileManager> {
 	
 	@Override
 	protected List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		return args.length == 1 ? null : Collections.emptyList();
+		return args.length == 1 ? allNetworkPlayers() : Collections.emptyList();
 	}
 	
 	@Override
 	protected List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
-		return args.length == 1 ? null : Collections.emptyList();
+		return args.length == 1 ? allNetworkPlayers() : Collections.emptyList();
 	}
 	
 }

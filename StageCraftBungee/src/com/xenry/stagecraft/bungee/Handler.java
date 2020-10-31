@@ -8,15 +8,15 @@ import net.md_5.bungee.api.plugin.Listener;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public abstract class Handler<M extends Manager> implements Listener {
+public abstract class Handler<T extends Manager> implements Listener {
 
-	protected final M manager;
+	protected final T manager;
 	
-	public Handler(M manager){
+	public Handler(T manager){
 		this.manager = manager;
 	}
 	
-	public M getManager() {
+	public T getManager() {
 		return manager;
 	}
 	

@@ -53,8 +53,15 @@ public final class CommandManager extends Manager<Core> implements TabExecutor {
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command bukkitCommand, @NotNull String label, @NotNull String[] args) {
 		label = label.toLowerCase();
+		//todo make this better/less spaghetti
 		if(label.startsWith("stagecraft:")){
 			label = label.substring(11);
+		}
+		if(label.startsWith("stagecraftcore:")){
+			label = label.substring(15);
+		}
+		if(label.startsWith("stagecraftsurvival:") || label.startsWith("stagecraftcreative:") || label.startsWith("stagecraftskyblock:")){
+			label = label.substring(19);
 		}
 		Command<?,?> cmd = getCommand(label);
 		if(cmd == null){

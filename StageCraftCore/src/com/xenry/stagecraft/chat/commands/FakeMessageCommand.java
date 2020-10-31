@@ -2,13 +2,18 @@ package com.xenry.stagecraft.chat.commands;
 import com.google.common.base.Joiner;
 import com.xenry.stagecraft.Core;
 import com.xenry.stagecraft.chat.ChatManager;
+import com.xenry.stagecraft.chat.emotes.Emote;
 import com.xenry.stagecraft.commands.Command;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
 import com.xenry.stagecraft.util.M;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
+import com.xenry.stagecraft.util.PlayerUtil;
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
+import java.util.List;
 
 /**
  * StageCraft created by Henry Blasingame (Xenry) on 6/21/20
@@ -35,7 +40,32 @@ public final class FakeMessageCommand extends Command<Core,ChatManager> {
 			sender.sendMessage(M.usage("/" + label + " <message>"));
 			return;
 		}
-		Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', Joiner.on(' ').join(args)));
+		Player pluginMessageSender;
+		if(sender instanceof Player){
+			pluginMessageSender = (Player)sender;
+		}else{
+			pluginMessageSender = PlayerUtil.getAnyPlayer();
+			if(pluginMessageSender == null){
+				sender.sendMessage(M.error("There are no players on this server. Please try again on another server or the proxy."));
+				return;
+			}
+		}
+		
+		String message = Joiner.on(' ').join(args);
+		message = net.md_5.bungee.api.ChatColor.translateAlternateColorCodes('&', message);
+		message = Emote.replaceEmotes(message, ChatColor.WHITE);
+		
+		manager.getBroadcastPMSC().send(pluginMessageSender, TextComponent.fromLegacyText(message, ChatColor.WHITE));
+	}
+	
+	@Override
+	protected List<String> playerTabComplete(Profile profile, String[] args, String label) {
+		return allNetworkPlayers();
+	}
+	
+	@Override
+	protected List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
+		return allNetworkPlayers();
 	}
 	
 }

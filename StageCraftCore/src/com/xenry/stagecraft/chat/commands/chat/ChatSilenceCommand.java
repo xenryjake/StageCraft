@@ -30,6 +30,11 @@ public final class ChatSilenceCommand extends Command<Core,ChatManager> {
 	
 	@Override
 	protected void serverPerform(CommandSender sender, String[] args, String label) {
+		sender.sendMessage(M.error("This feature is not available right now."));
+	}
+	
+	/*@Override
+	protected void serverPerform(CommandSender sender, String[] args, String label) {
 		if(args.length < 1){
 			Rank rank = manager.getChatRank();
 			sender.sendMessage(M.msg + "The chat is currently silenced to ranks below "
@@ -51,7 +56,7 @@ public final class ChatSilenceCommand extends Command<Core,ChatManager> {
 		manager.setChatRank(rank);
 		Bukkit.broadcastMessage(M.msg + "The chat is now " + (rank == Rank.MEMBER ? "unsilenced" :
 				"silenced to ranks below " + rank.getColoredName()) + M.msg + ".");
-	}
+	}*/
 	
 	@Override
 	protected List<String> playerTabComplete(Profile profile, String[] args, String label) {

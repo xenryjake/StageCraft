@@ -1,4 +1,5 @@
 package com.xenry.stagecraft.survival.gameplay.commands;
+import com.xenry.stagecraft.commands.Access;
 import com.xenry.stagecraft.commands.Command;
 import com.xenry.stagecraft.survival.Survival;
 import com.xenry.stagecraft.survival.gameplay.GameplayManager;
@@ -22,6 +23,8 @@ import java.util.List;
  */
 public final class MoreCommand extends Command<Survival,GameplayManager> {
 	
+	public final static Access UNSAFE_ACCESS = Rank.ADMIN;
+	
 	public MoreCommand(GameplayManager manager){
 		super(manager, Rank.ADMIN, "more");
 		setCanBeDisabled(true);
@@ -34,10 +37,12 @@ public final class MoreCommand extends Command<Survival,GameplayManager> {
 	
 	@Override
 	protected void playerPerform(Profile profile, String[] args, String label) {
+		boolean unsafe = UNSAFE_ACCESS.has(profile) && args.length >= 1 && args[0].toLowerCase().startsWith("u");
 		Player player = profile.getPlayer();
 		ItemStack is = player.getInventory().getItemInMainHand();
-		if(is.getType() != Material.AIR && is.getAmount() != is.getMaxStackSize()){
-			is.setAmount(is.getMaxStackSize());
+		int max = unsafe ? 64 : is.getMaxStackSize();
+		if(is.getType() != Material.AIR && is.getAmount() < max){
+			is.setAmount(max);
 		}else{
 			player.sendMessage(M.error("Cannot give any more of item " + is.getType().name()));
 		}
@@ -45,7 +50,7 @@ public final class MoreCommand extends Command<Survival,GameplayManager> {
 	
 	@Override
 	protected List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		return Collections.emptyList();
+		return args.length <= 1 && UNSAFE_ACCESS.has(profile) ? Collections.singletonList("unsafe") : Collections.emptyList();
 	}
 	
 	@Override

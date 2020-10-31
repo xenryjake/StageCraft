@@ -6,10 +6,18 @@ import com.xenry.stagecraft.chat.emotes.Emote;
 import com.xenry.stagecraft.commands.Command;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
+import com.xenry.stagecraft.util.Log;
 import com.xenry.stagecraft.util.M;
+import com.xenry.stagecraft.util.PlayerUtil;
 import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
+import java.util.List;
 
 /**
  * StageCraft created by Henry Blasingame (Xenry) on 7/22/20
@@ -40,13 +48,35 @@ public final class SayCommand extends Command<Core,ChatManager> {
 			sender.sendMessage(M.usage("/say <message>"));
 			return;
 		}
-		StringBuilder sb = new StringBuilder();
-		for(String arg : args){
-			sb.append(arg).append(" ");
+		Player pluginMessageSender;
+		if(sender instanceof Player){
+			pluginMessageSender = (Player)sender;
+		}else{
+			pluginMessageSender = PlayerUtil.getAnyPlayer();
+			if(pluginMessageSender == null){
+				sender.sendMessage(M.error("There are no players on this server. Please try again on another server or the proxy."));
+				return;
+			}
 		}
-		String message = ChatColor.translateAlternateColorCodes('&', sb.toString().trim());
+		
+		String message = ChatColor.translateAlternateColorCodes('&', Joiner.on(' ').join(args));
 		message = Emote.replaceEmotes(message, ChatColor.WHITE);
-		Bukkit.broadcastMessage("§e§lServer§8:§r " + message);
+		BaseComponent[] components = new ComponentBuilder(M.CONSOLE_NAME).color(ChatColor.YELLOW).bold(true)
+				.append(": ").color(ChatColor.DARK_GRAY).bold(false)
+				.append(TextComponent.fromLegacyText(message)).create();
+		//Bukkit.broadcastMessage("§e§lServer§8:§r " + message);
+		manager.getBroadcastPMSC().send(pluginMessageSender, components);
+		Log.toCS(components);
+	}
+	
+	@Override
+	protected List<String> playerTabComplete(Profile profile, String[] args, String label) {
+		return allNetworkPlayers();
+	}
+	
+	@Override
+	protected List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
+		return allNetworkPlayers();
 	}
 	
 }

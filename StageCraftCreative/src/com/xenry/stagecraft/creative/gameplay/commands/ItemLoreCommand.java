@@ -57,7 +57,7 @@ public final class ItemLoreCommand extends Command<Creative,GameplayManager> {
 			return;
 		}
 		List<String> newLore = Arrays.asList(ChatColor.translateAlternateColorCodes('&',
-				Joiner.on(' ').join(args, 1, args.length)).split("\\\\n"));
+				Joiner.on(' ').join(Arrays.copyOfRange(args, 1, args.length))).split("\\\\n"));
 		List<String> lore = im.getLore();
 		if(lore == null){
 			lore = new ArrayList<>();

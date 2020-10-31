@@ -24,6 +24,8 @@ public final class M {
 	
 	public static final ChatColor WHITE = ChatColor.WHITE;
 	
+	public static final String CONSOLE_NAME = "Server";
+	
 	public static BaseComponent[] msg(String message){
 		return new ComponentBuilder(new TextComponent(TextComponent.fromLegacyText(message))).color(msg).create();
 	}

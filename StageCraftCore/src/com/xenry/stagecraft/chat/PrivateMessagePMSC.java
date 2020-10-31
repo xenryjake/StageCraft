@@ -14,17 +14,17 @@ import org.bukkit.entity.Player;
  * is prohibited.
  */
 @SuppressWarnings("UnstableApiUsage")
-public class PrivateMessagePMSC extends PluginMessageSubChannel<Core,ChatManager> {
+public final class PrivateMessagePMSC extends PluginMessageSubChannel<Core,ChatManager> {
 	
 	public PrivateMessagePMSC(ChatManager manager){
 		super("PrivateMessage", manager);
 	}
 	
-	public void send(Player sender, String target, String message){
+	public void send(Player sender, String targetName, String message){
 		ByteArrayDataOutput out = ByteStreams.newDataOutput();
 		out.writeUTF(CHANNEL_NAME);
 		out.writeUTF(subChannelName);
-		out.writeUTF(target);
+		out.writeUTF(targetName);
 		out.writeUTF(ComponentSerializer.toString(message));
 		send(out.toByteArray(), sender);
 	}

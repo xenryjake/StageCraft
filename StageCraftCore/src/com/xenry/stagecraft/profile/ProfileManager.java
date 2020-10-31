@@ -16,7 +16,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -36,6 +35,8 @@ public final class ProfileManager extends Manager<Core> {
 	private final DBCollection collection;
 	private final HashMap<String,Profile> profiles;
 	
+	private ProfileRankUpdatePMSC profileRankUpdatePMSC;
+	
 	public ProfileManager(Core plugin){
 		super("Profiles", plugin);
 		profiles = new HashMap<>();
@@ -47,6 +48,10 @@ public final class ProfileManager extends Manager<Core> {
 	
 	@Override
 	protected void onEnable() {
+		plugin.getPluginMessageManager().registerSubChannel(new PlayerWillSwitchPMSC(this));
+		profileRankUpdatePMSC = new ProfileRankUpdatePMSC(this);
+		plugin.getPluginMessageManager().registerSubChannel(profileRankUpdatePMSC);
+		
 		registerCommand(new RankCommand(this));
 		registerCommand(new LookupCommand(this));
 		registerCommand(new SeenCommand(this));
@@ -61,6 +66,10 @@ public final class ProfileManager extends Manager<Core> {
 	@Override
 	protected void onDisable() {
 		saveAllSync();
+	}
+	
+	public ProfileRankUpdatePMSC getProfileRankUpdatePMSC() {
+		return profileRankUpdatePMSC;
 	}
 	
 	/*public void downloadProfiles(){
@@ -134,7 +143,7 @@ public final class ProfileManager extends Manager<Core> {
 			}
 		}
 		return (Profile) collection.findOne(new BasicDBObject("latestUsername",
-				Pattern.compile(Pattern.quote(username), Pattern.CASE_INSENSITIVE)));
+				Pattern.compile("^" + Pattern.quote(username) + "$", Pattern.CASE_INSENSITIVE)));
 	}
 	
 	@Nullable

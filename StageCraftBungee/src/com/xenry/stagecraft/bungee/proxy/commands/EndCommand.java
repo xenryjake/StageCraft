@@ -1,6 +1,6 @@
 package com.xenry.stagecraft.bungee.proxy.commands;
 import com.google.common.base.Joiner;
-import com.xenry.stagecraft.bungee.commands.ProxyCommand;
+import com.xenry.stagecraft.bungee.commands.ProxyAdminCommand;
 import com.xenry.stagecraft.bungee.proxy.ProxyManager;
 import com.xenry.stagecraft.bungee.util.M;
 import net.md_5.bungee.api.CommandSender;
@@ -14,10 +14,10 @@ import java.util.Arrays;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public final class EndCommand extends ProxyCommand<ProxyManager> {
+public final class EndCommand extends ProxyAdminCommand<ProxyManager> {
 	
 	public EndCommand(ProxyManager manager) {
-		super(manager, "end", "bungeecord.command.end");
+		super(manager, "end");
 	}
 	
 	@Override

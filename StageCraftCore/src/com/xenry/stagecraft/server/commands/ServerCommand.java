@@ -13,8 +13,7 @@ import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.command.CommandSender;
 
-import java.util.Iterator;
-import java.util.Set;
+import java.util.*;
 
 /**
  * StageCraft created by Henry Blasingame (Xenry) on 10/14/20
@@ -26,7 +25,7 @@ import java.util.Set;
 public final class ServerCommand extends Command<Core,ServerManager> {
 	
 	public ServerCommand(ServerManager manager){
-		super(manager, Rank.MEMBER, "server", "goto");
+		super(manager, Rank.MEMBER, "server", "servers", "goto");
 		setCanBeDisabled(true);
 	}
 	
@@ -69,4 +68,13 @@ public final class ServerCommand extends Command<Core,ServerManager> {
 		profile.sendMessage(M.error("Server not found: " + args[0]));
 	}
 	
+	@Override
+	protected List<String> playerTabComplete(Profile profile, String[] args, String label) {
+		return args.length <= 1 ? new ArrayList<>(manager.getNetworkPlayers().keySet()) : Collections.emptyList();
+	}
+	
+	@Override
+	protected List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
+		return args.length <= 1 ? new ArrayList<>(manager.getNetworkPlayers().keySet()) : Collections.emptyList();
+	}
 }

@@ -14,6 +14,8 @@ import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.List;
+
 /**
  * StageCraft created by Henry Blasingame (Xenry) on 6/23/20
  * The content in this file and all related files are
@@ -47,7 +49,7 @@ public final class StaffChatCommand extends Command<Core,ChatManager> {
 		}else{
 			pluginMessageSender = PlayerUtil.getAnyPlayer();
 			if(pluginMessageSender == null){
-				sender.sendMessage(M.error("There are no players on this server. Please try again on another server."));
+				sender.sendMessage(M.error("There are no players on this server. Please try again on another server or the proxy."));
 				return;
 			}
 		}
@@ -72,6 +74,16 @@ public final class StaffChatCommand extends Command<Core,ChatManager> {
 				profile.sendMessage("§5[SC] " + sender.getName() + "§8:§7 " + message);
 			}
 		}*/
+	}
+	
+	@Override
+	protected List<String> playerTabComplete(Profile profile, String[] args, String label) {
+		return allNetworkPlayers();
+	}
+	
+	@Override
+	protected List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
+		return allNetworkPlayers();
 	}
 	
 }

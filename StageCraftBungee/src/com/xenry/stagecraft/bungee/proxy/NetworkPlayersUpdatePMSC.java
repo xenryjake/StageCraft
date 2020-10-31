@@ -27,10 +27,6 @@ public final class NetworkPlayersUpdatePMSC extends PluginMessageSubChannel<Prox
 	}
 	
 	public void send(){
-		List<ProxiedPlayer> senders = getSendersForAllServers();
-		if(senders.isEmpty()){
-			return;
-		}
 		
 		HashMap<String,List<String>> playerMap = new HashMap<>();
 		for(Map.Entry<String,ServerInfo> entry : manager.plugin.getProxy().getServers().entrySet()){
@@ -52,10 +48,7 @@ public final class NetworkPlayersUpdatePMSC extends PluginMessageSubChannel<Prox
 		out.writeUTF(CHANNEL_NAME);
 		out.writeUTF(subChannelName);
 		out.writeUTF(serialized);
-		byte[] data = out.toByteArray();
-		for(ProxiedPlayer sender : senders){
-			sender.getServer().sendData("BungeeCord", data);
-		}
+		sendToAll(out.toByteArray());
 	}
 	
 }

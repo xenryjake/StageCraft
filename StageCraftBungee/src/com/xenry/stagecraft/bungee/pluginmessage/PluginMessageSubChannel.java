@@ -15,16 +15,26 @@ import java.util.Map;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public abstract class PluginMessageSubChannel<M extends Manager> {
+public abstract class PluginMessageSubChannel<T extends Manager> {
 	
 	public static final String CHANNEL_NAME = "StageCraft";
 	
 	public final String subChannelName;
-	protected final M manager;
+	protected final T manager;
 	
-	public PluginMessageSubChannel(String subChannelName, M manager){
+	public PluginMessageSubChannel(String subChannelName, T manager){
 		this.subChannelName = subChannelName;
 		this.manager = manager;
+	}
+	
+	protected void sendToAll(byte[] data){
+		sendToAll(data, false);
+	}
+	
+	protected void sendToAll(byte[] data, boolean queue){
+		for(ServerInfo server : manager.plugin.getProxy().getServers().values()){
+			server.sendData("BungeeCord", data, queue);
+		}
 	}
 	
 	protected void receive(ByteArrayDataInput in, ProxiedPlayer receiver){}

@@ -16,7 +16,7 @@ import java.util.List;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public class NetworkPlayersUpdatePMSC extends PluginMessageSubChannel<Core,ServerManager> {
+public final class NetworkPlayersUpdatePMSC extends PluginMessageSubChannel<Core,ServerManager> {
 	
 	public NetworkPlayersUpdatePMSC(ServerManager manager) {
 		super("NetworkPlayersUpdate", manager);

@@ -11,7 +11,7 @@ public enum Setting {
 	SURVIVAL_PVP_ENABLED("survival_pvp", true),
 	SKYBLOCK_PVP_ENABLED("skyblock_pvp", true),
 	CREATIVE_PVP_ENABLED("creative_pvp", true),
-	SOCIAL_SPY("social_spy", false),
+	//SOCIAL_SPY("social_spy", false),
 	WHITE_SIGN_TEXT("white_sign_text", false);
 	
 	private final String id;

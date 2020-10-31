@@ -74,12 +74,12 @@ public final class SeenCommand extends Command<Core,ProfileManager> {
 	
 	@Override
 	protected List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		return args.length <= 1 ? null : Collections.emptyList();
+		return args.length <= 1 ? allNetworkPlayers() : Collections.emptyList();
 	}
 	
 	@Override
 	protected List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
-		return args.length <= 1 ? null : Collections.emptyList();
+		return args.length <= 1 ? allNetworkPlayers() : Collections.emptyList();
 	}
 	
 }

@@ -5,12 +5,12 @@ import com.xenry.stagecraft.chat.ChatManager;
 import com.xenry.stagecraft.commands.Command;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
+import com.xenry.stagecraft.util.CollectionUtil;
 import com.xenry.stagecraft.util.M;
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * StageCraft created by Henry Blasingame (Xenry) on 6/26/20
@@ -27,7 +27,7 @@ public final class MessageCommand extends Command<Core,ChatManager> {
 		setCanBeDisabled(true);
 	}
 	
-	@Override
+	/*@Override
 	protected void serverPerform(CommandSender sender, String[] args, String label) {
 		if(args.length < 2){
 			sender.sendMessage(M.usage("/" + label + " <player> <message>"));
@@ -45,6 +45,11 @@ public final class MessageCommand extends Command<Core,ChatManager> {
 		}
 		String msg = Joiner.on(' ').join(Arrays.copyOfRange(args, 1, args.length));
 		manager.sendPrivateMessage(manager.plugin.getProfileManager().getProfile(to), null, msg);
+	}*/
+	
+	@Override
+	protected void serverPerform(CommandSender sender, String[] args, String label) {
+		onlyForPlayers(sender);
 	}
 	
 	@Override
@@ -53,7 +58,7 @@ public final class MessageCommand extends Command<Core,ChatManager> {
 			profile.sendMessage(M.usage("/" + label + " <player> <message>"));
 			return;
 		}
-		Player to;
+		/*Player to;
 		if(args[0].equalsIgnoreCase(M.CONSOLE_NAME)) {
 			to = null;
 		}else{
@@ -62,13 +67,26 @@ public final class MessageCommand extends Command<Core,ChatManager> {
 				profile.sendMessage(M.playerNotFound(args[0]));
 				return;
 			}
+		}*/
+		String toName = CollectionUtil.findClosestMatchByStart(allNetworkPlayers(), args[0]);
+		if(toName == null){
+			profile.sendMessage(M.playerNotFound(args[0]));
+			return;
 		}
-		StringBuilder message = new StringBuilder();
-		for(int i = 1; i < args.length; i++) {
-			message.append(args[i]).append(" ");
-		}
-		String msg = message.toString().trim();
-		manager.sendPrivateMessage(manager.plugin.getProfileManager().getProfile(to), profile, msg);
+		
+		String msg = Joiner.on(' ').join(Arrays.copyOfRange(args, 1, args.length));
+		//manager.sendPrivateMessage(manager.plugin.getProfileManager().getProfile(to), profile, msg);
+		manager.handlePrivateMessage(profile, toName, msg);
+	}
+	
+	@Override
+	protected List<String> playerTabComplete(Profile profile, String[] args, String label) {
+		return allNetworkPlayers();
+	}
+	
+	@Override
+	protected List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
+		return allNetworkPlayers();
 	}
 	
 }

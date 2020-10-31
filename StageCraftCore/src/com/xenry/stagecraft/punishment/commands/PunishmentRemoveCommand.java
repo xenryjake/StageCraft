@@ -5,13 +5,20 @@ import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
 import com.xenry.stagecraft.punishment.Punishment;
 import com.xenry.stagecraft.punishment.PunishmentManager;
+import com.xenry.stagecraft.util.Log;
 import com.xenry.stagecraft.util.M;
+import com.xenry.stagecraft.util.PlayerUtil;
+import com.xenry.stagecraft.util.time.TimeUtil;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+
+import static com.xenry.stagecraft.punishment.PunishmentExecution.VIEW_ALERTS;
 
 /**
  * StageCraft created by Henry Blasingame (Xenry) on 6/26/20
@@ -21,6 +28,8 @@ import java.util.List;
  * is prohibited.
  */
 public final class PunishmentRemoveCommand extends Command<Core,PunishmentManager> {
+	
+	//todo make work cross network
 	
 	public PunishmentRemoveCommand(PunishmentManager manager){
 		super(manager, Rank.MOD, "remove", "undo");
@@ -87,6 +96,32 @@ public final class PunishmentRemoveCommand extends Command<Core,PunishmentManage
 		}
 		
 		sender.sendMessage(M.msg + "Successfully removed " + M.elm + i + M.msg + " active " + M.elm + type.name + M.msg + " punishments from " + M.elm + target.getLatestUsername() + M.msg + "'s profile.");
+		
+		String senderName = sender instanceof Player ? sender.getName() : M.CONSOLE_NAME;
+		
+		String message = M.elm + senderName + M.msg + " has removed " + M.elm + target.getLatestUsername() + M.msg + "'s " + type.name + "s.";
+		for(Player player : Bukkit.getOnlinePlayers()){
+			Profile profile = manager.plugin.getProfileManager().getProfile(player);
+			if(profile == null || !VIEW_ALERTS.has(profile) || player == sender){
+				continue;
+			}
+			player.sendMessage(message);
+		}
+		Log.toCS(message);
+		
+		Player pluginMessageSender;
+		if(sender instanceof Player){
+			pluginMessageSender = (Player)sender;
+		}else{
+			pluginMessageSender = PlayerUtil.getAnyPlayer();
+			if(pluginMessageSender == null){
+				sender.sendMessage("");
+				sender.sendMessage(ChatColor.DARK_RED + "WARNING! " + M.err + "No players are online this instance. If the player is online another instance, changes will not take effect until the player switches servers or relogs.");
+				sender.sendMessage("");
+				return;
+			}
+		}
+		manager.getPunishmentRemovePMSC().send(pluginMessageSender, senderName, target.getLatestUsername(), type);
 	}
 	
 	@Override
@@ -99,7 +134,7 @@ public final class PunishmentRemoveCommand extends Command<Core,PunishmentManage
 		switch(args.length){
 			case 0:
 			case 1:
-				return null;
+				return allNetworkPlayers();
 			case 2:
 				return Arrays.asList("ban", "mute");
 			default:

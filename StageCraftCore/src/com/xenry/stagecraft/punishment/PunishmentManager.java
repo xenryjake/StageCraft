@@ -36,6 +36,7 @@ public final class PunishmentManager extends Manager<Core> {
 	private final DBCollection collection;
 	final List<Punishment> punishments;
 	private PunishmentPMSC punishmentPMSC;
+	private PunishmentRemovePMSC punishmentRemovePMSC;
 	
 	public PunishmentManager(Core plugin){
 		super("Punishment", plugin);
@@ -49,6 +50,10 @@ public final class PunishmentManager extends Manager<Core> {
 		//downloadPunishments();
 		
 		punishmentPMSC = new PunishmentPMSC(this);
+		plugin.getPluginMessageManager().registerSubChannel(punishmentPMSC);
+		
+		punishmentRemovePMSC = new PunishmentRemovePMSC(this);
+		plugin.getPluginMessageManager().registerSubChannel(punishmentRemovePMSC);
 		
 		registerCommand(new PunishmentCommand(this));
 		registerCommand(new DisconnectCommand(this));
@@ -59,6 +64,10 @@ public final class PunishmentManager extends Manager<Core> {
 	
 	public PunishmentPMSC getPunishmentPMSC() {
 		return punishmentPMSC;
+	}
+	
+	public PunishmentRemovePMSC getPunishmentRemovePMSC() {
+		return punishmentRemovePMSC;
 	}
 	
 	public void addPunishment(Punishment punishment){
