@@ -171,6 +171,7 @@ public final class GameplayManager extends Manager<Survival> {
 		registerCommand(new StonecutterCommand(this));
 		registerCommand(new EnchantingTableCommand(this));
 		registerCommand(new ClearInventoryCommand(this));
+		registerCommand(new BookCommand(this));
 		
 		registerCommand(new WebRegisterCommand(this));
 		registerCommand(new WaypointCommand(this));

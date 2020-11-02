@@ -2,7 +2,6 @@ package com.xenry.stagecraft.bungee.proxy.commands;
 import com.xenry.stagecraft.bungee.commands.ProxyAdminCommand;
 import com.xenry.stagecraft.bungee.proxy.ProxyManager;
 import com.xenry.stagecraft.bungee.util.M;
-import com.xenry.stagecraft.util.CollectionUtil;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
@@ -10,7 +9,6 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**

@@ -45,20 +45,21 @@ public final class ItemLoreCommand extends Command<Creative,GameplayManager> {
 			player.sendMessage(M.usage("/" + label + " <set|add|clear> [text]"));
 			return;
 		}
-		ItemStack is = player.getInventory().getItemInMainHand();
-		ItemMeta im;
-		if(is == null || is.getType() == Material.AIR || (im = is.getItemMeta()) == null){
+		ItemStack item = player.getInventory().getItemInMainHand();
+		ItemMeta meta;
+		if(item == null || item.getType() == Material.AIR || (meta = item.getItemMeta()) == null){
 			player.sendMessage(M.error("You can't change the lore on this item."));
 			return;
 		}
 		if(args[0].equalsIgnoreCase("clear") || args[0].equalsIgnoreCase("reset")){
-			im.setLore(Collections.emptyList());
-			player.sendMessage(M.msg + "Cleared the lore on " + M.elm + is.getType().name() + M.msg + ".");
+			meta.setLore(Collections.emptyList());
+			item.setItemMeta(meta);
+			player.sendMessage(M.msg + "Cleared the lore on " + M.elm + item.getType().name() + M.msg + ".");
 			return;
 		}
 		List<String> newLore = Arrays.asList(ChatColor.translateAlternateColorCodes('&',
 				Joiner.on(' ').join(Arrays.copyOfRange(args, 1, args.length))).split("\\\\n"));
-		List<String> lore = im.getLore();
+		List<String> lore = meta.getLore();
 		if(lore == null){
 			lore = new ArrayList<>();
 		}
@@ -70,9 +71,10 @@ public final class ItemLoreCommand extends Command<Creative,GameplayManager> {
 			player.sendMessage(M.usage("/" + label + " <set|add|clear> [text]"));
 			return;
 		}
-		im.setLore(lore);
-		player.sendMessage(M.msg + "Set the lore on " + M.elm + is.getType().name() + M.msg + " to:");
-		for(String s : newLore){
+		meta.setLore(lore);
+		item.setItemMeta(meta);
+		player.sendMessage(M.msg + "Set the lore on " + M.elm + item.getType().name() + M.msg + " to:");
+		for(String s : lore){
 			player.sendMessage(M.arrow(s));
 		}
 	}

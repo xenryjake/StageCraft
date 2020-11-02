@@ -244,6 +244,8 @@ commands:
   clearinventory:
     description: "Clear your inventory"
     aliases: [ clear,ci ]
+  book:
+    description: "Edit books"
 
   # JAIL COMMANDS
   jail:

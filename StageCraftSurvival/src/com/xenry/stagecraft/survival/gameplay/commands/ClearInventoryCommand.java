@@ -41,7 +41,7 @@ public final class ClearInventoryCommand extends Command<Survival,GameplayManage
 		Player player = profile.getPlayer();
 		if(confirms.canUse(player)){
 			confirms.use(player);
-			player.sendMessage(M.msg + "Are you sure you want to clear your inventory? Type " + M.elm + label
+			player.sendMessage(M.msg + "Are you sure you want to clear your inventory? Type " + M.elm + "/" + label
 					+ M.msg + " again to confirm.");
 			return;
 		}

@@ -1,11 +1,11 @@
-package com.xenry.stagecraft.creative.gameplay.commands;
+package com.xenry.stagecraft.survival.gameplay.commands;
 import com.google.common.base.Joiner;
 import com.xenry.stagecraft.commands.Access;
 import com.xenry.stagecraft.commands.Command;
-import com.xenry.stagecraft.creative.Creative;
-import com.xenry.stagecraft.creative.gameplay.GameplayManager;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
+import com.xenry.stagecraft.survival.Survival;
+import com.xenry.stagecraft.survival.gameplay.GameplayManager;
 import com.xenry.stagecraft.util.M;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -27,15 +27,15 @@ import java.util.List;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public final class BookCommand extends Command<Creative,GameplayManager> {
+public final class BookCommand extends Command<Survival,GameplayManager> {
 	
-	public static final Access CHANGE_AUTHOR = Rank.SPECIAL;
-	public static final Access CHANGE_TITLE = Rank.SPECIAL;
-	public static final Access EDIT_OTHER = Rank.MEMBER;
-	public static final Access USE_COLORS = Rank.SPECIAL;
+	public static final Access CHANGE_AUTHOR = Rank.ADMIN;
+	public static final Access CHANGE_TITLE = Rank.ADMIN;
+	public static final Access EDIT_OTHER = Rank.ADMIN;
+	public static final Access USE_COLORS = Rank.ADMIN;
 	
 	public BookCommand(GameplayManager manager){
-		super(manager, Rank.MEMBER, "book");
+		super(manager, Rank.ADMIN, "book");
 		setCanBeDisabled(true);
 	}
 	

@@ -33,7 +33,7 @@ public final class EntityHandler extends Handler<Creative,GameplayManager> {
 	 * 	EntitySpawnEvent
 	 *
 	 */
-	@EventHandler
+	//@EventHandler
 	public void on(CreatureSpawnEvent event){
 		event.setCancelled(true);
 	}

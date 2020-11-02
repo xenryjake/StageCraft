@@ -30,6 +30,7 @@ public final class EnchantingTableCommand extends Command<Creative,GameplayManag
 	
 	@Override
 	protected void playerPerform(Profile profile, String[] args, String label) {
+		//todo fix this
 		profile.getPlayer().openEnchanting(null, true);
 	}
 	
