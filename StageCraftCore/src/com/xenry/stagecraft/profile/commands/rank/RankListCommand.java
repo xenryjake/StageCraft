@@ -6,6 +6,7 @@ import com.xenry.stagecraft.profile.ProfileManager;
 import com.xenry.stagecraft.profile.Rank;
 import com.xenry.stagecraft.util.M;
 import org.bukkit.command.CommandSender;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 import java.util.List;
@@ -20,7 +21,7 @@ import java.util.List;
 public final class RankListCommand extends Command<Core,ProfileManager> {
 	
 	public RankListCommand(ProfileManager manager) {
-		super(manager, Rank.MOD, "list");
+		super(manager, Rank.ADMIN, "list");
 	}
 	
 	@Override
@@ -37,12 +38,12 @@ public final class RankListCommand extends Command<Core,ProfileManager> {
 	}
 	
 	@Override
-	protected List<String> playerTabComplete(Profile profile, String[] args, String label) {
+	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
 		return Collections.emptyList();
 	}
 	
 	@Override
-	protected List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
+	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
 		return Collections.emptyList();
 	}
 	

@@ -1,6 +1,7 @@
 package com.xenry.stagecraft.profile;
 import com.xenry.stagecraft.Core;
 import com.xenry.stagecraft.commands.Access;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -18,16 +19,20 @@ import java.util.List;
  */
 public enum Rank implements Access {
 	
-	MEMBER("Member", "§7", 0),
-	SPECIAL("Special", "§b", 10, MEMBER),
-	MOD("Mod", "§c", 50, MEMBER),
-	ADMIN("Admin", "§4", 100, MOD, SPECIAL, MEMBER);
+	MEMBER("Member", ChatColor.GRAY, 0),
+	DONOR("Donor", ChatColor.AQUA, 10, MEMBER),
+	PREMIUM("Premium", ChatColor.LIGHT_PURPLE, 20, DONOR, MEMBER),
+	MOD("Mod", ChatColor.RED, 50, MEMBER),
+	DONOR_MOD("Donor_Mod", ChatColor.RED, 50, MOD, DONOR, MEMBER),
+	PREMIUM_MOD("Premium_Mod", ChatColor.RED, 50, MOD, PREMIUM, DONOR, MEMBER),
+	ADMIN("Admin", ChatColor.DARK_RED, 100, MOD, PREMIUM, DONOR, MEMBER);
 	
-	private final String name, color;
+	private final String name;
+	private final ChatColor color;
 	private final int weight;
 	private final List<Rank> inherits;
 	
-	Rank(String name, String color, int weight, Rank...inherits){
+	Rank(String name, ChatColor color, int weight, Rank...inherits){
 		this.name = name;
 		this.color = color;
 		this.weight = weight;
@@ -38,7 +43,7 @@ public enum Rank implements Access {
 		return name;
 	}
 	
-	public String getColor(){
+	public ChatColor getColor(){
 		return color;
 	}
 	

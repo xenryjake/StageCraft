@@ -8,6 +8,7 @@ import com.xenry.stagecraft.util.M;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -23,7 +24,7 @@ import java.util.List;
 public final class OverrideCommand extends Command<Creative,GameplayManager> {
 	
 	public OverrideCommand(GameplayManager manager) {
-		super(manager, Rank.ADMIN, "override");
+		super(manager, Rank.ADMIN, "override", "ov");
 		addSubCommand(new OverrideListCommand(manager));
 		setCanBeDisabled(true);
 	}
@@ -115,26 +116,26 @@ public final class OverrideCommand extends Command<Creative,GameplayManager> {
 	}
 	
 	@Override
-	protected List<String> playerTabComplete(Profile profile, String[] args, String label) {
+	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
 		switch(args.length){
 			case 0:
 			case 1:
 				return Arrays.asList("on", "off", "toggle");
 			case 2:
-				return null;
+				return allLocalPlayers();
 			default:
 				return Collections.emptyList();
 		}
 	}
 	
 	@Override
-	protected List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
+	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
 		switch(args.length){
 			case 0:
 			case 1:
 				return Arrays.asList("on", "off", "toggle");
 			case 2:
-				return null;
+				return allLocalPlayers();
 			default:
 				return Collections.emptyList();
 		}

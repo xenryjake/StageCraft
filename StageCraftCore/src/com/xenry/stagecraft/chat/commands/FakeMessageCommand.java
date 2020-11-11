@@ -10,8 +10,10 @@ import com.xenry.stagecraft.util.M;
 import com.xenry.stagecraft.util.PlayerUtil;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -25,7 +27,7 @@ import java.util.List;
 public final class FakeMessageCommand extends Command<Core,ChatManager> {
 	
 	public FakeMessageCommand(ChatManager manager){
-		super(manager, Rank.ADMIN, "fm");
+		super(manager, Rank.ADMIN, "fm", "lfm");
 		setCanBeDisabled(true);
 	}
 	
@@ -40,31 +42,34 @@ public final class FakeMessageCommand extends Command<Core,ChatManager> {
 			sender.sendMessage(M.usage("/" + label + " <message>"));
 			return;
 		}
-		Player pluginMessageSender;
-		if(sender instanceof Player){
-			pluginMessageSender = (Player)sender;
-		}else{
-			pluginMessageSender = PlayerUtil.getAnyPlayer();
-			if(pluginMessageSender == null){
-				sender.sendMessage(M.error("There are no players on this server. Please try again on another server or the proxy."));
-				return;
-			}
-		}
 		
-		String message = Joiner.on(' ').join(args);
-		message = net.md_5.bungee.api.ChatColor.translateAlternateColorCodes('&', message);
+		String message = Joiner.on(' ').join(args).replaceAll("\\\\n", "\n");
+		message = ChatColor.translateAlternateColorCodes('&', message);
 		message = Emote.replaceEmotes(message, ChatColor.WHITE);
-		
-		manager.getBroadcastPMSC().send(pluginMessageSender, TextComponent.fromLegacyText(message, ChatColor.WHITE));
+		if(label.startsWith("l")){
+			Bukkit.broadcastMessage(message);
+		}else{
+			Player pluginMessageSender;
+			if(sender instanceof Player){
+				pluginMessageSender = (Player)sender;
+			}else{
+				pluginMessageSender = PlayerUtil.getAnyPlayer();
+				if(pluginMessageSender == null){
+					sender.sendMessage(M.error("There are no players on this server. Please try again on another server or the proxy."));
+					return;
+				}
+			}
+			manager.getBroadcastPMSC().send(pluginMessageSender, TextComponent.fromLegacyText(message, ChatColor.WHITE));
+		}
 	}
 	
 	@Override
-	protected List<String> playerTabComplete(Profile profile, String[] args, String label) {
+	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
 		return allNetworkPlayers();
 	}
 	
 	@Override
-	protected List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
+	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
 		return allNetworkPlayers();
 	}
 	

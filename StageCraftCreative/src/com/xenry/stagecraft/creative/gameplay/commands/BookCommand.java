@@ -14,6 +14,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,10 +30,10 @@ import java.util.List;
  */
 public final class BookCommand extends Command<Creative,GameplayManager> {
 	
-	public static final Access CHANGE_AUTHOR = Rank.SPECIAL;
-	public static final Access CHANGE_TITLE = Rank.SPECIAL;
+	public static final Access CHANGE_AUTHOR = Rank.DONOR;
+	public static final Access CHANGE_TITLE = Rank.DONOR;
 	public static final Access EDIT_OTHER = Rank.MEMBER;
-	public static final Access USE_COLORS = Rank.SPECIAL;
+	public static final Access USE_COLORS = Rank.DONOR;
 	
 	public BookCommand(GameplayManager manager){
 		super(manager, Rank.MEMBER, "book");
@@ -119,8 +120,8 @@ public final class BookCommand extends Command<Creative,GameplayManager> {
 	}
 	
 	@Override
-	protected List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		if(args.length <= 1){
+	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
+		if(args.length == 1){
 			List<String> results = new ArrayList<>();
 			results.add("sign");
 			results.add("unsign");
@@ -137,7 +138,7 @@ public final class BookCommand extends Command<Creative,GameplayManager> {
 	}
 	
 	@Override
-	protected List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
+	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
 		return Collections.emptyList();
 	}
 	

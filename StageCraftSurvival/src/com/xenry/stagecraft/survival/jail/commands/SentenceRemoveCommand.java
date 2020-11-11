@@ -11,6 +11,7 @@ import com.xenry.stagecraft.util.M;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.command.CommandSender;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 import java.util.List;
@@ -79,13 +80,13 @@ public final class SentenceRemoveCommand extends Command<Survival,JailManager> {
 	}
 	
 	@Override
-	protected List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		return serverTabComplete(profile.getPlayer(), args, label);
+	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
+		return args.length == 1 ? allLocalPlayers() : Collections.emptyList();
 	}
 	
 	@Override
-	protected List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
-		return args.length <= 1 ? null : Collections.emptyList();
+	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
+		return args.length == 1 ? allLocalPlayers() : Collections.emptyList();
 	}
 	
 }

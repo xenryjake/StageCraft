@@ -13,6 +13,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.potion.PotionEffect;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -103,7 +104,7 @@ public final class HealCommand extends Command<Survival,GameplayManager> {
 	}
 	
 	@Override
-	protected List<String> playerTabComplete(Profile profile, String[] args, String label) {
+	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
 		if(args.length == 1){
 			List<String> players = PlayerUtil.getOnlinePlayerNames();
 			players.add("**");
@@ -114,7 +115,7 @@ public final class HealCommand extends Command<Survival,GameplayManager> {
 	}
 	
 	@Override
-	protected List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
+	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
 		if(args.length == 1){
 			List<String> players = PlayerUtil.getOnlinePlayerNames();
 			players.add("**");

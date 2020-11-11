@@ -142,12 +142,6 @@ public final class SkyBlockProfileManager extends Manager<SkyBlock> {
 	}
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
-	public void onJoin(PlayerJoinEvent event){
-		Player player = event.getPlayer();
-		player.setGameMode(GameMode.SURVIVAL);
-	}
-	
-	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onQuit(PlayerQuitEvent event) {
 		Player player = event.getPlayer();
 		SkyBlockProfile profile = getProfile(player);

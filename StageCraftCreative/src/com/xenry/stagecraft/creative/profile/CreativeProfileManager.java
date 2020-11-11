@@ -139,12 +139,6 @@ public final class CreativeProfileManager extends Manager<Creative> {
 	}
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
-	public void onJoin(PlayerJoinEvent event){
-		Player player = event.getPlayer();
-		player.setGameMode(GameMode.SURVIVAL);
-	}
-	
-	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onQuit(PlayerQuitEvent event) {
 		Player player = event.getPlayer();
 		CreativeProfile profile = getProfile(player);

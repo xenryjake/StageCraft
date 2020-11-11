@@ -15,6 +15,7 @@ import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.command.CommandSender;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 import java.util.Iterator;
@@ -110,12 +111,12 @@ public final class HomeCommand extends Command<Creative,TeleportationManager> {
 	}
 	
 	@Override
-	protected List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		return args.length <= 1 ? manager.getHomeHandler().getHomeNameList(profile) : Collections.emptyList();
+	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
+		return args.length == 1 ? manager.getHomeHandler().getHomeNameList(profile) : Collections.emptyList();
 	}
 	
 	@Override
-	protected List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
+	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
 		return Collections.emptyList();
 	}
 	

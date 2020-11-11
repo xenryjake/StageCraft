@@ -7,6 +7,7 @@ import com.xenry.stagecraft.survival.teleportation.TeleportationManager;
 import com.xenry.stagecraft.survival.teleportation.Warp;
 import com.xenry.stagecraft.util.M;
 import org.bukkit.command.CommandSender;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 import java.util.List;
@@ -67,13 +68,13 @@ public final class SetWarpAliasCommand extends Command<Survival,TeleportationMan
 	}
 	
 	@Override
-	protected List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		return args.length <= 1 ? manager.getWarpHandler().getWarpNameList() : Collections.emptyList();
+	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
+		return args.length == 1 ? manager.getWarpHandler().getWarpNameList() : Collections.emptyList();
 	}
 	
 	@Override
-	protected List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
-		return args.length <= 1 ? manager.getWarpHandler().getWarpNameList() : Collections.emptyList();
+	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
+		return args.length == 1 ? manager.getWarpHandler().getWarpNameList() : Collections.emptyList();
 	}
 	
 }

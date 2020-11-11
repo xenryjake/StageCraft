@@ -13,6 +13,7 @@ import com.xenry.stagecraft.util.M;
 import com.xenry.stagecraft.util.time.TimeUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -94,16 +95,16 @@ public final class JailCommand extends Command<Survival,JailManager> {
 	}
 	
 	@Override
-	protected List<String> playerTabComplete(Profile profile, String[] args, String label) {
+	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
 		return serverTabComplete(profile.getPlayer(), args, label);
 	}
 	
 	@Override
-	protected List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
+	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
 		switch(args.length){
 			case 0:
 			case 1:
-				return null;
+				return allLocalPlayers();
 			case 2:{
 				args[1] = args[1].toLowerCase().replaceAll("[smhd]", "");
 				try{

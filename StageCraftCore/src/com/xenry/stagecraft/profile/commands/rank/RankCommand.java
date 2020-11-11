@@ -6,6 +6,7 @@ import com.xenry.stagecraft.profile.ProfileManager;
 import com.xenry.stagecraft.profile.Rank;
 import com.xenry.stagecraft.util.M;
 import org.bukkit.command.CommandSender;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -21,7 +22,7 @@ import java.util.List;
 public final class RankCommand extends Command<Core,ProfileManager> {
 	
 	public RankCommand(ProfileManager manager){
-		super(manager, Rank.MOD, "rank");
+		super(manager, Rank.ADMIN, "rank");
 		addSubCommand(new RankSetCommand(manager));
 		addSubCommand(new RankListCommand(manager));
 		setCanBeDisabled(true);
@@ -40,13 +41,13 @@ public final class RankCommand extends Command<Core,ProfileManager> {
 	}
 	
 	@Override
-	protected List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		return args.length <= 1 ? Arrays.asList("list", "set") : Collections.emptyList();
+	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
+		return args.length == 1 ? Arrays.asList("list", "set") : Collections.emptyList();
 	}
 	
 	@Override
-	protected List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
-		return args.length <= 1 ? Arrays.asList("list", "set") : Collections.emptyList();
+	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
+		return args.length == 1 ? Arrays.asList("list", "set") : Collections.emptyList();
 	}
 	
 }

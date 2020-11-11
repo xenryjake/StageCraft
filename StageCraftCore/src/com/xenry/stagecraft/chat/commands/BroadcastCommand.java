@@ -15,6 +15,9 @@ import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 /**
  * StageCraft created by Henry Jake on January 20, 2016
@@ -66,6 +69,16 @@ public final class BroadcastCommand extends Command<Core,ChatManager> {
 		//Bukkit.broadcastMessage("§b§l" + player.getName() + "§8: §d" + message);
 		
 		manager.getBroadcastPMSC().send(pluginMessageSender, components);
+	}
+	
+	@Override
+	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
+		return allNetworkPlayers();
+	}
+	
+	@Override
+	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
+		return allNetworkPlayers();
 	}
 	
 }

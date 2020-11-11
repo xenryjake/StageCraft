@@ -105,8 +105,7 @@ public final class ChatManager extends Manager<Core> {
 			return;
 		}
 		if(!profile.check(chatRank)){
-			player.sendMessage(M.error("The chat is currently silenced to rank " + chatRank.getColoredName() + M.err
-					+ "."));
+			player.sendMessage(M.error("The chat is currently silenced to a rank above you."));
 			Log.info("[Chat Attempt] " + event.getPlayer().getName() + ": " + event.getMessage());
 			event.setCancelled(true);
 			return;
@@ -127,8 +126,7 @@ public final class ChatManager extends Manager<Core> {
 		}
 		
 		HoverEvent he = new HoverEvent(HoverEvent.Action.SHOW_TEXT,
-				new Text(TextComponent.fromLegacyText("§rMessage " + chatEvent.getPrefix()
-						+ (chatEvent.prefixContainsText() ? " " : "") + chatEvent.getDisplayName())));
+				new Text(TextComponent.fromLegacyText("§rMessage " + chatEvent.getDisplayName())));
 		ClickEvent ce = new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/msg " + player.getName() + " ");
 		BaseComponent[] message = new ComponentBuilder()
 				.append(TextComponent.fromLegacyText("§r" + chatEvent.getPrefix()

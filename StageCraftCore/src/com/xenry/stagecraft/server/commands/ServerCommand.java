@@ -12,6 +12,7 @@ import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.command.CommandSender;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
@@ -69,12 +70,13 @@ public final class ServerCommand extends Command<Core,ServerManager> {
 	}
 	
 	@Override
-	protected List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		return args.length <= 1 ? new ArrayList<>(manager.getNetworkPlayers().keySet()) : Collections.emptyList();
+	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
+		return args.length == 1 ? new ArrayList<>(manager.getNetworkPlayers().keySet()) : Collections.emptyList();
 	}
 	
 	@Override
-	protected List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
-		return args.length <= 1 ? new ArrayList<>(manager.getNetworkPlayers().keySet()) : Collections.emptyList();
+	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
+		return Collections.emptyList();
 	}
+	
 }

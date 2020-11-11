@@ -1,5 +1,4 @@
 package com.xenry.stagecraft.bungee.player;
-import com.mongodb.annotations.Beta;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 /**
@@ -9,7 +8,6 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-@Beta
 public class Player {
 	
 	protected final ProxiedPlayer proxiedPlayer;

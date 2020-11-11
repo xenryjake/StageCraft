@@ -9,6 +9,7 @@ import com.xenry.stagecraft.util.M;
 import com.xenry.stagecraft.util.PlayerUtil;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,7 +23,7 @@ import java.util.Map;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public class SendCommand extends Command<Core,ServerManager> {
+public final class SendCommand extends Command<Core,ServerManager> {
 	
 	public SendCommand(ServerManager manager){
 		super(manager, Rank.MOD, "send");
@@ -84,7 +85,7 @@ public class SendCommand extends Command<Core,ServerManager> {
 	}
 	
 	@Override
-	protected List<String> playerTabComplete(Profile profile, String[] args, String label) {
+	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
 		switch(args.length){
 			case 0:
 			case 1:
@@ -101,7 +102,7 @@ public class SendCommand extends Command<Core,ServerManager> {
 	}
 	
 	@Override
-	protected List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
+	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
 		switch(args.length){
 			case 0:
 			case 1:

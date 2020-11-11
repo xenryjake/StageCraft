@@ -155,7 +155,7 @@ commands:
     description: "Access the StageCraft shop"
   gamemode:
     description: "Change your gamemode or another player's gamemode"
-    aliases: [gm,gmc,gma,gms,gmsp,creative,survival,spectator,adventure]
+    aliases: [gm,gmc,gma,gms,gmsp]
   fly:
     description: "Toggle fly mode for yourself or another player"
   enderchest:

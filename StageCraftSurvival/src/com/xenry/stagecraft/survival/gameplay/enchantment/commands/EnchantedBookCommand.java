@@ -11,6 +11,7 @@ import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -63,13 +64,13 @@ public final class EnchantedBookCommand extends Command<Survival,GameplayManager
 	}
 	
 	@Override
-	protected List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		return args.length <= 1 ? Arrays.asList("special_item", "ore_miner", "lumberjack", "telekinesis", "delicate_walker", "growth", "ore_smelting") : Collections.emptyList();
+	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
+		return args.length == 1 ? Arrays.asList("special_item", "ore_miner", "lumberjack", "telekinesis", "delicate_walker", "growth", "ore_smelting") : Collections.emptyList();
 	}
 	
 	@Override
-	protected List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
-		return args.length <= 1 ? Arrays.asList("special_item", "ore_miner", "lumberjack", "telekinesis", "delicate_walker", "growth", "ore_smelting") : Collections.emptyList();
+	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
+		return args.length == 1 ? Arrays.asList("special_item", "ore_miner", "lumberjack", "telekinesis", "delicate_walker", "growth", "ore_smelting") : Collections.emptyList();
 	}
 	
 }

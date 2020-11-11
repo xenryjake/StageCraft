@@ -70,7 +70,7 @@ public final class DotServerCommand extends ProxyAdminCommand<ProxyManager> {
 	
 	@Override
 	public Iterable<String> onTabComplete(CommandSender sender, String[] args) {
-		return args.length <= 1 ? manager.plugin.getProxy().getServers().keySet() : Collections.emptyList();
+		return args.length == 1 ? manager.plugin.getProxy().getServers().keySet() : Collections.emptyList();
 	}
 	
 }

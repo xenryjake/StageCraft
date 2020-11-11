@@ -11,6 +11,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -28,8 +29,7 @@ public final class GameModeCommand extends Command<Survival,GameplayManager> {
 	public static final Access OTHERS = Rank.ADMIN;
 	
 	public GameModeCommand(GameplayManager manager){
-		super(manager, Rank.ADMIN, "gamemode", "gm", "gmc", "gms", "gmsp", "gma", "creative", "survival",
-				"spectator", "adventure");
+		super(manager, Rank.ADMIN, "gamemode", "gm", "gmc", "gms", "gmsp", "gma");
 		setCanBeDisabled(true);
 	}
 	
@@ -38,12 +38,6 @@ public final class GameModeCommand extends Command<Survival,GameplayManager> {
 		{
 			String argToAdd = null;
 			switch(label){
-				case "creative":
-				case "survival":
-				case "spectator":
-				case "adventure":
-					argToAdd = label;
-					break;
 				case "gmc":
 				case "gms":
 				case "gmsp":
@@ -98,12 +92,6 @@ public final class GameModeCommand extends Command<Survival,GameplayManager> {
 		{
 			String argToAdd = null;
 			switch(label){
-				case "creative":
-				case "survival":
-				case "spectator":
-				case "adventure":
-					argToAdd = label;
-					break;
 				case "gmc":
 				case "gms":
 				case "gmsp":
@@ -148,7 +136,7 @@ public final class GameModeCommand extends Command<Survival,GameplayManager> {
 	}
 	
 	@Override
-	protected List<String> playerTabComplete(Profile profile, String[] args, String label) {
+	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
 		int len = args.length;
 		label = label.replace("gm", "");
 		if(label.startsWith("c") || label.startsWith("s") || label.startsWith("a")){
@@ -159,14 +147,14 @@ public final class GameModeCommand extends Command<Survival,GameplayManager> {
 			case 1:
 				return Arrays.asList("creative", "survival", "adventure", "spectator");
 			case 2:
-				return null;
+				return allLocalPlayers();
 			default:
 				return Collections.emptyList();
 		}
 	}
 	
 	@Override
-	protected List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
+	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
 		int len = args.length;
 		label = label.replace("gm", "");
 		if(label.startsWith("c") || label.startsWith("s") || label.startsWith("a")){
@@ -177,7 +165,7 @@ public final class GameModeCommand extends Command<Survival,GameplayManager> {
 			case 1:
 				return Arrays.asList("creative", "survival", "adventure", "spectator");
 			case 2:
-				return null;
+				return allLocalPlayers();
 			default:
 				return Collections.emptyList();
 		}

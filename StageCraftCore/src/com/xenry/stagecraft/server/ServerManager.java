@@ -26,6 +26,7 @@ public final class ServerManager extends Manager<Core> {
 	
 	private boolean willShutDown = false;
 	private BukkitTask shutdownTask;
+	private EvacuatePlayerPMSC evacuatePlayerPMSC;
 	
 	private HashMap<String,List<String>> networkPlayers;
 	private List<String> allNetworkPlayers;
@@ -39,6 +40,8 @@ public final class ServerManager extends Manager<Core> {
 	
 	@Override
 	protected void onEnable() {
+		evacuatePlayerPMSC = new EvacuatePlayerPMSC(this);
+		plugin.getPluginMessageManager().registerSubChannel(evacuatePlayerPMSC);
 		plugin.getPluginMessageManager().registerSubChannel(new NetworkPlayersUpdatePMSC(this));
 		sendPlayersPMSC = new SendPlayersPMSC(this);
 		plugin.getPluginMessageManager().registerSubChannel(new SendPlayersPMSC(this));
@@ -51,6 +54,12 @@ public final class ServerManager extends Manager<Core> {
 		registerCommand(new ServerCommand(this));
 		registerCommand(new FindCommand(this));
 		registerCommand(new SendCommand(this));
+		registerCommand(new SlashServerCommand(this));
+		registerCommand(new EvacuateCommand(this));
+	}
+	
+	public EvacuatePlayerPMSC getEvacuatePlayerPMSC() {
+		return evacuatePlayerPMSC;
 	}
 	
 	public SendPlayersPMSC getSendPlayersPMSC() {
@@ -122,9 +131,14 @@ public final class ServerManager extends Manager<Core> {
 	
 	private void shutdownNow(){
 		for(Player player : Bukkit.getOnlinePlayers()){
-			player.kickPlayer(Bukkit.getShutdownMessage());
+			evacuatePlayerPMSC.send(player);
 		}
-		Bukkit.shutdown();
+		plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
+			for(Player player : Bukkit.getOnlinePlayers()){
+				player.kickPlayer(Bukkit.getShutdownMessage());
+			}
+			Bukkit.shutdown();
+		}, 20L);
 	}
 	
 	public BukkitTask getShutdownTask() {

@@ -7,6 +7,7 @@ import com.xenry.stagecraft.server.ServerManager;
 import com.xenry.stagecraft.util.CollectionUtil;
 import com.xenry.stagecraft.util.M;
 import org.bukkit.command.CommandSender;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 import java.util.List;
@@ -19,10 +20,10 @@ import java.util.Map;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public class FindCommand extends Command<Core,ServerManager> {
+public final class FindCommand extends Command<Core,ServerManager> {
 	
 	public FindCommand(ServerManager manager){
-		super(manager, Rank.MOD, "find", "locate", "whereis");
+		super(manager, Rank.MOD, "find", "whereis");
 		setCanBeDisabled(true);
 	}
 	
@@ -52,13 +53,13 @@ public class FindCommand extends Command<Core,ServerManager> {
 	}
 	
 	@Override
-	protected List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		return args.length <= 1 ? allNetworkPlayers() : Collections.emptyList();
+	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
+		return args.length == 1 ? allNetworkPlayers() : Collections.emptyList();
 	}
 	
 	@Override
-	protected List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
-		return args.length <= 1 ? allNetworkPlayers() : Collections.emptyList();
+	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
+		return args.length == 1 ? allNetworkPlayers() : Collections.emptyList();
 	}
 	
 }

@@ -8,6 +8,7 @@ import com.xenry.stagecraft.util.M;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -81,18 +82,18 @@ public final class ExperienceCommand extends Command<Survival,GameplayManager> {
 	}
 	
 	@Override
-	protected List<String> playerTabComplete(Profile profile, String[] args, String label) {
+	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
 		return serverTabComplete(profile.getPlayer(), args, label);
 	}
 	
 	@Override
-	protected List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
+	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
 		switch(args.length){
 			case 0:
 			case 1:
 				return Arrays.asList("clear","set","add","remove","view");
 			case 2:
-				return null;
+				return allLocalPlayers();
 			default:
 				return Collections.emptyList();
 		}

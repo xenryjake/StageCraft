@@ -3,8 +3,11 @@ import com.xenry.stagecraft.Core;
 import com.xenry.stagecraft.Manager;
 import com.xenry.stagecraft.StageCraftPlugin;
 import com.xenry.stagecraft.profile.Profile;
+import com.xenry.stagecraft.util.M;
+import com.xenry.stagecraft.util.PlayerUtil;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,17 +19,17 @@ import java.util.List;
  * Usage of this content without written consent of Henry Jake
  * is prohibited.
  */
-public abstract class Command<P extends StageCraftPlugin,M extends Manager<P>> {
+public abstract class Command<P extends StageCraftPlugin,T extends Manager<P>> {
 	
-	protected final M manager;
+	protected final T manager;
 	protected final Access access;
 	protected final List<String> labels;
-	protected final List<Command<P,M>> subCommands;
+	protected final List<Command<P,T>> subCommands;
 	private boolean canBeDisabled = false;
 	private boolean disabled = false;
 	private boolean useEvents = true;
 	
-	protected Command(M manager, Access access, String...labels){
+	protected Command(T manager, Access access, String...labels){
 		this.manager = manager;
 		this.access = access;
 		this.labels = new ArrayList<>();
@@ -44,7 +47,7 @@ public abstract class Command<P extends StageCraftPlugin,M extends Manager<P>> {
 		return labels;
 	}
 	
-	public List<Command<P,M>> getSubCommands() {
+	public List<Command<P,T>> getSubCommands() {
 		return subCommands;
 	}
 	
@@ -52,16 +55,14 @@ public abstract class Command<P extends StageCraftPlugin,M extends Manager<P>> {
 	
 	protected abstract void serverPerform(CommandSender sender, String[] args, String label);
 	
-	protected List<String> playerTabComplete(Profile profile, String[] args, String label){
-		return null;
-	}
+	@NotNull
+	protected abstract List<String> playerTabComplete(Profile profile, String[] args, String label);
 	
-	protected List<String> serverTabComplete(CommandSender sender, String[] args, String label){
-		return null;
-	}
+	@NotNull
+	protected abstract List<String> serverTabComplete(CommandSender sender, String[] args, String label);
 	
-	public Command<P,M> getSubCommand(String label){
-		for(Command<P,M> cmd : subCommands) {
+	public Command<P,T> getSubCommand(String label){
+		for(Command<P,T> cmd : subCommands) {
 			if(cmd.getLabels().contains(label.toLowerCase())){
 				return cmd;
 			}
@@ -100,7 +101,7 @@ public abstract class Command<P extends StageCraftPlugin,M extends Manager<P>> {
 		this.useEvents = useEvents;
 	}
 	
-	protected final void addSubCommand(Command<P,M> command){
+	protected final void addSubCommand(Command<P,T> command){
 		subCommands.add(command);
 	}
 	
@@ -114,14 +115,14 @@ public abstract class Command<P extends StageCraftPlugin,M extends Manager<P>> {
 			return;
 		}
 		if(disabled){
-			profile.sendMessage(com.xenry.stagecraft.util.M.error("This command is currently disabled."));
+			profile.sendMessage(M.error("This command is currently disabled."));
 			return;
 		}
 		if(args.length < 1 || hasNoSubCommands()){
 			playerPerform(profile, args, label);
 			return;
 		}
-		Command<P,M> sub = getSubCommand(args[0].toLowerCase());
+		Command<P,T> sub = getSubCommand(args[0].toLowerCase());
 		if(sub == null){
 			playerPerform(profile, args, label);
 		}else{
@@ -133,14 +134,14 @@ public abstract class Command<P extends StageCraftPlugin,M extends Manager<P>> {
 	
 	public final void serverExecute(CommandSender sender, String[] args, String label){
 		if(disabled){
-			sender.sendMessage(com.xenry.stagecraft.util.M.error("This command is currently disabled."));
+			sender.sendMessage(M.error("This command is currently disabled."));
 			return;
 		}
 		if(args.length < 1 || hasNoSubCommands()){
 			serverPerform(sender, args, label);
 			return;
 		}
-		Command<P,M> sub = getSubCommand(args[0].toLowerCase());
+		Command<P,T> sub = getSubCommand(args[0].toLowerCase());
 		if(sub == null){
 			serverPerform(sender, args, label);
 		}else{
@@ -157,7 +158,7 @@ public abstract class Command<P extends StageCraftPlugin,M extends Manager<P>> {
 		if(args.length < 1 || hasNoSubCommands()){
 			return playerTabComplete(profile, args, label);
 		}
-		Command<P,M> sub = getSubCommand(args[0].toLowerCase());
+		Command<P,T> sub = getSubCommand(args[0].toLowerCase());
 		if(sub == null){
 			return playerTabComplete(profile, args, label);
 		}else{
@@ -174,7 +175,7 @@ public abstract class Command<P extends StageCraftPlugin,M extends Manager<P>> {
 		if(args.length < 1 || hasNoSubCommands()){
 			return serverTabComplete(sender, args, label);
 		}
-		Command<P,M> sub = getSubCommand(args[0].toLowerCase());
+		Command<P,T> sub = getSubCommand(args[0].toLowerCase());
 		if(sub == null){
 			return serverTabComplete(sender, args, label);
 		}else{
@@ -184,7 +185,7 @@ public abstract class Command<P extends StageCraftPlugin,M extends Manager<P>> {
 		}
 	}
 	
-	public M getManager() {
+	public T getManager() {
 		return manager;
 	}
 	
@@ -197,11 +198,11 @@ public abstract class Command<P extends StageCraftPlugin,M extends Manager<P>> {
 	}
 	
 	protected final void onlyForPlayers(CommandSender sender){
-		sender.sendMessage(com.xenry.stagecraft.util.M.error("This command is only available for players."));
+		sender.sendMessage(M.error("This command is only available for players."));
 	}
 	
 	protected final void notForPlayers(Player player){
-		player.sendMessage(com.xenry.stagecraft.util.M.error("This command is not available to players."));
+		player.sendMessage(M.error("This command is not available to players."));
 	}
 	
 	protected final void noPermission(Profile profile){
@@ -209,11 +210,15 @@ public abstract class Command<P extends StageCraftPlugin,M extends Manager<P>> {
 	}
 	
 	protected final void noPermission(Player player){
-		player.sendMessage("§4You do not have access to that command.");
+		player.sendMessage(M.DRED + "You do not have access to that command.");
 	}
 	
 	protected final List<String> allNetworkPlayers(){
 		return manager.getCore().getServerManager().getAllNetworkPlayers();
+	}
+	
+	protected final List<String> allLocalPlayers(){
+		return PlayerUtil.getOnlinePlayerNames();
 	}
 	
 }

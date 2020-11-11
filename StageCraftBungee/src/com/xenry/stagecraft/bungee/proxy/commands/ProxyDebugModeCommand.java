@@ -56,7 +56,7 @@ public final class ProxyDebugModeCommand extends ProxyCommand<ProxyManager> {
 	
 	@Override
 	public Iterable<String> onTabComplete(CommandSender sender, String[] args) {
-		return args.length <= 1 ? Arrays.asList("on", "off") : Collections.emptyList();
+		return args.length == 1 ? Arrays.asList("on", "off") : Collections.emptyList();
 	}
 	
 }

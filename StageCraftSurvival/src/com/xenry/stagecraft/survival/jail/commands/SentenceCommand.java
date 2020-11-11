@@ -6,6 +6,11 @@ import com.xenry.stagecraft.survival.Survival;
 import com.xenry.stagecraft.survival.jail.JailManager;
 import com.xenry.stagecraft.util.M;
 import org.bukkit.command.CommandSender;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * StageCraft created by Henry Blasingame (Xenry) on 9/25/20
@@ -38,6 +43,16 @@ public final class SentenceCommand extends Command<Survival,JailManager> {
 		sender.sendMessage(M.help("setjail <name>", "Set the location for a new jail."));
 		sender.sendMessage(M.help("deljail <name>", "Delete an existing jail."));
 		sender.sendMessage(M.help("jails", "View the list of jails."));
+	}
+	
+	@Override
+	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
+		return args.length == 1 ? Arrays.asList("update", "view", "remove") : Collections.emptyList();
+	}
+	
+	@Override
+	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
+		return args.length == 1 ? Arrays.asList("update", "view", "remove") : Collections.emptyList();
 	}
 	
 }

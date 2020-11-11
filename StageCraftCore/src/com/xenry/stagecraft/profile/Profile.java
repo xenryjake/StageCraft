@@ -38,6 +38,7 @@ public class Profile extends GenericProfile {
 		put("rank", Rank.MEMBER.toString());
 		put("settings", new HashMap<String,Boolean>());
 		put("nick", "none");
+		//put("nameColor", Rank.MEMBER.getColor());
 	}
 	
 	public Profile(UUID uuid, String name, InetSocketAddress socketAddress){

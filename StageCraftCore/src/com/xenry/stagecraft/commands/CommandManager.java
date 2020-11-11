@@ -15,6 +15,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -52,17 +53,7 @@ public final class CommandManager extends Manager<Core> implements TabExecutor {
 	
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command bukkitCommand, @NotNull String label, @NotNull String[] args) {
-		label = label.toLowerCase();
-		//todo make this better/less spaghetti
-		if(label.startsWith("stagecraft:")){
-			label = label.substring(11);
-		}
-		if(label.startsWith("stagecraftcore:")){
-			label = label.substring(15);
-		}
-		if(label.startsWith("stagecraftsurvival:") || label.startsWith("stagecraftcreative:") || label.startsWith("stagecraftskyblock:")){
-			label = label.substring(19);
-		}
+		label = stripPluginPrefix(label.toLowerCase());
 		Command<?,?> cmd = getCommand(label);
 		if(cmd == null){
 			sender.sendMessage("That command doesn't exist.");
@@ -93,22 +84,18 @@ public final class CommandManager extends Manager<Core> implements TabExecutor {
 		return true;
 	}
 	
-	@Nullable
 	@Override
 	public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command bukkitCommand, @NotNull String label, @NotNull String[] args) {
-		label = label.toLowerCase();
-		if(label.startsWith("stagecraft:")){
-			label = label.substring(11);
-		}
+		label = stripPluginPrefix(label.toLowerCase());
 		Command<?,?> cmd = getCommand(label);
 		if(cmd == null){
-			return null;
+			return Collections.emptyList();
 		}
 		if(sender instanceof Player){
 			Player player = (Player)sender;
 			Profile profile = plugin.getProfileManager().getProfile(player);
 			if(profile == null){
-				return null;
+				return Collections.emptyList();
 			}
 			return cmd.playerTabCompleteExecute(profile, args, label);
 		}else{
@@ -125,9 +112,7 @@ public final class CommandManager extends Manager<Core> implements TabExecutor {
 		while(buffer.startsWith(" ")){
 			buffer = buffer.substring(1);
 		}
-		if(buffer.toLowerCase().startsWith("stagecraft:")){
-			buffer = buffer.substring(11);
-		}
+		buffer = stripPluginPrefix(buffer);
 		String[] split = buffer.split(" ");
 		if(split.length < 1){
 			return;
@@ -162,9 +147,7 @@ public final class CommandManager extends Manager<Core> implements TabExecutor {
 		while(buffer.startsWith(" ")){
 			buffer = buffer.substring(1);
 		}
-		if(buffer.toLowerCase().startsWith("stagecraft:")){
-			buffer = buffer.substring(11);
-		}
+		buffer = stripPluginPrefix(buffer);
 		String[] split = buffer.split(" ");
 		if(split.length < 1){
 			return;
@@ -241,6 +224,22 @@ public final class CommandManager extends Manager<Core> implements TabExecutor {
 			labels.addAll(command.getLabels());
 		}
 		return labels;
+	}
+	
+	private String stripPluginPrefix(String buffer){
+		// todo make this better/less spaghetti
+		if(buffer.toLowerCase().startsWith("stagecraft:")){
+			buffer = buffer.substring(11);
+		}
+		if(buffer.toLowerCase().startsWith("stagecraftcore:")){
+			buffer = buffer.substring(15);
+		}
+		if(buffer.toLowerCase().startsWith("stagecraftsurvival:")
+				|| buffer.toLowerCase().startsWith("stagecraftcreative:")
+				|| buffer.toLowerCase().startsWith("stagecraftskyblock:")){
+			buffer = buffer.substring(19);
+		}
+		return buffer;
 	}
 	
 }

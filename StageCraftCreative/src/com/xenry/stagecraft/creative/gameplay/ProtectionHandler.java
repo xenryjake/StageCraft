@@ -1,8 +1,16 @@
 package com.xenry.stagecraft.creative.gameplay;
 import com.xenry.stagecraft.Handler;
 import com.xenry.stagecraft.creative.Creative;
+import org.bukkit.Chunk;
+import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.Beacon;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.block.BlockExplodeEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 
 /**
@@ -18,15 +26,22 @@ public final class ProtectionHandler extends Handler<Creative,GameplayManager> {
 		super(manager);
 	}
 	
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void on(EntityExplodeEvent event){
-		if(!event.blockList().isEmpty()) {
+		if(!event.blockList().isEmpty()){
 			event.setCancelled(true);
 			World world = event.getLocation().getWorld();
-			if(world == null){
-				return;
+			if(world != null){
+				world.createExplosion(event.getLocation(), 0);
 			}
-			world.createExplosion(event.getLocation(), 0);
+		}
+	}
+	
+	@EventHandler(ignoreCancelled = true)
+	public void on(BlockExplodeEvent event){
+		if(!event.blockList().isEmpty()){
+			event.setCancelled(true);
+			event.getBlock().getWorld().createExplosion(event.getBlock().getLocation(), 0);
 		}
 	}
 	

@@ -8,6 +8,7 @@ import com.xenry.stagecraft.profile.Rank;
 import com.xenry.stagecraft.util.M;
 import com.xenry.stagecraft.util.NumberUtil;
 import org.bukkit.command.CommandSender;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 import java.util.List;
@@ -65,13 +66,13 @@ public final class WarpInfoCommand extends Command<Creative,TeleportationManager
 	}
 	
 	@Override
-	protected List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		return args.length <= 1 ? manager.getWarpHandler().getWarpNameList() : Collections.emptyList();
+	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
+		return args.length == 1 ? manager.getWarpHandler().getWarpNameList() : Collections.emptyList();
 	}
 	
 	@Override
-	protected List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
-		return args.length <= 1 ? manager.getWarpHandler().getWarpNameList() : Collections.emptyList();
+	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
+		return args.length == 1 ? manager.getWarpHandler().getWarpNameList() : Collections.emptyList();
 	}
 	
 }

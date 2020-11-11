@@ -23,6 +23,8 @@ import java.util.List;
  */
 public final class PlaytimeCommand extends Command<Core,ProfileManager> {
 	
+	//todo work cross-server
+	
 	public static final Access VIEW_OTHER = Rank.MEMBER;
 	
 	public PlaytimeCommand(ProfileManager manager){
@@ -93,13 +95,13 @@ public final class PlaytimeCommand extends Command<Core,ProfileManager> {
 	}
 	
 	@Override
-	protected List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		return args.length <= 1 ? allNetworkPlayers() : Collections.emptyList();
+	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
+		return args.length == 1 ? allNetworkPlayers() : Collections.emptyList();
 	}
 	
 	@Override
-	protected List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
-		return args.length <= 1 ? allNetworkPlayers() : Collections.emptyList();
+	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
+		return args.length == 1 ? allNetworkPlayers() : Collections.emptyList();
 	}
 	
 }

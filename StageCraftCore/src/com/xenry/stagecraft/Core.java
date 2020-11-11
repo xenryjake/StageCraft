@@ -136,8 +136,8 @@ public final class Core extends StageCraftPlugin {
 	}
 	
 	public void setDebugMode(boolean enabled) {
-		betaFeaturesEnabled = enabled;
-		getConfig().set("beta-features", enabled);
+		debugMode = enabled;
+		getConfig().set("debug", enabled);
 		saveConfig();
 	}
 	

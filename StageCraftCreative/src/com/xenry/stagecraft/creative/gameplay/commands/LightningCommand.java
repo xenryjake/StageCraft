@@ -12,6 +12,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 import java.util.List;
@@ -29,7 +30,7 @@ public final class LightningCommand extends Command<Creative,GameplayManager> {
 	private final Cooldown cooldown;
 	
 	public LightningCommand(GameplayManager manager){
-		super(manager, Rank.SPECIAL, "lightning", "strike", "smite");
+		super(manager, Rank.DONOR, "lightning", "strike", "smite");
 		setCanBeDisabled(true);
 		cooldown = new Cooldown(2000, M.error("Please wait %t% to strike lightning again."));
 	}
@@ -75,7 +76,7 @@ public final class LightningCommand extends Command<Creative,GameplayManager> {
 	}
 	
 	@Override
-	protected List<String> playerTabComplete(Profile profile, String[] args, String label) {
+	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
 		if(args.length == 1){
 			List<String> players = PlayerUtil.getOnlinePlayerNames();
 			players.add("**");
@@ -86,7 +87,7 @@ public final class LightningCommand extends Command<Creative,GameplayManager> {
 	}
 	
 	@Override
-	protected List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
+	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
 		if(args.length == 1){
 			List<String> players = PlayerUtil.getOnlinePlayerNames();
 			players.add("**");

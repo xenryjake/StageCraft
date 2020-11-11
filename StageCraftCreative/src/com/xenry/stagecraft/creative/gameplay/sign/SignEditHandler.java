@@ -9,18 +9,18 @@ import com.xenry.stagecraft.profile.Rank;
 import com.xenry.stagecraft.profile.Setting;
 import com.xenry.stagecraft.util.FakeBlockBreakEvent;
 import net.md_5.bungee.api.ChatColor;
-import net.minecraft.server.v1_16_R2.BlockPosition;
-import net.minecraft.server.v1_16_R2.PacketPlayOutOpenSignEditor;
-import net.minecraft.server.v1_16_R2.TileEntity;
-import net.minecraft.server.v1_16_R2.TileEntitySign;
+import net.minecraft.server.v1_16_R3.BlockPosition;
+import net.minecraft.server.v1_16_R3.PacketPlayOutOpenSignEditor;
+import net.minecraft.server.v1_16_R3.TileEntity;
+import net.minecraft.server.v1_16_R3.TileEntitySign;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Sign;
-import org.bukkit.craftbukkit.v1_16_R2.CraftWorld;
-import org.bukkit.craftbukkit.v1_16_R2.block.CraftSign;
-import org.bukkit.craftbukkit.v1_16_R2.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_16_R3.CraftWorld;
+import org.bukkit.craftbukkit.v1_16_R3.block.CraftSign;
+import org.bukkit.craftbukkit.v1_16_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
@@ -36,7 +36,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
  */
 public final class SignEditHandler extends Handler<Creative,GameplayManager> {
 	
-	public static final Access COLOR_SIGNS = Rank.SPECIAL;
+	public static final Access COLOR_SIGNS = Rank.DONOR;
 	
 	public SignEditHandler(GameplayManager manager){
 		super(manager);

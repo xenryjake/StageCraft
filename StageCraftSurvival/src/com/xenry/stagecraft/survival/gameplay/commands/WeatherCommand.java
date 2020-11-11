@@ -11,6 +11,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.WeatherType;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -130,12 +131,12 @@ public final class WeatherCommand extends Command<Survival,GameplayManager> {
 	}
 	
 	@Override
-	protected List<String> playerTabComplete(Profile profile, String[] args, String label) {
+	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
 		return serverTabComplete(profile.getPlayer(), args, label);
 	}
 	
 	@Override
-	protected List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
+	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
 		switch(args.length){
 			case 0:
 			case 1:

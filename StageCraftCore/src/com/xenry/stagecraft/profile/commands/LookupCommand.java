@@ -11,6 +11,7 @@ import com.xenry.stagecraft.util.M;
 import com.xenry.stagecraft.util.time.TimeUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -24,6 +25,8 @@ import java.util.List;
  * is prohibited.
  */
 public final class LookupCommand extends Command<Core,ProfileManager> {
+	
+	//todo work cross-server
 	
 	public static final Access SENSITIVE_VIEW_ACCESS = Rank.ADMIN;
 	
@@ -56,12 +59,6 @@ public final class LookupCommand extends Command<Core,ProfileManager> {
 				profile = manager.getProfile(Bukkit.getPlayer(args[0]));
 			}else{
 				profile = manager.getProfileByLatestUsername(args[0]);
-				/*try{
-					profile = manager.getProfileByUUID(UUIDFetcher.getUUIDOf(args[0]).toString());
-				}catch(Exception ex){
-					sender.sendMessage(M.error("That username is invalid."));
-					return;
-				}*/
 			}
 		}else{
 			profile = manager.getProfileByUUID(args[0]);
@@ -76,7 +73,7 @@ public final class LookupCommand extends Command<Core,ProfileManager> {
 				sender.sendMessage(M.msg + "Showing " + M.elm + names.size() + M.msg + " logged usernames of " + M.elm + profile.getLatestUsername() + M.msg + ":");
 				StringBuilder nameString = new StringBuilder();
 				for(String name : Lists.reverse(names)) {
-					nameString.append(M.elm).append(name).append(M.msg).append(", ");
+					nameString.append(M.WHITE).append(name).append(M.msg).append(", ");
 				}
 				sender.sendMessage(M.arrow(nameString.toString()));
 				return;
@@ -85,7 +82,7 @@ public final class LookupCommand extends Command<Core,ProfileManager> {
 				sender.sendMessage(M.msg + "Showing " + M.elm + addresses.size() + M.msg + " logged addresses of " + M.elm + profile.getLatestUsername() + M.msg + ":");
 				StringBuilder nameString = new StringBuilder();
 				for(String name : Lists.reverse(addresses)) {
-					nameString.append(M.elm).append(name).append(M.msg).append(", ");
+					nameString.append(M.WHITE).append(name).append(M.msg).append(", ");
 				}
 				sender.sendMessage(M.arrow(nameString.toString()));
 				return;
@@ -118,13 +115,13 @@ public final class LookupCommand extends Command<Core,ProfileManager> {
 	}
 	
 	@Override
-	protected List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		return args.length <= 1 ? allNetworkPlayers() : Collections.emptyList();
+	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
+		return args.length == 1 ? allNetworkPlayers() : Collections.emptyList();
 	}
 	
 	@Override
-	protected List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
-		return args.length <= 1 ? allNetworkPlayers() : Collections.emptyList();
+	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
+		return args.length == 1 ? allNetworkPlayers() : Collections.emptyList();
 	}
 	
 }

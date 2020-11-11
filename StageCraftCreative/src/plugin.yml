@@ -2,7 +2,7 @@ name: StageCraftCreative
 version: 2020.10.10.1
 api-version: "1.16"
 author: Xenry
-main: com.xenryjake.stagecraft.creative.Creative
+main: com.xenry.stagecraft.creative.Creative
 depend: [StageCraftCore]
 softdepend: [ProtocolLib,Vault,Essentials,TitleManager,GriefPrevention]
 commands:
@@ -10,11 +10,12 @@ commands:
     description: "Enable or disable lockout mode"
   override:
     description: "Enable or disable override mode for a player"
+    aliases: [ov]
 
   # TELEPORTATION COMMANDS
   tp:
     description: "Teleport to a player"
-    aliases: [tpo]
+    aliases: [tpo,teleport]
   tphere:
     description: "Teleport a player to you"
     aliases: [tpohere]
@@ -111,7 +112,7 @@ commands:
     aliases: [stonecut]
   gamemode:
     description: "Change your gamemode or another player's gamemode"
-    aliases: [gm,gmc,gma,gms,gmsp,creative,survival,spectator,adventure]
+    aliases: [gm,gmc,gma,gms,gmsp]
   fly:
     description: "Toggle fly mode for yourself or another player"
   enderchest:

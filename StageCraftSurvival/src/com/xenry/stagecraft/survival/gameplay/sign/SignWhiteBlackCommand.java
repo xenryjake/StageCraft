@@ -7,6 +7,11 @@ import com.xenry.stagecraft.profile.Rank;
 import com.xenry.stagecraft.profile.Setting;
 import com.xenry.stagecraft.util.M;
 import org.bukkit.command.CommandSender;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * StageCraft created by Henry Blasingame (Xenry) on 8/2/20
@@ -39,6 +44,16 @@ public final class SignWhiteBlackCommand extends Command<Survival,GameplayManage
 		}
 		profile.setSetting(Setting.WHITE_SIGN_TEXT, white);
 		profile.sendMessage(M.msg + "Your default sign color has been set to " + M.WHITE + (white ? "white" : "black") + M.msg + ".");
+	}
+	
+	@Override
+	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
+		return Arrays.asList("white", "black");
+	}
+	
+	@Override
+	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
+		return Collections.emptyList();
 	}
 	
 }

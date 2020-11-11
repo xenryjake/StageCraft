@@ -4,6 +4,11 @@ import com.xenry.stagecraft.StageCraftPlugin;
 import com.xenry.stagecraft.skyblock.island.IslandManager;
 import com.xenry.stagecraft.skyblock.profile.SkyBlockProfileManager;
 import com.xenry.stagecraft.util.Log;
+import org.bukkit.GameMode;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.generator.ChunkGenerator;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -46,6 +51,13 @@ public final class SkyBlock extends StageCraftPlugin {
 	@Override
 	public ChunkGenerator getDefaultWorldGenerator(@NotNull String worldName, @Nullable String id) {
 		return new VoidGenerator();
+	}
+	
+	//todo move this to gameplay manager
+	@EventHandler(priority = EventPriority.HIGHEST)
+	public void onJoin(PlayerJoinEvent event){
+		Player player = event.getPlayer();
+		player.setGameMode(GameMode.SURVIVAL);
 	}
 	
 }

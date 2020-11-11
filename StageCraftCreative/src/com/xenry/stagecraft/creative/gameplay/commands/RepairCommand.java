@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -95,26 +96,26 @@ public final class RepairCommand extends Command<Creative,GameplayManager> {
 	}
 	
 	@Override
-	protected List<String> playerTabComplete(Profile profile, String[] args, String label) {
+	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
 		switch(args.length){
 			case 0:
 			case 1:
 				return Arrays.asList("all", "hand", "armor", "offhand");
 			case 2:
-				return null;
+				return allLocalPlayers();
 			default:
 				return Collections.emptyList();
 		}
 	}
 	
 	@Override
-	protected List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
+	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
 		switch(args.length){
 			case 0:
 			case 1:
 				return Arrays.asList("all", "hand", "armor", "offhand");
 			case 2:
-				return null;
+				return allLocalPlayers();
 			default:
 				return Collections.emptyList();
 		}

@@ -27,7 +27,8 @@ public final class DotFakeMessageCommand extends ProxyAdminCommand<ChatManager> 
 			return;
 		}
 		manager.plugin.getProxy().broadcast(TextComponent.fromLegacyText(
-				ChatColor.translateAlternateColorCodes('&', Joiner.on(' ').join(args))));
+				ChatColor.translateAlternateColorCodes('&',
+						Joiner.on(' ').join(args).replaceAll("\\\\n", "\n"))));
 	}
 	
 	@Override

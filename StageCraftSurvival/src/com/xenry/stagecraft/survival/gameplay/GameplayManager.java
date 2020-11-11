@@ -31,13 +31,16 @@ import com.xenry.stagecraft.util.ItemUtil;
 import com.xenry.stagecraft.util.Log;
 import io.puharesource.mc.titlemanager.api.v2.TitleManagerAPI;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Strider;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
@@ -252,6 +255,12 @@ public final class GameplayManager extends Manager<Survival> {
 			recipe.setIngredient('g', Material.GOLD_NUGGET);
 			Bukkit.addRecipe(recipe);
 		}
+	}
+	
+	@EventHandler(priority = EventPriority.HIGHEST)
+	public void onJoin(PlayerJoinEvent event){
+		Player player = event.getPlayer();
+		player.setGameMode(GameMode.SURVIVAL);
 	}
 	
 	@EventHandler

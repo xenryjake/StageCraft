@@ -2,10 +2,10 @@ package com.xenry.stagecraft.survival.pet;
 import com.xenry.stagecraft.Manager;
 import com.xenry.stagecraft.survival.Survival;
 import com.xenry.stagecraft.survival.pet.commands.TestSpawnCommand;
-import net.minecraft.server.v1_16_R2.Entity;
+import net.minecraft.server.v1_16_R3.Entity;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.craftbukkit.v1_16_R2.CraftWorld;
+import org.bukkit.craftbukkit.v1_16_R3.CraftWorld;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 
 /**

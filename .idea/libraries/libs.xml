@@ -6,11 +6,11 @@
       <root url="jar://$PROJECT_DIR$/../depend/TitleManager-2.3.0.jar!/" />
       <root url="jar://$PROJECT_DIR$/../depend/GriefPrevention.jar!/" />
       <root url="jar://$PROJECT_DIR$/../depend/ProtocolLib.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../depend/patched_1.16.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../depend/patched_1.16.4.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
-      <root url="jar://$PROJECT_DIR$/../depend/patched_1.16.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../depend/patched_1.16.4.jar!/" />
     </SOURCES>
   </library>
 </component>

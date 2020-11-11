@@ -7,6 +7,7 @@ import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
 import com.xenry.stagecraft.util.M;
 import org.bukkit.command.CommandSender;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 import java.util.List;
@@ -49,8 +50,8 @@ public final class CommandInfoCommand extends Command<Core,CommandManager> {
 		String labelsString = sb.toString().trim();
 		
 		sender.sendMessage(M.msg + "Command info: " + M.elm + args[0]);
-		sender.sendMessage(M.arrow("Plugin: " + command.getPlugin().name));
-		sender.sendMessage(M.arrow("Manager: " + command.getManager().name));
+		sender.sendMessage(M.arrow("Plugin: " + M.elm + command.getPlugin().name));
+		sender.sendMessage(M.arrow("Manager: " + M.elm + command.getManager().name));
 		sender.sendMessage(M.arrow("Access: " + accessString));
 		sender.sendMessage(M.arrow("Labels: " + labelsString));
 		sender.sendMessage(M.arrow("Can be disabled: " + (command.canBeDisabled() ? "§atrue" : "§cfalse")));
@@ -60,13 +61,13 @@ public final class CommandInfoCommand extends Command<Core,CommandManager> {
 	}
 	
 	@Override
-	protected List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		return args.length <= 1 ? manager.getAllCommandLabels() : Collections.emptyList();
+	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
+		return args.length == 1 ? manager.getAllCommandLabels() : Collections.emptyList();
 	}
 	
 	@Override
-	protected List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
-		return args.length <= 1 ? manager.getAllCommandLabels() : Collections.emptyList();
+	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
+		return args.length == 1 ? manager.getAllCommandLabels() : Collections.emptyList();
 	}
 	
 }

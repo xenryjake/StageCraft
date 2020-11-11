@@ -9,6 +9,7 @@ import com.xenry.stagecraft.util.M;
 import com.xenry.stagecraft.util.time.TimeUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 import java.util.List;
@@ -23,6 +24,8 @@ import static com.xenry.stagecraft.profile.commands.LookupCommand.SENSITIVE_VIEW
  * is prohibited.
  */
 public final class SeenCommand extends Command<Core,ProfileManager> {
+	
+	//todo work cross-server
 	
 	public static final Access DETAILED_VIEW_ACCESS = Rank.MOD;
 	
@@ -73,13 +76,13 @@ public final class SeenCommand extends Command<Core,ProfileManager> {
 	}
 	
 	@Override
-	protected List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		return args.length <= 1 ? allNetworkPlayers() : Collections.emptyList();
+	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
+		return args.length == 1 ? allNetworkPlayers() : Collections.emptyList();
 	}
 	
 	@Override
-	protected List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
-		return args.length <= 1 ? allNetworkPlayers() : Collections.emptyList();
+	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
+		return args.length == 1 ? allNetworkPlayers() : Collections.emptyList();
 	}
 	
 }

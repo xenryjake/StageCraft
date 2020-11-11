@@ -9,7 +9,11 @@ import com.xenry.stagecraft.creative.gameplay.sign.SignCommand;
 import com.xenry.stagecraft.creative.gameplay.sign.SignEditHandler;
 import com.xenry.stagecraft.util.Log;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.player.PlayerJoinEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -143,11 +147,17 @@ public final class GameplayManager extends Manager<Creative> {
 		Log.toCS("");
 		for(Player player : Bukkit.getOnlinePlayers()){
 			if(LockoutCommand.ACCESS.has(player)){
-				player.sendMessage("\n§e" + senderName + "§b has " + enableDisable + " lockout mode.\n");
+				player.sendMessage("\n§e" + senderName + "§b has " + enableDisable + " lockout mode.\n\n");
 			}else{
-				player.sendMessage("\n§bLockout mode has been " + enableDisable + "\n");
+				player.sendMessage("\n§bLockout mode has been " + enableDisable + "\n\n");
 			}
 		}
+	}
+	
+	@EventHandler(priority = EventPriority.HIGHEST)
+	public void onJoin(PlayerJoinEvent event){
+		Player player = event.getPlayer();
+		player.setGameMode(GameMode.CREATIVE);
 	}
 	
 }

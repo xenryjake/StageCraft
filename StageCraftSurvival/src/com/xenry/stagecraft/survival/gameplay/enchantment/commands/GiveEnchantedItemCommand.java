@@ -10,6 +10,7 @@ import com.xenry.stagecraft.util.M;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -96,8 +97,13 @@ public final class GiveEnchantedItemCommand extends Command<Survival,GameplayMan
 	}
 	
 	@Override
-	protected List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		return args.length <= 1 ? Arrays.asList("ore_miner", "lumberjack", "telekinesis", "delicate_walker", "growth", "ore_smelting", "grappling_hook", "grappling_hook_fuel") : Collections.emptyList();
+	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
+		return args.length == 1 ? Arrays.asList("ore_miner", "lumberjack", "telekinesis", "delicate_walker", "growth", "ore_smelting", "grappling_hook", "grappling_hook_fuel") : Collections.emptyList();
+	}
+	
+	@Override
+	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
+		return Collections.emptyList();
 	}
 	
 }

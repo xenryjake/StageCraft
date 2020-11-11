@@ -1,7 +1,7 @@
 package com.xenry.stagecraft;
 import com.xenry.stagecraft.util.Log;
 import org.bukkit.command.PluginCommand;
-import org.bukkit.craftbukkit.v1_16_R2.CraftServer;
+import org.bukkit.craftbukkit.v1_16_R3.CraftServer;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.*;

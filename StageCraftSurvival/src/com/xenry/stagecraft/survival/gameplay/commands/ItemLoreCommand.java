@@ -12,6 +12,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -75,17 +76,17 @@ public final class ItemLoreCommand extends Command<Survival,GameplayManager> {
 		item.setItemMeta(meta);
 		player.sendMessage(M.msg + "Set the lore on " + M.elm + item.getType().name() + M.msg + " to:");
 		for(String s : lore){
-			player.sendMessage(M.arrow(s));
+			player.sendMessage(M.arrow(ChatColor.DARK_PURPLE + M.ITALIC + s));
 		}
 	}
 	
 	@Override
-	protected List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		return args.length <= 1 ? Arrays.asList("set","add","clear") : Collections.emptyList();
+	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
+		return args.length == 1 ? Arrays.asList("set","add","clear") : Collections.emptyList();
 	}
 	
 	@Override
-	protected List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
+	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
 		return Collections.emptyList();
 	}
 	

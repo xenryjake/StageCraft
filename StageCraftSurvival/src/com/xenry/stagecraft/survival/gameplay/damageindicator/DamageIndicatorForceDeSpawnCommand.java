@@ -10,6 +10,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -71,7 +72,7 @@ public final class DamageIndicatorForceDeSpawnCommand extends Command<Survival,G
 	}
 	
 	@Override
-	protected List<String> playerTabComplete(Profile profile, String[] args, String label) {
+	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
 		if(args.length == 1){
 			List<String> worlds = LocationUtil.getAllWorldNames();
 			worlds.add("all");
@@ -82,7 +83,7 @@ public final class DamageIndicatorForceDeSpawnCommand extends Command<Survival,G
 	}
 	
 	@Override
-	protected List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
+	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
 		if(args.length == 1){
 			List<String> worlds = LocationUtil.getAllWorldNames();
 			worlds.add("all");

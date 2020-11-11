@@ -11,6 +11,10 @@ import com.xenry.stagecraft.util.M;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
  * StageCraft created by Henry Blasingame (Xenry) on 6/24/20
@@ -66,6 +70,16 @@ public final class SpawnCommand extends Command<Creative,TeleportationManager> {
 			return;
 		}
 		manager.createAndExecuteTeleportation(player, sender, player.getLocation(), spawn.getLocation(), Teleportation.Type.ADMIN, !label.startsWith("o"));
+	}
+	
+	@Override
+	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
+		return args.length == 1 && TPCommand.OTHER_RANK.has(profile) ? allLocalPlayers() : Collections.emptyList();
+	}
+	
+	@Override
+	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
+		return args.length == 1 ? allLocalPlayers() : Collections.emptyList();
 	}
 	
 }

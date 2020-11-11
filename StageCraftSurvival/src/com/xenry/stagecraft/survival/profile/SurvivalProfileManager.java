@@ -139,12 +139,6 @@ public final class SurvivalProfileManager extends Manager<Survival> {
 	}
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
-	public void onJoin(PlayerJoinEvent event){
-		Player player = event.getPlayer();
-		player.setGameMode(GameMode.SURVIVAL);
-	}
-	
-	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onQuit(PlayerQuitEvent event) {
 		Player player = event.getPlayer();
 		SurvivalProfile profile = getProfile(player);

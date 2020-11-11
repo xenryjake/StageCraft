@@ -11,6 +11,7 @@ import com.xenry.stagecraft.util.time.GameTimeUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
@@ -45,7 +46,7 @@ public final class TimeCommand extends Command<Creative,GameplayManager> {
 	}
 	
 	public TimeCommand(GameplayManager manager){
-		super(manager, Rank.ADMIN, "time", "day", "night", "dawn", "dusk", "noon", "midnight");
+		super(manager, Rank.MOD, "time", "day", "night", "dawn", "dusk", "noon", "midnight");
 		setCanBeDisabled(true);
 	}
 	
@@ -75,6 +76,7 @@ public final class TimeCommand extends Command<Creative,GameplayManager> {
 			profile.sendMessage(M.error("Invalid time: " + argList.get(0)));
 			return;
 		}
+		argList.remove(0);
 		
 		World world = profile.getPlayer().getWorld();
 		if(argList.size() > 1){
@@ -114,6 +116,7 @@ public final class TimeCommand extends Command<Creative,GameplayManager> {
 			sender.sendMessage(M.error("Invalid time: " + argList.get(0)));
 			return;
 		}
+		argList.remove(0);
 		
 		World world = Bukkit.getWorld(argList.get(1));
 		if(world == null){
@@ -192,14 +195,20 @@ public final class TimeCommand extends Command<Creative,GameplayManager> {
 	}
 	
 	@Override
-	protected List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		return serverTabComplete(profile.getPlayer(), args, label);
+	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
+		switch(args.length){
+			case 1:
+				return new ArrayList<>(times.keySet());
+			case 2:
+				return LocationUtil.getAllWorldNames();
+			default:
+				return Collections.emptyList();
+		}
 	}
 	
 	@Override
-	protected List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
+	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
 		switch(args.length){
-			case 0:
 			case 1:
 				return new ArrayList<>(times.keySet());
 			case 2:

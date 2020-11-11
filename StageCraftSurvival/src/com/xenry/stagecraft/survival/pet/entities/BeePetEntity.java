@@ -1,10 +1,10 @@
 package com.xenry.stagecraft.survival.pet.entities;
-import net.minecraft.server.v1_16_R2.EntityBee;
-import net.minecraft.server.v1_16_R2.EntityTypes;
-import net.minecraft.server.v1_16_R2.PathfinderGoalSelector;
-import net.minecraft.server.v1_16_R2.World;
+import net.minecraft.server.v1_16_R3.EntityBee;
+import net.minecraft.server.v1_16_R3.EntityTypes;
+import net.minecraft.server.v1_16_R3.PathfinderGoalSelector;
+import net.minecraft.server.v1_16_R3.World;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_16_R2.CraftWorld;
+import org.bukkit.craftbukkit.v1_16_R3.CraftWorld;
 
 import java.util.Map;
 import java.util.Set;

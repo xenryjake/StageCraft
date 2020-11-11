@@ -6,15 +6,15 @@ import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
 import com.xenry.stagecraft.util.LocationUtil;
 import com.xenry.stagecraft.util.M;
-import com.xenry.stagecraft.util.Mobs;
+import com.xenry.stagecraft.util.entity.Entities;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.CreatureSpawner;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -60,7 +60,7 @@ public final class SpawnerCommand extends Command<Survival,GameplayManager> {
 		}
 		
 		
-		Mobs mob = Mobs.fromName(args[0]);
+		Entities mob = Entities.getMob(args[0]);
 		if(mob == null){
 			sender.sendMessage(M.error("Invalid mob: " + args[0]));
 			return;
@@ -84,16 +84,12 @@ public final class SpawnerCommand extends Command<Survival,GameplayManager> {
 	}
 	
 	@Override
-	protected List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		List<String> mobs = new ArrayList<>();
-		for(Mobs mob : Mobs.values()){
-			mobs.add(mob.name().replaceAll(" ", ""));
-		}
-		return mobs;
+	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
+		return args.length == 1 ? Entities.getAllMobIdentifiers() : Collections.emptyList();
 	}
 	
 	@Override
-	protected List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
+	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
 		return Collections.emptyList();
 	}
 	

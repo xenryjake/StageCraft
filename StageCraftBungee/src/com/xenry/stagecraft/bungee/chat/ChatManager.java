@@ -58,26 +58,32 @@ public final class ChatManager extends Manager {
 		return staffChatPMSC;
 	}
 	
-	@EventHandler
+	/*@EventHandler
 	public void onLogin(PostLoginEvent event){
-		plugin.getProxy().broadcast(TextComponent.fromLegacyText("§a +§7 " + event.getPlayer().getName()));
-	}
+		//plugin.getProxy().broadcast(TextComponent.fromLegacyText("§a +§7 " + event.getPlayer().getName());
+	}*/
 	
 	@EventHandler
 	public void onLeave(PlayerDisconnectEvent event){
-		plugin.getProxy().broadcast(TextComponent.fromLegacyText("§c -§7 " + event.getPlayer().getName()));
+		if(event.getPlayer().getServer() != null){
+			plugin.getProxy().broadcast(TextComponent.fromLegacyText("§c -§7 " + event.getPlayer().getName()));
+		}
 	}
 	
 	@EventHandler
 	public void onSwitch(ServerSwitchEvent event){
 		ServerInfo from = event.getFrom();
-		if(from == null){
-			return;
-		}
 		final ProxiedPlayer player = event.getPlayer();
-		plugin.getProxy().getScheduler().schedule(plugin, () -> plugin.getProxy().broadcast(
-				TextComponent.fromLegacyText("§9 »§7 " + event.getPlayer().getName() + " §9→ "
-						+ player.getServer().getInfo().getName())), 50, TimeUnit.MILLISECONDS);
+		BaseComponent[] message;
+		if(from == null){
+			message = TextComponent.fromLegacyText("§a +§7 " + event.getPlayer().getName() + " §9("
+					+ player.getServer().getInfo().getName() + ")");
+		}else{
+			message = TextComponent.fromLegacyText("§9 »§7 " + event.getPlayer().getName() + " §9→ "
+					+ player.getServer().getInfo().getName());
+		}
+		plugin.getProxy().getScheduler().schedule(plugin, () -> plugin.getProxy().broadcast(message), 50,
+				TimeUnit.MILLISECONDS);
 	}
 	
 	public void handlePrivateMessage(ProxiedPlayer sender, String targetName, BaseComponent[] message){
@@ -106,8 +112,10 @@ public final class ChatManager extends Manager {
 		String senderName = sender.getName();
 		String targetName = target.getName();
 		Log.info("[PM] " + senderName + " to " + targetName + ": " + TextComponent.toPlainText(message));
-		sender.sendMessage(new ComponentBuilder("You » " + targetName + ": ").color(ChatColor.AQUA).append(message).create());
-		target.sendMessage(new ComponentBuilder(senderName + " » You: ").color(ChatColor.AQUA).append(message).create());
+		sender.sendMessage(new ComponentBuilder("You » " + targetName + ": ")
+				.color(ChatColor.AQUA).append(message).create());
+		target.sendMessage(new ComponentBuilder(senderName + " » You: ")
+				.color(ChatColor.AQUA).append(message).create());
 		
 		long timeout = System.currentTimeMillis() + 3600000;
 		conversations.put(senderName, new ConversationEntry(targetName, timeout));

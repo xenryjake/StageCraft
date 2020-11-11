@@ -5,6 +5,10 @@ import com.xenry.stagecraft.profile.Rank;
 import com.xenry.stagecraft.survival.Survival;
 import com.xenry.stagecraft.util.M;
 import org.bukkit.command.CommandSender;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
  * StageCraft created by Henry Blasingame (Xenry) on 9/11/20
@@ -61,6 +65,16 @@ public final class DiamondsCommand extends Command<Survival,EconomyManager> {
 				profile.sendMessage(M.msg + "You didn't have room for " + n + " of the diamonds.");
 			}
 		}
+	}
+	
+	@Override
+	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
+		return Collections.emptyList();
+	}
+	
+	@Override
+	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
+		return Collections.emptyList();
 	}
 	
 }

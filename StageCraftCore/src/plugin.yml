@@ -43,9 +43,20 @@ commands:
     aliases: [who,online,ls]
   find:
     description: "Locate a player on the network"
-    aliases: [locate,whereis]
+    aliases: [whereis]
   send:
     description: "Send a player to another server"
+  creative:
+    description: "Go to creative"
+    aliases: [cr]
+  survival:
+    description: "Go to survival"
+    aliases: [sv]
+  skyblock:
+    description: "Go to skyblock"
+    aliases: [sb]
+  evacuate:
+    description: "Evacuate"
 
   # PROFILE COMMANDS
   lookup:
