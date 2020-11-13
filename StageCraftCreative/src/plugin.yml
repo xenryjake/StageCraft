@@ -1,5 +1,5 @@
 name: StageCraftCreative
-version: 2020.10.10.1
+version: beta-2020.11.13a
 api-version: "1.16"
 author: Xenry
 main: com.xenry.stagecraft.creative.Creative

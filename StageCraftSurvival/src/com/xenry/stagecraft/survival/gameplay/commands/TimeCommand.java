@@ -76,7 +76,6 @@ public final class TimeCommand extends Command<Survival,GameplayManager> {
 			profile.sendMessage(M.error("Invalid time: " + argList.get(0)));
 			return;
 		}
-		argList.remove(0);
 		
 		World world = profile.getPlayer().getWorld();
 		if(argList.size() > 1){
@@ -116,7 +115,6 @@ public final class TimeCommand extends Command<Survival,GameplayManager> {
 			sender.sendMessage(M.error("Invalid time: " + argList.get(0)));
 			return;
 		}
-		argList.remove(0);
 		
 		World world = Bukkit.getWorld(argList.get(1));
 		if(world == null){

@@ -27,7 +27,7 @@ import java.util.List;
 public final class ItemNameCommand extends Command<Creative,GameplayManager> {
 	
 	public ItemNameCommand(GameplayManager manager) {
-		super(manager, Rank.DONOR, "itemname", "iname");
+		super(manager, Rank.PREMIUM, "itemname", "iname");
 		setCanBeDisabled(true);
 	}
 	

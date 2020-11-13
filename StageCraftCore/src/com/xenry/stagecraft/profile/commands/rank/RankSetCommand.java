@@ -4,6 +4,7 @@ import com.xenry.stagecraft.commands.Access;
 import com.xenry.stagecraft.commands.Command;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.ProfileManager;
+import com.xenry.stagecraft.profile.ProfileRankChangeEvent;
 import com.xenry.stagecraft.profile.Rank;
 import com.xenry.stagecraft.util.Log;
 import com.xenry.stagecraft.util.M;
@@ -60,6 +61,7 @@ public final class RankSetCommand extends Command<Core,ProfileManager> {
 			sender.sendMessage(M.error(args[1].toUpperCase() + " is not a valid rank."));
 			return;
 		}
+		Rank oldRank = target.getRank();
 		target.setRank(rank);
 		sender.sendMessage(M.msg + "You have set " + M.elm + target.getLatestUsername() + M.msg + "'s rank to " + rank.getColoredName() + M.msg + ".");
 		if(target.isOnline() && !sender.getName().equals(target.getOnlinePlayerName())) {
@@ -68,8 +70,10 @@ public final class RankSetCommand extends Command<Core,ProfileManager> {
 		manager.save(target);
 		target.updateDisplayName();
 		
-		String senderName = sender instanceof Player ? sender.getName() : M.CONSOLE_NAME;
+		ProfileRankChangeEvent event = new ProfileRankChangeEvent(target, oldRank, rank);
+		manager.plugin.getServer().getPluginManager().callEvent(event);
 		
+		String senderName = sender instanceof Player ? sender.getName() : M.CONSOLE_NAME;
 		String rankUpdateMessage = M.elm + senderName + M.msg + " set " + M.elm + target.getLatestUsername() + M.msg + "'s rank to " + rank.getColoredName() + M.msg + ".";
 		Log.toCS(rankUpdateMessage);
 		for(Player player : Bukkit.getOnlinePlayers()){

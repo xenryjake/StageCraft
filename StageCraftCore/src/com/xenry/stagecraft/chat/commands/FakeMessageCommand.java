@@ -6,6 +6,7 @@ import com.xenry.stagecraft.chat.emotes.Emote;
 import com.xenry.stagecraft.commands.Command;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
+import com.xenry.stagecraft.util.Log;
 import com.xenry.stagecraft.util.M;
 import com.xenry.stagecraft.util.PlayerUtil;
 import net.md_5.bungee.api.ChatColor;
@@ -59,6 +60,7 @@ public final class FakeMessageCommand extends Command<Core,ChatManager> {
 					return;
 				}
 			}
+			Log.toCS(message);
 			manager.getBroadcastPMSC().send(pluginMessageSender, TextComponent.fromLegacyText(message, ChatColor.WHITE));
 		}
 	}

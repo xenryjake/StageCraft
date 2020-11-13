@@ -25,7 +25,7 @@ import java.util.List;
 public final class TopCommand extends Command<Creative,TeleportationManager> {
 	
 	public TopCommand(TeleportationManager manager){
-		super(manager, Rank.DONOR, "top");
+		super(manager, Rank.PREMIUM, "top");
 		setCanBeDisabled(true);
 	}
 	

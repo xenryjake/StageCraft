@@ -30,7 +30,7 @@ public final class LightningCommand extends Command<Creative,GameplayManager> {
 	private final Cooldown cooldown;
 	
 	public LightningCommand(GameplayManager manager){
-		super(manager, Rank.DONOR, "lightning", "strike", "smite");
+		super(manager, Rank.PREMIUM, "lightning", "strike", "smite");
 		setCanBeDisabled(true);
 		cooldown = new Cooldown(2000, M.error("Please wait %t% to strike lightning again."));
 	}

@@ -30,10 +30,10 @@ import java.util.List;
  */
 public final class BookCommand extends Command<Creative,GameplayManager> {
 	
-	public static final Access CHANGE_AUTHOR = Rank.DONOR;
-	public static final Access CHANGE_TITLE = Rank.DONOR;
+	public static final Access CHANGE_AUTHOR = Rank.PREMIUM;
+	public static final Access CHANGE_TITLE = Rank.PREMIUM;
 	public static final Access EDIT_OTHER = Rank.MEMBER;
-	public static final Access USE_COLORS = Rank.DONOR;
+	public static final Access USE_COLORS = Rank.PREMIUM;
 	
 	public BookCommand(GameplayManager manager){
 		super(manager, Rank.MEMBER, "book");

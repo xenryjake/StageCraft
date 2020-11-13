@@ -2,7 +2,6 @@ package com.xenry.stagecraft.creative.gameplay;
 import com.destroystokyo.paper.event.entity.ThrownEggHatchEvent;
 import com.xenry.stagecraft.Handler;
 import com.xenry.stagecraft.creative.Creative;
-import com.xenry.stagecraft.util.Log;
 import com.xenry.stagecraft.util.entity.Entities;
 import com.xenry.stagecraft.util.entity.EntityUtil;
 import org.bukkit.Chunk;

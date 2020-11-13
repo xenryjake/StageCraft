@@ -20,12 +20,10 @@ import java.util.List;
 public enum Rank implements Access {
 	
 	MEMBER("Member", ChatColor.GRAY, 0),
-	DONOR("Donor", ChatColor.AQUA, 10, MEMBER),
-	PREMIUM("Premium", ChatColor.LIGHT_PURPLE, 20, DONOR, MEMBER),
+	PREMIUM("Premium", ChatColor.AQUA, 10, MEMBER),
 	MOD("Mod", ChatColor.RED, 50, MEMBER),
-	DONOR_MOD("Donor_Mod", ChatColor.RED, 50, MOD, DONOR, MEMBER),
-	PREMIUM_MOD("Premium_Mod", ChatColor.RED, 50, MOD, PREMIUM, DONOR, MEMBER),
-	ADMIN("Admin", ChatColor.DARK_RED, 100, MOD, PREMIUM, DONOR, MEMBER);
+	PREMIUM_MOD("Premium_Mod", ChatColor.RED, 50, MOD, PREMIUM, MEMBER),
+	ADMIN("Admin", ChatColor.DARK_RED, 100, PREMIUM_MOD, MOD, PREMIUM, MEMBER);
 	
 	private final String name;
 	private final ChatColor color;

@@ -5,6 +5,9 @@ import com.xenry.stagecraft.Manager;
 import com.xenry.stagecraft.Core;
 import com.xenry.stagecraft.profile.commands.*;
 import com.xenry.stagecraft.profile.commands.rank.RankCommand;
+import com.xenry.stagecraft.profile.permissions.PermissionHandler;
+import com.xenry.stagecraft.profile.permissions.commands.PermTestCommand;
+import com.xenry.stagecraft.profile.permissions.commands.PermissionCommand;
 import com.xenry.stagecraft.punishment.Punishment;
 import com.xenry.stagecraft.util.Log;
 import com.xenry.stagecraft.util.M;
@@ -35,6 +38,8 @@ public final class ProfileManager extends Manager<Core> {
 	private final DBCollection collection;
 	private final HashMap<String,Profile> profiles;
 	
+	private PermissionHandler permissionsHandler;
+	
 	private ProfileRankUpdatePMSC profileRankUpdatePMSC;
 	
 	public ProfileManager(Core plugin){
@@ -48,6 +53,11 @@ public final class ProfileManager extends Manager<Core> {
 	
 	@Override
 	protected void onEnable() {
+		permissionsHandler = new PermissionHandler(this);
+		registerListener(permissionsHandler);
+		registerCommand(new PermissionCommand(this));
+		registerCommand(new PermTestCommand(this));
+		
 		plugin.getPluginMessageManager().registerSubChannel(new PlayerWillSwitchPMSC(this));
 		profileRankUpdatePMSC = new ProfileRankUpdatePMSC(this);
 		plugin.getPluginMessageManager().registerSubChannel(profileRankUpdatePMSC);
@@ -66,6 +76,10 @@ public final class ProfileManager extends Manager<Core> {
 	@Override
 	protected void onDisable() {
 		saveAllSync();
+	}
+	
+	public PermissionHandler getPermissionsHandler() {
+		return permissionsHandler;
 	}
 	
 	public ProfileRankUpdatePMSC getProfileRankUpdatePMSC() {

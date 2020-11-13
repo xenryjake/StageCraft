@@ -1,9 +1,9 @@
-package com.xenry.stagecraft.server.commands;
+package com.xenry.stagecraft.profile.permissions.commands;
 import com.xenry.stagecraft.Core;
 import com.xenry.stagecraft.commands.Command;
 import com.xenry.stagecraft.profile.Profile;
+import com.xenry.stagecraft.profile.ProfileManager;
 import com.xenry.stagecraft.profile.Rank;
-import com.xenry.stagecraft.server.ServerManager;
 import com.xenry.stagecraft.util.M;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
@@ -12,29 +12,33 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * StageCraft created by Henry Blasingame (Xenry) on 11/11/20
+ * StageCraft created by Henry Blasingame (Xenry) on 11/13/20
  * The content in this file and all related files are
  * Copyright (C) 2020 Henry Blasingame.
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public final class EvacuateCommand extends Command<Core,ServerManager> {
+public final class PermTestCommand extends Command<Core,ProfileManager> {
 	
-	public EvacuateCommand(ServerManager manager) {
-		super(manager, Rank.MEMBER, "evacuate");
-	}
-	
-	@Override
-	protected void serverPerform(CommandSender sender, String[] args, String label) {
-		onlyForPlayers(sender);
+	public PermTestCommand(ProfileManager manager) {
+		super(manager, Rank.MEMBER, "permtest");
+		setCanBeDisabled(true);
+		setDisabled(true); // disabled by default
 	}
 	
 	@Override
 	protected void playerPerform(Profile profile, String[] args, String label) {
-		profile.sendMessage(M.msg + "Evacuating...");
-		manager.plugin.getProfileManager().save(profile);
-		manager.plugin.getServer().getScheduler().runTaskLater(manager.plugin,
-				() -> manager.getEvacuatePlayerPMSC().send(profile.getPlayer()), 20L);
+		serverPerform(profile.getPlayer(), args, label);
+	}
+	
+	@Override
+	protected void serverPerform(CommandSender sender, String[] args, String label) {
+		if(args.length < 1){
+			sender.sendMessage(M.usage("/permtest <perm>"));
+			return;
+		}
+		boolean value = sender.hasPermission(args[0]);
+		sender.sendMessage(M.WHITE + args[0] + M.DGRAY + ": " + (value ? "§atrue" : "§cfalse"));
 	}
 	
 	@Override

@@ -1,5 +1,5 @@
 name: StageCraftCore
-version: 2020.10.10.1
+version: beta-2020.11.13a
 api-version: "1.16"
 author: Xenry
 main: com.xenry.stagecraft.Core
@@ -75,6 +75,9 @@ commands:
     aliases: [myprofile]
   profilelist:
     description: "View the list of all profiles"
+  permission:
+    description: "Manage permissions"
+    aliases: [permissions,perm,perms,permtest]
 
 # HOLOGRAM COMMANDS
   hologram:

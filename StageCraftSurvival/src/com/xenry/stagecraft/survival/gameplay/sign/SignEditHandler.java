@@ -36,7 +36,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
  */
 public final class SignEditHandler extends Handler<Survival,GameplayManager> {
 	
-	public static final Access COLOR_SIGNS = Rank.DONOR;
+	public static final Access COLOR_SIGNS = Rank.PREMIUM;
 	
 	public SignEditHandler(GameplayManager manager){
 		super(manager);

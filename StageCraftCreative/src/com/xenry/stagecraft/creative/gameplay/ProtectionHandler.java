@@ -1,16 +1,9 @@
 package com.xenry.stagecraft.creative.gameplay;
 import com.xenry.stagecraft.Handler;
 import com.xenry.stagecraft.creative.Creative;
-import org.bukkit.Chunk;
-import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.block.Beacon;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockState;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockExplodeEvent;
-import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 
 /**
