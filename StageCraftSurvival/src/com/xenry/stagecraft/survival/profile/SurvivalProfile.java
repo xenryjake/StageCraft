@@ -45,37 +45,40 @@ public class SurvivalProfile extends GenericProfile {
 	}
 	
 	public LocationVector getLastLocationVector(){
-		double x, y, z;
-		float yaw, pitch;
 		Object objX = get("lastLocationX");
 		Object objY = get("lastLocationY");
 		Object objZ = get("lastLocationZ");
 		Object objYaw = get("lastLocationYaw");
 		Object objPitch = get("lastLocationPitch");
+		double x;
 		if(objX instanceof Double){
 			x = (Double)objX;
 		}else{
 			put("lastLocationX", 0);
 			x = 0;
 		}
+		double y;
 		if(objY instanceof Double){
 			y = (Double)objY;
 		}else{
 			put("lastLocationY", 0);
 			y = 0;
 		}
+		double z;
 		if(objZ instanceof Double){
 			z = (Double)objZ;
 		}else{
 			put("lastLocationZ", 0);
 			z = 0;
 		}
+		float yaw;
 		if(objYaw instanceof Float){
 			yaw = (Float)objYaw;
 		}else{
 			put("lastLocationYaw", 0);
 			yaw = 0;
 		}
+		float pitch;
 		if(objPitch instanceof Float){
 			pitch = (Float)objPitch;
 		}else{

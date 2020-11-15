@@ -20,7 +20,7 @@ import java.util.List;
 public final class CartographyTableCommand extends Command<Survival,GameplayManager> {
 	
 	public CartographyTableCommand(GameplayManager manager){
-		super(manager, Rank.MEMBER, "cartographytable", "carttable", "cartography", "cart");
+		super(manager, Rank.PREMIUM, "cartographytable", "carttable", "cartography", "cart");
 		setCanBeDisabled(true);
 	}
 	

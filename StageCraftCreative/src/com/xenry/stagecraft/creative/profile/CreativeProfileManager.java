@@ -178,6 +178,7 @@ public final class CreativeProfileManager extends Manager<Creative> {
 			perms.set("griefprevention.claimslistother", true);
 			perms.set("griefprevention.seeclaimsize", true);
 			perms.set("griefprevention.seeinactivity", true);
+			perms.set("griefprevention.deleteclaims", true);
 			plugin.getCore().getProfileManager().getPermissionsHandler().registerPermissionSet(perms);
 		}
 	}

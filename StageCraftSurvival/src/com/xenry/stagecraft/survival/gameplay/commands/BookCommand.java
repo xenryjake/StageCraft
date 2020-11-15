@@ -36,7 +36,7 @@ public final class BookCommand extends Command<Survival,GameplayManager> {
 	public static final Access USE_COLORS = Rank.ADMIN;
 	
 	public BookCommand(GameplayManager manager){
-		super(manager, Rank.ADMIN, "book");
+		super(manager, Rank.PREMIUM, "book");
 		setCanBeDisabled(true);
 	}
 	

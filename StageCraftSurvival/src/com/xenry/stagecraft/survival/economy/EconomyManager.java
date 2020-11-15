@@ -108,12 +108,12 @@ public final class EconomyManager extends Manager<Survival> {
 		if(amount < 0){
 			throw new IllegalArgumentException("amount must not be negative");
 		}
-		int stacks = (amount+63)/64;
 		int lastStackSize = amount % 64;
 		if(lastStackSize == 0){
 			lastStackSize = 64;
 		}
 		int remaining = amount;
+		int stacks = (amount + 63) / 64;
 		for(int i = 0; i < stacks; i++){
 			int n = i == stacks - 1 ? lastStackSize : 64;
 			if(!PlayerUtil.hasSpaceForItemStack(player, new ItemStack(Material.DIAMOND, n))){

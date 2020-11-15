@@ -1,6 +1,7 @@
 package com.xenry.stagecraft.bungee;
 import com.xenry.stagecraft.bungee.chat.ChatManager;
 import com.xenry.stagecraft.bungee.mongo.MongoManager;
+import com.xenry.stagecraft.bungee.player.PlayerManager;
 import com.xenry.stagecraft.bungee.pluginmessage.PluginMessageManager;
 import com.xenry.stagecraft.bungee.proxy.ProxyManager;
 import com.xenry.stagecraft.bungee.util.Log;
@@ -31,6 +32,7 @@ public final class Bungee extends Plugin {
 	private PluginMessageManager pluginMessageManager;
 	private MongoManager mongoManager;
 	private ProxyManager proxyManager;
+	private PlayerManager playerManager;
 	private ChatManager chatManager;
 	
 	public Bungee(){
@@ -51,6 +53,7 @@ public final class Bungee extends Plugin {
 			pluginMessageManager = loadManager(PluginMessageManager.class);
 			mongoManager = loadManager(MongoManager.class);
 			proxyManager = loadManager(ProxyManager.class);
+			playerManager = loadManager(PlayerManager.class);
 			chatManager = loadManager(ChatManager.class);
 		}catch(Exception ex){
 			ex.printStackTrace();
@@ -200,6 +203,10 @@ public final class Bungee extends Plugin {
 	
 	public ProxyManager getProxyManager() {
 		return proxyManager;
+	}
+	
+	public PlayerManager getPlayerManager() {
+		return playerManager;
 	}
 	
 	public ChatManager getChatManager() {

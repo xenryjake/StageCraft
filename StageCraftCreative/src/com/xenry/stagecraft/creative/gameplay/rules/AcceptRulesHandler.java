@@ -1,9 +1,9 @@
-package com.xenry.stagecraft.survival.gameplay.rules;
+package com.xenry.stagecraft.creative.gameplay.rules;
 import com.xenry.stagecraft.Handler;
-import com.xenry.stagecraft.survival.Survival;
-import com.xenry.stagecraft.survival.profile.SurvivalProfile;
+import com.xenry.stagecraft.creative.Creative;
+import com.xenry.stagecraft.creative.gameplay.GameplayManager;
+import com.xenry.stagecraft.creative.profile.CreativeProfile;
 import com.xenry.stagecraft.util.Cooldown;
-import com.xenry.stagecraft.survival.gameplay.GameplayManager;
 import com.xenry.stagecraft.util.M;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -20,7 +20,7 @@ import org.bukkit.event.hanging.HangingPlaceEvent;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public final class AcceptRulesHandler extends Handler<Survival,GameplayManager> {
+public final class AcceptRulesHandler extends Handler<Creative,GameplayManager> {
 	
 	private final Cooldown cooldown;
 	
@@ -31,7 +31,7 @@ public final class AcceptRulesHandler extends Handler<Survival,GameplayManager> 
 	
 	@EventHandler(ignoreCancelled = true)
 	public void onBreak(BlockBreakEvent event){
-		SurvivalProfile profile = manager.plugin.getSurvivalProfileManager().getProfile(event.getPlayer());
+		CreativeProfile profile = manager.plugin.getCreativeProfileManager().getProfile(event.getPlayer());
 		if(profile != null && !profile.hasAcceptedRules()){
 			sendAcceptRulesMessage(event.getPlayer());
 			event.setCancelled(true);
@@ -40,7 +40,7 @@ public final class AcceptRulesHandler extends Handler<Survival,GameplayManager> 
 	
 	@EventHandler(ignoreCancelled = true)
 	public void onPlace(BlockPlaceEvent event){
-		SurvivalProfile profile = manager.plugin.getSurvivalProfileManager().getProfile(event.getPlayer());
+		CreativeProfile profile = manager.plugin.getCreativeProfileManager().getProfile(event.getPlayer());
 		if(profile != null && !profile.hasAcceptedRules()){
 			sendAcceptRulesMessage(event.getPlayer());
 			event.setCancelled(true);
@@ -53,7 +53,7 @@ public final class AcceptRulesHandler extends Handler<Survival,GameplayManager> 
 		if(player == null){
 			return;
 		}
-		SurvivalProfile profile = manager.plugin.getSurvivalProfileManager().getProfile(player);
+		CreativeProfile profile = manager.plugin.getCreativeProfileManager().getProfile(player);
 		if(profile != null && !profile.hasAcceptedRules()){
 			sendAcceptRulesMessage(player);
 			event.setCancelled(true);
@@ -67,7 +67,7 @@ public final class AcceptRulesHandler extends Handler<Survival,GameplayManager> 
 			return;
 		}
 		Player player = (Player)entity;
-		SurvivalProfile profile = manager.plugin.getSurvivalProfileManager().getProfile(player);
+		CreativeProfile profile = manager.plugin.getCreativeProfileManager().getProfile(player);
 		if(profile != null && !profile.hasAcceptedRules()){
 			sendAcceptRulesMessage(player);
 			event.setCancelled(true);
@@ -79,7 +79,7 @@ public final class AcceptRulesHandler extends Handler<Survival,GameplayManager> 
 			return;
 		}
 		player.sendMessage(M.elm + M.BOLD + "You must accept the rules before playing.");
-		player.sendMessage(M.msg + "View the §a§lStage§9§lCraft" + M.msg + " server rules at " + M.elm + "town hall" + M.msg + " or at " + M.elm + M.BOLD + "http://mc.xenry.com/rules");
+		player.sendMessage(M.msg + "View the §a§lStage§9§lCraft" + M.msg + " server rules at " + M.elm + "spawn" + M.msg + " or at " + M.elm + M.BOLD + "http://mc.xenry.com/rules");
 	}
 	
 }

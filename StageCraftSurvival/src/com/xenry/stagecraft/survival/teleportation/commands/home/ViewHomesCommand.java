@@ -58,7 +58,6 @@ public final class ViewHomesCommand extends Command<Survival,TeleportationManage
 	}
 	
 	private void listHomes(CommandSender sender, Profile profile, String[] args){
-		final int HOMES_PER_PAGE = 10;
 		List<Home> homes = manager.getHomeHandler().getHomes(profile);
 		if(homes.isEmpty()){
 			sender.sendMessage(M.error(M.elm + profile.getLatestUsername() + M.err + " has no homes set."));
@@ -74,6 +73,7 @@ public final class ViewHomesCommand extends Command<Survival,TeleportationManage
 			}
 		}
 		
+		final int HOMES_PER_PAGE = 10;
 		int maxPages = (int) Math.ceil(homes.size() / (double)HOMES_PER_PAGE);
 		if(page > maxPages){
 			page = maxPages;

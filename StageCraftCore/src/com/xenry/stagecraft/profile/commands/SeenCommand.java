@@ -64,12 +64,17 @@ public final class SeenCommand extends Command<Core,ProfileManager> {
 			return;
 		}
 		boolean online = target.isOnline();
-		//todo include both network-wide and per-server
-		sender.sendMessage(M.elm + target.getLatestUsername() + M.msg + " has been " + (online ? "§aonline" : "§coffline") + M.msg + " for " + M.elm + (online ? TimeUtil.simplerString(target.getSecondsSinceLastLogin(manager.plugin.getServerName())) : TimeUtil.simplerString(target.getSecondsSinceLastLogout(manager.plugin.getServerName()))));
-		/*if(detailedViewAccess && !online){
-			Vector3D lastLocation = target.getLastLocation();
-			sender.sendMessage(M.arrow("Last location: " + M.WHITE + "(" + lastLocation.x + "," + lastLocation.y + "," + lastLocation.z + ") [" + target.getLastLocationWorldName() + "]"));
-		}*/ //todo move to survival or something??
+		long time = online ? target.getSecondsSinceLastLogin(manager.plugin.getServerName()) : target.getSecondsSinceLastLogout(manager.plugin.getServerName());
+		if(time <= 0){
+			sender.sendMessage(M.elm + target.getLatestUsername() + M.msg + " has never been on " + M.elm + manager.plugin.getServerName() + M.msg + ".");
+		}else{
+			//todo include both network-wide and per-server
+			sender.sendMessage(M.elm + target.getLatestUsername() + M.msg + " has been " + (online ? "§aonline" : "§coffline") + M.msg + " for " + M.elm + TimeUtil.simplerString(time));
+			/*if(detailedViewAccess && !online){
+				Vector3D lastLocation = target.getLastLocation();
+				sender.sendMessage(M.arrow("Last location: " + M.WHITE + "(" + lastLocation.x + "," + lastLocation.y + "," + lastLocation.z + ") [" + target.getLastLocationWorldName() + "]"));
+			}*/ //todo move to survival or something??
+		}
 		if(sensitiveViewAccess){
 			sender.sendMessage(M.arrow("Latest address: " + M.WHITE + target.getLatestAddress()));
 		}

@@ -9,9 +9,18 @@ import org.bukkit.Material;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockDispenseEvent;
-import org.bukkit.event.entity.CreatureSpawnEvent;
-import org.bukkit.event.entity.EntitySpawnEvent;
-import org.bukkit.event.vehicle.VehicleCreateEvent;
+import org.bukkit.event.entity.*;
+import org.bukkit.event.hanging.HangingBreakEvent;
+import org.bukkit.event.hanging.HangingPlaceEvent;
+import org.bukkit.event.raid.RaidTriggerEvent;
+import org.bukkit.event.vehicle.*;
+import org.bukkit.event.weather.LightningStrikeEvent;
+import org.bukkit.event.world.StructureGrowEvent;
+import org.bukkit.potion.PotionEffectType;
+import org.spigotmc.event.entity.EntityMountEvent;
+
+import java.util.Collections;
+import java.util.List;
 
 import static com.xenry.stagecraft.util.entity.Entities.Category.*;
 
@@ -23,6 +32,8 @@ import static com.xenry.stagecraft.util.entity.Entities.Category.*;
  * is prohibited.
  */
 public final class EntityHandler extends Handler<Creative,GameplayManager> {
+	
+	public static final List<PotionEffectType> bannedPotionTypes = Collections.singletonList(PotionEffectType.INVISIBILITY);
 	
 	public EntityHandler(GameplayManager manager){
 		super(manager);
@@ -89,6 +100,10 @@ public final class EntityHandler extends Handler<Creative,GameplayManager> {
 	
 	@EventHandler(ignoreCancelled = true)
 	public void on(EntitySpawnEvent event){
+		if(manager.isLockoutMode() && event.getEntityType() != EntityType.PLAYER){
+			event.setCancelled(true);
+			return;
+		}
 		Entity entity = event.getEntity();
 		Entities.Category category = Entities.get(entity).category;
 		Chunk chunk = entity.getChunk();
@@ -135,8 +150,8 @@ public final class EntityHandler extends Handler<Creative,GameplayManager> {
 				event.setCancelled(true);
 				return;
 			}
-		}else if(category.isMob()){ // cap 20 mobs per chunk (rt 120)
-			if(EntityUtil.countMobs(chunk) >= 20){
+		}else if(category.isMob()){ // cap 16 mobs per chunk (rt 116)
+			if(EntityUtil.countMobs(chunk) >= 16){
 				event.setCancelled(true);
 				return;
 			}
@@ -148,8 +163,12 @@ public final class EntityHandler extends Handler<Creative,GameplayManager> {
 		}
 	}
 	
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void on(VehicleCreateEvent event){
+		if(manager.isLockoutMode()){
+			event.setCancelled(true);
+			return;
+		}
 		Vehicle vehicle = event.getVehicle();
 		Chunk chunk = vehicle.getChunk();
 		
@@ -174,9 +193,281 @@ public final class EntityHandler extends Handler<Creative,GameplayManager> {
 		CANCEL, FILTER, SPAWN
 	}
 	
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void on(BlockDispenseEvent event){
+		if(manager.isLockoutMode()){
+			event.setCancelled(true);
+			return;
+		}
 		if(event.getBlock().getType() == Material.DISPENSER && event.getItem().getType().name().endsWith("SPAWN_EGG")){
+			event.setCancelled(true);
+		}
+	}
+	
+	@EventHandler(ignoreCancelled = true)
+	public void on(PlayerLeashEntityEvent event){
+		if(manager.isLockoutMode()){
+			event.setCancelled(true); //todo add to rules shit
+		}
+	}
+	
+	@EventHandler(ignoreCancelled = true)
+	public void on(HangingPlaceEvent event){
+		if(manager.isLockoutMode()){
+			event.setCancelled(true);
+		}
+	}
+	
+	@EventHandler(ignoreCancelled = true)
+	public void on(HangingBreakEvent event){
+		if(manager.isLockoutMode() || event.getCause() == HangingBreakEvent.RemoveCause.EXPLOSION){
+			event.setCancelled(true);
+		}
+	}
+	
+	@EventHandler(ignoreCancelled = true)
+	public void on(EntityPotionEffectEvent event){
+		if(manager.isLockoutMode() || event.getCause() == EntityPotionEffectEvent.Cause.PATROL_CAPTAIN){
+			event.setCancelled(true);
+			return;
+		}
+		Entity entity = event.getEntity();
+		if(entity instanceof Player && manager.isPlayerOverride((Player)entity)){
+			return;
+		}
+		if(bannedPotionTypes.contains(event.getModifiedType())){
+			event.setCancelled(true);
+		}
+	}
+	
+	/*@EventHandler(ignoreCancelled = true)
+	public void on(VehicleDamageEvent event){
+		if(manager.isLockoutMode()){
+			event.setCancelled(true);
+		}
+	}*/
+	
+	@EventHandler(ignoreCancelled = true)
+	public void on(VehicleDestroyEvent event){
+		if(manager.isLockoutMode()){
+			event.setCancelled(true); //todo add to rules shit
+		}
+	}
+	
+	@EventHandler(ignoreCancelled = true)
+	public void on(VehicleEnterEvent event){
+		if(manager.isLockoutMode()){
+			event.setCancelled(true);
+		}
+	}
+	
+	@EventHandler(ignoreCancelled = true)
+	public void on(VehicleExitEvent event){
+		if(manager.isLockoutMode() && !(event.getExited() instanceof Player)){ // let players exit only
+			event.setCancelled(true);
+		}
+	}
+	
+	@EventHandler(ignoreCancelled = true)
+	public void on(LightningStrikeEvent event){
+		if(manager.isLockoutMode()){
+			event.setCancelled(true);
+		}
+	}
+	
+	@EventHandler(ignoreCancelled = true)
+	public void on(RaidTriggerEvent event){
+		event.setCancelled(true);
+	}
+	
+	// trees growing from saplings, etc
+	@EventHandler(ignoreCancelled = true)
+	public void on(StructureGrowEvent event){
+		if(manager.isLockoutMode()){
+			event.setCancelled(true);
+		}
+	}
+	
+	@EventHandler(ignoreCancelled = true)
+	public void on(ArrowBodyCountChangeEvent event){
+		if(event.getNewAmount() > event.getOldAmount()){
+			event.setCancelled(true);
+		}
+	}
+	
+	@EventHandler(ignoreCancelled = true)
+	public void on(AreaEffectCloudApplyEvent event){
+		if(manager.isLockoutMode()){
+			event.setCancelled(true);
+		}
+	}
+	
+	@EventHandler(ignoreCancelled = true)
+	public void on(CreeperPowerEvent event){
+		if(manager.isLockoutMode() && event.getCause() == CreeperPowerEvent.PowerCause.LIGHTNING){
+			event.setCancelled(true);
+		}
+	}
+	
+	@EventHandler(ignoreCancelled = true)
+	public void on(EnderDragonChangePhaseEvent event){
+		if(manager.isLockoutMode()){
+			event.setCancelled(true);
+		}
+	}
+	
+	@EventHandler(ignoreCancelled = true)
+	public void on(EntityAirChangeEvent event){
+		if(manager.isLockoutMode()){
+			event.setCancelled(true);
+		}
+	}
+	
+	@EventHandler(ignoreCancelled = true)
+	public void on(EntityBreedEvent event){
+		if(manager.isLockoutMode()){
+			event.setCancelled(true);
+		}
+	}
+	
+	@EventHandler(ignoreCancelled = true)
+	public void on(EntityDamageEvent event){
+		if(manager.isLockoutMode()){
+			event.setCancelled(true);
+		}
+	}
+	
+	@EventHandler(ignoreCancelled = true)
+	public void on(SheepDyeWoolEvent event){
+		if(manager.isLockoutMode()){
+			event.setCancelled(true);
+		}
+	}
+	
+	@EventHandler(ignoreCancelled = true)
+	public void on(VillagerAcquireTradeEvent event){
+		if(manager.isLockoutMode()){
+			event.setCancelled(true);
+		}
+	}
+	
+	@EventHandler(ignoreCancelled = true)
+	public void on(VillagerCareerChangeEvent event){
+		if(manager.isLockoutMode()){
+			event.setCancelled(true);
+		}
+	}
+	
+	@EventHandler(ignoreCancelled = true)
+	public void on(VillagerReplenishTradeEvent event){
+		if(manager.isLockoutMode()){
+			event.setCancelled(true);
+		}
+	}
+	
+	@EventHandler(ignoreCancelled = true)
+	public void on(SlimeSplitEvent event){
+		if(manager.isLockoutMode()){
+			event.setCancelled(true);
+		}
+	}
+	
+	@EventHandler(ignoreCancelled = true)
+	public void on(SheepRegrowWoolEvent event){
+		if(manager.isLockoutMode()){
+			event.setCancelled(true);
+		}
+	}
+	
+	@EventHandler(ignoreCancelled = true)
+	public void on(PigZombieAngerEvent event){
+		if(manager.isLockoutMode()){
+			event.setCancelled(true);
+		}
+	}
+	
+	@EventHandler(ignoreCancelled = true)
+	public void on(FoodLevelChangeEvent event){
+		if(manager.isLockoutMode()){
+			event.setCancelled(true);
+		}
+	}
+	
+	@EventHandler(ignoreCancelled = true)
+	public void on(ExplosionPrimeEvent event){
+		if(manager.isLockoutMode()){
+			event.setCancelled(true);
+		}
+	}
+	
+	@EventHandler(ignoreCancelled = true)
+	public void on(FireworkExplodeEvent event){
+		if(manager.isLockoutMode()){
+			event.setCancelled(true);
+		}
+	}
+	
+	@EventHandler(ignoreCancelled = true)
+	public void on(EntityTransformEvent event){
+		if(manager.isLockoutMode()){
+			event.setCancelled(true);
+		}
+	}
+	
+	//non-players only
+	@EventHandler(ignoreCancelled = true)
+	public void on(EntityTeleportEvent event){
+		if(manager.isLockoutMode()){
+			event.setCancelled(true);
+		}
+	}
+	
+	@EventHandler(ignoreCancelled = true)
+	public void on(EntityTargetEvent event){
+		if(manager.isLockoutMode()){
+			event.setCancelled(true);
+		}
+	}
+	
+	@EventHandler(ignoreCancelled = true)
+	public void on(EntitySpellCastEvent event){
+		if(manager.isLockoutMode()){
+			event.setCancelled(true);
+		}
+	}
+	
+	@EventHandler(ignoreCancelled = true)
+	public void on(EntityShootBowEvent event){
+		if(manager.isLockoutMode()){
+			event.setCancelled(true);
+		}
+	}
+	
+	@EventHandler(ignoreCancelled = true)
+	public void on(EntityPickupItemEvent event){
+		if(manager.isLockoutMode()){
+			event.setCancelled(true);
+		}
+	}
+	
+	@EventHandler(ignoreCancelled = true)
+	public void on(EntityMountEvent event){
+		if(manager.isLockoutMode()){
+			event.setCancelled(true);
+		}
+	}
+	
+	@EventHandler(ignoreCancelled = true)
+	public void on(EntityEnterLoveModeEvent event){
+		if(manager.isLockoutMode()){
+			event.setCancelled(true);
+		}
+	}
+	
+	//bees entering hive
+	@EventHandler(ignoreCancelled = true)
+	public void on(EntityEnterBlockEvent event){
+		if(manager.isLockoutMode()){
 			event.setCancelled(true);
 		}
 	}

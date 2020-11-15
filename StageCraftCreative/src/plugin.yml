@@ -1,5 +1,5 @@
 name: StageCraftCreative
-version: beta-2020.11.13a
+version: beta-2020.11.15a
 api-version: "1.16"
 author: Xenry
 main: com.xenry.stagecraft.creative.Creative
@@ -11,6 +11,9 @@ commands:
   override:
     description: "Enable or disable override mode for a player"
     aliases: [ov]
+  rules:
+    description: "View and accept the rules"
+    aliases: [rule]
 
   # TELEPORTATION COMMANDS
   tp:
@@ -92,6 +95,8 @@ commands:
     aliases: [b,backo,bo]
   world:
     description: "Teleport to a world"
+  center:
+    description: "Center yourself on the block"
 
   # GAMEPLAY COMMANDS
   anvil:

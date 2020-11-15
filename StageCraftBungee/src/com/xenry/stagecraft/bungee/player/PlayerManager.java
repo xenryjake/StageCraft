@@ -19,31 +19,31 @@ import java.util.HashMap;
  */
 public final class PlayerManager extends Manager {
 	
-	private final HashMap<String,Player> players;
+	private final HashMap<String,PlayerState> playerStates;
 	
 	public PlayerManager(Bungee plugin){
 		super("Player", plugin);
-		players = new HashMap<>();
+		playerStates = new HashMap<>();
 	}
 	
 	@Nullable
-	public Player getPlayer(String uuid){
-		return players.getOrDefault(uuid, null);
+	public PlayerState getPlayerState(String uuid){
+		return playerStates.getOrDefault(uuid, null);
 	}
 	
 	@Nullable
-	public Player getPlayer(@NotNull ProxiedPlayer player){
-		return players.getOrDefault(player.getUniqueId().toString(), null);
+	public PlayerState getPlayerState(@NotNull ProxiedPlayer player){
+		return playerStates.getOrDefault(player.getUniqueId().toString(), null);
 	}
 	
 	@EventHandler
 	public void on(PostLoginEvent event){
-		players.put(event.getPlayer().getUniqueId().toString(), new Player(event.getPlayer()));
+		playerStates.put(event.getPlayer().getUniqueId().toString(), new PlayerState(event.getPlayer()));
 	}
 	
 	@EventHandler
 	public void on(PlayerDisconnectEvent event){
-		players.remove(event.getPlayer().getUniqueId().toString());
+		playerStates.remove(event.getPlayer().getUniqueId().toString());
 	}
 	
 }

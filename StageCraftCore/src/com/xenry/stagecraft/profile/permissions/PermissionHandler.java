@@ -111,6 +111,7 @@ public final class PermissionHandler extends Handler<Core,ProfileManager> {
 		if(attachment != null){
 			player.removeAttachment(attachment);
 		}
+		attachments.remove(player.getUniqueId().toString());
 	}
 	
 	@EventHandler

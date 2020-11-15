@@ -105,7 +105,6 @@ public final class GameModeCommand extends Command<Creative,GameplayManager> {
 			}
 		}
 		
-		GameMode gameMode;
 		if(args.length < 2){
 			sender.sendMessage(M.usage("/" + label + " <mode> <player>"));
 			return;
@@ -116,6 +115,7 @@ public final class GameModeCommand extends Command<Creative,GameplayManager> {
 			sender.sendMessage(M.playerNotFound(args[1]));
 			return;
 		}
+		GameMode gameMode;
 		if(args[0].toLowerCase().startsWith("a")){
 			gameMode = GameMode.ADVENTURE;
 		}else if(args[0].toLowerCase().startsWith("c")){

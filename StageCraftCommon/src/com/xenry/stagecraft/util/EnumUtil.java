@@ -10,6 +10,8 @@ import com.google.common.base.Joiner;
  */
 public final class EnumUtil {
 	
+	private EnumUtil(){}
+	
 	public static String generateName(Enum<?> object){
 		String[] split = object.name().split("[ _]+");
 		String[] words = new String[split.length];

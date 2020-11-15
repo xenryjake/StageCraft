@@ -124,12 +124,10 @@ public final class SpeedCommand extends Command<Survival,GameplayManager> {
 	
 	private float getRealSpeed(float speed, boolean fly) {
 		float defaultSpeed = fly ? 0.1f : 0.2f;
-		float maxSpeed = 1f;
-		
 		if (speed < 1f) {
 			return defaultSpeed * speed;
 		} else {
-			float ratio = ((speed - 1) / 9) * (maxSpeed - defaultSpeed);
+			float ratio = ((speed - 1) / 9) * (1f - defaultSpeed);
 			return ratio + defaultSpeed;
 		}
 	}

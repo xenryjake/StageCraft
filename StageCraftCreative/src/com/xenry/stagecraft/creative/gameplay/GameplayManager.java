@@ -5,6 +5,8 @@ import com.xenry.stagecraft.creative.gameplay.commands.*;
 import com.xenry.stagecraft.creative.gameplay.pvptoggle.PvPCommand;
 import com.xenry.stagecraft.creative.gameplay.pvptoggle.PvPHandler;
 import com.xenry.stagecraft.creative.gameplay.pvptoggle.PvPLockCommand;
+import com.xenry.stagecraft.creative.gameplay.rules.AcceptRulesHandler;
+import com.xenry.stagecraft.creative.gameplay.rules.RulesCommand;
 import com.xenry.stagecraft.creative.gameplay.sign.SignCommand;
 import com.xenry.stagecraft.creative.gameplay.sign.SignEditHandler;
 import com.xenry.stagecraft.util.Log;
@@ -33,6 +35,7 @@ public final class GameplayManager extends Manager<Creative> {
 	private final SignEditHandler signEditHandler;
 	private final ProtectionHandler protectionHandler;
 	private final EntityHandler entityHandler;
+	private final AcceptRulesHandler acceptRulesHandler;
 	
 	private boolean lockoutMode = false;
 	
@@ -44,6 +47,7 @@ public final class GameplayManager extends Manager<Creative> {
 		signEditHandler = new SignEditHandler(this);
 		protectionHandler = new ProtectionHandler(this);
 		entityHandler = new EntityHandler(this);
+		acceptRulesHandler = new AcceptRulesHandler(this);
 	}
 	
 	@Override
@@ -59,6 +63,9 @@ public final class GameplayManager extends Manager<Creative> {
 		
 		registerListener(protectionHandler);
 		registerListener(entityHandler);
+		
+		registerListener(acceptRulesHandler);
+		registerCommand(new RulesCommand(this));
 		
 		registerCommand(new LockoutCommand(this));
 		registerCommand(new OverrideCommand(this));

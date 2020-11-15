@@ -20,7 +20,7 @@ import java.util.List;
 public final class StonecutterCommand extends Command<Survival,GameplayManager> {
 	
 	public StonecutterCommand(GameplayManager manager){
-		super(manager, Rank.MEMBER, "stonecutter", "stonecut");
+		super(manager, Rank.PREMIUM, "stonecutter", "stonecut");
 		setCanBeDisabled(true);
 	}
 	

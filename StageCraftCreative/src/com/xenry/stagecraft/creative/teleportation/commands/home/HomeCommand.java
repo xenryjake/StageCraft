@@ -63,7 +63,6 @@ public final class HomeCommand extends Command<Creative,TeleportationManager> {
 	}
 	
 	private void listHomes(Profile profile, String[] args){
-		final int HOMES_PER_PAGE = WarpCommand.WARPS_PER_PAGE;
 		List<String> homes = manager.getHomeHandler().getHomeNameList(profile);
 		if(homes.isEmpty()){
 			profile.sendMessage(M.error("You have no homes set."));
@@ -79,6 +78,7 @@ public final class HomeCommand extends Command<Creative,TeleportationManager> {
 			}
 		}
 		
+		final int HOMES_PER_PAGE = WarpCommand.WARPS_PER_PAGE;
 		int maxPages = (int) Math.ceil(homes.size() / (double)HOMES_PER_PAGE);
 		if(page > maxPages){
 			page = maxPages;

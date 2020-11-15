@@ -5,7 +5,7 @@ import com.mongodb.DBCursor;
 import com.xenry.stagecraft.Manager;
 import com.xenry.stagecraft.skyblock.SkyBlock;
 import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.libs.jline.internal.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;

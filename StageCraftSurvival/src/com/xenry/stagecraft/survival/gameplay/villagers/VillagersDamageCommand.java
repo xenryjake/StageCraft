@@ -40,8 +40,8 @@ public final class VillagersDamageCommand extends Command<Survival,GameplayManag
 			profile.sendMessage(M.msg + "You currently have villager damage " + (status ? "§aenabled" : "§cdisabled") + M.msg + ".");
 			return;
 		}
-		boolean enable;
 		args[0] = args[0].toLowerCase();
+		boolean enable;
 		if(args[0].startsWith("e") || args[0].startsWith("on")){
 			enable = true;
 		}else if(args[0].startsWith("d") || args[0].startsWith("off")){

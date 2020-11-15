@@ -62,6 +62,7 @@ public final class TeleportationManager extends Manager<Survival> {
 		registerCommand(new TopCommand(this));
 		registerCommand(new TPOfflineCommand(this));
 		registerCommand(new WorldCommand(this));
+		registerCommand(new CenterCommand(this));
 		
 		registerCommand(new TPACommand(this)); //contains TPAHere command
 		registerCommand(new TPAAllCommand(this));

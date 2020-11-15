@@ -41,9 +41,9 @@ public final class EntityUtil {
 	}
 	
 	public static int countEntitiesExclude(Chunk chunk, Entities.Category...categories){
-		int i = 0;
 		List<Entities.Category> catList = new ArrayList<>(Arrays.asList(categories));
 		catList.add(PLAYER);
+		int i = 0;
 		for(Entity entity : chunk.getEntities()){
 			if(!catList.contains(Entities.get(entity).category)){
 				i++;

@@ -11,9 +11,10 @@ import org.bukkit.block.BlockState;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.block.*;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryInteractEvent;
+import org.bukkit.event.inventory.InventoryPickupItemEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.world.PortalCreateEvent;
@@ -33,12 +34,12 @@ import static org.bukkit.Material.*;
 public final class BlacklistHandler extends Handler<Creative,GameplayManager> {
 	
 	private static final List<Material> bannedMaterials = Arrays.asList(
-			BARRIER, COMMAND_BLOCK_MINECART, END_CRYSTAL, DEBUG_STICK/*,
+			BARRIER, COMMAND_BLOCK_MINECART, END_CRYSTAL, DEBUG_STICK, DRAGON_EGG/*,
 			COD_BUCKET, PUFFERFISH_BUCKET, SALMON_BUCKET, TROPICAL_FISH_BUCKET,
-			BAT_SPAWN_EGG, BEE_SPAWN_EGG, DRAGON_EGG, BLAZE_SPAWN_EGG, CAT_SPAWN_EGG, CAVE_SPIDER_SPAWN_EGG,
-			CHICKEN_SPAWN_EGG, COD_SPAWN_EGG, COW_SPAWN_EGG, CREEPER_SPAWN_EGG, DOLPHIN_SPAWN_EGG, DONKEY_SPAWN_EGG,
-			DROWNED_SPAWN_EGG, ELDER_GUARDIAN_SPAWN_EGG, ENDERMAN_SPAWN_EGG, ENDERMITE_SPAWN_EGG, EVOKER_SPAWN_EGG,
-			FOX_SPAWN_EGG, GHAST_SPAWN_EGG, GUARDIAN_SPAWN_EGG, HORSE_SPAWN_EGG, HUSK_SPAWN_EGG, LLAMA_SPAWN_EGG,
+			BAT_SPAWN_EGG, BEE_SPAWN_EGG, BLAZE_SPAWN_EGG, CAT_SPAWN_EGG, CAVE_SPIDER_SPAWN_EGG, CHICKEN_SPAWN_EGG,
+			COD_SPAWN_EGG, COW_SPAWN_EGG, CREEPER_SPAWN_EGG, DOLPHIN_SPAWN_EGG, DONKEY_SPAWN_EGG, DROWNED_SPAWN_EGG,
+			ELDER_GUARDIAN_SPAWN_EGG, ENDERMAN_SPAWN_EGG, ENDERMITE_SPAWN_EGG, EVOKER_SPAWN_EGG, FOX_SPAWN_EGG,
+			GHAST_SPAWN_EGG, GUARDIAN_SPAWN_EGG, HORSE_SPAWN_EGG, HUSK_SPAWN_EGG, LLAMA_SPAWN_EGG,
 			MAGMA_CUBE_SPAWN_EGG, MOOSHROOM_SPAWN_EGG, MULE_SPAWN_EGG, OCELOT_SPAWN_EGG, PANDA_SPAWN_EGG,
 			PARROT_SPAWN_EGG, PHANTOM_SPAWN_EGG, PIG_SPAWN_EGG, PILLAGER_SPAWN_EGG, POLAR_BEAR_SPAWN_EGG,
 			PUFFERFISH_SPAWN_EGG, RABBIT_SPAWN_EGG, RAVAGER_SPAWN_EGG, SALMON_SPAWN_EGG, SHEEP_SPAWN_EGG,
@@ -75,12 +76,16 @@ public final class BlacklistHandler extends Handler<Creative,GameplayManager> {
 		
 		Block block = event.getBlock();
 		if(block.getType() == Material.BEACON){
-			Chunk chunk = block.getChunk();
-			for(BlockState bs : chunk.getTileEntities()){
-				if(bs instanceof Beacon){
-					event.setCancelled(true);
-					player.sendMessage(M.error("There is a limit of 1 beacon per chunk."));
-					return;
+			for(int modX = -1; modX <= 1; modX++){
+				for(int modZ = -1; modZ <= 1; modZ++){
+					Chunk chunk = block.getWorld().getChunkAt(block.getChunk().getX()+modX, block.getChunk().getZ()+modZ);
+					for(BlockState bs : chunk.getTileEntities()){
+						if(bs instanceof Beacon){
+							event.setCancelled(true);
+							player.sendMessage(M.error("There is already a beacon nearby."));
+							return;
+						}
+					}
 				}
 			}
 		}
@@ -147,6 +152,13 @@ public final class BlacklistHandler extends Handler<Creative,GameplayManager> {
 		}
 	}
 	
+	@EventHandler(ignoreCancelled = true)
+	public void on(InventoryInteractEvent event){
+		if(manager.isLockoutMode()){
+			event.setCancelled(true);
+		}
+	}
+	
 	@EventHandler
 	public void on(PlayerDropItemEvent event){
 		Player player = event.getPlayer();
@@ -207,6 +219,89 @@ public final class BlacklistHandler extends Handler<Creative,GameplayManager> {
 			return;
 		}
 		player.sendMessage(M.err + "Lockout mode is enabled. You can't interact with things right now.");
+	}
+	
+	@EventHandler(ignoreCancelled = true)
+	public void on(BlockFromToEvent event){
+		if(manager.isLockoutMode() || event.getBlock().getType() == DRAGON_EGG){
+			event.setCancelled(true);
+		}
+	}
+	
+	// this does NOT account for players placing fire
+	@EventHandler(ignoreCancelled = true)
+	public void on(BlockIgniteEvent event){
+		event.setCancelled(true);
+	}
+	
+	@EventHandler(ignoreCancelled = true)
+	public void on(BlockPistonExtendEvent event){
+		if(manager.isLockoutMode()){
+			event.setCancelled(true);
+		}
+	}
+	
+	@EventHandler(ignoreCancelled = true)
+	public void on(BlockPistonRetractEvent event){
+		if(manager.isLockoutMode()){
+			event.setCancelled(true);
+		}
+	}
+	
+	// dispenser shears sheep
+	@EventHandler(ignoreCancelled = true)
+	public void on(BlockShearEntityEvent event){
+		if(manager.isLockoutMode()){
+			event.setCancelled(true);
+		}
+	}
+	
+	@EventHandler(ignoreCancelled = true)
+	public void on(CauldronLevelChangeEvent event){
+		if(manager.isLockoutMode()){
+			event.setCancelled(true);
+		}
+	}
+	
+	@EventHandler(ignoreCancelled = true)
+	public void on(FluidLevelChangeEvent event){
+		if(manager.isLockoutMode()){
+			event.setCancelled(true);
+		}
+	}
+	
+	/*@EventHandler(ignoreCancelled = true)
+	public void on(LeavesDecayEvent event){
+		event.setCancelled(true);
+	}*/
+	
+	@EventHandler(ignoreCancelled = true)
+	public void on(MoistureChangeEvent event){
+		if(manager.isLockoutMode()){
+			event.setCancelled(true);
+		}
+	}
+	
+	@EventHandler(ignoreCancelled = true)
+	public void on(NotePlayEvent event){
+		if(manager.isLockoutMode()){
+			event.setCancelled(true);
+		}
+	}
+	
+	@EventHandler(ignoreCancelled = true)
+	public void on(SpongeAbsorbEvent event){
+		if(manager.isLockoutMode()){
+			event.setCancelled(true);
+		}
+	}
+	
+	@EventHandler(ignoreCancelled = true)
+	public void on(InventoryPickupItemEvent event){
+		if(manager.isLockoutMode()){
+			event.setCancelled(true);
+			event.getItem().remove(); // prevent lag
+		}
 	}
 	
 }

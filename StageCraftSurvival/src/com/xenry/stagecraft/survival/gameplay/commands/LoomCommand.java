@@ -20,7 +20,7 @@ import java.util.List;
 public final class LoomCommand extends Command<Survival,GameplayManager> {
 	
 	public LoomCommand(GameplayManager manager){
-		super(manager, Rank.MEMBER, "loom");
+		super(manager, Rank.PREMIUM, "loom");
 		setCanBeDisabled(true);
 	}
 	

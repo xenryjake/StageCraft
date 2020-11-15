@@ -34,7 +34,6 @@ public final class TPACommand extends Command<Creative,TeleportationManager> {
 	
 	@Override
 	protected void playerPerform(Profile profile, String[] args, String label) {
-		boolean reverse = label.equalsIgnoreCase("tpahere");
 		if(args.length < 1){
 			profile.sendMessage(M.usage("/" + label + " <player>"));
 			return;
@@ -44,6 +43,7 @@ public final class TPACommand extends Command<Creative,TeleportationManager> {
 			profile.sendMessage(M.playerNotFound(args[0]));
 			return;
 		}
+		boolean reverse = label.equalsIgnoreCase("tpahere");
 		manager.createAndSendRequest(profile.getPlayer(), to, reverse);
 	}
 	

@@ -171,7 +171,11 @@ public class Profile extends GenericProfile {
 	}
 	
 	public long getSecondsSinceLastLogin(String serverName){
-		return TimeUtil.nowSeconds() - getLastLogin(serverName);
+		long value = TimeUtil.nowSeconds() - getLastLogin(serverName);
+		if(value <= 0){
+			value = -1;
+		}
+		return value;
 	}
 	
 	public long getMostRecentLogin(){
@@ -206,7 +210,11 @@ public class Profile extends GenericProfile {
 	}
 	
 	public long getSecondsSinceLastLogout(String serverName){
-		return TimeUtil.nowSeconds() - getLastLogout(serverName);
+		long value = TimeUtil.nowSeconds() - getLastLogout(serverName);
+		if(value <= 0){
+			value = -1;
+		}
+		return value;
 	}
 	
 	public long getMostRecentLogout(){

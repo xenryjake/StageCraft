@@ -20,7 +20,7 @@ import java.util.List;
 public final class GrindstoneCommand extends Command<Survival,GameplayManager> {
 	
 	public GrindstoneCommand(GameplayManager manager){
-		super(manager, Rank.MEMBER, "grindstone", "grind");
+		super(manager, Rank.PREMIUM, "grindstone", "grind");
 		setCanBeDisabled(true);
 	}
 	

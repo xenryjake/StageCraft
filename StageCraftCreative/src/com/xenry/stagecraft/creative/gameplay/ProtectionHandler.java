@@ -3,7 +3,9 @@ import com.xenry.stagecraft.Handler;
 import com.xenry.stagecraft.creative.Creative;
 import org.bukkit.World;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.block.BlockBurnEvent;
 import org.bukkit.event.block.BlockExplodeEvent;
+import org.bukkit.event.block.BlockFadeEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 
 /**
@@ -36,6 +38,16 @@ public final class ProtectionHandler extends Handler<Creative,GameplayManager> {
 			event.setCancelled(true);
 			event.getBlock().getWorld().createExplosion(event.getBlock().getLocation(), 0);
 		}
+	}
+	
+	@EventHandler(ignoreCancelled = true)
+	public void on(BlockBurnEvent event){
+		event.setCancelled(true);
+	}
+	
+	@EventHandler(ignoreCancelled = true)
+	public void on(BlockFadeEvent event){
+		event.setCancelled(true);
 	}
 	
 }

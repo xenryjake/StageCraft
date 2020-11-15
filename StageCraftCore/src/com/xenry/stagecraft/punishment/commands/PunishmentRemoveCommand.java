@@ -29,8 +29,6 @@ import static com.xenry.stagecraft.punishment.PunishmentExecution.VIEW_ALERTS;
  */
 public final class PunishmentRemoveCommand extends Command<Core,PunishmentManager> {
 	
-	//todo make work cross network
-	
 	public PunishmentRemoveCommand(PunishmentManager manager){
 		super(manager, Rank.MOD, "remove", "undo");
 	}

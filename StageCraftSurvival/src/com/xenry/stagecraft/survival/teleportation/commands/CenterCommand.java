@@ -1,27 +1,29 @@
-package com.xenry.stagecraft.survival.gameplay.commands;
+package com.xenry.stagecraft.survival.teleportation.commands;
 import com.xenry.stagecraft.commands.Command;
-import com.xenry.stagecraft.survival.Survival;
-import com.xenry.stagecraft.survival.gameplay.GameplayManager;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
+import com.xenry.stagecraft.survival.Survival;
+import com.xenry.stagecraft.survival.teleportation.Teleportation;
+import com.xenry.stagecraft.survival.teleportation.TeleportationManager;
+import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 import java.util.List;
 
 /**
- * StageCraft created by Henry Blasingame (Xenry) on 7/11/20
+ * StageCraft created by Henry Blasingame (Xenry) on 11/14/20
  * The content in this file and all related files are
  * Copyright (C) 2020 Henry Blasingame.
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public final class SmithingTableCommand extends Command<Survival,GameplayManager> {
+public final class CenterCommand extends Command<Survival,TeleportationManager> {
 	
-	public SmithingTableCommand(GameplayManager manager){
-		super(manager, Rank.PREMIUM, "smith", "smithingtable", "smithing");
-		setCanBeDisabled(true);
+	public CenterCommand(TeleportationManager manager){
+		super(manager, Rank.ADMIN, "center");
 	}
 	
 	@Override
@@ -31,7 +33,9 @@ public final class SmithingTableCommand extends Command<Survival,GameplayManager
 	
 	@Override
 	protected void playerPerform(Profile profile, String[] args, String label) {
-		profile.getPlayer().openSmithingTable(null, true);
+		Player player = profile.getPlayer();
+		Location location = player.getLocation().clone();
+		manager.createAndExecuteTeleportation(player, player, player.getLocation(), location, Teleportation.Type.ADMIN, false);
 	}
 	
 	@Override

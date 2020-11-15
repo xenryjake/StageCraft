@@ -172,7 +172,7 @@ public final class PunishmentManager extends Manager<Core> {
 	@EventHandler
 	public void onLogin(AsyncPlayerPreLoginEvent event){
 		String uuid = event.getUniqueId().toString();
-		punishments.removeIf(pun -> pun.getPlayerUUID().equals(uuid));
+		punishments.removeIf(pun -> uuid.equals(pun.getPlayerUUID()));
 		
 		List<Punishment> playerPunishments = new ArrayList<>();
 		BasicDBObject query = new BasicDBObject("player", uuid);

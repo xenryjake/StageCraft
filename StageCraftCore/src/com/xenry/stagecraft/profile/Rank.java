@@ -21,8 +21,10 @@ public enum Rank implements Access {
 	
 	MEMBER("Member", ChatColor.GRAY, 0),
 	PREMIUM("Premium", ChatColor.AQUA, 10, MEMBER),
+	//ELITE("Elite", ChatColor.LIGHT_PURPLE, 15, PREMIUM, MEMBER),
 	MOD("Mod", ChatColor.RED, 50, MEMBER),
 	PREMIUM_MOD("Premium_Mod", ChatColor.RED, 50, MOD, PREMIUM, MEMBER),
+	//ELITE_MOD("Elite_Mod", ChatColor.RED, 50, PREMIUM_MOD, MOD, ELITE, PREMIUM, MEMBER),
 	ADMIN("Admin", ChatColor.DARK_RED, 100, PREMIUM_MOD, MOD, PREMIUM, MEMBER);
 	
 	private final String name;
@@ -65,7 +67,6 @@ public enum Rank implements Access {
 		return this.weight + mod >= rank.weight;
 	}
 	
-	//
 	public boolean check(Rank rank){
 		return rank == this || this.inherits.contains(rank);
 	}

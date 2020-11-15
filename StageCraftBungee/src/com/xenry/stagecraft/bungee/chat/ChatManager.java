@@ -86,7 +86,6 @@ public final class ChatManager extends Manager {
 	}
 	
 	public void handlePrivateMessage(ProxiedPlayer sender, String targetName, BaseComponent[] message){
-		ProxiedPlayer target;
 		if(targetName.equals(PM_REPLY_KEY)){
 			targetName = getConversation(sender.getName());
 			if(targetName == null){
@@ -94,7 +93,7 @@ public final class ChatManager extends Manager {
 				return;
 			}
 		}
-		target = plugin.getProxy().getPlayer(targetName);
+		ProxiedPlayer target = plugin.getProxy().getPlayer(targetName);
 		if(target == null){
 			sender.sendMessage(M.error(targetName + " is not online."));
 			return;

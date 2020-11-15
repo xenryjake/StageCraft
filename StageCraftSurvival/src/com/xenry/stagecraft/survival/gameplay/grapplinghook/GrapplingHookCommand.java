@@ -39,8 +39,8 @@ public final class GrapplingHookCommand extends Command<Survival,GameplayManager
 			return;
 		}
 		args[0] = args[0].toLowerCase();
-		boolean enable;
 		args[0] = args[0].toLowerCase();
+		boolean enable;
 		if(args[0].startsWith("e") || args[0].startsWith("on")){
 			enable = true;
 		}else if(args[0].startsWith("d") || args[0].startsWith("off")){

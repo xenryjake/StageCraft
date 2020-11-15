@@ -17,7 +17,7 @@ import java.util.Arrays;
 public final class EndCommand extends ProxyAdminCommand<ProxyManager> {
 	
 	public EndCommand(ProxyManager manager) {
-		super(manager, "end");
+		super(manager, "end", ".end");
 	}
 	
 	@Override

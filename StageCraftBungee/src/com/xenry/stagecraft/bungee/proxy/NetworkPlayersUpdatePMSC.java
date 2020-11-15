@@ -27,7 +27,6 @@ public final class NetworkPlayersUpdatePMSC extends PluginMessageSubChannel<Prox
 	}
 	
 	public void send(){
-		
 		HashMap<String,List<String>> playerMap = new HashMap<>();
 		for(Map.Entry<String,ServerInfo> entry : manager.plugin.getProxy().getServers().entrySet()){
 			List<String> names = new ArrayList<>();

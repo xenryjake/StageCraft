@@ -37,7 +37,6 @@ public final class JailListCommand extends Command<Survival,JailManager> {
 	}
 	
 	private void listJails(CommandSender sender, String[] args){
-		final int JAILS_PER_PAGE = WarpCommand.WARPS_PER_PAGE;
 		List<String> jails = manager.getJailHandler().getJailNameList();
 		if(jails.isEmpty()){
 			sender.sendMessage(M.error("There are no jails set."));
@@ -53,6 +52,7 @@ public final class JailListCommand extends Command<Survival,JailManager> {
 			}
 		}
 		
+		final int JAILS_PER_PAGE = WarpCommand.WARPS_PER_PAGE;
 		int maxPages = (int) Math.ceil(jails.size() / (double)JAILS_PER_PAGE);
 		if(page > maxPages){
 			page = maxPages;

@@ -111,7 +111,12 @@ public final class LookupCommand extends Command<Core,ProfileManager> {
 			//sender.sendMessage(M.arrow("Last Location: " + M.elm + "(" + lastLoc.x + "," + lastLoc.y + "," + lastLoc.z + ") [" + profile.getLastLocationWorldName() + "]"));
 		}
 		//todo include both network-wide and per-server
-		sender.sendMessage(M.arrow("Status: " + (online ? "§aOnline " + M.msg + "(" + M.elm + TimeUtil.simplerString(profile.getSecondsSinceLastLogin(manager.plugin.getServerName())) + M.msg + ")" : "§cOffline " + M.msg + "(" + M.elm + TimeUtil.simplerString(profile.getSecondsSinceLastLogout(manager.plugin.getServerName())) + M.msg + ")")));
+		long time = online ? profile.getSecondsSinceLastLogin(manager.plugin.getServerName()) : profile.getSecondsSinceLastLogout(manager.plugin.getServerName());
+		if(time <= 0){
+			sender.sendMessage(M.arrow("Status: " + (online ? "§aOnline" : "§cOffline")));
+		}else{
+			sender.sendMessage(M.arrow("Status: " + (online ? "§aOnline " : "§cOffline ") + M.msg + "(" + M.elm + TimeUtil.simplerString(time) + M.msg + ")"));
+		}
 	}
 	
 	@Override

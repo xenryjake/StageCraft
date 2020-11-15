@@ -55,21 +55,29 @@ public final class TimeUtil {
 		return simplerString(seconds, true);
 	}
 	
+	public static String simplerString(long seconds, String negative){
+		return simplerString(seconds, true, negative);
+	}
+	
 	public static String simplerString(long seconds, boolean allow0){
+		return simplerString(seconds, allow0, "forever");
+	}
+	
+	public static String simplerString(long seconds, boolean allow0, String negative){
 		if(seconds < 0){
-			return "forever";
+			return negative;
 		}
 		long minutes = 0;
-		long hours = 0;
-		long days = 0;
 		if(seconds >= 60){
 			minutes = seconds / 60;
 			seconds = seconds % 60;
 		}
+		long hours = 0;
 		if(minutes >= 60){
 			hours = minutes / 60;
 			minutes = minutes % 60;
 		}
+		long days = 0;
 		if(hours >= 24){
 			days = hours / 24;
 			hours = hours % 24;

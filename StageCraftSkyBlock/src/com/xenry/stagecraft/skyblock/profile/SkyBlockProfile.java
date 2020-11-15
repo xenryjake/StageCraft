@@ -33,22 +33,24 @@ public class SkyBlockProfile extends GenericProfile {
 	}
 	
 	public Vector3DInt getLastLocation(){
-		int x, y, z;
 		Object objX = get("lastLocationX");
 		Object objY = get("lastLocationY");
 		Object objZ = get("lastLocationZ");
+		int x;
 		if(objX instanceof Integer){
 			x = (Integer)objX;
 		}else{
 			put("lastLocationX", 0);
 			x = 0;
 		}
+		int y;
 		if(objY instanceof Integer){
 			y = (Integer)objY;
 		}else{
 			put("lastLocationY", 0);
 			y = 0;
 		}
+		int z;
 		if(objZ instanceof Integer){
 			z = (Integer)objZ;
 		}else{

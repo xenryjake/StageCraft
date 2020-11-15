@@ -79,7 +79,6 @@ public final class BasicEnchantmentHandler extends Handler<Survival,GameplayMana
 		
 		//ensure the custom enchantments on i0 are on the result
 		{
-			boolean changed = false;
 			
 			//get the enchantments on i0
 			HashMap<CustomEnchantment,Integer> i0Enchants;
@@ -100,6 +99,7 @@ public final class BasicEnchantmentHandler extends Handler<Survival,GameplayMana
 			boolean resultIsBook = isValidEnchantedBook(result);
 			
 			//ensure the custom enchantments on i0 are on the result
+			boolean changed = false;
 			for(CustomEnchantment ench : manager.getRegisteredEnchantments()){
 				
 				//if the input does not have this enchantment, skip to the next enchantment

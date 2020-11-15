@@ -22,9 +22,9 @@ public final class CollectionUtil {
 		if(collection.contains(query)){
 			return query;
 		}
-		String value = null;
 		query = query.toLowerCase();
 		int delta = 2147483647;
+		String value = null;
 		for(String string : collection){
 			if(string.toLowerCase().startsWith(query)){
 				int curDelta = Math.abs(string.length() - query.length());
