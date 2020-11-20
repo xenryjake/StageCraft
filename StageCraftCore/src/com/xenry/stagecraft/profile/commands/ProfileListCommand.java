@@ -29,7 +29,7 @@ public final class ProfileListCommand extends Command<Core,ProfileManager> {
 	
 	//todo fix this or remove it idk
 	
-	public static final Access ACCESS = Rank.MOD;
+	public static final Access ACCESS = Rank.HEAD_MOD;
 	public static final int ITEMS_PER_PAGE = 20;
 	
 	public ProfileListCommand(ProfileManager manager){

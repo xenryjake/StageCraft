@@ -25,7 +25,7 @@ import java.util.List;
 public final class TPCommand extends Command<Creative,TeleportationManager> {
 	
 	public static final Access SELF_RANK = Rank.MOD;
-	public static final Access OTHER_RANK = Rank.ADMIN;
+	public static final Access OTHER_RANK = Rank.HEAD_MOD;
 	
 	public TPCommand(TeleportationManager manager){
 		super(manager, SELF_RANK, "tp", "tpo", "teleport");

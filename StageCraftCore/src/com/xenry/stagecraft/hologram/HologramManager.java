@@ -188,7 +188,7 @@ public final class HologramManager extends Manager<Core> {
 			return false;
 		}
 		ArmorStand as = (ArmorStand)entity;
-		return as.isCustomNameVisible() && !as.isVisible() && !as.hasGravity() && !as.hasBasePlate()
+		return as.isMarker() && as.isCustomNameVisible() && !as.isVisible() && !as.hasGravity() && !as.hasBasePlate()
 				&& !as.hasArms() && as.isSmall() && as.hasMetadata(Hologram.METADATA_KEY);
 	}
 	

@@ -26,7 +26,7 @@ import java.util.List;
 public final class BreakCommand extends Command<Survival,GameplayManager> {
 	
 	public BreakCommand(GameplayManager manager){
-		super(manager, Rank.ADMIN, "break");
+		super(manager, Rank.HEAD_MOD, "break");
 		setCanBeDisabled(true);
 	}
 	

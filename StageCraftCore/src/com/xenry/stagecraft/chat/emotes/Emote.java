@@ -90,6 +90,10 @@ public enum Emote {
 		this.replacement = replacement;
 	}
 	
+	public static String replaceEmotes(String message){
+		return replaceEmotes(message, ChatColor.RESET);
+	}
+	
 	public static String replaceEmotes(String message, ChatColor defaultColor){
 		for(Emote emote : values()){
 			String replacement = emote.replacement;

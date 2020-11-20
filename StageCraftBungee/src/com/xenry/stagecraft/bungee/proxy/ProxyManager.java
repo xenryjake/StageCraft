@@ -48,6 +48,7 @@ public final class ProxyManager extends Manager {
 		plugin.getPluginMessageManager().registerSubChannel(new PunishmentPMSC(this));
 		plugin.getPluginMessageManager().registerSubChannel(new PunishmentRemovePMSC(this));
 		plugin.getPluginMessageManager().registerSubChannel(new ProfileRankUpdatePMSC(this));
+		plugin.getPluginMessageManager().registerSubChannel(new ProfileNameInfoUpdatePMSC(this));
 		plugin.getPluginMessageManager().registerSubChannel(new EvacuatePlayerPMSC(this));
 		
 		registerCommand(new EndCommand(this));

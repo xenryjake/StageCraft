@@ -62,14 +62,11 @@ public final class SignEditCommand extends Command<Survival,GameplayManager> {
 		}
 		
 		String text = Joiner.on(' ').join(Arrays.copyOfRange(args, 1, args.length));
-		ChatColor defaultColor = profile.getSetting(Setting.WHITE_SIGN_TEXT) ? ChatColor.WHITE : ChatColor.BLACK;
-		text = defaultColor + text;
 		if(SignEditHandler.COLOR_SIGNS.has(profile)){
 			text = ChatColor.translateAlternateColorCodes('&', text);
 		}
-		text = text.replace("§r", defaultColor.toString());
 		if(Emote.EMOTE_ACCESS.has(profile)){
-			text = Emote.replaceEmotes(text, defaultColor);
+			text = Emote.replaceEmotes(text);
 		}
 		
 		if(!manager.getSignEditHandler().checkPermission(player, block)){
@@ -81,8 +78,7 @@ public final class SignEditCommand extends Command<Survival,GameplayManager> {
 		sign.setLine(line - 1, text);
 		
 		sign.update();
-		profile.sendMessage(M.msg + "You set line " + line + " to " + M.WHITE
-				+ text.replace(defaultColor.toString(), "§r") + M.msg + " on the sign.");
+		profile.sendMessage(M.msg + "You set line " + line + " to " + M.WHITE + text + M.msg + " on the sign.");
 	}
 	
 	@Override

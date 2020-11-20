@@ -41,6 +41,7 @@ public final class ProfileManager extends Manager<Core> {
 	private PermissionHandler permissionsHandler;
 	
 	private ProfileRankUpdatePMSC profileRankUpdatePMSC;
+	private ProfileNameInfoUpdatePMSC profileNameInfoUpdatePMSC;
 	
 	public ProfileManager(Core plugin){
 		super("Profiles", plugin);
@@ -61,11 +62,14 @@ public final class ProfileManager extends Manager<Core> {
 		plugin.getPluginMessageManager().registerSubChannel(new PlayerWillSwitchPMSC(this));
 		profileRankUpdatePMSC = new ProfileRankUpdatePMSC(this);
 		plugin.getPluginMessageManager().registerSubChannel(profileRankUpdatePMSC);
+		profileNameInfoUpdatePMSC = new ProfileNameInfoUpdatePMSC(this);
+		plugin.getPluginMessageManager().registerSubChannel(profileNameInfoUpdatePMSC);
 		
 		registerCommand(new RankCommand(this));
 		registerCommand(new LookupCommand(this));
 		registerCommand(new SeenCommand(this));
 		registerCommand(new NickCommand(this));
+		registerCommand(new NameColorCommand(this));
 		registerCommand(new PlaytimeCommand(this));
 		registerCommand(new MeCommand(this));
 		registerCommand(new ProfileListCommand(this));
@@ -84,6 +88,10 @@ public final class ProfileManager extends Manager<Core> {
 	
 	public ProfileRankUpdatePMSC getProfileRankUpdatePMSC() {
 		return profileRankUpdatePMSC;
+	}
+	
+	public ProfileNameInfoUpdatePMSC getProfileNameInfoUpdatePMSC() {
+		return profileNameInfoUpdatePMSC;
 	}
 	
 	/*public void downloadProfiles(){

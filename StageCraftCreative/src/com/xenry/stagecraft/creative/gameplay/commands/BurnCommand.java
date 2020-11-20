@@ -23,7 +23,7 @@ import java.util.List;
 public final class BurnCommand extends Command<Creative,GameplayManager> {
 	
 	public BurnCommand(GameplayManager manager){
-		super(manager, Rank.ADMIN, "burn");
+		super(manager, Rank.HEAD_MOD, "burn");
 		setCanBeDisabled(true);
 	}
 	

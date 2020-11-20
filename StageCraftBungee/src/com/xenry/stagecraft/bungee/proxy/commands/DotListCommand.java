@@ -24,7 +24,7 @@ import java.util.Iterator;
 public final class DotListCommand extends ProxyAdminCommand<ProxyManager> {
 	
 	public DotListCommand(ProxyManager manager){
-		super(manager, ".list", "glist");
+		super(manager, ".list", ".who", "glist");
 	}
 	
 	@Override

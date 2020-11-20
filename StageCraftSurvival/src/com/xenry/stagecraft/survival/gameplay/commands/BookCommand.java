@@ -30,10 +30,10 @@ import java.util.List;
  */
 public final class BookCommand extends Command<Survival,GameplayManager> {
 	
-	public static final Access CHANGE_AUTHOR = Rank.ADMIN;
-	public static final Access CHANGE_TITLE = Rank.ADMIN;
-	public static final Access EDIT_OTHER = Rank.ADMIN;
-	public static final Access USE_COLORS = Rank.ADMIN;
+	public static final Access CHANGE_AUTHOR = Rank.HEAD_MOD;
+	public static final Access CHANGE_TITLE = Rank.HEAD_MOD;
+	public static final Access EDIT_OTHER = Rank.HEAD_MOD;
+	public static final Access USE_COLORS = Rank.HEAD_MOD;
 	
 	public BookCommand(GameplayManager manager){
 		super(manager, Rank.PREMIUM, "book");

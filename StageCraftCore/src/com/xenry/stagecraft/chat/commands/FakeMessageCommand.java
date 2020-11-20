@@ -3,6 +3,7 @@ import com.google.common.base.Joiner;
 import com.xenry.stagecraft.Core;
 import com.xenry.stagecraft.chat.ChatManager;
 import com.xenry.stagecraft.chat.emotes.Emote;
+import com.xenry.stagecraft.chat.emotes.EmotesCommand;
 import com.xenry.stagecraft.commands.Command;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
@@ -28,25 +29,33 @@ import java.util.List;
 public final class FakeMessageCommand extends Command<Core,ChatManager> {
 	
 	public FakeMessageCommand(ChatManager manager){
-		super(manager, Rank.ADMIN, "fm", "lfm");
+		super(manager, Rank.HEAD_MOD, "fm", "lfm");
 		setCanBeDisabled(true);
 	}
 	
 	@Override
 	protected void playerPerform(Profile profile, String[] args, String label) {
-		serverPerform(profile.getPlayer(), args, label);
+		doFakeMessage(profile.getPlayer(), args, label, Emote.EMOTE_ACCESS.has(profile), ChatManager.COLOR_ACCESS.has(profile));
 	}
 	
 	@Override
 	protected void serverPerform(CommandSender sender, String[] args, String label) {
+		doFakeMessage(sender, args, label, true, true);
+	}
+	
+	private void doFakeMessage(CommandSender sender, String[] args, String label, boolean emotes, boolean colors){
 		if(args.length < 1){
 			sender.sendMessage(M.usage("/" + label + " <message>"));
 			return;
 		}
 		
 		String message = Joiner.on(' ').join(args).replaceAll("\\\\n", "\n");
-		message = ChatColor.translateAlternateColorCodes('&', message);
-		message = Emote.replaceEmotes(message, ChatColor.WHITE);
+		if(colors){
+			message = ChatColor.translateAlternateColorCodes('&', message);
+		}
+		if(emotes){
+			message = Emote.replaceEmotes(message, ChatColor.WHITE);
+		}
 		if(label.startsWith("l")){
 			Bukkit.broadcastMessage(message);
 		}else{

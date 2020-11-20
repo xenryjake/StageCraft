@@ -2,9 +2,11 @@ package com.xenry.stagecraft.creative.gameplay;
 import com.destroystokyo.paper.event.entity.ThrownEggHatchEvent;
 import com.xenry.stagecraft.Handler;
 import com.xenry.stagecraft.creative.Creative;
+import com.xenry.stagecraft.util.Log;
 import com.xenry.stagecraft.util.entity.Entities;
 import com.xenry.stagecraft.util.entity.EntityUtil;
 import org.bukkit.Chunk;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -207,7 +209,7 @@ public final class EntityHandler extends Handler<Creative,GameplayManager> {
 	@EventHandler(ignoreCancelled = true)
 	public void on(PlayerLeashEntityEvent event){
 		if(manager.isLockoutMode()){
-			event.setCancelled(true); //todo add to rules shit
+			event.setCancelled(true);
 		}
 	}
 	
@@ -250,7 +252,7 @@ public final class EntityHandler extends Handler<Creative,GameplayManager> {
 	@EventHandler(ignoreCancelled = true)
 	public void on(VehicleDestroyEvent event){
 		if(manager.isLockoutMode()){
-			event.setCancelled(true); //todo add to rules shit
+			event.setCancelled(true);
 		}
 	}
 	

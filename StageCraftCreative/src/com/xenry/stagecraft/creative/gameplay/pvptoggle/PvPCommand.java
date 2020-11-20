@@ -26,7 +26,7 @@ import java.util.List;
  */
 public final class PvPCommand extends Command<Creative,GameplayManager> {
 	
-	public static final Access OTHERS = Rank.ADMIN;
+	public static final Access OTHERS = Rank.HEAD_MOD;
 	
 	public PvPCommand(GameplayManager manager){
 		super(manager, Rank.MEMBER, "pvp");

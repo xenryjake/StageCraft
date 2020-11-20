@@ -138,6 +138,7 @@ public class Hologram extends BasicDBObject {
 			armorStands[j].setBasePlate(false);
 			armorStands[j].setArms(false);
 			armorStands[j].setSmall(true);
+			armorStands[j].setMarker(true);
 			/*if(j > 0){
 				armorStands[j].setPassenger(armorStands[j - 1]);
 			}*/

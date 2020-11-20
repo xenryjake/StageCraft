@@ -25,7 +25,7 @@ import java.util.List;
 public final class WorldCommand extends Command<Creative,TeleportationManager> {
 	
 	public WorldCommand(TeleportationManager manager){
-		super(manager, Rank.ADMIN, "world");
+		super(manager, Rank.HEAD_MOD, "world");
 		setCanBeDisabled(true);
 	}
 	

@@ -25,6 +25,8 @@ import java.util.List;
  */
 public final class SudoCommand extends Command<Core,CommandManager> {
 	
+	//todo add cross-server
+	
 	public SudoCommand(CommandManager manager){
 		super(manager, Rank.ADMIN, "sudo");
 		setCanBeDisabled(true);

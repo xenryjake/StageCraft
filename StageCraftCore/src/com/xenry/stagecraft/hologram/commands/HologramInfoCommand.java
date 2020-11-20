@@ -23,7 +23,7 @@ import java.util.List;
 public final class HologramInfoCommand extends Command<Core,HologramManager> {
 	
 	public HologramInfoCommand(HologramManager manager){
-		super(manager, Rank.ADMIN, "info", "i");
+		super(manager, Rank.HEAD_MOD, "info", "i");
 	}
 	
 	@Override

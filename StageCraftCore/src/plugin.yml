@@ -78,6 +78,8 @@ commands:
   permission:
     description: "Manage permissions"
     aliases: [permissions,perm,perms,permtest]
+  namecolor:
+    description: "Change your name color"
 
 # HOLOGRAM COMMANDS
   hologram:
@@ -93,6 +95,7 @@ commands:
     aliases: [bcast,bc]
   fm:
     description: "Send a fake message"
+    aliases: [lfm]
   staffchat:
     description: "Chat in staff chat"
     aliases: [sc]

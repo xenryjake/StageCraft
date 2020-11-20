@@ -22,7 +22,7 @@ import java.util.*;
 public final class NearCommand extends Command<Survival,GameplayManager> {
 	
 	public NearCommand(GameplayManager manager){
-		super(manager, Rank.ADMIN, "near", "nearby");
+		super(manager, Rank.HEAD_MOD, "near", "nearby");
 		setCanBeDisabled(true);
 	}
 	

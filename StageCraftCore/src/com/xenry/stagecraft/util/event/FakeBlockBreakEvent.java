@@ -1,4 +1,4 @@
-package com.xenry.stagecraft.util;
+package com.xenry.stagecraft.util.event;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;

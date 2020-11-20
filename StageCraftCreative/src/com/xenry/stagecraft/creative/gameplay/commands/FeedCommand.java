@@ -27,7 +27,7 @@ import java.util.List;
  */
 public final class FeedCommand extends Command<Creative,GameplayManager> {
 	
-	public static final Access OTHERS = Rank.ADMIN;
+	public static final Access OTHERS = Rank.HEAD_MOD;
 	
 	private static final List<Integer> potionEffectTypesToRemove = Collections.singletonList(17);
 	

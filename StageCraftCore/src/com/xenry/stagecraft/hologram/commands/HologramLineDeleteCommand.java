@@ -21,7 +21,7 @@ import java.util.List;
 public final class HologramLineDeleteCommand extends Command<Core,HologramManager> {
 
 	public HologramLineDeleteCommand(HologramManager manager){
-		super(manager, Rank.ADMIN, "linedel", "delline", "remline", "linerem", "removeline", "lineremove");
+		super(manager, Rank.HEAD_MOD, "linedel", "delline", "remline", "linerem", "removeline", "lineremove");
 	}
 	
 	@Override

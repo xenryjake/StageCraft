@@ -1,4 +1,5 @@
 package com.xenry.stagecraft.survival.gameplay.commands;
+import com.xenry.stagecraft.commands.Access;
 import com.xenry.stagecraft.commands.Command;
 import com.xenry.stagecraft.survival.Survival;
 import com.xenry.stagecraft.survival.gameplay.GameplayManager;
@@ -22,15 +23,17 @@ import java.util.List;
  */
 public final class FlyCommand extends Command<Survival,GameplayManager> {
 	
+	public static final Access OTHERS = Rank.ADMIN;
+	
 	public FlyCommand(GameplayManager manager){
-		super(manager, Rank.ADMIN, "fly");
+		super(manager, Rank.HEAD_MOD, "fly");
 		setCanBeDisabled(true);
 	}
 	
 	@Override
 	protected void playerPerform(Profile profile, String[] args, String label) {
 		Player target = profile.getPlayer();
-		if(args.length >= 1 && profile.check(Rank.ADMIN)){
+		if(args.length >= 1 && OTHERS.has(profile)){
 			target = Bukkit.getPlayer(args[0]);
 			if(target == null){
 				profile.sendMessage(M.playerNotFound(args[0]));

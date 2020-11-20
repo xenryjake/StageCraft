@@ -2,6 +2,7 @@ package com.xenry.stagecraft.server;
 import com.xenry.stagecraft.Manager;
 import com.xenry.stagecraft.Core;
 import com.xenry.stagecraft.server.commands.*;
+import com.xenry.stagecraft.util.Log;
 import com.xenry.stagecraft.util.M;
 import com.xenry.stagecraft.util.PlayerUtil;
 import io.puharesource.mc.titlemanager.api.v2.TitleManagerAPI;
@@ -130,6 +131,7 @@ public final class ServerManager extends Manager<Core> {
 	}
 	
 	private void shutdownNow(){
+		Log.toCS("§c§lServer shutting down now.");
 		for(Player player : Bukkit.getOnlinePlayers()){
 			evacuatePlayerPMSC.send(player);
 		}

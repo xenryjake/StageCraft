@@ -5,6 +5,7 @@ import com.xenry.stagecraft.bungee.commands.ProxyAdminCommand;
 import com.xenry.stagecraft.bungee.util.M;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
+import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
@@ -27,10 +28,13 @@ public final class DotSayCommand extends ProxyAdminCommand<ChatManager> {
 			sender.sendMessage(M.usage("/.say <message>"));
 			return;
 		}
-		String message = ChatColor.translateAlternateColorCodes('&', Joiner.on(' ').join(args));
-		//message = Emote.replaceEmotes(message, ChatColor.WHITE);
-		String name = sender instanceof ProxiedPlayer ? sender.getName() : M.CONSOLE_NAME;
-		manager.plugin.getProxy().broadcast(TextComponent.fromLegacyText("§e§l" + name + "§8:§r " + message));
+		manager.plugin.getProxy().broadcast(
+				new ComponentBuilder(sender instanceof ProxiedPlayer ? sender.getName() : M.CONSOLE_NAME)
+						.color(ChatColor.YELLOW).bold(false)
+						.append(": ").color(ChatColor.DARK_GRAY).bold(false)
+						.append(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',
+								Joiner.on(' ').join(args)), ChatColor.WHITE))
+						.color(ChatColor.WHITE).bold(false).create());
 	}
 	
 	@Override

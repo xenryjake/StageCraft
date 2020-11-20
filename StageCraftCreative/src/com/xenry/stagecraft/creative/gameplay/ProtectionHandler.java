@@ -1,11 +1,10 @@
 package com.xenry.stagecraft.creative.gameplay;
 import com.xenry.stagecraft.Handler;
 import com.xenry.stagecraft.creative.Creative;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.block.BlockBurnEvent;
-import org.bukkit.event.block.BlockExplodeEvent;
-import org.bukkit.event.block.BlockFadeEvent;
+import org.bukkit.event.block.*;
 import org.bukkit.event.entity.EntityExplodeEvent;
 
 /**
@@ -45,8 +44,14 @@ public final class ProtectionHandler extends Handler<Creative,GameplayManager> {
 		event.setCancelled(true);
 	}
 	
-	@EventHandler(ignoreCancelled = true)
+	@EventHandler
 	public void on(BlockFadeEvent event){
+		// cancel if not frosted ice, EXPLICITLY ALLOW if frosted ice
+		event.setCancelled(event.getBlock().getType() != Material.FROSTED_ICE);
+	}
+	
+	@EventHandler(ignoreCancelled = true)
+	public void on(EntityBlockFormEvent event){
 		event.setCancelled(true);
 	}
 	

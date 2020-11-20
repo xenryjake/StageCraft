@@ -47,8 +47,6 @@ public final class ProfileRankUpdatePMSC extends PluginMessageSubChannel<Core,Pr
 		String uuid = in.readUTF();
 		String rankName = in.readUTF();
 		
-		
-		
 		Rank rank;
 		try{
 			rank = Rank.valueOf(rankName);

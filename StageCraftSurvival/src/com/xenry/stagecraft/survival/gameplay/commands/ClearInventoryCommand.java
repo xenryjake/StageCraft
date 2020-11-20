@@ -28,7 +28,7 @@ public final class ClearInventoryCommand extends Command<Survival,GameplayManage
 	private final Cooldown confirms;
 
 	public ClearInventoryCommand(GameplayManager manager){
-		super(manager, Rank.ADMIN, "clearinventory", "clear", "ci");
+		super(manager, Rank.HEAD_MOD, "clearinventory", "clear", "ci");
 		confirms = new Cooldown(15000, null);
 		setCanBeDisabled(true);
 	}

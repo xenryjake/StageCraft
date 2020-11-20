@@ -41,19 +41,52 @@ public final class PermissionHandler extends Handler<Core,ProfileManager> {
 		}{
 			PermissionSet perms = new RankPermissionSet("global:PREMIUM", Rank.PREMIUM);
 			perms.set("stagecraft.rank.premium", true);
+			perms.set("worldedit.navigation.ascend", true);
+			perms.set("worldedit.navigation.descend", true);
+			perms.set("worldedit.navigation.thru.command", true);
+			perms.set("worldedit.navigation.jumpto.command", true);
+			perms.set("essentials.jump", true);
+			registerPermissionSet(perms);
+		}{
+			PermissionSet perms = new RankPermissionSet("global:ELITE", Rank.ELITE);
+			perms.set("stagecraft.rank.elite", true);
 			registerPermissionSet(perms);
 		}{
 			PermissionSet perms = new RankPermissionSet("global:MOD", Rank.MOD);
 			perms.set("stagecraft.rank.mod", true);
 			perms.set("minecraft.commands.whitelist", true);
+			perms.set("essentials.invsee", true);
+			perms.set("essentials.invsee.equip", true);
 			registerPermissionSet(perms);
 		}{
 			PermissionSet perms = new RankPermissionSet("global:PREMIUM_MOD", Rank.PREMIUM_MOD);
 			perms.set("stagecraft.rank.premium_mod", true);
 			registerPermissionSet(perms);
 		}{
+			PermissionSet perms = new RankPermissionSet("global:ELITE_MOD", Rank.ELITE_MOD);
+			perms.set("stagecraft.rank.elite_mod", true);
+			registerPermissionSet(perms);
+		}{
+			PermissionSet perms = new RankPermissionSet("global:HEAD_MOD", Rank.HEAD_MOD);
+			perms.set("stagecraft.rank.head_mod", true);
+			perms.set("essentials.vanish", true);
+			perms.set("essentials.vanish.pvp", true);
+			perms.set("essentials.vanish.see", true);
+			perms.set("essentials.vanish.effect", true);
+			perms.set("essentials.vanish.interact", true);
+			registerPermissionSet(perms);
+		}{
+			PermissionSet perms = new RankPermissionSet("global:PREMIUM_HEAD_MOD", Rank.PREMIUM_HEAD_MOD);
+			perms.set("stagecraft.rank.premium_head_mod", true);
+			registerPermissionSet(perms);
+		}{
+			PermissionSet perms = new RankPermissionSet("global:ELITE_HEAD_MOD", Rank.ELITE_HEAD_MOD);
+			perms.set("stagecraft.rank.elite_head_mod", true);
+			registerPermissionSet(perms);
+		}{
 			PermissionSet perms = new RankPermissionSet("global:ADMIN", Rank.ADMIN);
 			perms.set("stagecraft.rank.admin", true);
+			perms.set("essentials.invsee.preventmodify", true);
 			registerPermissionSet(perms);
 		}{
 			PermissionSet perms = new PlayerPermissionSet("global:@xenryjake", "fef89265-10d1-41d0-88f7-1ddf2f9e30ec", "xenryjake");

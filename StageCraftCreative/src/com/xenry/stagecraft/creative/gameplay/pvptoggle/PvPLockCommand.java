@@ -23,7 +23,7 @@ import static com.xenry.stagecraft.creative.gameplay.pvptoggle.PvPLock.*;
  */
 public final class PvPLockCommand extends Command<Creative,GameplayManager> {
 	
-	public static final Access ACCESS = Rank.ADMIN;
+	public static final Access ACCESS = Rank.HEAD_MOD;
 	
 	public PvPLockCommand(GameplayManager manager){
 		super(manager, ACCESS, "pvplock", "lockpvp");

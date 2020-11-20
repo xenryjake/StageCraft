@@ -24,7 +24,7 @@ import java.util.List;
 public final class HologramLineEditCommand extends Command<Core,HologramManager> {
 
 	public HologramLineEditCommand(HologramManager manager){
-		super(manager, Rank.ADMIN, "lineedit", "editline", "linedit", "linemod", "modline");
+		super(manager, Rank.HEAD_MOD, "lineedit", "editline", "linedit", "linemod", "modline");
 	}
 	
 	@Override

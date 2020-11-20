@@ -24,7 +24,7 @@ import java.util.List;
 public final class HologramLineAddCommand extends Command<Core,HologramManager> {
 
 	public HologramLineAddCommand(HologramManager manager){
-		super(manager, Rank.ADMIN, "lineadd", "addline", "newline", "linenew");
+		super(manager, Rank.HEAD_MOD, "lineadd", "addline", "newline", "linenew");
 	}
 	
 	@Override

@@ -25,7 +25,7 @@ import java.util.List;
 public final class HologramDeSpawnCommand extends Command<Core,HologramManager> {
 	
 	public HologramDeSpawnCommand(HologramManager manager){
-		super(manager, Rank.ADMIN, "despawn");
+		super(manager, Rank.HEAD_MOD, "despawn");
 	}
 	
 	@Override
@@ -66,8 +66,8 @@ public final class HologramDeSpawnCommand extends Command<Core,HologramManager> 
 				i++;
 			}
 		}
-		sender.sendMessage(M.msg + "Despawned " + M.elm + i + M.msg + " holograms in " + M.elm + worlds.size() + M.msg
-				+ (worlds.size() == 1 ? " world." : " worlds."));
+		sender.sendMessage(M.msg + "Despawned " + M.elm + i + M.msg + " holograms in " + M.elm + worlds.size()
+				+ M.msg + (worlds.size() == 1 ? " world." : " worlds."));
 	}
 	
 	@Override

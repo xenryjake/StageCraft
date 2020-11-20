@@ -33,7 +33,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
  */
 public final class ChatManager extends Manager<Core> {
 	
-	public static final Access COLOR_ACCESS = Rank.ADMIN;
+	public static final Access COLOR_ACCESS = Rank.HEAD_MOD;
 	public static final String PM_REPLY_KEY = "**REPLY**";
 	
 	private Rank chatRank = Rank.MEMBER;

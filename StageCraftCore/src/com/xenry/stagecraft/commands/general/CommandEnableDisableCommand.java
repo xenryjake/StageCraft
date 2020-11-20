@@ -1,11 +1,15 @@
 package com.xenry.stagecraft.commands.general;
 import com.xenry.stagecraft.Core;
+import com.xenry.stagecraft.commands.Access;
 import com.xenry.stagecraft.commands.Command;
 import com.xenry.stagecraft.commands.CommandManager;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
+import com.xenry.stagecraft.util.Log;
 import com.xenry.stagecraft.util.M;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
@@ -20,8 +24,10 @@ import java.util.List;
  */
 public final class CommandEnableDisableCommand extends Command<Core,CommandManager> {
 	
+	public static final Access ACCESS = Rank.HEAD_MOD;
+	
 	public CommandEnableDisableCommand(CommandManager manager){
-		super(manager, Rank.ADMIN, "enable", "disable", "en", "dis");
+		super(manager, ACCESS, "enable", "disable", "en", "dis");
 	}
 	
 	@Override
@@ -48,6 +54,16 @@ public final class CommandEnableDisableCommand extends Command<Core,CommandManag
 		command.setDisabled(disable);
 		sender.sendMessage(M.elm + args[0] + M.msg + " has been " + (disable ? "§cdisabled" : "§aenabled") + M.msg
 				+ " until the next server restart.");
+		
+		String senderName = sender instanceof Player ? sender.getName() : M.CONSOLE_NAME;
+		String notification = M.elm + senderName + M.msg + (disable ? "§cdisabled" : "§aenabled") + " the command "
+				+ M.elm + args[0] + M.msg + ".";
+		Log.toCS(notification);
+		for(Profile profile : manager.plugin.getProfileManager().getOnlineProfiles()){
+			if(ACCESS.has(profile) && profile.getPlayer() != sender){
+				profile.sendMessage(notification);
+			}
+		}
 	}
 	
 	@Override

@@ -26,7 +26,7 @@ import java.util.List;
  */
 public final class RankSetCommand extends Command<Core,ProfileManager> {
 	
-	public static final Access SEE_RANK_UPDATES = Rank.ADMIN;
+	public static final Access SEE_RANK_UPDATES = Rank.MOD;
 	
 	public RankSetCommand(ProfileManager manager) {
 		super(manager, Rank.ADMIN, "set");
@@ -76,10 +76,9 @@ public final class RankSetCommand extends Command<Core,ProfileManager> {
 		String senderName = sender instanceof Player ? sender.getName() : M.CONSOLE_NAME;
 		String rankUpdateMessage = M.elm + senderName + M.msg + " set " + M.elm + target.getLatestUsername() + M.msg + "'s rank to " + rank.getColoredName() + M.msg + ".";
 		Log.toCS(rankUpdateMessage);
-		for(Player player : Bukkit.getOnlinePlayers()){
-			Profile profile = manager.plugin.getProfileManager().getProfile(player);
-			if(profile != null && SEE_RANK_UPDATES.has(profile) && profile != target){
-				player.sendMessage(rankUpdateMessage);
+		for(Profile profile : manager.plugin.getProfileManager().getOnlineProfiles()){
+			if(SEE_RANK_UPDATES.has(profile) && profile != target && profile.getPlayer() != sender){
+				profile.sendMessage(rankUpdateMessage);
 			}
 		}
 		

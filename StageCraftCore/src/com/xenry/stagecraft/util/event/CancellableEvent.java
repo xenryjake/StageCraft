@@ -1,4 +1,4 @@
-package com.xenry.stagecraft.util;
+package com.xenry.stagecraft.util.event;
 
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;

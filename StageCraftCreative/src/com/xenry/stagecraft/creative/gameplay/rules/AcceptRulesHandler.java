@@ -10,8 +10,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.PlayerLeashEntityEvent;
 import org.bukkit.event.hanging.HangingBreakByEntityEvent;
 import org.bukkit.event.hanging.HangingPlaceEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.vehicle.VehicleDestroyEvent;
 
 /**
  * StageCraft created by Henry Blasingame (Xenry) on 7/2/20
@@ -60,13 +63,47 @@ public final class AcceptRulesHandler extends Handler<Creative,GameplayManager> 
 		}
 	}
 	
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onHangingBreak(HangingBreakByEntityEvent event){
 		Entity entity = event.getEntity();
 		if(!(entity instanceof Player)){
 			return;
 		}
 		Player player = (Player)entity;
+		CreativeProfile profile = manager.plugin.getCreativeProfileManager().getProfile(player);
+		if(profile != null && !profile.hasAcceptedRules()){
+			sendAcceptRulesMessage(player);
+			event.setCancelled(true);
+		}
+	}
+	
+	@EventHandler(ignoreCancelled = true)
+	public void onVehicleDestroy(VehicleDestroyEvent event){
+		Entity entity = event.getAttacker();
+		if(!(entity instanceof Player)){
+			return;
+		}
+		Player player = (Player)entity;
+		CreativeProfile profile = manager.plugin.getCreativeProfileManager().getProfile(player);
+		if(profile != null && !profile.hasAcceptedRules()){
+			sendAcceptRulesMessage(player);
+			event.setCancelled(true);
+		}
+	}
+	
+	@EventHandler(ignoreCancelled = true)
+	public void onLeash(PlayerLeashEntityEvent event){
+		Player player = event.getPlayer();
+		CreativeProfile profile = manager.plugin.getCreativeProfileManager().getProfile(player);
+		if(profile != null && !profile.hasAcceptedRules()){
+			sendAcceptRulesMessage(player);
+			event.setCancelled(true);
+		}
+	}
+	
+	@EventHandler(ignoreCancelled = true)
+	public void onInteract(PlayerInteractEvent event){
+		Player player = event.getPlayer();
 		CreativeProfile profile = manager.plugin.getCreativeProfileManager().getProfile(player);
 		if(profile != null && !profile.hasAcceptedRules()){
 			sendAcceptRulesMessage(player);

@@ -22,7 +22,7 @@ import java.util.List;
 public final class RankCommand extends Command<Core,ProfileManager> {
 	
 	public RankCommand(ProfileManager manager){
-		super(manager, Rank.ADMIN, "rank");
+		super(manager, Rank.HEAD_MOD, "rank");
 		addSubCommand(new RankSetCommand(manager));
 		addSubCommand(new RankListCommand(manager));
 		setCanBeDisabled(true);
@@ -31,6 +31,7 @@ public final class RankCommand extends Command<Core,ProfileManager> {
 	@Override
 	protected void playerPerform(Profile profile, String[] args, String label) {
 		serverPerform(profile.getPlayer(), args, label);
+		profile.sendMessage(M.msg + "Your rank is " + profile.getRank().getColoredName() + M.msg + ".");
 	}
 	
 	@Override

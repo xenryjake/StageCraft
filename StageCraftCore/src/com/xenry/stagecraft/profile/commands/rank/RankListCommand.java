@@ -21,7 +21,7 @@ import java.util.List;
 public final class RankListCommand extends Command<Core,ProfileManager> {
 	
 	public RankListCommand(ProfileManager manager) {
-		super(manager, Rank.ADMIN, "list");
+		super(manager, Rank.HEAD_MOD, "list");
 	}
 	
 	@Override

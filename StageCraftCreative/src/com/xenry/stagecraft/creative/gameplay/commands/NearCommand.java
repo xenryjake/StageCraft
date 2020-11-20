@@ -25,7 +25,7 @@ import java.util.Map;
 public final class NearCommand extends Command<Creative,GameplayManager> {
 	
 	public NearCommand(GameplayManager manager){
-		super(manager, Rank.ADMIN, "near", "nearby");
+		super(manager, Rank.HEAD_MOD, "near", "nearby");
 		setCanBeDisabled(true);
 	}
 	

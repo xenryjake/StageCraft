@@ -26,7 +26,7 @@ import java.util.List;
  */
 public final class LightningCommand extends Command<Creative,GameplayManager> {
 	
-	public static final Access COOLDOWN_BYPASS = Rank.ADMIN;
+	public static final Access COOLDOWN_BYPASS = Rank.HEAD_MOD;
 	private final Cooldown cooldown;
 	
 	public LightningCommand(GameplayManager manager){

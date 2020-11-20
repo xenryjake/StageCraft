@@ -30,7 +30,7 @@ import java.util.List;
  */
 public final class HealCommand extends Command<Creative,GameplayManager> {
 	
-	public static final Access OTHERS = Rank.ADMIN;
+	public static final Access OTHERS = Rank.HEAD_MOD;
 	
 	private static final List<Integer> potionEffectTypesToRemove = Arrays.asList(7, 17, 19, 20);
 	

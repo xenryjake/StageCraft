@@ -6,9 +6,11 @@ import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.ProfileManager;
 import com.xenry.stagecraft.profile.Rank;
 import com.xenry.stagecraft.util.M;
+import com.xenry.stagecraft.util.PlayerUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
@@ -25,7 +27,7 @@ import java.util.List;
 public final class NickCommand extends Command<Core,ProfileManager> {
 	
 	public NickCommand(ProfileManager manager){
-		super(manager, Rank.ADMIN, "nick", "nickname");
+		super(manager, Rank.HEAD_MOD, "nick", "nickname");
 		setCanBeDisabled(true);
 	}
 	
@@ -82,6 +84,8 @@ public final class NickCommand extends Command<Core,ProfileManager> {
 		if(target.isOnline()){
 			target.updateDisplayName();
 		}
+		
+		manager.getProfileNameInfoUpdatePMSC().send(sender.getPlayer(), target);
 	}
 	
 	@Override
@@ -133,6 +137,13 @@ public final class NickCommand extends Command<Core,ProfileManager> {
 		if(target.isOnline()){
 			target.updateDisplayName();
 		}
+		
+		Player pluginMessageSender = sender instanceof Player ? (Player)sender : PlayerUtil.getAnyPlayer();
+		if(pluginMessageSender == null){
+			sender.sendMessage(M.err + M.BOLD + "WARNING!" + M.err + " No players are online this instance. If the player is online another instance, the rank update will likely be overwritten.");
+			return;
+		}
+		manager.getProfileNameInfoUpdatePMSC().send(pluginMessageSender, target);
 	}
 	
 	@Override

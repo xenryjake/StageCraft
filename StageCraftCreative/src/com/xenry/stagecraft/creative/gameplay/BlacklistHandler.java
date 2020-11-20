@@ -2,6 +2,7 @@ package com.xenry.stagecraft.creative.gameplay;
 import com.xenry.stagecraft.Handler;
 import com.xenry.stagecraft.creative.Creative;
 import com.xenry.stagecraft.util.Cooldown;
+import com.xenry.stagecraft.util.Log;
 import com.xenry.stagecraft.util.M;
 import org.bukkit.Chunk;
 import org.bukkit.Material;
@@ -18,6 +19,7 @@ import org.bukkit.event.inventory.InventoryPickupItemEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.world.PortalCreateEvent;
+import org.bukkit.event.world.StructureGrowEvent;
 
 import java.util.Arrays;
 import java.util.List;
@@ -110,7 +112,7 @@ public final class BlacklistHandler extends Handler<Creative,GameplayManager> {
 		if(manager.isPlayerOverride(player)){
 			return;
 		}
-		if(event.getBlock().getY() <= 1){
+		if(event.getBlock().getY() < 1){
 			event.setCancelled(true);
 			sendMessage(player, M.err + "You can't break blocks here.");
 		}
@@ -228,10 +230,21 @@ public final class BlacklistHandler extends Handler<Creative,GameplayManager> {
 		}
 	}
 	
-	// this does NOT account for players placing fire
 	@EventHandler(ignoreCancelled = true)
 	public void on(BlockIgniteEvent event){
-		event.setCancelled(true);
+		switch(event.getCause()){
+			case FLINT_AND_STEEL:
+				return;
+			case LAVA:
+			case SPREAD:
+			case LIGHTNING:
+			case FIREBALL:
+			case ENDER_CRYSTAL:
+			case EXPLOSION:
+			case ARROW:
+			default:
+				event.setCancelled(true);
+		}
 	}
 	
 	@EventHandler(ignoreCancelled = true)
@@ -301,6 +314,25 @@ public final class BlacklistHandler extends Handler<Creative,GameplayManager> {
 		if(manager.isLockoutMode()){
 			event.setCancelled(true);
 			event.getItem().remove(); // prevent lag
+		}
+	}
+	
+	@EventHandler(ignoreCancelled = true)
+	public void on(BlockGrowEvent event){
+		if(manager.isLockoutMode()){
+			event.setCancelled(true);
+		}
+	}
+	
+	@EventHandler(ignoreCancelled = true)
+	public void on(BlockSpreadEvent event){
+		Material type = event.getNewState().getType();
+		Log.debug("BSE " + type.name() + " / " + event.getSource().getType().name() + " / " + event.getBlock().getType().name());
+		if(manager.isLockoutMode() || type == VINE || type == TWISTING_VINES || type == TWISTING_VINES_PLANT
+				|| type == WEEPING_VINES || type == WEEPING_VINES_PLANT || type == MUSHROOM_STEM
+				|| type == RED_MUSHROOM || type == RED_MUSHROOM_BLOCK || type == BROWN_MUSHROOM
+				|| type == BROWN_MUSHROOM_BLOCK || type == MYCELIUM || type == BAMBOO || type == BAMBOO_SAPLING){
+			event.setCancelled(true);
 		}
 	}
 	

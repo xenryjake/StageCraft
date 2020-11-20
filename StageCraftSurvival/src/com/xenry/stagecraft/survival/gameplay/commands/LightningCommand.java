@@ -25,7 +25,7 @@ import java.util.List;
 public final class LightningCommand extends Command<Survival,GameplayManager> {
 	
 	public LightningCommand(GameplayManager manager){
-		super(manager, Rank.ADMIN, "lightning", "strike", "smite");
+		super(manager, Rank.HEAD_MOD, "lightning", "strike", "smite");
 		setCanBeDisabled(true);
 	}
 	

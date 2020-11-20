@@ -22,7 +22,7 @@ import java.util.List;
 public final class CommandCommand extends Command<Core,CommandManager> {
 	
 	public CommandCommand(CommandManager manager){
-		super(manager, Rank.ADMIN, "commands", "command", "cmds", "cmd");
+		super(manager, Rank.HEAD_MOD, "commands", "command", "cmds", "cmd");
 		addSubCommand(new CommandEnableDisableCommand(manager));
 		addSubCommand(new CommandInfoCommand(manager));
 	}

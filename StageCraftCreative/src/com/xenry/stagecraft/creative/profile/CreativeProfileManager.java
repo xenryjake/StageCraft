@@ -180,6 +180,10 @@ public final class CreativeProfileManager extends Manager<Creative> {
 			perms.set("griefprevention.seeinactivity", true);
 			perms.set("griefprevention.deleteclaims", true);
 			plugin.getCore().getProfileManager().getPermissionsHandler().registerPermissionSet(perms);
+		}{
+			PermissionSet perms = new RankPermissionSet("creative:HEAD_MOD", Rank.HEAD_MOD);
+			perms.set("essentials.invsee.modify", true);
+			plugin.getCore().getProfileManager().getPermissionsHandler().registerPermissionSet(perms);
 		}
 	}
 	

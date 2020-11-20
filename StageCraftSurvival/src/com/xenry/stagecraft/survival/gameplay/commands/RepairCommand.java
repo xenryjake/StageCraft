@@ -1,4 +1,5 @@
 package com.xenry.stagecraft.survival.gameplay.commands;
+import com.xenry.stagecraft.commands.Access;
 import com.xenry.stagecraft.commands.Command;
 import com.xenry.stagecraft.survival.Survival;
 import com.xenry.stagecraft.survival.gameplay.GameplayManager;
@@ -26,8 +27,10 @@ import java.util.List;
  */
 public final class RepairCommand extends Command<Survival,GameplayManager> {
 	
+	public static final Access OTHERS = Rank.ADMIN;
+	
 	public RepairCommand(GameplayManager manager){
-		super(manager, Rank.ADMIN, "repair", "fix");
+		super(manager, Rank.HEAD_MOD, "repair", "fix");
 		setCanBeDisabled(true);
 	}
 	
@@ -38,7 +41,7 @@ public final class RepairCommand extends Command<Survival,GameplayManager> {
 			sender.sendMessage(M.usage("/" + label + " <all|hand|armor|offhand> [player]"));
 			return;
 		}
-		if(args.length > 1){
+		if(args.length > 1 && OTHERS.has(sender)){
 			target = Bukkit.getPlayer(args[1]);
 			if(target == null){
 				sender.sendMessage(M.playerNotFound(args[1]));

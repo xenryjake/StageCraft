@@ -30,7 +30,7 @@ public final class SkullCommand extends Command<Survival,GameplayManager> {
 	public static final Access SPAWN_SKULL = Rank.ADMIN;
 	
 	public SkullCommand(GameplayManager manager){
-		super(manager, Rank.ADMIN, "skull", "head");
+		super(manager, Rank.HEAD_MOD, "skull", "head");
 		setCanBeDisabled(true);
 	}
 	

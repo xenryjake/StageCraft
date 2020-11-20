@@ -30,7 +30,7 @@ public final class ListCommand extends Command<Core,ServerManager> {
 	
 	//todo deal with vanished & afk
 	
-	public static final Access SEE_VANISHED = Rank.ADMIN;
+	public static final Access SEE_VANISHED = Rank.HEAD_MOD;
 	
 	public ListCommand(ServerManager manager){
 		super(manager, Rank.MEMBER, "list", "who", "online", "ls");

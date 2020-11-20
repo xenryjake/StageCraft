@@ -30,10 +30,11 @@ public final class DotBroadcastCommand extends ProxyAdminCommand<ChatManager> {
 		}
 		manager.plugin.getProxy().broadcast(
 				new ComponentBuilder(sender instanceof ProxiedPlayer ? sender.getName() : M.CONSOLE_NAME)
-				.color(ChatColor.AQUA).bold(true)
-				.append(": ").color(ChatColor.DARK_GRAY).bold(false)
-				.append(TextComponent.fromLegacyText(Joiner.on(' ').join(args), ChatColor.LIGHT_PURPLE))
-				.color(ChatColor.LIGHT_PURPLE).bold(false).create());
+						.color(ChatColor.YELLOW).bold(true)
+						.append(": ").color(ChatColor.DARK_GRAY).bold(false)
+						.append(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',
+								Joiner.on(' ').join(args)), ChatColor.RED))
+						.color(ChatColor.RED).bold(false).create());
 	}
 	
 	@Override

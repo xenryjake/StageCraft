@@ -66,7 +66,7 @@ public final class PermissionSetListCommand extends Command<Core,ProfileManager>
 		Iterator<String> it = setsToDisplay.iterator();
 		while(it.hasNext()){
 			String name = it.next();
-			ClickEvent ce = new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/permission set view " + name);
+			ClickEvent ce = new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/permission set view " + name);
 			HoverEvent he = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text("/permission set view " + name));
 			cb.append(name).color(M.WHITE).bold(false).event(ce).event(he);
 			if(it.hasNext()){

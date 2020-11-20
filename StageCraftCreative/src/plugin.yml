@@ -196,3 +196,9 @@ commands:
     aliases: [clear,ci]
   book:
     description: "Edit books"
+  beezooka:
+    description: "Shoot a mob cannon"
+    aliases: [beecannon,kittycannon]
+  armorstand:
+    description: "Manage armor stands"
+    aliases: [as]

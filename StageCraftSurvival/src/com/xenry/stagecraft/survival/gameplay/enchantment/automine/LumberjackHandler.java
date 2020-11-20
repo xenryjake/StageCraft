@@ -1,7 +1,7 @@
 package com.xenry.stagecraft.survival.gameplay.enchantment.automine;
 import com.xenry.stagecraft.Handler;
 import com.xenry.stagecraft.survival.Survival;
-import com.xenry.stagecraft.util.FakeBlockBreakEvent;
+import com.xenry.stagecraft.util.event.FakeBlockBreakEvent;
 import com.xenry.stagecraft.survival.gameplay.GameplayManager;
 import com.xenry.stagecraft.survival.gameplay.enchantment.CustomEnchantment;
 import com.xenry.stagecraft.util.BlockRelative;

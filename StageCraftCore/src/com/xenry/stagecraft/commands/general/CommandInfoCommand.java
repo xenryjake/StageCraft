@@ -22,7 +22,7 @@ import java.util.List;
 public final class CommandInfoCommand extends Command<Core,CommandManager> {
 	
 	public CommandInfoCommand(CommandManager manager){
-		super(manager, Rank.ADMIN, "info");
+		super(manager, Rank.HEAD_MOD, "info");
 	}
 	
 	@Override

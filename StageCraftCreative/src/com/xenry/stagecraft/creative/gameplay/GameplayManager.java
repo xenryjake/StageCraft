@@ -2,6 +2,7 @@ package com.xenry.stagecraft.creative.gameplay;
 import com.xenry.stagecraft.Manager;
 import com.xenry.stagecraft.creative.Creative;
 import com.xenry.stagecraft.creative.gameplay.commands.*;
+import com.xenry.stagecraft.creative.gameplay.commands.armorstand.ArmorStandCommand;
 import com.xenry.stagecraft.creative.gameplay.pvptoggle.PvPCommand;
 import com.xenry.stagecraft.creative.gameplay.pvptoggle.PvPHandler;
 import com.xenry.stagecraft.creative.gameplay.pvptoggle.PvPLockCommand;
@@ -103,6 +104,8 @@ public final class GameplayManager extends Manager<Creative> {
 		registerCommand(new TrashCommand(this));
 		registerCommand(new WeatherCommand(this));
 		registerCommand(new WorkbenchCommand(this));
+		registerCommand(new MobCannonCommand(this));
+		registerCommand(new ArmorStandCommand(this));
 	}
 	
 	public BlacklistHandler getBlacklistHandler() {

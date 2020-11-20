@@ -1,6 +1,8 @@
 package com.xenry.stagecraft.profile;
 import com.xenry.stagecraft.Core;
+import com.xenry.stagecraft.util.Log;
 import com.xenry.stagecraft.util.time.TimeUtil;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.entity.Player;
 
 import java.net.InetAddress;
@@ -38,7 +40,7 @@ public class Profile extends GenericProfile {
 		put("rank", Rank.MEMBER.toString());
 		put("settings", new HashMap<String,Boolean>());
 		put("nick", "none");
-		//put("nameColor", Rank.MEMBER.getColor());
+		put("nameColor", Rank.MEMBER.getColor().getName());
 	}
 	
 	public Profile(UUID uuid, String name, InetSocketAddress socketAddress){
@@ -67,7 +69,7 @@ public class Profile extends GenericProfile {
 	}
 	
 	public String getDisplayName(){
-		return getRank().getColor() + getColorlessDisplayName();
+		return getNameColor() + getColorlessDisplayName();
 	}
 	
 	public String getColorlessDisplayName(){
@@ -384,6 +386,32 @@ public class Profile extends GenericProfile {
 	
 	public void setNick(String nick){
 		put("nick", nick);
+	}
+	
+	public ChatColor getNameColor(){
+		Object obj = get("nameColor");
+		if(obj instanceof String){
+			ChatColor color;
+			try{
+				color = ChatColor.of((String)obj);
+			}catch(Exception ex){
+				Log.warn(getLatestUsername() + "'s name color is invalid in the database.");
+				setNameColor(getRank().getColor());
+				return getRank().getColor();
+			}
+			if(!getRank().getAvailableColors().contains(color)){
+				setNameColor(getRank().getColor());
+				return getRank().getColor();
+			}
+			return color;
+		}else{
+			put("nameColor", getRank().getColor().getName());
+			return getNameColor();
+		}
+	}
+	
+	public void setNameColor(ChatColor color){
+		put("nameColor", color.getName());
 	}
 	
 }

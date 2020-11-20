@@ -24,7 +24,7 @@ import java.util.List;
 public final class ExtinguishCommand extends Command<Survival,GameplayManager> {
 	
 	public ExtinguishCommand(GameplayManager manager){
-		super(manager, Rank.ADMIN, "extinguish", "ext");
+		super(manager, Rank.HEAD_MOD, "extinguish", "ext");
 		setCanBeDisabled(true);
 	}
 	

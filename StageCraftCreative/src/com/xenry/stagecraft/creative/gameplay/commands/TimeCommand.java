@@ -1,4 +1,5 @@
 package com.xenry.stagecraft.creative.gameplay.commands;
+import com.xenry.stagecraft.commands.Access;
 import com.xenry.stagecraft.commands.Command;
 import com.xenry.stagecraft.creative.Creative;
 import com.xenry.stagecraft.creative.gameplay.GameplayManager;
@@ -7,6 +8,7 @@ import com.xenry.stagecraft.profile.Rank;
 import com.xenry.stagecraft.util.ArrayUtil;
 import com.xenry.stagecraft.util.LocationUtil;
 import com.xenry.stagecraft.util.M;
+import com.xenry.stagecraft.util.PlayerUtil;
 import com.xenry.stagecraft.util.time.GameTimeUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -23,6 +25,8 @@ import java.util.*;
  * is prohibited.
  */
 public final class TimeCommand extends Command<Creative,GameplayManager> {
+	
+	public static final Access ALWAYS_CAN_CHANGE_TIME = Rank.MOD;
 	
 	private static final HashMap<String,Integer> times;
 	
@@ -46,12 +50,17 @@ public final class TimeCommand extends Command<Creative,GameplayManager> {
 	}
 	
 	public TimeCommand(GameplayManager manager){
-		super(manager, Rank.MOD, "time", "day", "night", "dawn", "dusk", "noon", "midnight");
+		super(manager, Rank.MEMBER, "time", "day", "night", "dawn", "dusk", "noon", "midnight");
 		setCanBeDisabled(true);
 	}
 	
 	@Override
 	protected void playerPerform(Profile profile, String[] args, String label) {
+		if(!ALWAYS_CAN_CHANGE_TIME.has(profile) && Bukkit.getOnlinePlayers().size() > 1){
+			profile.sendMessage(M.error("You can only change the time when you're the only player online."));
+			return;
+		}
+		
 		ArrayUtil.toLowerCase(args);
 		if(times.containsKey(label)){
 			args = ArrayUtil.insertAtStart(args, label);

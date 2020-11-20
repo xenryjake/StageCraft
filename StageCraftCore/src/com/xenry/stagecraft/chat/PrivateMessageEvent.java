@@ -1,6 +1,6 @@
 package com.xenry.stagecraft.chat;
 import com.xenry.stagecraft.profile.Profile;
-import com.xenry.stagecraft.util.CancellableEvent;
+import com.xenry.stagecraft.util.event.CancellableEvent;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

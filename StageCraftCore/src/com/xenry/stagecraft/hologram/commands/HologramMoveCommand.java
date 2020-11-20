@@ -22,7 +22,7 @@ import java.util.List;
 public final class HologramMoveCommand extends Command<Core,HologramManager> {
 
 	public HologramMoveCommand(HologramManager manager){
-		super(manager, Rank.ADMIN, "move", "tphere", "movehere", "center");
+		super(manager, Rank.HEAD_MOD, "move", "tphere", "movehere", "center");
 	}
 	
 	@Override

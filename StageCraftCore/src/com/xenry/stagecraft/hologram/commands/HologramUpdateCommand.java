@@ -22,7 +22,7 @@ import java.util.List;
 public final class HologramUpdateCommand extends Command<Core,HologramManager> {
 	
 	public HologramUpdateCommand(HologramManager manager){
-		super(manager, Rank.ADMIN, "update", "download", "reload", "refresh");
+		super(manager, Rank.HEAD_MOD, "update", "download", "reload", "refresh");
 	}
 	
 	@Override

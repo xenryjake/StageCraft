@@ -24,7 +24,7 @@ import java.util.List;
 public final class HologramCreateCommand extends Command<Core,HologramManager> {
 
 	public HologramCreateCommand(HologramManager manager){
-		super(manager, Rank.ADMIN, "create", "new");
+		super(manager, Rank.HEAD_MOD, "create", "new");
 	}
 	
 	@Override

@@ -17,7 +17,7 @@ import net.md_5.bungee.api.ChatColor;
  */
 public class Punishment extends BasicDBObject {
 	
-	public static final Access IMMUNITY = Rank.ADMIN;
+	public static final Access IMMUNITY = Rank.HEAD_MOD;
 	
 	// All times for punishments are stored in seconds
 	

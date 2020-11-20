@@ -58,13 +58,13 @@ public final class BroadcastCommand extends Command<Core,ChatManager> {
 			message = ChatColor.translateAlternateColorCodes('&', message);
 		}
 		if(Emote.EMOTE_ACCESS.has(sender)){
-			message = Emote.replaceEmotes(message, ChatColor.LIGHT_PURPLE);
+			message = Emote.replaceEmotes(message, ChatColor.RED);
 		}
 		BaseComponent[] components = new ComponentBuilder(sender instanceof Player ? sender.getName() : M.CONSOLE_NAME)
-				.color(ChatColor.AQUA).bold(true)
+				.color(ChatColor.YELLOW).bold(true)
 				.append(": ").color(ChatColor.DARK_GRAY).bold(false)
-				.append(TextComponent.fromLegacyText(message, ChatColor.LIGHT_PURPLE))
-				.color(ChatColor.LIGHT_PURPLE).bold(false).create();
+				.append(TextComponent.fromLegacyText(message, ChatColor.RED))
+				.color(ChatColor.RED).bold(false).create();
 		//BungeeUtil.messageRawAll(sender.getPlayer(), components);
 		//Bukkit.broadcastMessage("§b§l" + player.getName() + "§8: §d" + message);
 		

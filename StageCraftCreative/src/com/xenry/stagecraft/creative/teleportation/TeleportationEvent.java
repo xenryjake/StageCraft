@@ -1,5 +1,5 @@
 package com.xenry.stagecraft.creative.teleportation;
-import com.xenry.stagecraft.util.CancellableEvent;
+import com.xenry.stagecraft.util.event.CancellableEvent;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
 

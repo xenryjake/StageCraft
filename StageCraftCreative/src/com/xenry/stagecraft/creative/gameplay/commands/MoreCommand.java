@@ -24,7 +24,7 @@ import java.util.List;
  */
 public final class MoreCommand extends Command<Creative,GameplayManager> {
 	
-	public final static Access UNSAFE_ACCESS = Rank.ADMIN;
+	public final static Access UNSAFE_ACCESS = Rank.HEAD_MOD;
 	
 	public MoreCommand(GameplayManager manager){
 		super(manager, Rank.MEMBER, "more");

@@ -1,4 +1,5 @@
 package com.xenry.stagecraft.creative.gameplay.commands;
+import com.xenry.stagecraft.commands.Access;
 import com.xenry.stagecraft.commands.Command;
 import com.xenry.stagecraft.creative.Creative;
 import com.xenry.stagecraft.creative.gameplay.GameplayManager;
@@ -24,8 +25,10 @@ import java.util.List;
  */
 public final class SpeedCommand extends Command<Creative,GameplayManager> {
 	
+	public static final Access OTHERS = Rank.HEAD_MOD;
+	
 	public SpeedCommand(GameplayManager manager){
-		super(manager, Rank.ADMIN, "speed");
+		super(manager, Rank.HEAD_MOD, "speed");
 		setCanBeDisabled(true);
 	}
 	
@@ -60,7 +63,7 @@ public final class SpeedCommand extends Command<Creative,GameplayManager> {
 		}
 		
 		Player target = sender.getPlayer();
-		if(args.length > 2){
+		if(args.length > 2 && OTHERS.has(sender)){
 			target = Bukkit.getPlayer(args[2]);
 			if(target == null){
 				sender.sendMessage(M.playerNotFound(args[2]));

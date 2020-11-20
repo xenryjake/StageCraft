@@ -24,7 +24,7 @@ import java.util.List;
  */
 public final class ExtinguishCommand extends Command<Creative,GameplayManager> {
 	
-	public static final Access OTHERS = Rank.ADMIN;
+	public static final Access OTHERS = Rank.HEAD_MOD;
 	
 	public ExtinguishCommand(GameplayManager manager){
 		super(manager, Rank.MEMBER, "extinguish", "ext");

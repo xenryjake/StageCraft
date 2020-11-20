@@ -3,11 +3,10 @@ import com.xenry.stagecraft.Handler;
 import com.xenry.stagecraft.chat.emotes.Emote;
 import com.xenry.stagecraft.commands.Access;
 import com.xenry.stagecraft.survival.Survival;
-import com.xenry.stagecraft.util.FakeBlockBreakEvent;
+import com.xenry.stagecraft.util.event.FakeBlockBreakEvent;
 import com.xenry.stagecraft.survival.gameplay.GameplayManager;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
-import com.xenry.stagecraft.profile.Setting;
 import net.md_5.bungee.api.ChatColor;
 import net.minecraft.server.v1_16_R3.BlockPosition;
 import net.minecraft.server.v1_16_R3.PacketPlayOutOpenSignEditor;
@@ -15,6 +14,7 @@ import net.minecraft.server.v1_16_R3.TileEntity;
 import net.minecraft.server.v1_16_R3.TileEntitySign;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Sign;
@@ -27,6 +27,9 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * StageCraft created by Henry Blasingame (Xenry) on 6/25/20
  * The content in this file and all related files are
@@ -37,6 +40,10 @@ import org.bukkit.event.player.PlayerInteractEvent;
 public final class SignEditHandler extends Handler<Survival,GameplayManager> {
 	
 	public static final Access COLOR_SIGNS = Rank.PREMIUM;
+	public static final List<Material> DYE_MATERIALS = Arrays.asList(Material.BLACK_DYE, Material.BLUE_DYE,
+			Material.BROWN_DYE, Material.CYAN_DYE, Material.GRAY_DYE, Material.GREEN_DYE, Material.LIGHT_BLUE_DYE,
+			Material.LIGHT_GRAY_DYE, Material.LIME_DYE, Material.MAGENTA_DYE, Material.ORANGE_DYE, Material.PINK_DYE,
+			Material.PURPLE_DYE, Material.RED_DYE, Material.WHITE_DYE, Material.YELLOW_DYE);
 	
 	public SignEditHandler(GameplayManager manager){
 		super(manager);
@@ -49,7 +56,6 @@ public final class SignEditHandler extends Handler<Survival,GameplayManager> {
 		if(profile == null){
 			return;
 		}
-		ChatColor defaultColor = profile.getSetting(Setting.WHITE_SIGN_TEXT) ? ChatColor.WHITE : ChatColor.BLACK;
 		for(int i = 0; i < event.getLines().length; i++){
 			String line = event.getLine(i);
 			if(line == null){
@@ -58,12 +64,8 @@ public final class SignEditHandler extends Handler<Survival,GameplayManager> {
 			if(COLOR_SIGNS.has(profile)){
 				line = ChatColor.translateAlternateColorCodes('&', line);
 			}
-			line = line.replace("§r", defaultColor.toString());
-			if(!line.startsWith(defaultColor.toString())) {
-				line = defaultColor + line;
-			}
 			if(Emote.EMOTE_ACCESS.has(profile)){
-				line = Emote.replaceEmotes(line, defaultColor);
+				line = Emote.replaceEmotes(line);
 			}
 			event.setLine(i, line);
 		}
@@ -79,6 +81,9 @@ public final class SignEditHandler extends Handler<Survival,GameplayManager> {
 		if(player.isSneaking() || event.getAction() != Action.RIGHT_CLICK_BLOCK){
 			return;
 		}
+		if(DYE_MATERIALS.contains(player.getInventory().getItemInMainHand().getType())){
+			return;
+		}
 		Block block = event.getClickedBlock();
 		if(block == null){
 			return;
@@ -88,21 +93,16 @@ public final class SignEditHandler extends Handler<Survival,GameplayManager> {
 			return;
 		}
 		if(checkPermission(player, block)){
-			ChatColor defaultColor = profile.getSetting(Setting.WHITE_SIGN_TEXT) ? ChatColor.WHITE : ChatColor.BLACK;
-			openSignEditor(player, (Sign)blockState, defaultColor);
+			openSignEditor(player, (Sign)blockState);
 		}
 	}
 	
-	public void openSignEditor(Player player, Sign sign, ChatColor defaultColor){
+	public void openSignEditor(Player player, Sign sign){
 		
 		// remove colors, replace with '&' color codes
 		CraftSign craftSign = (CraftSign)sign;
-		String defColor = defaultColor.toString();
 		for(int i = 0; i < craftSign.getLines().length; i++){
 			String line = craftSign.getLine(i);
-			while(line.startsWith(defColor)){
-				line = line.substring(defColor.length());
-			}
 			if(ChatColor.stripColor(line).trim().isEmpty()){
 				craftSign.setLine(i, "");
 			}else{

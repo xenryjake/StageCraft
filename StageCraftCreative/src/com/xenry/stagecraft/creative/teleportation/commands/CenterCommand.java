@@ -5,6 +5,7 @@ import com.xenry.stagecraft.creative.teleportation.Teleportation;
 import com.xenry.stagecraft.creative.teleportation.TeleportationManager;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
+import com.xenry.stagecraft.util.LocationUtil;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -24,6 +25,7 @@ public final class CenterCommand extends Command<Creative,TeleportationManager> 
 	
 	public CenterCommand(TeleportationManager manager){
 		super(manager, Rank.PREMIUM, "center");
+		setCanBeDisabled(true);
 	}
 	
 	@Override
@@ -34,8 +36,8 @@ public final class CenterCommand extends Command<Creative,TeleportationManager> 
 	@Override
 	protected void playerPerform(Profile profile, String[] args, String label) {
 		Player player = profile.getPlayer();
-		Location location = player.getLocation().clone();
-		manager.createAndExecuteTeleportation(player, player, player.getLocation(), location, Teleportation.Type.ADMIN, false);
+		manager.createAndExecuteTeleportation(player, player, player.getLocation(),
+				LocationUtil.center(player.getLocation()), Teleportation.Type.ADMIN, false);
 	}
 	
 	@Override

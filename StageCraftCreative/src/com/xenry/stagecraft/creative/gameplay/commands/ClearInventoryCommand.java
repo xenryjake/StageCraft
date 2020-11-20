@@ -24,7 +24,7 @@ import java.util.List;
  */
 public final class ClearInventoryCommand extends Command<Creative,GameplayManager> {
 	
-	public static final Access OTHERS = Rank.ADMIN;
+	public static final Access OTHERS = Rank.HEAD_MOD;
 	private final Cooldown confirms;
 
 	public ClearInventoryCommand(GameplayManager manager){

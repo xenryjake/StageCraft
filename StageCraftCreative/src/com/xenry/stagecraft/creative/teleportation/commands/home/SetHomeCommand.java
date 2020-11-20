@@ -21,7 +21,7 @@ import java.util.List;
  */
 public final class SetHomeCommand extends Command<Creative,TeleportationManager> {
 	
-	public static final int MAX_HOMES_PER_PLAYER = 20;
+	public static final int MAX_HOMES_PER_PLAYER = 50;
 	
 	public SetHomeCommand(TeleportationManager manager){
 		super(manager, Rank.MEMBER, "sethome", "addhome", "homeset", "homeadd");

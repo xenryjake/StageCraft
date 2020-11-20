@@ -25,7 +25,6 @@ public final class SignCommand extends Command<Creative,GameplayManager> {
 		super(manager, Rank.MEMBER, "sign");
 		addSubCommand(new SignClearCommand(manager));
 		addSubCommand(new SignEditCommand(manager));
-		addSubCommand(new SignWhiteBlackCommand(manager));
 		setCanBeDisabled(true);
 	}
 	
@@ -39,12 +38,11 @@ public final class SignCommand extends Command<Creative,GameplayManager> {
 		profile.sendMessage(M.msg + M.BOLD + "Sign Commands:");
 		profile.sendMessage(M.help(label + " edit <line> <text>", "Edit the text on a sign."));
 		profile.sendMessage(M.help(label + " clear [line]", "Clear text from a sign."));
-		profile.sendMessage(M.help(label + " <white|black>", "Change your default sign text color."));
 	}
 	
 	@Override
 	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		return Arrays.asList("edit", "clear", "white", "black");
+		return Arrays.asList("edit", "clear");
 	}
 	
 	@Override

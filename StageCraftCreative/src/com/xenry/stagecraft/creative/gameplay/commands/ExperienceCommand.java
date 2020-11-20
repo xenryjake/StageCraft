@@ -24,7 +24,7 @@ import java.util.List;
 public final class ExperienceCommand extends Command<Creative,GameplayManager> {
 	
 	public ExperienceCommand(GameplayManager manager){
-		super(manager, Rank.ADMIN, "experience", "exp", "xp");
+		super(manager, Rank.HEAD_MOD, "experience", "exp", "xp");
 		setCanBeDisabled(true);
 	}
 	

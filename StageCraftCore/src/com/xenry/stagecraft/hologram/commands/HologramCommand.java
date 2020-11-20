@@ -21,7 +21,7 @@ import java.util.List;
 public final class HologramCommand extends Command<Core,HologramManager> {
 
 	public HologramCommand(HologramManager manager){
-		super(manager, Rank.ADMIN, "hologram", "holo");
+		super(manager, Rank.HEAD_MOD, "hologram", "holo");
 		addSubCommand(new HologramCreateCommand(manager));
 		addSubCommand(new HologramMoveCommand(manager));
 		addSubCommand(new HologramLineAddCommand(manager));
