@@ -93,7 +93,7 @@ public class CreativeProfile extends GenericProfile {
 		}
 	}
 	
-	public void setLastLocation(double x, double y, double z, float yaw, float pitch){
+	private void setLastLocation(double x, double y, double z, float yaw, float pitch){
 		put("lastLocationX", x);
 		put("lastLocationY", y);
 		put("lastLocationZ", z);

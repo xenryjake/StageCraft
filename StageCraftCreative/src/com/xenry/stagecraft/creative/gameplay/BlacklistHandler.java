@@ -19,7 +19,6 @@ import org.bukkit.event.inventory.InventoryPickupItemEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.world.PortalCreateEvent;
-import org.bukkit.event.world.StructureGrowEvent;
 
 import java.util.Arrays;
 import java.util.List;

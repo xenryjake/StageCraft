@@ -10,7 +10,7 @@ import org.bukkit.event.block.BlockBreakEvent;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public final class FakeBlockBreakEvent extends BlockBreakEvent {
+public final class FakeBlockBreakEvent extends BlockBreakEvent implements FakeEvent {
 	
 	public FakeBlockBreakEvent(Block block, Player player){
 		super(block, player);

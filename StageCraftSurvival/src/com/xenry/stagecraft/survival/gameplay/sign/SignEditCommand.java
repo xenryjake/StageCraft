@@ -6,7 +6,6 @@ import com.xenry.stagecraft.survival.Survival;
 import com.xenry.stagecraft.survival.gameplay.GameplayManager;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
-import com.xenry.stagecraft.profile.Setting;
 import com.xenry.stagecraft.util.M;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.block.Block;

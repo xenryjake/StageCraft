@@ -35,7 +35,7 @@ public final class WebRegisterCommand extends Command<Survival,GameplayManager> 
 	protected void playerPerform(Profile profile, String[] args, String label) {
 		Player player = profile.getPlayer();
 		player.chat("/dynmap webregister");
-		player.sendMessage(M.msg + "Please go to " + M.elm + M.BOLD + "http://mc.xenry.com/" + M.msg
+		player.sendMessage(M.msg + "Please go to " + M.elm + M.BOLD + "http://mc.xenry.com/map" + M.msg
 				+ " to register with the online map.");
 	}
 	

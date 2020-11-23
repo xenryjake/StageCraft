@@ -13,6 +13,7 @@ import java.util.*;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
+@SuppressWarnings("EmptyMethod")
 public abstract class StageCraftPlugin extends JavaPlugin {
 	
 	public final String name;

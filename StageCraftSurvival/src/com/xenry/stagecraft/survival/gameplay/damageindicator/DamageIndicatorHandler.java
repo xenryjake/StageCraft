@@ -3,6 +3,7 @@ import com.xenry.stagecraft.Core;
 import com.xenry.stagecraft.Handler;
 import com.xenry.stagecraft.survival.Survival;
 import com.xenry.stagecraft.survival.gameplay.GameplayManager;
+import com.xenry.stagecraft.util.event.FakeEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -108,6 +109,9 @@ public final class DamageIndicatorHandler extends Handler<Survival,GameplayManag
 	
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onEntityDamage(EntityDamageEvent event){
+		if(event instanceof FakeEvent){
+			return;
+		}
 		Entity entity = event.getEntity();
 		if(!(entity instanceof LivingEntity)){
 			return;

@@ -1,5 +1,5 @@
 name: StageCraftSurvival
-version: beta-2020.11.15a
+version: beta-2020.11.23a
 api-version: "1.16"
 author: Xenry
 main: com.xenry.stagecraft.survival.Survival
@@ -129,6 +129,9 @@ commands:
     description: "Teleport to a world"
   center:
     description: "Center yourself on the block"
+  jump:
+    description: "Jump to where you're looking"
+    aliases: [jumpto,j]
 
   # GAMEPLAY COMMANDS
   anvil:

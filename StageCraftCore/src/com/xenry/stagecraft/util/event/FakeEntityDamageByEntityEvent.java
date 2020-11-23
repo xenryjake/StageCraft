@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public final class FakeEntityDamageByEntityEvent extends EntityDamageByEntityEvent {
+public final class FakeEntityDamageByEntityEvent extends EntityDamageByEntityEvent implements FakeEvent {
 	
 	public FakeEntityDamageByEntityEvent(@NotNull Entity damager, @NotNull Entity damagee, @NotNull DamageCause cause,
 										 double damage) {

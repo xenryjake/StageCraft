@@ -9,6 +9,7 @@ import net.md_5.bungee.api.plugin.Listener;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
+@SuppressWarnings("EmptyMethod")
 public abstract class Manager implements Listener {
 	
 	public final String name;

@@ -1,8 +1,9 @@
 package com.xenry.stagecraft.creative.gameplay;
 import com.xenry.stagecraft.Manager;
 import com.xenry.stagecraft.creative.Creative;
+import com.xenry.stagecraft.creative.gameplay.armorstand.ArmorStandHandler;
 import com.xenry.stagecraft.creative.gameplay.commands.*;
-import com.xenry.stagecraft.creative.gameplay.commands.armorstand.ArmorStandCommand;
+import com.xenry.stagecraft.creative.gameplay.armorstand.commands.ArmorStandCommand;
 import com.xenry.stagecraft.creative.gameplay.pvptoggle.PvPCommand;
 import com.xenry.stagecraft.creative.gameplay.pvptoggle.PvPHandler;
 import com.xenry.stagecraft.creative.gameplay.pvptoggle.PvPLockCommand;
@@ -37,6 +38,7 @@ public final class GameplayManager extends Manager<Creative> {
 	private final ProtectionHandler protectionHandler;
 	private final EntityHandler entityHandler;
 	private final AcceptRulesHandler acceptRulesHandler;
+	private final ArmorStandHandler armorStandHandler;
 	
 	private boolean lockoutMode = false;
 	
@@ -49,6 +51,7 @@ public final class GameplayManager extends Manager<Creative> {
 		protectionHandler = new ProtectionHandler(this);
 		entityHandler = new EntityHandler(this);
 		acceptRulesHandler = new AcceptRulesHandler(this);
+		armorStandHandler = new ArmorStandHandler(this);
 	}
 	
 	@Override
@@ -67,6 +70,9 @@ public final class GameplayManager extends Manager<Creative> {
 		
 		registerListener(acceptRulesHandler);
 		registerCommand(new RulesCommand(this));
+		
+		registerListener(armorStandHandler);
+		registerCommand(new ArmorStandCommand(armorStandHandler));
 		
 		registerCommand(new LockoutCommand(this));
 		registerCommand(new OverrideCommand(this));
@@ -105,7 +111,6 @@ public final class GameplayManager extends Manager<Creative> {
 		registerCommand(new WeatherCommand(this));
 		registerCommand(new WorkbenchCommand(this));
 		registerCommand(new MobCannonCommand(this));
-		registerCommand(new ArmorStandCommand(this));
 	}
 	
 	public BlacklistHandler getBlacklistHandler() {
@@ -126,6 +131,14 @@ public final class GameplayManager extends Manager<Creative> {
 	
 	public EntityHandler getEntityHandler() {
 		return entityHandler;
+	}
+	
+	public AcceptRulesHandler getAcceptRulesHandler() {
+		return acceptRulesHandler;
+	}
+	
+	public ArmorStandHandler getArmorStandHandler() {
+		return armorStandHandler;
 	}
 	
 	public List<String> getPlayerOverrides() {

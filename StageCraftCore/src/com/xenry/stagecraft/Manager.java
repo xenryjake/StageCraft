@@ -9,6 +9,7 @@ import org.bukkit.event.Listener;
  * Usage of this content without written consent of Henry Jake
  * is prohibited.
  */
+@SuppressWarnings("EmptyMethod")
 public abstract class Manager<T extends StageCraftPlugin> implements Listener {
 	
 	public final String name;
