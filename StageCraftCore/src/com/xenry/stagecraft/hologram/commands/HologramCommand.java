@@ -43,7 +43,7 @@ public final class HologramCommand extends Command<Core,HologramManager> {
 	
 	@Override
 	protected void serverPerform(CommandSender sender, String[] args, String label) {
-		sender.sendMessage(M.msg + "§lHologram Commands:");
+		sender.sendMessage(M.msg + "Hologram Commands:");
 		sender.sendMessage(M.help(label + " create", "Create a hologram at your current location."));
 		sender.sendMessage(M.help(label + " move", "Move a hologram to your location."));
 		sender.sendMessage(M.help(label + " center", "Move a hologram to the center of it's current block."));

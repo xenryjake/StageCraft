@@ -23,7 +23,7 @@ import java.util.List;
 public final class CenterCommand extends Command<Survival,TeleportationManager> {
 	
 	public CenterCommand(TeleportationManager manager){
-		super(manager, Rank.ADMIN, "center");
+		super(manager, Rank.HEAD_MOD, "center");
 		setCanBeDisabled(true);
 	}
 	

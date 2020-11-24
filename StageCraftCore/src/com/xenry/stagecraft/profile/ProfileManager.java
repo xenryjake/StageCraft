@@ -108,9 +108,11 @@ public final class ProfileManager extends Manager<Core> {
 	}
 	
 	public void saveAll(){
-		for(Profile profile : profiles.values()){
-			save(profile);
-		}
+		Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+			for(Profile profile : profiles.values()){
+				collection.save(profile);
+			}
+		});
 	}
 	
 	public void saveSync(Profile profile){

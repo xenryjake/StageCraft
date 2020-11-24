@@ -31,7 +31,7 @@ public final class RankListCommand extends Command<Core,ProfileManager> {
 	
 	@Override
 	protected void serverPerform(CommandSender sender, String[] args, String label) {
-		sender.sendMessage(M.msg + "§lAvailable ranks:");
+		sender.sendMessage(M.msg + "Available ranks:");
 		for(Rank rank : Rank.values()){
 			sender.sendMessage(M.arrow(rank.getColoredName() + "§7 (" + rank.getWeight() + ")"));
 		}

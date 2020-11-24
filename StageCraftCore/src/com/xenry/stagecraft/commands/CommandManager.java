@@ -38,6 +38,7 @@ public final class CommandManager extends Manager<Core> implements TabExecutor {
 		registerCommand(new CommandCommand(this));
 		registerCommand(new DiceRollCommand(this));
 		registerCommand(new SudoCommand(this));
+		registerCommand(new InfoCommand(this));
 	}
 	
 	public Command<?,?> getCommand(String label){

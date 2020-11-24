@@ -24,7 +24,7 @@ import java.util.List;
  */
 public final class TPCommand extends Command<Survival,TeleportationManager> {
 	
-	public static final Access SELF_RANK = Rank.ADMIN;
+	public static final Access SELF_RANK = Rank.HEAD_MOD;
 	public static final Access OTHER_RANK = Rank.ADMIN;
 	
 	public TPCommand(TeleportationManager manager){

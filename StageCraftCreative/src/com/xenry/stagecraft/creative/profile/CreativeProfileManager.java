@@ -66,9 +66,11 @@ public final class CreativeProfileManager extends Manager<Creative> {
 	}
 	
 	public void saveAll(){
-		for(CreativeProfile profile : profiles.values()){
-			save(profile);
-		}
+		Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+			for(CreativeProfile profile : profiles.values()){
+				collection.save(profile);
+			}
+		});
 	}
 	
 	public void saveSync(CreativeProfile profile){
@@ -172,13 +174,23 @@ public final class CreativeProfileManager extends Manager<Creative> {
 			perms.set("griefprevention.lava", true);
 			perms.set("griefprevention.trapped", true);
 			perms.set("griefprevention.visualizenearbyclaims", true);
+			perms.set("griefprevention.seeclaimsize", true);
+			perms.set("griefprevention.seeinactivity", true);
+			plugin.getCore().getProfileManager().getPermissionsHandler().registerPermissionSet(perms);
+		}{
+			PermissionSet perms = new RankPermissionSet("creative:PREMIUM", Rank.PREMIUM);
+			perms.set("worldedit.navigation.ascend", true);
+			perms.set("worldedit.navigation.descend", true);
+			perms.set("worldedit.navigation.thru.command", true);
+			perms.set("worldedit.navigation.jumpto.command", true);
 			plugin.getCore().getProfileManager().getPermissionsHandler().registerPermissionSet(perms);
 		}{
 			PermissionSet perms = new RankPermissionSet("creative:MOD", Rank.MOD);
 			perms.set("griefprevention.claimslistother", true);
-			perms.set("griefprevention.seeclaimsize", true);
-			perms.set("griefprevention.seeinactivity", true);
 			perms.set("griefprevention.deleteclaims", true);
+			perms.set("griefprevention.ignoreclaims", true);
+			perms.set("essentials.invsee", true);
+			perms.set("essentials.invsee.equip", true);
 			plugin.getCore().getProfileManager().getPermissionsHandler().registerPermissionSet(perms);
 		}{
 			PermissionSet perms = new RankPermissionSet("creative:HEAD_MOD", Rank.HEAD_MOD);

@@ -90,6 +90,7 @@ public final class GameplayManager extends Manager<Creative> {
 		registerCommand(new FeedCommand(this));
 		registerCommand(new FlyCommand(this));
 		registerCommand(new GameModeCommand(this));
+		registerCommand(new GrindstoneCommand(this));
 		registerCommand(new HealCommand(this));
 		registerCommand(new ItemLoreCommand(this));
 		registerCommand(new ItemNameCommand(this));
@@ -111,6 +112,13 @@ public final class GameplayManager extends Manager<Creative> {
 		registerCommand(new WeatherCommand(this));
 		registerCommand(new WorkbenchCommand(this));
 		registerCommand(new MobCannonCommand(this));
+		
+		armorStandHandler.downloadPoses();
+	}
+	
+	@Override
+	protected void onDisable() {
+		armorStandHandler.saveAllPosesSync();
 	}
 	
 	public BlacklistHandler getBlacklistHandler() {

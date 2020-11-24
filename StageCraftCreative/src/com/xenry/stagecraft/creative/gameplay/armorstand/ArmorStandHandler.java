@@ -1,4 +1,7 @@
 package com.xenry.stagecraft.creative.gameplay.armorstand;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
 import com.xenry.stagecraft.Handler;
 import com.xenry.stagecraft.commands.Access;
 import com.xenry.stagecraft.creative.Creative;
@@ -7,13 +10,16 @@ import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
 import com.xenry.stagecraft.util.M;
 import com.xenry.stagecraft.util.event.FakeEntityDamageByEntityEvent;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * StageCraft created by Henry Blasingame (Xenry) on 11/23/20
@@ -25,12 +31,82 @@ import java.util.HashMap;
 public final class ArmorStandHandler extends Handler<Creative,GameplayManager> {
 	
 	public static final Access INTERACT_INVISIBLE = Rank.ADMIN;
+	public static final Access CAN_MAKE_POSES = Rank.PREMIUM;
 	
 	private final HashMap<String,ArmorStandClipboard> clipboards;
+	private final DBCollection poseCollection;
+	private final List<Pose> poses;
 	
 	public ArmorStandHandler(GameplayManager manager){
 		super(manager);
 		clipboards = new HashMap<>();
+		poseCollection = manager.getCore().getMongoManager().getCoreCollection("creativeArmorStandPoses");
+		poseCollection.setObjectClass(Pose.class);
+		poses = new ArrayList<>();
+	}
+	
+	public Pose addPose(Pose pose){
+		poses.add(pose);
+		savePose(pose);
+		return pose;
+	}
+	
+	public void downloadPoses(){
+		poses.clear();
+		DBCursor c = poseCollection.find();
+		while(c.hasNext()){
+			poses.add((Pose)c.next());
+		}
+	}
+	
+	public void saveAllPoses(){
+		Bukkit.getScheduler().runTaskAsynchronously(manager.plugin, () -> {
+			for(Pose pose : poses){
+				poseCollection.save(pose);
+			}
+		});
+	}
+	
+	public void savePose(Pose pose){
+		Bukkit.getScheduler().runTaskAsynchronously(manager.plugin, () -> poseCollection.save(pose));
+	}
+	
+	public void saveAllPosesSync(){
+		for(Pose pose : poses){
+			savePoseSync(pose);
+		}
+	}
+	
+	public void savePoseSync(Pose pose){
+		poseCollection.save(pose);
+	}
+	
+	public void deletePose(final Pose pose){
+		poses.remove(pose);
+		Bukkit.getScheduler().runTaskAsynchronously(manager.plugin, () -> poseCollection.remove(new BasicDBObject("_id", pose.get("_id"))));
+	}
+	
+	public List<Pose> getPoses(){
+		return poses;
+	}
+	
+	public List<String> getPoseNameList(){
+		List<String> names = new ArrayList<>();
+		for(Pose pose : poses){
+			names.add(pose.getName());
+		}
+		//Collections.sort(names);
+		return names;
+	}
+	
+	public Pose getPose(String name){
+		name = name.toLowerCase();
+		for(Pose pose : poses){
+			if(pose.getName().equalsIgnoreCase(name)){
+				return pose;
+			}
+		}
+		return null;
 	}
 	
 	public boolean checkPerms(Player player, ArmorStand as){

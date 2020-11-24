@@ -26,6 +26,10 @@ public final class ArmorStandBaseCommand extends AbstractArmorStandCommand {
 	@Override
 	protected void playerPerform(Profile profile, String[] args, String label) {
 		Player player = profile.getPlayer();
+		if(manager.isLockoutMode()){
+			player.sendMessage(M.error("You can't edit armor stands while lockout mode is enabled."));
+			return;
+		}
 		ArmorStand as = handler.getStand(profile);
 		if(as == null || !handler.checkPerms(player, as)){
 			return;

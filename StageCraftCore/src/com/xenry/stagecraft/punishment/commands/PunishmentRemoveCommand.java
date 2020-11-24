@@ -41,7 +41,7 @@ public final class PunishmentRemoveCommand extends Command<Core,PunishmentManage
 	@Override
 	protected void serverPerform(CommandSender sender, String[] args, String label) {
 		if(args.length < 2){
-			sender.sendMessage(M.usage("/punishments " + label + " <player> <type>"));
+			sender.sendMessage(M.usage("/punishment " + label + " <player> <type>"));
 			return;
 		}
 		

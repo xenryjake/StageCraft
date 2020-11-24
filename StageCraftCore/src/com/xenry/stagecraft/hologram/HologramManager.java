@@ -79,11 +79,13 @@ public final class HologramManager extends Manager<Core> {
 	 * Saves all holograms that have been modified.
 	 */
 	public void saveAll(){
-		for(Hologram holo : holograms){
-			if(holo.isModified() && holo.canSave()){
-				save(holo);
+		Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+			for(Hologram holo : holograms){
+				if(holo.isModified() && holo.canSave()){
+					hologramCollection.save(holo);
+				}
 			}
-		}
+		});
 	}
 	
 	/**

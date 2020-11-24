@@ -26,13 +26,17 @@ public final class ArmorStandPasteCommand extends AbstractArmorStandCommand {
 	
 	@Override
 	protected void playerPerform(Profile profile, String[] args, String label) {
+		Player player = profile.getPlayer();
+		if(manager.isLockoutMode()){
+			player.sendMessage(M.error("You can't edit armor stands while lockout mode is enabled."));
+			return;
+		}
 		ArmorStandClipboard clipboard = handler.getClipboard(profile);
 		if(clipboard == null){
-			profile.sendMessage(M.error("Your clipboard is empty."));
+			player.sendMessage(M.error("Your clipboard is empty."));
 			return;
 		}
 		
-		Player player = profile.getPlayer();
 		ArmorStand as = handler.getStand(profile);
 		if(as == null || !handler.checkPerms(player, as)){
 			return;

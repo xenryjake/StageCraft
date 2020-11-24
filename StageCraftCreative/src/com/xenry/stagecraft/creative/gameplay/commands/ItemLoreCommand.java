@@ -29,7 +29,7 @@ import java.util.List;
 public final class ItemLoreCommand extends Command<Creative,GameplayManager> {
 	
 	public ItemLoreCommand(GameplayManager manager){
-		super(manager, Rank.PREMIUM, "itemlore", "ilore");
+		super(manager, Rank.ELITE, "itemlore", "ilore");
 		setCanBeDisabled(true);
 	}
 	

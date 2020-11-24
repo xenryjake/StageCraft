@@ -41,11 +41,6 @@ public final class PermissionHandler extends Handler<Core,ProfileManager> {
 		}{
 			PermissionSet perms = new RankPermissionSet("global:PREMIUM", Rank.PREMIUM);
 			perms.set("stagecraft.rank.premium", true);
-			perms.set("worldedit.navigation.ascend", true);
-			perms.set("worldedit.navigation.descend", true);
-			perms.set("worldedit.navigation.thru.command", true);
-			perms.set("worldedit.navigation.jumpto.command", true);
-			perms.set("essentials.jump", true);
 			registerPermissionSet(perms);
 		}{
 			PermissionSet perms = new RankPermissionSet("global:ELITE", Rank.ELITE);
@@ -55,8 +50,6 @@ public final class PermissionHandler extends Handler<Core,ProfileManager> {
 			PermissionSet perms = new RankPermissionSet("global:MOD", Rank.MOD);
 			perms.set("stagecraft.rank.mod", true);
 			perms.set("minecraft.commands.whitelist", true);
-			perms.set("essentials.invsee", true);
-			perms.set("essentials.invsee.equip", true);
 			registerPermissionSet(perms);
 		}{
 			PermissionSet perms = new RankPermissionSet("global:PREMIUM_MOD", Rank.PREMIUM_MOD);

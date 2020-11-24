@@ -66,9 +66,11 @@ public final class SurvivalProfileManager extends Manager<Survival> {
 	}
 	
 	public void saveAll(){
-		for(SurvivalProfile profile : profiles.values()){
-			save(profile);
-		}
+		Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+			for(SurvivalProfile profile : profiles.values()){
+				collection.save(profile);
+			}
+		});
 	}
 	
 	public void saveSync(SurvivalProfile profile){
@@ -174,6 +176,9 @@ public final class SurvivalProfileManager extends Manager<Survival> {
 			perms.set("griefprevention.givepet", true);
 			perms.set("griefprevention.lava", true);
 			perms.set("griefprevention.trapped", true);
+			perms.set("griefprevention.visualizenearbyclaims", true);
+			perms.set("griefprevention.seeclaimsize", true);
+			perms.set("griefprevention.seeinactivity", true);
 			plugin.getCore().getProfileManager().getPermissionsHandler().registerPermissionSet(perms);
 		}{
 			PermissionSet perms = new RankPermissionSet("survival:MOD", Rank.MOD);
@@ -181,8 +186,13 @@ public final class SurvivalProfileManager extends Manager<Survival> {
 			perms.set("dynmap.marker.delete", true);
 			perms.set("dynmap.marker.list", true);
 			perms.set("griefprevention.claimslistother", true);
-			perms.set("griefprevention.seeclaimsize", true);
-			perms.set("griefprevention.seeinactivity", true);
+			plugin.getCore().getProfileManager().getPermissionsHandler().registerPermissionSet(perms);
+		}{
+			PermissionSet perms = new RankPermissionSet("survival:HEAD_MOD", Rank.HEAD_MOD);
+			perms.set("griefprevention.ignoreclaims", true);
+			perms.set("griefprevention.deleteclaims", true);
+			perms.set("essentials.invsee", true);
+			perms.set("essentials.invsee.equip", true);
 			plugin.getCore().getProfileManager().getPermissionsHandler().registerPermissionSet(perms);
 		}
 	}

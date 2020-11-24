@@ -37,7 +37,7 @@ public final class SentenceRemoveCommand extends Command<Survival,JailManager> {
 	@Override
 	protected void serverPerform(CommandSender sender, String[] args, String label) {
 		if(args.length < 1){
-			sender.sendMessage(M.usage("/punishments " + label + " <player>"));
+			sender.sendMessage(M.usage("/sentence " + label + " <player>"));
 			return;
 		}
 		

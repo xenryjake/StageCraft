@@ -48,9 +48,11 @@ public final class WarpHandler extends Handler<Survival,TeleportationManager> {
 	}
 	
 	public void saveAllWarps(){
-		for(Warp warp : warps){
-			saveWarp(warp);
-		}
+		Bukkit.getScheduler().runTaskAsynchronously(manager.plugin, () -> {
+			for(Warp warp : warps){
+				collection.save(warp);
+			}
+		});
 	}
 	
 	public void saveWarp(Warp warp){

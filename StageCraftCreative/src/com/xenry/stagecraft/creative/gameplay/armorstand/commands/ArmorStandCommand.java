@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import static com.xenry.stagecraft.creative.gameplay.armorstand.ArmorStandHandler.CAN_MAKE_POSES;
 import static com.xenry.stagecraft.creative.gameplay.armorstand.ArmorStandHandler.INTERACT_INVISIBLE;
 
 /**
@@ -33,6 +34,7 @@ public final class ArmorStandCommand extends AbstractArmorStandCommand {
 		addSubCommand(new ArmorStandCenterCommand(handler));
 		addSubCommand(new ArmorStandCopyCommand(handler));
 		addSubCommand(new ArmorStandPasteCommand(handler));
+		addSubCommand(new ArmorStandSavePoseCommand(handler));
 		addSubCommand(new ArmorStandInvisibleCommand(handler));
 	}
 	
@@ -48,6 +50,9 @@ public final class ArmorStandCommand extends AbstractArmorStandCommand {
 		profile.sendMessage(M.help(label + " center", "Center an armor stand in the current block."));
 		profile.sendMessage(M.help(label + " copy", "Copy an armor stand to your clipboard."));
 		profile.sendMessage(M.help(label + " paste", "Paste an armor stand from your clipboard."));
+		if(CAN_MAKE_POSES.has(profile)){
+			profile.sendMessage(M.help(label + " savepose", "Save a pose to the database."));
+		}
 		if(INTERACT_INVISIBLE.has(profile)){
 			profile.sendMessage(M.help(label + " invisible", "Toggle armor stand visibility"));
 		}
@@ -57,7 +62,7 @@ public final class ArmorStandCommand extends AbstractArmorStandCommand {
 	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
 		if(args.length == 1){
 			ArrayList<String> list = new ArrayList<>(Arrays.asList("info", "arms", "base", "small", "pose", "center",
-					"head", "body", "leftArm", "rightArm", "leftLeg", "rightLeg"));
+					"head", "body", "leftArm", "rightArm", "leftLeg", "rightLeg", "copy", "paste", "savepose"));
 			if(INTERACT_INVISIBLE.has(profile)){
 				list.add("invisible");
 			}

@@ -43,9 +43,11 @@ public final class JailHandler extends Handler<Survival,JailManager> {
 	}
 	
 	public void saveAllJails(){
-		for(Jail jail : jails){
-			saveJail(jail);
-		}
+		Bukkit.getScheduler().runTaskAsynchronously(manager.plugin, () -> {
+			for(Jail jail : jails){
+				collection.save(jail);
+			}
+		});
 	}
 	
 	public void saveJail(Jail jail){

@@ -21,6 +21,8 @@ public final class DiamondsCommand extends Command<Survival,EconomyManager> {
 	
 	public DiamondsCommand(EconomyManager manager){
 		super(manager, Rank.ADMIN, "diamonds");
+		setCanBeDisabled(true);
+		setDisabled(true);
 	}
 	
 	@Override

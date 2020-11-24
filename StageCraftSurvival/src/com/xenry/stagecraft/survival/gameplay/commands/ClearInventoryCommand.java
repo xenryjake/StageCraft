@@ -53,16 +53,17 @@ public final class ClearInventoryCommand extends Command<Survival,GameplayManage
 	
 	@Override
 	protected void serverPerform(CommandSender sender, String[] args, String label) {
-		if(args.length < 1){
+		if(args.length != 1){
 			sender.sendMessage(M.usage("/" + label + " <player>"));
 			return;
 		}
-		Player target = Bukkit.getPlayer(args[0]);
+		Player target = Bukkit.getPlayerExact(args[0]);
 		if(target == null){
-			sender.sendMessage(M.playerNotFound(args[0]));
+			sender.sendMessage(M.playerNotFound(args[0]) + " (please specify an exact player name)");
 			return;
 		}
 		target.getInventory().clear();
+		sender.sendMessage(M.msg + "You cleared " + M.elm + target.getName() + M.msg + "'s inventory.");
 	}
 	
 	@Override

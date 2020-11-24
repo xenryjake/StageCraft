@@ -36,7 +36,7 @@ public final class PunishmentCommand extends Command<Core,PunishmentManager> {
 	
 	@Override
 	protected void serverPerform(CommandSender sender, String[] args, String label) {
-		sender.sendMessage(M.msg + "§lPunishment Commands:");
+		sender.sendMessage(M.msg + "Punishment Commands:");
 		sender.sendMessage(M.help(label + " update", "Update punishments from the database."));
 		sender.sendMessage(M.help(label + " view <player> <type>", "View punishments for a player."));
 		sender.sendMessage(M.help(label + " remove <player> <type>", "Remove an active punishment from a player, but keep it in the database."));

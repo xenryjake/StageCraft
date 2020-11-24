@@ -16,8 +16,9 @@ commands:
   waypoint:
     description: "Manage waypoints"
     aliases: [wayp,wp]
-  help:
-    description: "Help"
+  info:
+    description: "View info about the server"
+    aliases: [information,help]
   diceroll:
     description: "Roll some dice"
     aliases: [dieroll,rolldice,rolldie]

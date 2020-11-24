@@ -8,23 +8,21 @@ import com.xenry.stagecraft.util.M;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 /**
- * StageCraft created by Henry Blasingame (Xenry) on 6/30/20
+ * StageCraft created by Henry Blasingame (Xenry) on 11/23/20
  * The content in this file and all related files are
  * Copyright (C) 2020 Henry Blasingame.
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public final class CommandCommand extends Command<Core,CommandManager> {
+public final class InfoCommand extends Command<Core,CommandManager> {
 	
-	public CommandCommand(CommandManager manager){
-		super(manager, Rank.HEAD_MOD, "commands", "command", "cmds", "cmd");
-		addSubCommand(new CommandEnableDisableCommand(manager));
-		addSubCommand(new CommandInfoCommand(manager));
+	public InfoCommand(CommandManager manager){
+		super(manager, Rank.MEMBER, "info", "information", "help");
+		setCanBeDisabled(true);
 	}
 	
 	@Override
@@ -34,19 +32,25 @@ public final class CommandCommand extends Command<Core,CommandManager> {
 	
 	@Override
 	protected void serverPerform(CommandSender sender, String[] args, String label) {
-		sender.sendMessage(M.msg + "Command Management Commands:");
-		sender.sendMessage(M.help(label + " enable <command-label>", "Enable a command."));
-		sender.sendMessage(M.help(label + " disable <command-label>", "Disable a command."));
-		sender.sendMessage(M.help(label + " info <command-label>", "View info about a command."));
+		sender.sendMessage();
+		sender.sendMessage(M.msg + "   Welcome to §9§lStage§a§lCraft§3!");
+		sender.sendMessage(M.msg + "Visit our website at §emc.xenry.com");
+		sender.sendMessage(M.msg + "For a list of commands, see §emc.xenry.com/info");
+		sender.sendMessage(M.msg + "Before you play, please accept the rules: §emc.xenry.com/rules");
+		sender.sendMessage();
+		sender.sendMessage(M.msg + "We have a Survival Server and a Creative Server!");
+		sender.sendMessage(M.msg + "Type " + M.elm + "/survival" + M.msg + " or " + M.elm + "/creative" + M.msg + " to change servers.");
+		sender.sendMessage();
 	}
 	
 	@Override
 	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		return args.length == 1 ? Arrays.asList("enable", "disable", "info") : Collections.emptyList();
+		return Collections.emptyList();
 	}
 	
 	@Override
 	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
-		return args.length == 1 ? Arrays.asList("enable", "disable", "info") : Collections.emptyList();
+		return Collections.emptyList();
 	}
+	
 }

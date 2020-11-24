@@ -178,7 +178,6 @@ public final class GameplayManager extends Manager<Survival> {
 		
 		registerCommand(new WebRegisterCommand(this));
 		registerCommand(new WaypointCommand(this));
-		registerCommand(new HelpCommand(this));
 		
 		addGrowthIngredientRecipes();
 	}

@@ -35,7 +35,7 @@ public final class TPCommand extends Command<Creative,TeleportationManager> {
 	@Override
 	protected void playerPerform(Profile profile, String[] args, String label) {
 		if(args.length < 1){
-			profile.sendMessage(M.usage("/" + label + " [player] <player-to> "));
+			profile.sendMessage(M.usage("/" + label + (OTHER_RANK.has(profile) ? " [player]" : "") + " <player-to>"));
 			return;
 		}
 		if(args.length > 1 && OTHER_RANK.has(profile)){

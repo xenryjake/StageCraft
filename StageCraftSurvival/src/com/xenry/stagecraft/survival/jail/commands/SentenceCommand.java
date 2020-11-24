@@ -26,6 +26,7 @@ public final class SentenceCommand extends Command<Survival,JailManager> {
 		setCanBeDisabled(true);
 		addSubCommand(new SentenceViewCommand(manager));
 		addSubCommand(new SentenceRemoveCommand(manager));
+		addSubCommand(new SentenceUpdateCommand(manager));
 	}
 	
 	@Override
@@ -35,10 +36,10 @@ public final class SentenceCommand extends Command<Survival,JailManager> {
 	
 	@Override
 	protected void serverPerform(CommandSender sender, String[] args, String label) {
-		sender.sendMessage(M.msg + "§lJail Sentence Commands:");
+		sender.sendMessage(M.msg + "Jail Sentence Commands:");
 		sender.sendMessage(M.help(label + " update", "Update jail sentences from the database."));
-		sender.sendMessage(M.help(label + " view <player> <type>", "View jail sentences for a player."));
-		sender.sendMessage(M.help(label + " remove <player> <type>", "Remove an active sentence from a player, but keep it in the database."));
+		sender.sendMessage(M.help(label + " view <player>", "View jail sentences for a player."));
+		sender.sendMessage(M.help(label + " remove <player>", "Remove an active sentence from a player, but keep it in the database."));
 		sender.sendMessage(M.help("jail <player> <duration> <jail-name>", "Sentence a player to jail."));
 		sender.sendMessage(M.help("setjail <name>", "Set the location for a new jail."));
 		sender.sendMessage(M.help("deljail <name>", "Delete an existing jail."));

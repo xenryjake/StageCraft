@@ -31,7 +31,7 @@ public final class PunishmentUpdateCommand extends Command<Core,PunishmentManage
 	
 	@Override
 	protected void serverPerform(CommandSender sender, String[] args, String label) {
-		sender.sendMessage(M.error("This feature is disabled."));
+		sender.sendMessage(M.error("This feature is deprecated."));
 		//manager.downloadPunishments();
 		//sender.sendMessage(M.msg + "Downloaded punishments from database.");
 	}

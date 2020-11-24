@@ -39,7 +39,7 @@ public final class ChatCommand extends Command<Core,ChatManager> {
 			sender.sendMessage(M.elm + "Notice: " + M.msg + " This feature has been moved to /broadcast");
 			return;
 		}
-		sender.sendMessage(M.msg + "Available Commands:");
+		sender.sendMessage(M.msg + "Chat Commands:");
 		sender.sendMessage(M.help("broadcast", "Broadcast a message in chat"));
 		sender.sendMessage(M.help(label + " silence", "Silence the chat to a rank"));
 	}

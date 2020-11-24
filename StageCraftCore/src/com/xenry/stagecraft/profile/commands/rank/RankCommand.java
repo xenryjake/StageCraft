@@ -36,7 +36,7 @@ public final class RankCommand extends Command<Core,ProfileManager> {
 	
 	@Override
 	protected void serverPerform(CommandSender sender, String[] args, String label) {
-		sender.sendMessage(M.msg + "§lRank Commands:");
+		sender.sendMessage(M.msg + "Rank Commands:");
 		sender.sendMessage(M.help(label + " list", "See all available ranks."));
 		sender.sendMessage(M.help(label + " set", "Set a player's rank."));
 	}

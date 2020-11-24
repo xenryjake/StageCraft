@@ -24,7 +24,7 @@ import java.util.List;
 public final class JumpCommand extends PlayerCommand<Survival,TeleportationManager> {
 	
 	public JumpCommand(TeleportationManager manager){
-		super(manager, Rank.ADMIN, "jump", "jumpto", "j");
+		super(manager, Rank.HEAD_MOD, "jump", "jumpto", "j");
 	}
 	
 	@Override

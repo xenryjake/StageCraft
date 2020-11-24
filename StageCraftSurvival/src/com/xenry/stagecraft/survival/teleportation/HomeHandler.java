@@ -45,9 +45,11 @@ public final class HomeHandler extends Handler<Survival,TeleportationManager> {
 	}
 	
 	public void saveAllHomes(){
-		for(Home home : homes){
-			saveHome(home);
-		}
+		Bukkit.getScheduler().runTaskAsynchronously(manager.plugin, () -> {
+			for(Home home : homes){
+				collection.save(home);
+			}
+		});
 	}
 	
 	public void saveHome(Home home){
