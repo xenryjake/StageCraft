@@ -2,7 +2,7 @@ package com.xenry.stagecraft.hologram.commands;
 
 import com.google.common.base.Joiner;
 import com.xenry.stagecraft.Core;
-import com.xenry.stagecraft.commands.Command;
+import com.xenry.stagecraft.command.Command;
 import com.xenry.stagecraft.hologram.Hologram;
 import com.xenry.stagecraft.hologram.HologramManager;
 import com.xenry.stagecraft.profile.Profile;
@@ -49,7 +49,7 @@ public final class HologramCreateCommand extends Command<Core,HologramManager> {
 		}
 		Hologram hologram = manager.getHologram(name);
 		if(hologram != null){
-			profile.sendMessage(M.err + "A hologram with that name already exists!");
+			profile.sendMessage(M.error("A hologram with that name already exists!"));
 			return;
 		}
 		String text = ChatColor.translateAlternateColorCodes('&',

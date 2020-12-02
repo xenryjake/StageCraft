@@ -4,14 +4,13 @@ import com.xenry.stagecraft.Core;
 import com.xenry.stagecraft.chat.commands.BroadcastCommand;
 import com.xenry.stagecraft.chat.commands.FakeMessageCommand;
 import com.xenry.stagecraft.chat.commands.SayCommand;
-import com.xenry.stagecraft.chat.commands.privatemessage.SocialSpyCommand;
 import com.xenry.stagecraft.chat.commands.StaffChatCommand;
 import com.xenry.stagecraft.chat.commands.chat.ChatCommand;
 import com.xenry.stagecraft.chat.commands.privatemessage.MessageCommand;
 import com.xenry.stagecraft.chat.commands.privatemessage.ReplyCommand;
 import com.xenry.stagecraft.chat.emotes.Emote;
 import com.xenry.stagecraft.chat.emotes.EmotesCommand;
-import com.xenry.stagecraft.commands.Access;
+import com.xenry.stagecraft.command.Access;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
 import com.xenry.stagecraft.util.Log;
@@ -69,7 +68,6 @@ public final class ChatManager extends Manager<Core> {
 		registerCommand(new StaffChatCommand(this));
 		registerCommand(new MessageCommand(this));
 		registerCommand(new ReplyCommand(this));
-		registerCommand(new SocialSpyCommand(this));
 		registerCommand(new SayCommand(this));
 		
 		registerCommand(new EmotesCommand(this));
@@ -133,8 +131,7 @@ public final class ChatManager extends Manager<Core> {
 						+ (chatEvent.prefixContainsText() ? " " : "")))
 				.append(TextComponent.fromLegacyText(chatEvent.getDisplayName())).event(he).event(ce)
 				.append(TextComponent.fromLegacyText("§8:§r ")).event((ClickEvent)null).event((HoverEvent)null)
-				.append(TextComponent.fromLegacyText(chatEvent.getMessage()))
-				.create();
+				.append(TextComponent.fromLegacyText(chatEvent.getMessage(), ChatColor.WHITE)).create();
 		playerChatPMSC.send(player, message);
 		Log.toCS(message);
 		event.setCancelled(true);

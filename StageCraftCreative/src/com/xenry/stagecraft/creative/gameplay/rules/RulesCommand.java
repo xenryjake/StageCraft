@@ -1,5 +1,5 @@
 package com.xenry.stagecraft.creative.gameplay.rules;
-import com.xenry.stagecraft.commands.Command;
+import com.xenry.stagecraft.command.Command;
 import com.xenry.stagecraft.creative.Creative;
 import com.xenry.stagecraft.creative.gameplay.GameplayManager;
 import com.xenry.stagecraft.creative.profile.CreativeProfile;
@@ -39,7 +39,7 @@ public final class RulesCommand extends Command<Creative,GameplayManager> {
 		if(cp != null && !cp.hasAcceptedRules()){
 			sender.sendMessage(M.elm + M.BOLD + "You must accept the rules before playing.");
 		}
-		sender.sendMessage(M.msg + "View the §a§lStage§9§lCraft" + M.msg + " server rules at " + M.elm + "town hall" + M.msg + " or at " + M.elm + M.BOLD + "http://mc.xenry.com/rules");
+		sender.sendMessage(M.msg + "View the §a§lStage§9§lCraft" + M.msg + " server rules at " + M.elm + M.BOLD + "http://mc.xenry.com/rules");
 	}
 	
 	@Override

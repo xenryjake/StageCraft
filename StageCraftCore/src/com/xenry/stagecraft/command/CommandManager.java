@@ -1,7 +1,7 @@
-package com.xenry.stagecraft.commands;
+package com.xenry.stagecraft.command;
 import com.xenry.stagecraft.Manager;
 import com.xenry.stagecraft.Core;
-import com.xenry.stagecraft.commands.general.*;
+import com.xenry.stagecraft.command.commands.*;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.util.Log;
 import com.xenry.stagecraft.util.M;
@@ -27,10 +27,12 @@ import java.util.List;
 public final class CommandManager extends Manager<Core> implements TabExecutor {
 	
 	protected final List<Command<?,?>> commands;
+	private final SudoPMSC sudoPMSC;
 	
 	public CommandManager(Core plugin){
 		super("Commands", plugin);
 		commands = new ArrayList<>();
+		sudoPMSC = new SudoPMSC(this);
 	}
 	
 	@Override
@@ -39,6 +41,12 @@ public final class CommandManager extends Manager<Core> implements TabExecutor {
 		registerCommand(new DiceRollCommand(this));
 		registerCommand(new SudoCommand(this));
 		registerCommand(new InfoCommand(this));
+		
+		plugin.getPluginMessageManager().registerSubChannel(sudoPMSC);
+	}
+	
+	public SudoPMSC getSudoPMSC() {
+		return sudoPMSC;
 	}
 	
 	public Command<?,?> getCommand(String label){

@@ -39,6 +39,7 @@ public final class GameplayManager extends Manager<Creative> {
 	private final EntityHandler entityHandler;
 	private final AcceptRulesHandler acceptRulesHandler;
 	private final ArmorStandHandler armorStandHandler;
+	private final F3NHandler f3nHandler;
 	
 	private boolean lockoutMode = false;
 	
@@ -52,6 +53,7 @@ public final class GameplayManager extends Manager<Creative> {
 		entityHandler = new EntityHandler(this);
 		acceptRulesHandler = new AcceptRulesHandler(this);
 		armorStandHandler = new ArmorStandHandler(this);
+		f3nHandler = new F3NHandler(this);
 	}
 	
 	@Override
@@ -73,6 +75,8 @@ public final class GameplayManager extends Manager<Creative> {
 		
 		registerListener(armorStandHandler);
 		registerCommand(new ArmorStandCommand(armorStandHandler));
+		
+		registerListener(f3nHandler);
 		
 		registerCommand(new LockoutCommand(this));
 		registerCommand(new OverrideCommand(this));
@@ -174,13 +178,13 @@ public final class GameplayManager extends Manager<Creative> {
 		this.lockoutMode = lockoutMode;
 		String enableDisable = lockoutMode ? "§aenabled§b" : "§cdisabled§b";
 		Log.toCS("");
-		Log.toCS("§e" + name + "§b has " + enableDisable + " lockout mode.");
+		Log.toCS("§e" + senderName + "§b has " + enableDisable + " lockout mode.");
 		Log.toCS("");
 		for(Player player : Bukkit.getOnlinePlayers()){
 			if(LockoutCommand.ACCESS.has(player)){
-				player.sendMessage("\n§e" + senderName + "§b has " + enableDisable + " lockout mode.\n\n");
+				player.sendMessage("§r\n§e" + senderName + "§b has " + enableDisable + " lockout mode.\n§r");
 			}else{
-				player.sendMessage("\n§bLockout mode has been " + enableDisable + "\n\n");
+				player.sendMessage("§r\n§bLockout mode has been " + enableDisable + ".\n§r");
 			}
 		}
 	}

@@ -246,6 +246,8 @@ public final class ProfileManager extends Manager<Core> {
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onQuit(PlayerQuitEvent event) {
 		Player player = event.getPlayer();
+		event.setQuitMessage(null);
+		Log.toCS("§c[QUIT] §7" + player.getName());
 		Profile profile = getProfile(player);
 		if(profile == null) {
 			return;
@@ -254,9 +256,7 @@ public final class ProfileManager extends Manager<Core> {
 		profile.updatePlaytime(plugin.getServerName());
 		save(profile);
 		profiles.remove(profile.getUUID());
-		event.setQuitMessage(null);
 		//event.setQuitMessage(" §c-§7 " + player.getDisplayName());
-		Log.toCS("§c[QUIT] §7" + player.getName());
 	}
 	
 }

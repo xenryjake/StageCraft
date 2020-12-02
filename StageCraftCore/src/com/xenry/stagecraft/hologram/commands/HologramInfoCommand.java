@@ -1,7 +1,7 @@
 package com.xenry.stagecraft.hologram.commands;
 
 import com.xenry.stagecraft.Core;
-import com.xenry.stagecraft.commands.Command;
+import com.xenry.stagecraft.command.Command;
 import com.xenry.stagecraft.hologram.Hologram;
 import com.xenry.stagecraft.hologram.HologramManager;
 import com.xenry.stagecraft.profile.Profile;
@@ -39,7 +39,7 @@ public final class HologramInfoCommand extends Command<Core,HologramManager> {
 		}
 		Hologram holo = manager.getHologram(args[0]);
 		if(holo == null){
-			sender.sendMessage(M.err + "There is no hologram with the name " + M.elm + args[0] + M.err + ".");
+			sender.sendMessage(M.error("There is no hologram with the name " + M.elm + args[0] + M.err + "."));
 			return;
 		}
 		sender.sendMessage(M.msg + "Info about " + M.elm + holo.getName() + M.msg + ":");

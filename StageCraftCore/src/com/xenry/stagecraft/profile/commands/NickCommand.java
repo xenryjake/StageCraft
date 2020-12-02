@@ -1,7 +1,7 @@
 package com.xenry.stagecraft.profile.commands;
 import com.google.common.base.Joiner;
 import com.xenry.stagecraft.Core;
-import com.xenry.stagecraft.commands.Command;
+import com.xenry.stagecraft.command.Command;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.ProfileManager;
 import com.xenry.stagecraft.profile.Rank;
@@ -61,6 +61,8 @@ public final class NickCommand extends Command<Core,ProfileManager> {
 			case "none":
 			case "off":
 			case "clear":
+			case "remove":
+			case "reset":
 				disable = true;
 				nick = "none";
 				break;

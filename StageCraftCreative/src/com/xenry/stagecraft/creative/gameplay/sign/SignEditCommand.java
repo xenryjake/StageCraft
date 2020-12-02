@@ -1,7 +1,7 @@
 package com.xenry.stagecraft.creative.gameplay.sign;
 import com.google.common.base.Joiner;
 import com.xenry.stagecraft.chat.emotes.Emote;
-import com.xenry.stagecraft.commands.Command;
+import com.xenry.stagecraft.command.Command;
 import com.xenry.stagecraft.creative.Creative;
 import com.xenry.stagecraft.creative.gameplay.GameplayManager;
 import com.xenry.stagecraft.profile.Profile;

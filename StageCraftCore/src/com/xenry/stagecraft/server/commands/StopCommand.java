@@ -1,6 +1,7 @@
 package com.xenry.stagecraft.server.commands;
+import com.google.common.base.Joiner;
 import com.xenry.stagecraft.Core;
-import com.xenry.stagecraft.commands.Command;
+import com.xenry.stagecraft.command.Command;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
 import com.xenry.stagecraft.server.ServerManager;
@@ -8,6 +9,7 @@ import com.xenry.stagecraft.util.M;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -45,6 +47,10 @@ public final class StopCommand extends Command<Core,ServerManager> {
 			manager.cancelShutdown();
 			return;
 		}
+		if(args[0].equalsIgnoreCase("now") || args[0].equals("0")){
+			manager.doShutdown(0, args.length <= 1 ? null : Joiner.on(' ').join(Arrays.copyOfRange(args, 1, args.length)));
+			return;
+		}
 		if(manager.getShutdownTask() != null){
 			sender.sendMessage(M.error("A shutdown is already in progress."));
 			return;
@@ -60,14 +66,7 @@ public final class StopCommand extends Command<Core,ServerManager> {
 			sender.sendMessage(M.error("Time cannot be negative."));
 			return;
 		}
-		String reason = null;
-		if(args.length > 1){
-			StringBuilder sb = new StringBuilder();
-			for(int i = 1; i < args.length; i++){
-				sb.append(args[i]).append(" ");
-			}
-			reason = sb.toString().trim();
-		}
+		String reason = args.length <= 1 ? null : Joiner.on(' ').join(Arrays.copyOfRange(args, 1, args.length));
 		manager.doShutdown(seconds, reason);
 	}
 	

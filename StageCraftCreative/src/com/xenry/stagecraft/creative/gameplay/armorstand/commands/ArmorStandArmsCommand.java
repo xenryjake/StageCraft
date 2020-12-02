@@ -36,7 +36,7 @@ public final class ArmorStandArmsCommand extends AbstractArmorStandCommand {
 		}
 		boolean state = !as.hasArms();
 		as.setArms(state);
-		player.sendMessage(M.msg + "This armor stand has arms set to " + (state ? "§avisible" : "§chidden") + M.msg + ".");
+		player.sendMessage(M.msg + "This armor stand's arms are now " + (state ? "§avisible" : "§chidden") + M.msg + ".");
 	}
 	
 	@Override

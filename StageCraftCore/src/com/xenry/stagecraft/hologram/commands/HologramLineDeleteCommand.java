@@ -1,7 +1,7 @@
 package com.xenry.stagecraft.hologram.commands;
 
 import com.xenry.stagecraft.Core;
-import com.xenry.stagecraft.commands.Command;
+import com.xenry.stagecraft.command.Command;
 import com.xenry.stagecraft.hologram.Hologram;
 import com.xenry.stagecraft.hologram.HologramManager;
 import com.xenry.stagecraft.profile.Profile;
@@ -37,18 +37,18 @@ public final class HologramLineDeleteCommand extends Command<Core,HologramManage
 		}
 		Hologram hologram = manager.getHologram(args[0]);
 		if(hologram == null){
-			sender.sendMessage(M.err + "There is no hologram with that name.");
+			sender.sendMessage(M.error("There is no hologram with that name."));
 			return;
 		}
 		int line;
 		try{
 			line = Integer.parseInt(args[1]);
 		}catch(Exception ex){
-			sender.sendMessage(M.err + "Invalid line number provided (must be an integer).");
+			sender.sendMessage(M.error("Invalid line number provided (must be an integer)."));
 			return;
 		}
 		if(line < 1 || line > hologram.getLines().size()){
-			sender.sendMessage(M.err + "Invalid line number provided (must be between " + M.elm + 1 + M.err + " and " + M.elm + hologram.getLines().size() + M.err + ", inclusive).");
+			sender.sendMessage(M.error("Invalid line number provided (must be between " + M.elm + 1 + M.err + " and " + M.elm + hologram.getLines().size() + M.err + ", inclusive)."));
 			return;
 		}
 		hologram.removeLine(line-1);

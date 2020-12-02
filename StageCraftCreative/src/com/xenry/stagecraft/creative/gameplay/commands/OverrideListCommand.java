@@ -1,5 +1,5 @@
 package com.xenry.stagecraft.creative.gameplay.commands;
-import com.xenry.stagecraft.commands.Command;
+import com.xenry.stagecraft.command.Command;
 import com.xenry.stagecraft.creative.Creative;
 import com.xenry.stagecraft.creative.gameplay.GameplayManager;
 import com.xenry.stagecraft.profile.Profile;
@@ -32,7 +32,7 @@ public final class OverrideListCommand extends Command<Creative,GameplayManager>
 	@Override
 	protected void serverPerform(CommandSender sender, String[] args, String label) {
 		StringBuilder sb = new StringBuilder();
-		sb.append(M.msg).append("Players in builder mode: ");
+		sb.append(M.msg).append("Players in override mode: ");
 		String message;
 		if(manager.getPlayerOverrides().size() == 0){
 			sb.append("§cnone");

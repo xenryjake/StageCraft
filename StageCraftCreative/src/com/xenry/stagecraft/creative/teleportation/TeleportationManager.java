@@ -4,6 +4,8 @@ import com.xenry.stagecraft.creative.Creative;
 import com.xenry.stagecraft.creative.teleportation.commands.*;
 import com.xenry.stagecraft.creative.teleportation.commands.home.*;
 import com.xenry.stagecraft.creative.teleportation.commands.warp.*;
+import com.xenry.stagecraft.profile.Profile;
+import com.xenry.stagecraft.profile.Rank;
 import com.xenry.stagecraft.util.Cooldown;
 import com.xenry.stagecraft.util.M;
 import net.md_5.bungee.api.ChatColor;
@@ -189,6 +191,11 @@ public final class TeleportationManager extends Manager<Creative> {
 		if(event.getCause() == PlayerTeleportEvent.TeleportCause.COMMAND
 				|| event.getCause() == PlayerTeleportEvent.TeleportCause.PLUGIN){
 			setLastLocation(event.getPlayer(), event.getFrom());
+		}else if(event.getCause() == PlayerTeleportEvent.TeleportCause.SPECTATE){
+			Profile profile = getCore().getProfileManager().getProfile(event.getPlayer());
+			if(profile != null && !TPCommand.SELF_RANK.has(profile)){
+				event.setCancelled(true);
+			}
 		}
 	}
 	

@@ -1,7 +1,7 @@
 package com.xenry.stagecraft.punishment;
 import com.mongodb.BasicDBObject;
 import com.xenry.stagecraft.chat.emotes.Emote;
-import com.xenry.stagecraft.commands.Access;
+import com.xenry.stagecraft.command.Access;
 import com.xenry.stagecraft.profile.Rank;
 import com.xenry.stagecraft.util.M;
 import com.xenry.stagecraft.util.time.TimeUtil;

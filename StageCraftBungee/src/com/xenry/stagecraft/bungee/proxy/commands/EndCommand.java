@@ -35,6 +35,10 @@ public final class EndCommand extends ProxyAdminCommand<ProxyManager> {
 			manager.cancelShutdown();
 			return;
 		}
+		if(args[0].equalsIgnoreCase("now") || args[0].equals("0")){
+			manager.doShutdown(0, args.length <= 1 ? null : Joiner.on(' ').join(Arrays.copyOfRange(args, 1, args.length)));
+			return;
+		}
 		if(manager.getShutdownTask() != null){
 			sender.sendMessage(M.error("A shutdown is already in progress."));
 			return;

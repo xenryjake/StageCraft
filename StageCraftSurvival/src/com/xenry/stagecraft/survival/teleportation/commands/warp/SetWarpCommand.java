@@ -1,5 +1,5 @@
 package com.xenry.stagecraft.survival.teleportation.commands.warp;
-import com.xenry.stagecraft.commands.Command;
+import com.xenry.stagecraft.command.Command;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
 import com.xenry.stagecraft.survival.Survival;

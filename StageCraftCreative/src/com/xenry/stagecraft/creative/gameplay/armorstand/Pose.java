@@ -80,4 +80,13 @@ public class Pose extends BasicDBObject {
 		return new EulerAngle(getDouble("rightArmX"), getDouble("rightArmY"), getDouble("rightArmZ"));
 	}
 	
+	public void apply(@NotNull ArmorStand as){
+		as.setHeadPose(getHead());
+		as.setBodyPose(getBody());
+		as.setLeftLegPose(getLeftLeg());
+		as.setRightLegPose(getRightLeg());
+		as.setLeftArmPose(getLeftArm());
+		as.setRightArmPose(getRightArm());
+	}
+	
 }

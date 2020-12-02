@@ -42,6 +42,10 @@ public abstract class PermissionSet {
 		permissions.remove(permission);
 	}
 	
+	public void clear(){
+		permissions.clear();
+	}
+	
 	public abstract boolean appliesTo(Profile profile);
 	
 	public abstract String getAccessName();

@@ -1,5 +1,6 @@
 package com.xenry.stagecraft.creative.gameplay.commands;
-import com.xenry.stagecraft.commands.Command;
+import com.xenry.stagecraft.command.Access;
+import com.xenry.stagecraft.command.Command;
 import com.xenry.stagecraft.creative.Creative;
 import com.xenry.stagecraft.creative.gameplay.GameplayManager;
 import com.xenry.stagecraft.profile.Profile;
@@ -23,8 +24,10 @@ import java.util.List;
  */
 public final class OverrideCommand extends Command<Creative,GameplayManager> {
 	
+	public static final Access OTHERS = Rank.ADMIN;
+	
 	public OverrideCommand(GameplayManager manager) {
-		super(manager, Rank.ADMIN, "override", "ov");
+		super(manager, Rank.HEAD_MOD, "override", "ov");
 		addSubCommand(new OverrideListCommand(manager));
 		setCanBeDisabled(true);
 	}
@@ -33,10 +36,14 @@ public final class OverrideCommand extends Command<Creative,GameplayManager> {
 	protected void playerPerform(Profile profile, String[] args, String label) {
 		Player sender = profile.getPlayer();
 		if(args.length < 1){
-			sender.sendMessage(M.usage("/" + label + " <on|off> [player]"));
+			if(OTHERS.has(profile)){
+				sender.sendMessage(M.usage("/" + label + " <on|off> [player]"));
+			}else{
+				sender.sendMessage(M.usage("/" + label + " <on|off>"));
+			}
 			return;
 		}
-		if(args.length > 1) {
+		if(args.length > 1 && OTHERS.has(profile)) {
 			serverPerform(sender, args, label);
 			return;
 		}

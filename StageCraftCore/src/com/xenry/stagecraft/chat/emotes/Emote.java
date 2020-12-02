@@ -1,5 +1,5 @@
 package com.xenry.stagecraft.chat.emotes;
-import com.xenry.stagecraft.commands.Access;
+import com.xenry.stagecraft.command.Access;
 import com.xenry.stagecraft.profile.Rank;
 import net.md_5.bungee.api.ChatColor;
 

@@ -1,5 +1,5 @@
 package com.xenry.stagecraft.creative.gameplay.commands;
-import com.xenry.stagecraft.commands.Command;
+import com.xenry.stagecraft.command.Command;
 import com.xenry.stagecraft.creative.Creative;
 import com.xenry.stagecraft.creative.gameplay.GameplayManager;
 import com.xenry.stagecraft.profile.Profile;
@@ -10,6 +10,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -67,12 +68,24 @@ public final class BurnCommand extends Command<Creative,GameplayManager> {
 	
 	@Override
 	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		return args.length == 1 ? allLocalPlayers() : Collections.emptyList();
+		if(args.length == 1){
+			List<String> players = new ArrayList<>(allLocalPlayers());
+			players.add("**");
+			return players;
+		}else{
+			return Collections.emptyList();
+		}
 	}
 	
 	@Override
 	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
-		return args.length == 1 ? allLocalPlayers() : Collections.emptyList();
+		if(args.length == 1){
+			List<String> players = new ArrayList<>(allLocalPlayers());
+			players.add("**");
+			return players;
+		}else{
+			return Collections.emptyList();
+		}
 	}
 	
 }

@@ -114,16 +114,18 @@ public final class ServerManager extends Manager<Core> {
 		Bukkit.broadcastMessage("");
 		Bukkit.broadcastMessage("");
 		Bukkit.broadcastMessage("§c ⚠ §r §c§lAttention§r §c ⚠");
-		Bukkit.broadcastMessage("§eThe server will be shutting down in " + seconds + " seconds.");
+		Bukkit.broadcastMessage("§eThis server will be shutting down in " + seconds + " seconds.");
 		if(reason != null && !reason.isEmpty()){
 			Bukkit.broadcastMessage("§b§o" + reason);
 		}
+		Bukkit.broadcastMessage("");
+		Bukkit.broadcastMessage("§eYou will be automatically sent to another server.");
 		Bukkit.broadcastMessage("");
 		Bukkit.broadcastMessage("");
 		TitleManagerAPI tm = plugin.getIntegrationManager().getTitleManager();
 		if(tm != null){
 			for(Player player : Bukkit.getOnlinePlayers()){
-				tm.sendTitles(player, "§c⚠§r §c§lAttention§r §c⚠", "§eThe server will be shutting down in "
+				tm.sendTitles(player, "§c⚠§r §c§lAttention§r §c⚠", "§eThis server will be shutting down in "
 						+ seconds + " seconds.", 5, 80, 20);
 			}
 		}

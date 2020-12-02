@@ -14,6 +14,7 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.jetbrains.annotations.Nullable;
@@ -142,6 +143,14 @@ public final class CreativeProfileManager extends Manager<Creative> {
 		//});
 	}
 	
+	@EventHandler(priority = EventPriority.MONITOR)
+	public void onJoin(PlayerJoinEvent event){
+		CreativeProfile cp = getProfile(event.getPlayer());
+		if(cp != null && !cp.hasAcceptedRules()){
+			event.getPlayer().chat("/info");
+		}
+	}
+	
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onQuit(PlayerQuitEvent event) {
 		Player player = event.getPlayer();
@@ -183,6 +192,42 @@ public final class CreativeProfileManager extends Manager<Creative> {
 			perms.set("worldedit.navigation.descend", true);
 			perms.set("worldedit.navigation.thru.command", true);
 			perms.set("worldedit.navigation.jumpto.command", true);
+			plugin.getCore().getProfileManager().getPermissionsHandler().registerPermissionSet(perms);
+		}{
+			PermissionSet perms = new RankPermissionSet("creative:ELITE", Rank.ELITE);
+			perms.set("worldedit.history.undo", true);
+			perms.set("worldedit.history.redo", true);
+			perms.set("worldedit.history.clear", true);
+			perms.set("worldedit.selection.pos", true);
+			perms.set("worldedit.selection.expand", true);
+			perms.set("worldedit.selection.contract", true);
+			perms.set("worldedit.selection.size", true);
+			perms.set("worldedit.selection.shift", true);
+			perms.set("worldedit.wand", true);
+			perms.set("worldedit.wand.toggle", true);
+			perms.set("worldedit.region.set", true);
+			perms.set("worldedit.region.replace", true);
+			perms.set("worldedit.region.center", true);
+			perms.set("worldedit.region.walls", true);
+			perms.set("worldedit.region.faces", true);
+			perms.set("worldedit.clipboard.copy", true);
+			perms.set("worldedit.clipboard.cut", true);
+			perms.set("worldedit.clipboard.paste", true);
+			perms.set("worldedit.clipboard.rotate", true);
+			perms.set("worldedit.clipboard.flip", true);
+			perms.set("worldedit.clipboard.clear", true);
+			perms.set("worldedit.fill", true);
+			perms.set("worldedit.fill.recursive", true);
+			perms.set("worldedit.drain", true);
+			perms.set("worldedit.fixlava", true);
+			perms.set("worldedit.fixwater", true);
+			perms.set("worldedit.green", true);
+			perms.set("worldedit.snow", true);
+			perms.set("worldedit.thaw", true);
+			perms.set("worldedit.extinguish", true);
+			perms.set("worldedit.generation.cylinder", true);
+			perms.set("worldedit.generation.sphere", true);
+			perms.set("worldedit.generation.pyramid", true);
 			plugin.getCore().getProfileManager().getPermissionsHandler().registerPermissionSet(perms);
 		}{
 			PermissionSet perms = new RankPermissionSet("creative:MOD", Rank.MOD);

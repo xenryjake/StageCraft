@@ -1,6 +1,6 @@
 package com.xenry.stagecraft;
 import com.xenry.stagecraft.chat.ChatManager;
-import com.xenry.stagecraft.commands.CommandManager;
+import com.xenry.stagecraft.command.CommandManager;
 import com.xenry.stagecraft.hologram.HologramManager;
 import com.xenry.stagecraft.integration.IntegrationManager;
 import com.xenry.stagecraft.mongo.MongoManager;

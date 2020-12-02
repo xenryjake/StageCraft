@@ -1,5 +1,5 @@
 package com.xenry.stagecraft;
-import com.xenry.stagecraft.commands.Command;
+import com.xenry.stagecraft.command.Command;
 import org.bukkit.event.Listener;
 
 /**

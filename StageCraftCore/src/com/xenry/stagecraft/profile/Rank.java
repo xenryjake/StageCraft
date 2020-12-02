@@ -1,6 +1,6 @@
 package com.xenry.stagecraft.profile;
 import com.xenry.stagecraft.Core;
-import com.xenry.stagecraft.commands.Access;
+import com.xenry.stagecraft.command.Access;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;

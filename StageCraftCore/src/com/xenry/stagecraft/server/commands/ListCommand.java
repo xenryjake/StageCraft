@@ -1,8 +1,8 @@
 package com.xenry.stagecraft.server.commands;
 import com.earth2me.essentials.Essentials;
 import com.xenry.stagecraft.Core;
-import com.xenry.stagecraft.commands.Access;
-import com.xenry.stagecraft.commands.Command;
+import com.xenry.stagecraft.command.Access;
+import com.xenry.stagecraft.command.Command;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
 import com.xenry.stagecraft.server.ServerManager;

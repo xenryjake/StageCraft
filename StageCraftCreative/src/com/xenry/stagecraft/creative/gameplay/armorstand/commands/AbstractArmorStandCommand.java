@@ -1,6 +1,6 @@
 package com.xenry.stagecraft.creative.gameplay.armorstand.commands;
-import com.xenry.stagecraft.commands.Access;
-import com.xenry.stagecraft.commands.PlayerCommand;
+import com.xenry.stagecraft.command.Access;
+import com.xenry.stagecraft.command.PlayerCommand;
 import com.xenry.stagecraft.creative.Creative;
 import com.xenry.stagecraft.creative.gameplay.GameplayManager;
 import com.xenry.stagecraft.creative.gameplay.armorstand.ArmorStandHandler;

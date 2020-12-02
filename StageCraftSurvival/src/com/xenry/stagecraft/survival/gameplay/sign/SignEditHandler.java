@@ -1,7 +1,7 @@
 package com.xenry.stagecraft.survival.gameplay.sign;
 import com.xenry.stagecraft.Handler;
 import com.xenry.stagecraft.chat.emotes.Emote;
-import com.xenry.stagecraft.commands.Access;
+import com.xenry.stagecraft.command.Access;
 import com.xenry.stagecraft.survival.Survival;
 import com.xenry.stagecraft.util.event.FakeBlockBreakEvent;
 import com.xenry.stagecraft.survival.gameplay.GameplayManager;

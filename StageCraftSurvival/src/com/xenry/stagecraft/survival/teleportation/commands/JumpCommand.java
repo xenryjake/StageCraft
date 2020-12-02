@@ -1,5 +1,5 @@
 package com.xenry.stagecraft.survival.teleportation.commands;
-import com.xenry.stagecraft.commands.PlayerCommand;
+import com.xenry.stagecraft.command.PlayerCommand;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
 import com.xenry.stagecraft.survival.Survival;

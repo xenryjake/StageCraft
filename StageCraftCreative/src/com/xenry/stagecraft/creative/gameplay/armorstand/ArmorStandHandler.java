@@ -3,7 +3,7 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.xenry.stagecraft.Handler;
-import com.xenry.stagecraft.commands.Access;
+import com.xenry.stagecraft.command.Access;
 import com.xenry.stagecraft.creative.Creative;
 import com.xenry.stagecraft.creative.gameplay.GameplayManager;
 import com.xenry.stagecraft.profile.Profile;
@@ -31,7 +31,9 @@ import java.util.List;
 public final class ArmorStandHandler extends Handler<Creative,GameplayManager> {
 	
 	public static final Access INTERACT_INVISIBLE = Rank.ADMIN;
+	public static final Access CAN_APPLY_GRAVITY = Rank.PREMIUM;
 	public static final Access CAN_MAKE_POSES = Rank.PREMIUM;
+	public static final Access CAN_DELETE_POSES = Rank.MOD;
 	
 	private final HashMap<String,ArmorStandClipboard> clipboards;
 	private final DBCollection poseCollection;
@@ -45,10 +47,9 @@ public final class ArmorStandHandler extends Handler<Creative,GameplayManager> {
 		poses = new ArrayList<>();
 	}
 	
-	public Pose addPose(Pose pose){
+	public void addPose(Pose pose){
 		poses.add(pose);
 		savePose(pose);
-		return pose;
 	}
 	
 	public void downloadPoses(){
@@ -95,7 +96,6 @@ public final class ArmorStandHandler extends Handler<Creative,GameplayManager> {
 		for(Pose pose : poses){
 			names.add(pose.getName());
 		}
-		//Collections.sort(names);
 		return names;
 	}
 	

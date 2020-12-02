@@ -192,6 +192,11 @@ public final class TeleportationManager extends Manager<Survival> {
 		if(event.getCause() == PlayerTeleportEvent.TeleportCause.COMMAND
 				|| event.getCause() == PlayerTeleportEvent.TeleportCause.PLUGIN){
 			setLastLocation(event.getPlayer(), event.getFrom());
+		}else if(event.getCause() == PlayerTeleportEvent.TeleportCause.SPECTATE){
+			Profile profile = getCore().getProfileManager().getProfile(event.getPlayer());
+			if(profile != null && !TPCommand.SELF_RANK.has(profile)){
+				event.setCancelled(true);
+			}
 		}
 	}
 	

@@ -92,9 +92,9 @@ public final class BlacklistHandler extends Handler<Creative,GameplayManager> {
 		}
 		
 		if(bannedMaterials.contains(event.getItemInHand().getType())
-				|| bannedMaterials.contains(event.getBlock().getType())
+				|| bannedMaterials.contains(block.getType())
 				|| destroyOnlyMaterials.contains(event.getItemInHand().getType())
-				|| destroyOnlyMaterials.contains(event.getBlock().getType())){
+				|| destroyOnlyMaterials.contains(block.getType())){
 			event.setCancelled(true);
 			sendMessage(player, M.err + "You can't place that.");
 		}
@@ -111,10 +111,10 @@ public final class BlacklistHandler extends Handler<Creative,GameplayManager> {
 		if(manager.isPlayerOverride(player)){
 			return;
 		}
-		if(event.getBlock().getY() < 1){
+		/*if(event.getBlock().getY() < 1){
 			event.setCancelled(true);
 			sendMessage(player, M.err + "You can't break blocks here.");
-		}
+		}*/
 		
 		if(bannedMaterials.contains(event.getBlock().getType())){
 			event.setCancelled(true);

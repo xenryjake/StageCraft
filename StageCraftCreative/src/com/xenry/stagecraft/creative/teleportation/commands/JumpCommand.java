@@ -1,5 +1,5 @@
 package com.xenry.stagecraft.creative.teleportation.commands;
-import com.xenry.stagecraft.commands.PlayerCommand;
+import com.xenry.stagecraft.command.PlayerCommand;
 import com.xenry.stagecraft.creative.Creative;
 import com.xenry.stagecraft.creative.teleportation.Teleportation;
 import com.xenry.stagecraft.creative.teleportation.TeleportationManager;

@@ -1,7 +1,7 @@
-package com.xenry.stagecraft.commands.general;
+package com.xenry.stagecraft.command.commands;
 import com.xenry.stagecraft.Core;
-import com.xenry.stagecraft.commands.Command;
-import com.xenry.stagecraft.commands.CommandManager;
+import com.xenry.stagecraft.command.Command;
+import com.xenry.stagecraft.command.CommandManager;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
 import com.xenry.stagecraft.util.M;

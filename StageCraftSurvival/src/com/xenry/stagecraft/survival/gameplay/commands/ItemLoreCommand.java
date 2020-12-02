@@ -1,6 +1,6 @@
 package com.xenry.stagecraft.survival.gameplay.commands;
 import com.google.common.base.Joiner;
-import com.xenry.stagecraft.commands.Command;
+import com.xenry.stagecraft.command.Command;
 import com.xenry.stagecraft.survival.Survival;
 import com.xenry.stagecraft.survival.gameplay.GameplayManager;
 import com.xenry.stagecraft.profile.Profile;

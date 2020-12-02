@@ -1,4 +1,4 @@
-package com.xenry.stagecraft.commands;
+package com.xenry.stagecraft.command;
 import com.xenry.stagecraft.Manager;
 import com.xenry.stagecraft.StageCraftPlugin;
 import org.bukkit.command.CommandSender;

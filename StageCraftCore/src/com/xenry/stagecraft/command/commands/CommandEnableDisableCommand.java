@@ -1,12 +1,14 @@
-package com.xenry.stagecraft.commands.general;
-
+package com.xenry.stagecraft.command.commands;
 import com.xenry.stagecraft.Core;
-import com.xenry.stagecraft.commands.Command;
-import com.xenry.stagecraft.commands.CommandManager;
+import com.xenry.stagecraft.command.Access;
+import com.xenry.stagecraft.command.Command;
+import com.xenry.stagecraft.command.CommandManager;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
+import com.xenry.stagecraft.util.Log;
 import com.xenry.stagecraft.util.M;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
@@ -19,10 +21,12 @@ import java.util.List;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public final class CommandInfoCommand extends Command<Core,CommandManager> {
+public final class CommandEnableDisableCommand extends Command<Core,CommandManager> {
 	
-	public CommandInfoCommand(CommandManager manager){
-		super(manager, Rank.HEAD_MOD, "info");
+	public static final Access ACCESS = Rank.HEAD_MOD;
+	
+	public CommandEnableDisableCommand(CommandManager manager){
+		super(manager, ACCESS, "enable", "disable", "en", "dis");
 	}
 	
 	@Override
@@ -41,22 +45,23 @@ public final class CommandInfoCommand extends Command<Core,CommandManager> {
 			sender.sendMessage(M.error("No command found with label: " + args[0]));
 			return;
 		}
-		String accessString = command.getAccess() instanceof Rank ? ((Rank)command.getAccess()).getColoredName()
-				: M.WHITE + command.getAccess().toString();
-		StringBuilder sb = new StringBuilder();
-		for(String l : command.getLabels()){
-			sb.append(M.WHITE).append(l).append(M.DGRAY).append(", ");
+		if(!command.canBeDisabled()){
+			sender.sendMessage(M.error("This command cannot be disabled."));
+			return;
 		}
-		String labelsString = sb.toString().trim();
+		boolean disable = label.startsWith("dis");
+		command.setDisabled(disable);
+		sender.sendMessage(M.elm + args[0] + M.msg + " has been " + (disable ? "§cdisabled" : "§aenabled") + M.msg
+				+ " until the next server restart.");
 		
-		sender.sendMessage(M.msg + "Command info: " + M.elm + args[0]);
-		sender.sendMessage(M.arrow("Plugin: " + M.elm + command.getPlugin().name));
-		sender.sendMessage(M.arrow("Manager: " + M.elm + command.getManager().name));
-		sender.sendMessage(M.arrow("Access: " + accessString));
-		sender.sendMessage(M.arrow("Labels: " + labelsString));
-		sender.sendMessage(M.arrow("Can be disabled: " + (command.canBeDisabled() ? "§atrue" : "§cfalse")));
-		if(command.canBeDisabled()){
-			sender.sendMessage(M.arrow("Is disabled: " + (command.isDisabled() ? "§atrue" : "§cfalse")));
+		String senderName = sender instanceof Player ? sender.getName() : M.CONSOLE_NAME;
+		String notification = M.elm + senderName + M.msg + (disable ? " §cdisabled" : " §aenabled") + M.msg + " the command "
+				+ M.elm + args[0] + M.msg + ".";
+		Log.toCS(notification);
+		for(Profile profile : manager.plugin.getProfileManager().getOnlineProfiles()){
+			if(ACCESS.has(profile) && profile.getPlayer() != sender){
+				profile.sendMessage(notification);
+			}
 		}
 	}
 	

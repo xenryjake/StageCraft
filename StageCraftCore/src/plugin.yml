@@ -1,5 +1,5 @@
 name: StageCraftCore
-version: beta-2020.11.23a
+version: beta-2020.11.26a
 api-version: "1.16"
 author: Xenry
 main: com.xenry.stagecraft.Core
@@ -106,8 +106,6 @@ commands:
   reply:
     description: "Reply to a private message"
     aliases: [reply,respond,r]
-  socialspy:
-    description: "Enable/disable socialspy"
   emotes:
     description: "View available emotes"
     aliases: [emotelist,emote]

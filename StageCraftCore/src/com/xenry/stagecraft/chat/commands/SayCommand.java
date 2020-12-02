@@ -3,7 +3,7 @@ import com.google.common.base.Joiner;
 import com.xenry.stagecraft.Core;
 import com.xenry.stagecraft.chat.ChatManager;
 import com.xenry.stagecraft.chat.emotes.Emote;
-import com.xenry.stagecraft.commands.Command;
+import com.xenry.stagecraft.command.Command;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
 import com.xenry.stagecraft.util.Log;
@@ -61,7 +61,7 @@ public final class SayCommand extends Command<Core,ChatManager> {
 		
 		String message = ChatColor.translateAlternateColorCodes('&', Joiner.on(' ').join(args));
 		message = Emote.replaceEmotes(message, ChatColor.WHITE);
-		BaseComponent[] components = new ComponentBuilder(M.CONSOLE_NAME).color(ChatColor.YELLOW).bold(true)
+		BaseComponent[] components = new ComponentBuilder(M.CONSOLE_NAME).color(ChatColor.YELLOW).bold(false)
 				.append(": ").color(ChatColor.DARK_GRAY).bold(false)
 				.append(TextComponent.fromLegacyText(message)).create();
 		//Bukkit.broadcastMessage("§e§lServer§8:§r " + message);

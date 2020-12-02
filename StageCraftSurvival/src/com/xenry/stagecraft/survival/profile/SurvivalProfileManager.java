@@ -14,6 +14,7 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.jetbrains.annotations.Nullable;
@@ -140,6 +141,14 @@ public final class SurvivalProfileManager extends Manager<Survival> {
 			save(profile);
 		}
 		//});
+	}
+	
+	@EventHandler(priority = EventPriority.MONITOR)
+	public void onJoin(PlayerJoinEvent event){
+		SurvivalProfile cp = getProfile(event.getPlayer());
+		if(cp != null && !cp.hasAcceptedRules()){
+			event.getPlayer().chat("/info");
+		}
 	}
 	
 	@EventHandler(priority = EventPriority.HIGHEST)

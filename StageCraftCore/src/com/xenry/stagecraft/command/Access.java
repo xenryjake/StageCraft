@@ -1,4 +1,4 @@
-package com.xenry.stagecraft.commands;
+package com.xenry.stagecraft.command;
 import com.xenry.stagecraft.profile.Profile;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
