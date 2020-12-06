@@ -1,4 +1,5 @@
 package com.xenry.stagecraft.ui;
+import com.xenry.stagecraft.ui.item.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
@@ -12,7 +13,7 @@ import org.bukkit.inventory.Inventory;
  */
 public interface Opener {
 	
-	Inventory open(Menu menu, Player player);
+	Inventory open(Menu<?,?> menu, Player player);
 	
 	boolean supports(InventoryType type);
 	

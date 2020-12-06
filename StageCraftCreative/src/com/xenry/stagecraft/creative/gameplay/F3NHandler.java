@@ -7,7 +7,9 @@ import net.minecraft.server.v1_16_R3.PacketPlayOutEntityStatus;
 import org.bukkit.craftbukkit.v1_16_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 
 /**
  * StageCraft created by Henry Blasingame (Xenry) on 11/25/20
@@ -35,6 +37,16 @@ public final class F3NHandler extends Handler<Creative,GameplayManager> {
 	
 	@EventHandler
 	public void onJoin(PlayerJoinEvent event){
+		manager.plugin.getServer().getScheduler().runTaskLater(manager.plugin, () -> sendPacket(event.getPlayer()), 10L);
+	}
+	
+	@EventHandler
+	public void onRespawn(PlayerRespawnEvent event){
+		manager.plugin.getServer().getScheduler().runTaskLater(manager.plugin, () -> sendPacket(event.getPlayer()), 10L);
+	}
+	
+	@EventHandler
+	public void onWorldChange(PlayerChangedWorldEvent event){
 		manager.plugin.getServer().getScheduler().runTaskLater(manager.plugin, () -> sendPacket(event.getPlayer()), 10L);
 	}
 	

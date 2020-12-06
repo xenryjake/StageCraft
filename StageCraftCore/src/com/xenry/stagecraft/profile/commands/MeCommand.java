@@ -4,6 +4,7 @@ import com.xenry.stagecraft.command.Command;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.ProfileManager;
 import com.xenry.stagecraft.profile.Rank;
+import com.xenry.stagecraft.profile.ui.MyProfileMenu;
 import com.xenry.stagecraft.util.M;
 import com.xenry.stagecraft.util.time.TimeUtil;
 import org.bukkit.command.CommandSender;
@@ -33,11 +34,12 @@ public final class MeCommand extends Command<Core,ProfileManager> {
 	
 	@Override
 	protected void playerPerform(Profile profile, String[] args, String label) {
-		profile.sendMessage(M.msg + "Profile of " + M.elm + profile.getLatestUsername() + M.msg + ":");
+		/*profile.sendMessage(M.msg + "Profile of " + M.elm + profile.getLatestUsername() + M.msg + ":");
 		profile.sendMessage(M.arrow("UUID: " + M.WHITE + profile.getUUID()));
 		profile.sendMessage(M.arrow("Rank: " + profile.getRank().getColoredName()));
 		profile.sendMessage(M.arrow("Total Playtime: " + M.WHITE + TimeUtil.simplerString(profile.getTotalPlaytime())));
-		profile.sendMessage(M.arrow("Status: " + (profile.isOnline() ? "§aOnline " + M.msg + "(" + M.elm + TimeUtil.simplerString(profile.getSecondsSinceLastLogin(manager.plugin.getServerName())) + M.msg + ")" : "§cOffline " + M.msg + "(" + M.elm + TimeUtil.simplerString(profile.getSecondsSinceLastLogout(manager.plugin.getServerName())) + M.msg + ")")));
+		profile.sendMessage(M.arrow("Status: " + (profile.isOnline() ? "§aOnline " + M.msg + "(" + M.elm + TimeUtil.simplerString(profile.getSecondsSinceLastLogin(manager.plugin.getServerName())) + M.msg + ")" : "§cOffline " + M.msg + "(" + M.elm + TimeUtil.simplerString(profile.getSecondsSinceLastLogout(manager.plugin.getServerName())) + M.msg + ")")));*/
+		new MyProfileMenu(manager, profile.getUUID()).open(profile.getPlayer());
 	}
 	
 	@Override

@@ -1,6 +1,7 @@
 package com.xenry.stagecraft.creative.teleportation.commands;
 import com.xenry.stagecraft.command.Command;
 import com.xenry.stagecraft.creative.Creative;
+import com.xenry.stagecraft.creative.teleportation.TeleportMenu;
 import com.xenry.stagecraft.creative.teleportation.TeleportationManager;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
@@ -35,7 +36,11 @@ public final class TPACommand extends Command<Creative,TeleportationManager> {
 	@Override
 	protected void playerPerform(Profile profile, String[] args, String label) {
 		if(args.length < 1){
-			profile.sendMessage(M.usage("/" + label + " <player>"));
+			if(Bukkit.getOnlinePlayers().size() <= 1){
+				profile.sendMessage(M.usage("/" + label + " <player>"));
+			}else{
+				new TeleportMenu(manager, profile.getUUID(), label).open(profile.getPlayer());
+			}
 			return;
 		}
 		Player to = Bukkit.getPlayer(args[0]);

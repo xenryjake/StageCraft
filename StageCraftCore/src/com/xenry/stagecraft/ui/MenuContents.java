@@ -1,4 +1,5 @@
 package com.xenry.stagecraft.ui;
+import com.xenry.stagecraft.ui.item.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -17,22 +18,24 @@ import java.util.Map;
  */
 public class MenuContents {
 	
-	private final Menu menu;
+	private final Menu<?,?> menu;
 	private final Player player;
 	private final Item[][] contents;
 	private final Pagination pagination;
 	private final Map<String,SlotIterator> iterators;
+	private final Map<String,Object> properties;
 	
-	public MenuContents(@NotNull Menu menu, @NotNull Player player) {
+	public MenuContents(@NotNull Menu<?,?> menu, @NotNull Player player) {
 		this.menu = menu;
 		this.player = player;
 		contents = new Item[menu.rows][menu.cols];
 		pagination = new Pagination();
 		iterators = new HashMap<>();
+		properties = new HashMap<>();
 	}
 	
 	@NotNull
-	public Menu menu(){
+	public Menu<?,?> menu(){
 		return menu;
 	}
 	
@@ -192,8 +195,40 @@ public class MenuContents {
 		return this;
 	}
 	
+	@NotNull
+	public MenuContents fillBorders(@Nullable Item item){
+		return fillRectHollow(0, 0, menu.rows - 1, menu.cols - 1, item);
+	}
+	
+	@NotNull
+	public MenuContents fillEmptySlots(@Nullable Item item){
+		Slot slot = firstEmpty();
+		while(slot != null){
+			set(slot, item);
+			slot = firstEmpty();
+		}
+		return this;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Nullable
+	public <T> T getProperty(String key){
+		return (T) properties.get(key);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public <T> T getProperty(String key, T defaultValue){
+		return properties.containsKey(key) ? (T) properties.get(key) : defaultValue;
+	}
+	
+	@NotNull
+	public MenuContents setProperty(String key, Object value){
+		properties.put(key, value);
+		return this;
+	}
+	
 	private void update(int row, int col, @Nullable ItemStack stack){
-		if(menu.manager.getOpenedPlayers(menu).contains(player)){
+		if(menu.uiManager.getOpenedPlayers(menu).contains(player)){
 			Inventory inv = player.getOpenInventory().getTopInventory();
 			inv.setItem(menu.cols * row + col, stack);
 		}

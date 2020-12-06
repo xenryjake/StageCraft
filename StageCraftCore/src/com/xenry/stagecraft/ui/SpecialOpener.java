@@ -27,11 +27,11 @@ public class SpecialOpener implements Opener {
 	}
 	
 	@Override
-	public Inventory open(Menu menu, Player player) {
+	public Inventory open(Menu<?,?> menu, Player player) {
 		if(!supports(menu.type)){
 			throw new IllegalArgumentException("illegal menu type: " + menu.type.name());
 		}
-		Inventory inv = Bukkit.createInventory(player, menu.type, menu.title);
+		Inventory inv = Bukkit.createInventory(player, menu.type, menu.getTitle());
 		MenuContents contents = manager.getOpenContents(player);
 		if(contents == null){
 			throw new IllegalStateException("there are no contents?");

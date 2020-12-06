@@ -1,6 +1,8 @@
 package com.xenry.stagecraft.ui;
 import com.xenry.stagecraft.Manager;
 import com.xenry.stagecraft.Core;
+import com.xenry.stagecraft.ui.item.Button;
+import com.xenry.stagecraft.ui.item.Item;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -24,7 +26,7 @@ import java.util.Map;
  */
 public final class UIManager extends Manager<Core> {
 	
-	private final Map<Player,Menu> menus;
+	private final Map<Player,Menu<?,?>> menus;
 	private final Map<Player,MenuContents> contents;
 	
 	private final List<Opener> openers;
@@ -44,15 +46,16 @@ public final class UIManager extends Manager<Core> {
 	@Override
 	protected void onEnable() {
 		tickTask = plugin.getServer().getScheduler().runTaskTimer(plugin, () -> {
-			for(Map.Entry<Player,Menu> entry : menus.entrySet()){
-				entry.getValue().tick(entry.getKey(), contents.getOrDefault(entry.getKey(), null));
+			for(Map.Entry<Player,Menu<?,?>> entry : menus.entrySet()){
+				entry.getValue().tick(entry.getKey(), contents.get(entry.getKey()));
 			}
 		}, 1, 1);
 	}
 	
 	@Override
 	protected void onDisable() {
-		for(Map.Entry<Player,Menu> entry : menus.entrySet()){
+		tickTask.cancel();
+		for(Map.Entry<Player,Menu<?,?>> entry : menus.entrySet()){
 			entry.getValue().close(entry.getKey());
 		}
 		menus.clear();
@@ -69,9 +72,9 @@ public final class UIManager extends Manager<Core> {
 		return null;
 	}
 	
-	public List<Player> getOpenedPlayers(Menu menu){
+	public List<Player> getOpenedPlayers(Menu<?,?> menu){
 		List<Player> players = new ArrayList<>();
-		for(Map.Entry<Player,Menu> entry : menus.entrySet()){
+		for(Map.Entry<Player,Menu<?,?>> entry : menus.entrySet()){
 			if(menu.equals(entry.getValue())){
 				players.add(entry.getKey());
 			}
@@ -80,11 +83,11 @@ public final class UIManager extends Manager<Core> {
 	}
 	
 	@Nullable
-	public Menu getOpenMenu(Player player){
+	public Menu<?,?> getOpenMenu(Player player){
 		return menus.getOrDefault(player, null);
 	}
 	
-	protected void setOpenMenu(@NotNull Player player, @Nullable Menu menu){
+	protected void setOpenMenu(@NotNull Player player, @Nullable Menu<?,?> menu){
 		if(menu == null){
 			menus.remove(player);
 		}else{
@@ -108,7 +111,7 @@ public final class UIManager extends Manager<Core> {
 	@EventHandler
 	public void onQuit(PlayerQuitEvent event){
 		Player player = event.getPlayer();
-		Menu menu = menus.get(player);
+		Menu<?,?> menu = menus.get(player);
 		if(menu != null){
 			menu.onQuit(event);
 			menus.remove(player);
@@ -116,14 +119,14 @@ public final class UIManager extends Manager<Core> {
 		}
 	}
 	
-	@EventHandler
+	/*@EventHandler
 	public void onOpen(InventoryOpenEvent event){
 		HumanEntity human = event.getPlayer();
 		if(!(human instanceof Player)){
 			return;
 		}
 		menus.get(human).onOpen(event);
-	}
+	}*/
 	
 	@EventHandler
 	public void onClose(InventoryCloseEvent event){
@@ -132,7 +135,7 @@ public final class UIManager extends Manager<Core> {
 			return;
 		}
 		Player player = (Player)human;
-		Menu menu = menus.get(player);
+		Menu<?,?> menu = menus.get(player);
 		if(menu == null){
 			return;
 		}
@@ -153,7 +156,7 @@ public final class UIManager extends Manager<Core> {
 			return;
 		}
 		Player player = (Player)human;
-		Menu menu = menus.get(player);
+		Menu<?,?> menu = menus.get(player);
 		if(menu == null){
 			return;
 		}
@@ -173,20 +176,19 @@ public final class UIManager extends Manager<Core> {
 			return;
 		}
 		Player player = (Player)human;
-		Menu menu = menus.get(player);
+		Menu<?,?> menu = menus.get(player);
 		if(menu == null){
 			return;
 		}
+		event.setCancelled(true);
 		if(event.getAction() == InventoryAction.COLLECT_TO_CURSOR
 				|| (event.getAction() == InventoryAction.MOVE_TO_OTHER_INVENTORY &&
 				(!(event.getClick() == ClickType.SHIFT_LEFT || event.getClick() == ClickType.SHIFT_RIGHT)
 				|| event.getClickedInventory() == player.getOpenInventory().getBottomInventory()))
 				|| (event.getAction() == InventoryAction.NOTHING && event.getClick() != ClickType.MIDDLE)){
-			event.setCancelled(true);
 			return;
 		}
 		if(event.getClickedInventory() == player.getOpenInventory().getTopInventory()){
-			event.setCancelled(true);
 			int row = event.getSlot() / 9;
 			int col = event.getSlot() % 9;
 			if(row < 0 || col < 0 || row >= menu.rows || col >= menu.cols){

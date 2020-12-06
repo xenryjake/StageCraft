@@ -20,7 +20,7 @@ public class ChestOpener implements Opener {
 	}
 	
 	@Override
-	public Inventory open(Menu menu, Player player) {
+	public Inventory open(Menu<?,?> menu, Player player) {
 		if(!supports(menu.type)){
 			throw new IllegalArgumentException("illegal menu type: " + menu.type.name());
 		}
@@ -31,7 +31,7 @@ public class ChestOpener implements Opener {
 			throw new IllegalArgumentException("rows must be 1-6");
 		}
 		
-		Inventory inv = Bukkit.createInventory(player, menu.rows * menu.cols, menu.title);
+		Inventory inv = Bukkit.createInventory(player, menu.rows * menu.cols, menu.getTitle());
 		MenuContents contents = manager.getOpenContents(player);
 		if(contents == null){
 			throw new IllegalStateException("there are no contents?");

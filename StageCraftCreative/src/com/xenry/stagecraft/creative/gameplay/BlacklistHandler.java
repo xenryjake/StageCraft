@@ -326,7 +326,8 @@ public final class BlacklistHandler extends Handler<Creative,GameplayManager> {
 	@EventHandler(ignoreCancelled = true)
 	public void on(BlockSpreadEvent event){
 		Material type = event.getNewState().getType();
-		Log.debug("BSE " + type.name() + " / " + event.getSource().getType().name() + " / " + event.getBlock().getType().name());
+		//todo fix bamboo crash
+		//Log.debug("BSE " + type.name() + " / " + event.getSource().getType().name() + " / " + event.getBlock().getType().name());
 		if(manager.isLockoutMode() || type == VINE || type == TWISTING_VINES || type == TWISTING_VINES_PLANT
 				|| type == WEEPING_VINES || type == WEEPING_VINES_PLANT || type == MUSHROOM_STEM
 				|| type == RED_MUSHROOM || type == RED_MUSHROOM_BLOCK || type == BROWN_MUSHROOM

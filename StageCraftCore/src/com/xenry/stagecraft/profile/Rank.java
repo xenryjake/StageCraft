@@ -53,6 +53,10 @@ public enum Rank implements Access {
 		this.inherits = Arrays.asList(inherits);
 	}
 	
+	public boolean hasAccessToColor(ChatColor color){
+		return getAvailableColors().contains(color);
+	}
+	
 	public List<ChatColor> getAvailableColors(){
 		if(availableColors == null){
 			availableColors = new ArrayList<>();

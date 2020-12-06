@@ -3,6 +3,7 @@ import com.xenry.stagecraft.command.Command;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
 import com.xenry.stagecraft.survival.Survival;
+import com.xenry.stagecraft.survival.teleportation.TeleportMenu;
 import com.xenry.stagecraft.survival.teleportation.TeleportationManager;
 import com.xenry.stagecraft.util.M;
 import org.bukkit.Bukkit;
@@ -35,7 +36,11 @@ public final class TPACommand extends Command<Survival,TeleportationManager> {
 	@Override
 	protected void playerPerform(Profile profile, String[] args, String label) {
 		if(args.length < 1){
-			profile.sendMessage(M.usage("/" + label + " <player>"));
+			if(Bukkit.getOnlinePlayers().size() <= 1){
+				profile.sendMessage(M.usage("/" + label + " <player>"));
+			}else{
+				new TeleportMenu(manager, profile.getUUID(), label).open(profile.getPlayer());
+			}
 			return;
 		}
 		Player to = Bukkit.getPlayer(args[0]);

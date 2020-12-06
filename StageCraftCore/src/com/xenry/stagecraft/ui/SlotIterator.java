@@ -1,7 +1,9 @@
 package com.xenry.stagecraft.ui;
+import com.xenry.stagecraft.ui.item.Item;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -13,17 +15,17 @@ import java.util.Set;
  */
 public class SlotIterator {
 	
-	private final Menu menu;
+	private final Menu<?,?> menu;
 	private final MenuContents contents;
 	private final Type type;
+	private final Set<Slot> blacklist = new HashSet<>();
 	
 	private boolean started = false;
 	private boolean allowOverride = true;
 	private int row, col;
 	
-	private Set<Slot> blacklist;
 	
-	public SlotIterator(Menu menu, MenuContents contents, Type type, int row, int col) {
+	public SlotIterator(Menu<?,?> menu, MenuContents contents, Type type, int row, int col) {
 		if(row < 0 || col < 0){
 			throw new IllegalArgumentException("row & col must not be negative");
 		}
@@ -34,7 +36,7 @@ public class SlotIterator {
 		this.col = col;
 	}
 	
-	public SlotIterator(Menu menu, MenuContents contents, Type type) {
+	public SlotIterator(Menu<?,?> menu, MenuContents contents, Type type) {
 		this(menu, contents, type, 0, 0);
 	}
 	

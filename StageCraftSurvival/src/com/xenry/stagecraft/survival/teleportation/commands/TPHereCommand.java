@@ -2,6 +2,7 @@ package com.xenry.stagecraft.survival.teleportation.commands;
 import com.xenry.stagecraft.command.Command;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.survival.Survival;
+import com.xenry.stagecraft.survival.teleportation.TeleportMenu;
 import com.xenry.stagecraft.survival.teleportation.Teleportation;
 import com.xenry.stagecraft.survival.teleportation.TeleportationManager;
 import com.xenry.stagecraft.util.M;
@@ -35,7 +36,11 @@ public final class TPHereCommand extends Command<Survival,TeleportationManager> 
 	@Override
 	protected void playerPerform(Profile profile, String[] args, String label) {
 		if(args.length < 1){
-			profile.sendMessage(M.usage("/" + label + " [player] <player-to> "));
+			if(Bukkit.getOnlinePlayers().size() <= 1){
+				profile.sendMessage(M.usage("/" + label + " [player] <player-to> "));
+			}else{
+				new TeleportMenu(manager, profile.getUUID(), label).open(profile.getPlayer());
+			}
 			return;
 		}
 		Player target = Bukkit.getPlayer(args[0]);

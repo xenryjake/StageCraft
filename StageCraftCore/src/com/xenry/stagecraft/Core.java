@@ -8,6 +8,7 @@ import com.xenry.stagecraft.pluginmessage.PluginMessageManager;
 import com.xenry.stagecraft.profile.ProfileManager;
 import com.xenry.stagecraft.punishment.PunishmentManager;
 import com.xenry.stagecraft.server.ServerManager;
+import com.xenry.stagecraft.ui.UIManager;
 import com.xenry.stagecraft.util.Log;
 
 /**
@@ -27,6 +28,7 @@ public final class Core extends StageCraftPlugin {
 	
 	private PluginMessageManager pluginMessageManager;
 	private MongoManager mongoManager;
+	private UIManager uiManager;
 	private ServerManager serverManager;
 	private IntegrationManager integrationManager;
 	private ProfileManager profileManager;
@@ -65,6 +67,7 @@ public final class Core extends StageCraftPlugin {
 		try{
 			pluginMessageManager = loadManager(PluginMessageManager.class);
 			mongoManager = loadManager(MongoManager.class);
+			uiManager = loadManager(UIManager.class);
 			serverManager = loadManager(ServerManager.class);
 			integrationManager = loadManager(IntegrationManager.class);
 			profileManager = loadManager(ProfileManager.class);
@@ -93,6 +96,10 @@ public final class Core extends StageCraftPlugin {
 	
 	public MongoManager getMongoManager() {
 		return mongoManager;
+	}
+	
+	public UIManager getUIManager() {
+		return uiManager;
 	}
 	
 	public ServerManager getServerManager() {

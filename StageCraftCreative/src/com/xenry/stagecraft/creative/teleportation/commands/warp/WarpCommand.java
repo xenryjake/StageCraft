@@ -4,6 +4,7 @@ import com.xenry.stagecraft.creative.Creative;
 import com.xenry.stagecraft.creative.teleportation.Teleportation;
 import com.xenry.stagecraft.creative.teleportation.TeleportationManager;
 import com.xenry.stagecraft.creative.teleportation.Warp;
+import com.xenry.stagecraft.creative.teleportation.WarpMenu;
 import com.xenry.stagecraft.creative.teleportation.commands.TPCommand;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
@@ -41,7 +42,7 @@ public final class WarpCommand extends Command<Creative,TeleportationManager> {
 	@Override
 	protected void playerPerform(Profile profile, String[] args, String label) {
 		if(label.equalsIgnoreCase("warps") || args.length == 0 || args[0].matches("[0-9]+")){
-			listWarps(profile.getPlayer(), args);
+			listWarps(profile.getPlayer(), args, label);
 			return;
 		}
 		boolean safe = true;
@@ -68,7 +69,7 @@ public final class WarpCommand extends Command<Creative,TeleportationManager> {
 	@Override
 	protected void serverPerform(CommandSender sender, String[] args, String label) {
 		if(label.equalsIgnoreCase("warps") || args.length == 0 || args[0].matches("[0-9]+")){
-			listWarps(sender, args);
+			listWarps(sender, args, label);
 			return;
 		}
 		if(args.length < 2){
@@ -88,7 +89,7 @@ public final class WarpCommand extends Command<Creative,TeleportationManager> {
 		manager.createAndExecuteTeleportation(target, sender, target.getLocation(), warp.getLocation(), Teleportation.Type.ADMIN, !label.endsWith("o"));
 	}
 	
-	private void listWarps(CommandSender sender, String[] args){
+	private void listWarps(CommandSender sender, String[] args, String label){
 		List<String> warps = manager.getWarpHandler().getWarpNameList();
 		if(warps.isEmpty()){
 			sender.sendMessage(M.error("There are no warps set."));
@@ -102,6 +103,15 @@ public final class WarpCommand extends Command<Creative,TeleportationManager> {
 				sender.sendMessage(M.error("Please enter a valid integer."));
 				return;
 			}
+		}
+		if(page < 1){
+			sender.sendMessage(M.error("Page must be at least 1."));
+			return;
+		}
+		
+		if(sender instanceof Player){
+			new WarpMenu(manager, ((Player)sender).getUniqueId().toString(), label).open((Player)sender, page-1);
+			return;
 		}
 		
 		int maxPages = (int) Math.ceil(warps.size() / (double)WARPS_PER_PAGE);

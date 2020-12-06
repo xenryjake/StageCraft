@@ -1,9 +1,7 @@
 package com.xenry.stagecraft.creative.teleportation.commands.home;
 import com.xenry.stagecraft.command.Command;
 import com.xenry.stagecraft.creative.Creative;
-import com.xenry.stagecraft.creative.teleportation.Home;
-import com.xenry.stagecraft.creative.teleportation.Teleportation;
-import com.xenry.stagecraft.creative.teleportation.TeleportationManager;
+import com.xenry.stagecraft.creative.teleportation.*;
 import com.xenry.stagecraft.creative.teleportation.commands.TPCommand;
 import com.xenry.stagecraft.creative.teleportation.commands.warp.WarpCommand;
 import com.xenry.stagecraft.profile.Profile;
@@ -15,6 +13,7 @@ import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
@@ -43,7 +42,7 @@ public final class HomeCommand extends Command<Creative,TeleportationManager> {
 	@Override
 	protected void playerPerform(Profile profile, String[] args, String label) {
 		if(label.equalsIgnoreCase("homes") || args.length == 0 || args[0].matches("[0-9]+")){
-			listHomes(profile, args);
+			listHomes(profile, args, label);
 			return;
 		}
 		boolean safe = true;
@@ -62,7 +61,7 @@ public final class HomeCommand extends Command<Creative,TeleportationManager> {
 		manager.createAndExecuteTeleportation(profile.getPlayer(), profile.getPlayer(), profile.getPlayer().getLocation(), home.getLocation(), safe ? Teleportation.Type.HOME : Teleportation.Type.ADMIN, safe);
 	}
 	
-	private void listHomes(Profile profile, String[] args){
+	private void listHomes(Profile profile, String[] args, String label){
 		List<String> homes = manager.getHomeHandler().getHomeNameList(profile);
 		if(homes.isEmpty()){
 			profile.sendMessage(M.error("You have no homes set."));
@@ -77,8 +76,13 @@ public final class HomeCommand extends Command<Creative,TeleportationManager> {
 				return;
 			}
 		}
+		if(page < 1){
+			profile.sendMessage(M.error("Page must be at least 1."));
+			return;
+		}
+		new HomeMenu(manager, profile.getUUID(), label).open(profile.getPlayer(), page-1);
 		
-		final int HOMES_PER_PAGE = WarpCommand.WARPS_PER_PAGE;
+		/*final int HOMES_PER_PAGE = WarpCommand.WARPS_PER_PAGE;
 		int maxPages = (int) Math.ceil(homes.size() / (double)HOMES_PER_PAGE);
 		if(page > maxPages){
 			page = maxPages;
@@ -107,7 +111,7 @@ public final class HomeCommand extends Command<Creative,TeleportationManager> {
 			profile.sendMessage(M.msg + "Showing all homes:");
 		}
 		profile.sendMessage(cb.create());
-		profile.sendMessage(M.msg + "Use " + M.elm + "/home <name>" + M.msg + " to teleport to a home.");
+		profile.sendMessage(M.msg + "Use " + M.elm + "/home <name>" + M.msg + " to teleport to a home.");*/
 	}
 	
 	@Override

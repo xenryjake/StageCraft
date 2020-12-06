@@ -4,6 +4,7 @@ import com.xenry.stagecraft.command.Command;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.ProfileManager;
 import com.xenry.stagecraft.profile.Rank;
+import com.xenry.stagecraft.profile.ui.NameColorMenu;
 import com.xenry.stagecraft.util.M;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -36,7 +37,8 @@ public final class NameColorCommand extends Command<Core,ProfileManager> {
 	@Override
 	protected void playerPerform(Profile profile, String[] args, String label) {
 		if(args.length < 1){
-			profile.sendMessage(M.usage("/" + label + " <color>"));
+			//profile.sendMessage(M.usage("/" + label + " <color>"));
+			new NameColorMenu(manager, profile.getUUID()).open(profile.getPlayer());
 			return;
 		}
 		ChatColor color;

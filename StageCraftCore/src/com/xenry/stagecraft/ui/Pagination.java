@@ -1,4 +1,6 @@
 package com.xenry.stagecraft.ui;
+import com.xenry.stagecraft.ui.item.Item;
+
 import java.util.Arrays;
 
 /**
@@ -26,7 +28,7 @@ public class Pagination {
 		if(page < 0){
 			throw new IllegalArgumentException("page must not be negative");
 		}
-		current = page;
+		current = Math.min(page, items.length / itemsPerPage);
 		return this;
 	}
 	

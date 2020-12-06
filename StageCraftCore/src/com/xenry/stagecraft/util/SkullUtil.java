@@ -24,6 +24,14 @@ public final class SkullUtil {
 	
 	private SkullUtil(){}
 	
+	public static ItemStack getSkullFromOwnerName(String name){
+		ItemStack stack = new ItemStack(Material.PLAYER_HEAD);
+		SkullMeta meta = (SkullMeta) stack.getItemMeta();
+		meta.setOwner(name);
+		stack.setItemMeta(meta);
+		return stack;
+	}
+	
 	public static ItemStack getSkullFromTextureURL(String url){
 		return getSkullFromTextureURL(url, false);
 	}

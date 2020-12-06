@@ -8,6 +8,7 @@ import com.xenry.stagecraft.profile.commands.rank.RankCommand;
 import com.xenry.stagecraft.profile.permissions.PermissionHandler;
 import com.xenry.stagecraft.profile.permissions.commands.PermTestCommand;
 import com.xenry.stagecraft.profile.permissions.commands.PermissionCommand;
+import com.xenry.stagecraft.profile.ui.MyProfileMenu;
 import com.xenry.stagecraft.punishment.Punishment;
 import com.xenry.stagecraft.util.Log;
 import com.xenry.stagecraft.util.M;
@@ -37,11 +38,9 @@ public final class ProfileManager extends Manager<Core> {
 	
 	private final DBCollection collection;
 	private final HashMap<String,Profile> profiles;
-	
-	private PermissionHandler permissionsHandler;
-	
-	private ProfileRankUpdatePMSC profileRankUpdatePMSC;
-	private ProfileNameInfoUpdatePMSC profileNameInfoUpdatePMSC;
+	private final PermissionHandler permissionsHandler;
+	private final ProfileRankUpdatePMSC profileRankUpdatePMSC;
+	private final ProfileNameInfoUpdatePMSC profileNameInfoUpdatePMSC;
 	
 	public ProfileManager(Core plugin){
 		super("Profiles", plugin);
@@ -50,19 +49,20 @@ public final class ProfileManager extends Manager<Core> {
 		collection.setObjectClass(Profile.class);
 		
 		GenericProfile.coreProfileManager = this;
+		
+		permissionsHandler = new PermissionHandler(this);
+		profileRankUpdatePMSC = new ProfileRankUpdatePMSC(this);
+		profileNameInfoUpdatePMSC = new ProfileNameInfoUpdatePMSC(this);
 	}
 	
 	@Override
 	protected void onEnable() {
-		permissionsHandler = new PermissionHandler(this);
 		registerListener(permissionsHandler);
 		registerCommand(new PermissionCommand(this));
 		registerCommand(new PermTestCommand(this));
 		
 		plugin.getPluginMessageManager().registerSubChannel(new PlayerWillSwitchPMSC(this));
-		profileRankUpdatePMSC = new ProfileRankUpdatePMSC(this);
 		plugin.getPluginMessageManager().registerSubChannel(profileRankUpdatePMSC);
-		profileNameInfoUpdatePMSC = new ProfileNameInfoUpdatePMSC(this);
 		plugin.getPluginMessageManager().registerSubChannel(profileNameInfoUpdatePMSC);
 		
 		registerCommand(new RankCommand(this));
@@ -176,6 +176,11 @@ public final class ProfileManager extends Manager<Core> {
 			return profiles.get(uuid);
 		}
 		return (Profile) collection.findOne(new BasicDBObject("uuid", uuid));
+	}
+	
+	@Nullable
+	public Profile getOnlineProfileByUUID(String uuid){
+		return profiles.getOrDefault(uuid, null);
 	}
 	
 	public boolean hasProfile(String uuid){

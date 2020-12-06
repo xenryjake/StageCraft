@@ -1,4 +1,4 @@
-package com.xenry.stagecraft.ui;
+package com.xenry.stagecraft.ui.item;
 import org.bukkit.inventory.ItemStack;
 
 /**
