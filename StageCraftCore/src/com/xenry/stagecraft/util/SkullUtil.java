@@ -24,6 +24,7 @@ public final class SkullUtil {
 	
 	private SkullUtil(){}
 	
+	@SuppressWarnings("deprecation")
 	public static ItemStack getSkullFromOwnerName(String name){
 		ItemStack stack = new ItemStack(Material.PLAYER_HEAD);
 		SkullMeta meta = (SkullMeta) stack.getItemMeta();

@@ -4,22 +4,15 @@ import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
 import com.xenry.stagecraft.survival.Survival;
 import com.xenry.stagecraft.survival.teleportation.HomeMenu;
-import com.xenry.stagecraft.survival.teleportation.commands.warp.WarpCommand;
 import com.xenry.stagecraft.survival.teleportation.Home;
 import com.xenry.stagecraft.survival.teleportation.Teleportation;
 import com.xenry.stagecraft.survival.teleportation.TeleportationManager;
 import com.xenry.stagecraft.survival.teleportation.commands.TPCommand;
 import com.xenry.stagecraft.util.M;
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.ComponentBuilder;
-import net.md_5.bungee.api.chat.HoverEvent;
-import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 /**

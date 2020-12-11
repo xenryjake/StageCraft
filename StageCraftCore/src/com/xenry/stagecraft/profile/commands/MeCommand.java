@@ -5,8 +5,6 @@ import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.ProfileManager;
 import com.xenry.stagecraft.profile.Rank;
 import com.xenry.stagecraft.profile.ui.MyProfileMenu;
-import com.xenry.stagecraft.util.M;
-import com.xenry.stagecraft.util.time.TimeUtil;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 

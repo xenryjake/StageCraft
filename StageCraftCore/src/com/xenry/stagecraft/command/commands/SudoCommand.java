@@ -61,12 +61,12 @@ public final class SudoCommand extends Command<Core,CommandManager> {
 		}
 		String target = args[0];
 		String content = Joiner.on(' ').join(Arrays.copyOfRange(args, 1, args.length));
-		boolean isChat = false;
 		boolean isConsole = target.startsWith("#");
 		if(content.toLowerCase().startsWith("sudo")){
 			sender.sendMessage(M.error("You can't create sudo loops."));
 			return;
 		}
+		boolean isChat = false;
 		if(content.toLowerCase().startsWith("c:")){
 			content = content.substring(2);
 			isChat = true;
@@ -103,8 +103,8 @@ public final class SudoCommand extends Command<Core,CommandManager> {
 			localConsole = true;
 		}else if(target.startsWith("#")){
 			localConsole = false;
-			boolean found = false;
 			target = target.substring(1);
+			boolean found = false;
 			for(String name : manager.plugin.getServerManager().getServerNames()){
 				if(name.equalsIgnoreCase(target)){
 					target = "#" + name;

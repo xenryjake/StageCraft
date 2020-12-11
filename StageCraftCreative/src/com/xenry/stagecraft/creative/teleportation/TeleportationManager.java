@@ -5,7 +5,6 @@ import com.xenry.stagecraft.creative.teleportation.commands.*;
 import com.xenry.stagecraft.creative.teleportation.commands.home.*;
 import com.xenry.stagecraft.creative.teleportation.commands.warp.*;
 import com.xenry.stagecraft.profile.Profile;
-import com.xenry.stagecraft.profile.Rank;
 import com.xenry.stagecraft.util.Cooldown;
 import com.xenry.stagecraft.util.M;
 import net.md_5.bungee.api.ChatColor;

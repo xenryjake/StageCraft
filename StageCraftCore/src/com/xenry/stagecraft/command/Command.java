@@ -221,4 +221,24 @@ public abstract class Command<P extends StageCraftPlugin,T extends Manager<P>> {
 		return PlayerUtil.getOnlinePlayerNames();
 	}
 	
+	protected final List<String> networkPlayers(String startsWith){
+		List<String> players = new ArrayList<>();
+		for(String player : allNetworkPlayers()){
+			if(player.startsWith(startsWith)){
+				players.add(player);
+			}
+		}
+		return players;
+	}
+	
+	protected final List<String> localPlayers(String startsWith){
+		List<String> players = new ArrayList<>();
+		for(String player : allLocalPlayers()){
+			if(player.startsWith(startsWith)){
+				players.add(player);
+			}
+		}
+		return players;
+	}
+	
 }

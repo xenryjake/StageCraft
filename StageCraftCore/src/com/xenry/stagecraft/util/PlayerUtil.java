@@ -43,7 +43,6 @@ public final class PlayerUtil {
 		return Bukkit.getOnlinePlayers().size() > 0;
 	}
 	
-	@SuppressWarnings("ConstantConditions")
 	public static boolean hasItemsInInventory(HumanEntity player){
 		if(player == null){
 			return false;

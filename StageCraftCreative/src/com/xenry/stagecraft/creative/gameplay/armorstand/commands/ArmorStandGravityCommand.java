@@ -1,7 +1,6 @@
 package com.xenry.stagecraft.creative.gameplay.armorstand.commands;
 import com.xenry.stagecraft.creative.gameplay.armorstand.ArmorStandHandler;
 import com.xenry.stagecraft.profile.Profile;
-import com.xenry.stagecraft.profile.Rank;
 import com.xenry.stagecraft.util.M;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;

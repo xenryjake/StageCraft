@@ -1,5 +1,5 @@
 name: StageCraftCreative
-version: beta-2020.12.02a
+version: beta-2020.12.11a
 api-version: "1.16"
 author: Xenry
 main: com.xenry.stagecraft.creative.Creative
@@ -188,9 +188,12 @@ commands:
   itemlore:
     description: "Change the lore of an item"
     aliases: [ilore]
-  skull:
+  playerhead:
     description: "Spawn or change a player skull"
-    aliases: [head]
+    aliases: [playerskull,phead,pskull]
+  head:
+    description: "Spawn custom heads"
+    aliases: [skull,heads,skulls]
   experience:
     description: "Modify a player's experience levels"
     aliases: [exp,xp]

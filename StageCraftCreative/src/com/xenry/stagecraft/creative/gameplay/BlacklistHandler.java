@@ -2,7 +2,6 @@ package com.xenry.stagecraft.creative.gameplay;
 import com.xenry.stagecraft.Handler;
 import com.xenry.stagecraft.creative.Creative;
 import com.xenry.stagecraft.util.Cooldown;
-import com.xenry.stagecraft.util.Log;
 import com.xenry.stagecraft.util.M;
 import org.bukkit.Chunk;
 import org.bukkit.Material;

@@ -8,7 +8,6 @@ import com.xenry.stagecraft.profile.commands.rank.RankCommand;
 import com.xenry.stagecraft.profile.permissions.PermissionHandler;
 import com.xenry.stagecraft.profile.permissions.commands.PermTestCommand;
 import com.xenry.stagecraft.profile.permissions.commands.PermissionCommand;
-import com.xenry.stagecraft.profile.ui.MyProfileMenu;
 import com.xenry.stagecraft.punishment.Punishment;
 import com.xenry.stagecraft.util.Log;
 import com.xenry.stagecraft.util.M;

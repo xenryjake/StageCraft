@@ -26,7 +26,7 @@ public final class GameTimeUtil {
 	
 	public static long hoursMinutesToTicks(final int hours, final int minutes) {
 		long ret = ticksAtMidnight;
-		ret += (hours) * ticksPerHour;
+		ret += (long)hours * ticksPerHour;
 		ret += (minutes / 60.0) * ticksPerHour;
 		ret %= ticksPerDay;
 		return ret;

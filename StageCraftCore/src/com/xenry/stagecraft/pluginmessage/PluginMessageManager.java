@@ -36,7 +36,7 @@ public final class PluginMessageManager extends Manager<Core> implements PluginM
 	}
 	
 	@Override
-	public void onPluginMessageReceived(@NotNull String channel, @NotNull Player receiver, @NotNull byte[] data) {
+	public void onPluginMessageReceived(@NotNull String channel, @NotNull Player receiver, byte[] data) {
 		if(!channel.equalsIgnoreCase("BungeeCord")){
 			return;
 		}

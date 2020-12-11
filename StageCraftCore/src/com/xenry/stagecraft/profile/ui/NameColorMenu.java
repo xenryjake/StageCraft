@@ -55,6 +55,7 @@ public final class NameColorMenu extends Menu<Core,ProfileManager> {
 			is.setItemMeta(im);
 			contents.add(Button.runCommandButton(is, "namecolor " + color.getName()));
 		}
+		contents.fillEmptySlots(getInvisibleItem());
 	}
 	
 	private Material chatColorToMaterial(ChatColor color){

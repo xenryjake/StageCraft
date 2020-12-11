@@ -4,6 +4,9 @@ import com.xenry.stagecraft.creative.Creative;
 import com.xenry.stagecraft.creative.gameplay.armorstand.ArmorStandHandler;
 import com.xenry.stagecraft.creative.gameplay.commands.*;
 import com.xenry.stagecraft.creative.gameplay.armorstand.commands.ArmorStandCommand;
+import com.xenry.stagecraft.creative.gameplay.heads.HeadHandler;
+import com.xenry.stagecraft.creative.gameplay.heads.commands.HeadCommand;
+import com.xenry.stagecraft.creative.gameplay.heads.commands.PlayerHeadCommand;
 import com.xenry.stagecraft.creative.gameplay.pvptoggle.PvPCommand;
 import com.xenry.stagecraft.creative.gameplay.pvptoggle.PvPHandler;
 import com.xenry.stagecraft.creative.gameplay.pvptoggle.PvPLockCommand;
@@ -40,6 +43,7 @@ public final class GameplayManager extends Manager<Creative> {
 	private final AcceptRulesHandler acceptRulesHandler;
 	private final ArmorStandHandler armorStandHandler;
 	private final F3NHandler f3nHandler;
+	private final HeadHandler headHandler;
 	
 	private boolean lockoutMode = false;
 	
@@ -54,6 +58,7 @@ public final class GameplayManager extends Manager<Creative> {
 		acceptRulesHandler = new AcceptRulesHandler(this);
 		armorStandHandler = new ArmorStandHandler(this);
 		f3nHandler = new F3NHandler(this);
+		headHandler = new HeadHandler(this);
 	}
 	
 	@Override
@@ -77,6 +82,10 @@ public final class GameplayManager extends Manager<Creative> {
 		registerCommand(new ArmorStandCommand(armorStandHandler));
 		
 		registerListener(f3nHandler);
+		
+		registerListener(headHandler);
+		registerCommand(new PlayerHeadCommand(this));
+		registerCommand(new HeadCommand(this));
 		
 		registerCommand(new LockoutCommand(this));
 		registerCommand(new OverrideCommand(this));
@@ -105,7 +114,6 @@ public final class GameplayManager extends Manager<Creative> {
 		registerCommand(new NearCommand(this));
 		registerCommand(new RepairCommand(this));
 		registerCommand(new RestCommand(this));
-		registerCommand(new SkullCommand(this));
 		registerCommand(new SmithingTableCommand(this));
 		registerCommand(new SmithingTableCommand(this));
 		registerCommand(new SpeedCommand(this));
@@ -118,6 +126,7 @@ public final class GameplayManager extends Manager<Creative> {
 		registerCommand(new MobCannonCommand(this));
 		
 		armorStandHandler.downloadPoses();
+		headHandler.setupHeads();
 	}
 	
 	@Override
@@ -151,6 +160,10 @@ public final class GameplayManager extends Manager<Creative> {
 	
 	public ArmorStandHandler getArmorStandHandler() {
 		return armorStandHandler;
+	}
+	
+	public HeadHandler getHeadHandler() {
+		return headHandler;
 	}
 	
 	public List<String> getPlayerOverrides() {
