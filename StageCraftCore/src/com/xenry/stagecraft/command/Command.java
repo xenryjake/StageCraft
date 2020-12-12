@@ -247,7 +247,7 @@ public abstract class Command<P extends StageCraftPlugin,T extends Manager<P>> {
 		startsWith = startsWith.toLowerCase();
 		List<String> newList = new ArrayList<>();
 		for(String string : list){
-			if(string.toLowerCase().equalsIgnoreCase(startsWith)){
+			if(string.toLowerCase().startsWith(startsWith)){
 				newList.add(string);
 			}
 		}
