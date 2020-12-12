@@ -132,11 +132,12 @@ public final class WeatherCommand extends Command<Creative,GameplayManager> {
 	
 	@Override
 	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		switch(args.length){
+		int mod = types.containsKey(label) ? 1 : 0;
+		switch(args.length + mod){
 			case 1:
-				return filter(new ArrayList<>(types.keySet()), args[0]);
+				return filter(new ArrayList<>(types.keySet()), args[-mod]);
 			case 2:
-				return LocationUtil.getWorldNames(args[1]);
+				return LocationUtil.getWorldNames(args[1-mod]);
 			default:
 				return Collections.emptyList();
 		}
@@ -144,11 +145,12 @@ public final class WeatherCommand extends Command<Creative,GameplayManager> {
 	
 	@Override
 	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
-		switch(args.length){
+		int mod = types.containsKey(label) ? 1 : 0;
+		switch(args.length + mod){
 			case 1:
-				return filter(new ArrayList<>(types.keySet()), args[0]);
+				return filter(new ArrayList<>(types.keySet()), args[-mod]);
 			case 2:
-				return LocationUtil.getWorldNames(args[1]);
+				return LocationUtil.getWorldNames(args[1-mod]);
 			default:
 				return Collections.emptyList();
 		}

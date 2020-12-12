@@ -194,11 +194,12 @@ public final class TimeCommand extends Command<Survival,GameplayManager> {
 	
 	@Override
 	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		switch(args.length){
+		int mod = times.containsKey(label) ? 1 : 0;
+		switch(args.length + mod){
 			case 1:
-				return filter(new ArrayList<>(times.keySet()), args[0]);
+				return filter(new ArrayList<>(times.keySet()), args[-mod]);
 			case 2:
-				return LocationUtil.getWorldNames(args[1]);
+				return LocationUtil.getWorldNames(args[1-mod]);
 			default:
 				return Collections.emptyList();
 		}
@@ -206,11 +207,12 @@ public final class TimeCommand extends Command<Survival,GameplayManager> {
 	
 	@Override
 	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
-		switch(args.length){
+		int mod = times.containsKey(label) ? 1 : 0;
+		switch(args.length + mod){
 			case 1:
-				return filter(new ArrayList<>(times.keySet()), args[0]);
+				return filter(new ArrayList<>(times.keySet()), args[-mod]);
 			case 2:
-				return LocationUtil.getWorldNames(args[1]);
+				return LocationUtil.getWorldNames(args[1-mod]);
 			default:
 				return Collections.emptyList();
 		}

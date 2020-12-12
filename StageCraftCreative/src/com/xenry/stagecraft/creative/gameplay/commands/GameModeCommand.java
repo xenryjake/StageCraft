@@ -137,16 +137,13 @@ public final class GameModeCommand extends Command<Creative,GameplayManager> {
 	
 	@Override
 	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		int len = args.length;
 		label = label.replace("gm", "");
-		if(label.startsWith("c") || label.startsWith("s") || label.startsWith("a")){
-			len++;
-		}
-		switch(len){
+		int mod = label.startsWith("c") || label.startsWith("s") || label.startsWith("a") ? 1 : 0;
+		switch(args.length + mod){
 			case 1:
-				return filter(Arrays.asList("creative", "survival", "adventure", "spectator"), args[0]);
+				return filter(Arrays.asList("creative", "survival", "adventure", "spectator"), args[-mod]);
 			case 2:
-				return OTHERS.has(profile) ? localPlayers(args[1]) : Collections.emptyList();
+				return OTHERS.has(profile) ? localPlayers(args[1-mod]) : Collections.emptyList();
 			default:
 				return Collections.emptyList();
 		}
@@ -154,16 +151,13 @@ public final class GameModeCommand extends Command<Creative,GameplayManager> {
 	
 	@Override
 	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
-		int len = args.length;
 		label = label.replace("gm", "");
-		if(label.startsWith("c") || label.startsWith("s") || label.startsWith("a")){
-			len++;
-		}
-		switch(len){
+		int mod = label.startsWith("c") || label.startsWith("s") || label.startsWith("a") ? 1 : 0;
+		switch(args.length + mod){
 			case 1:
-				return filter(Arrays.asList("creative", "survival", "adventure", "spectator"), args[0]);
+				return filter(Arrays.asList("creative", "survival", "adventure", "spectator"), args[-mod]);
 			case 2:
-				return localPlayers(args[1]);
+				return localPlayers(args[1-mod]);
 			default:
 				return Collections.emptyList();
 		}
