@@ -104,16 +104,15 @@ public final class BanCommand extends Command<Core,PunishmentManager> {
 	@Override
 	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
 		switch(args.length){
-			case 0:
 			case 1:
-				return allNetworkPlayers();
+				return networkPlayers(args[0]);
 			case 2:{
 				args[1] = args[1].toLowerCase().replaceAll("[smhd]", "");
 				try{
 					int value = Integer.parseInt(args[1]);
-					return Arrays.asList(value + "s", value + "m", value + "h", value + "d");
+					return filter(Arrays.asList(value + "s", value + "m", value + "h", value + "d"), args[1]);
 				}catch(Exception ex){
-					return Collections.singletonList("forever");
+					return filter(Collections.singletonList("forever"), args[1]);
 				}
 			}
 			default:

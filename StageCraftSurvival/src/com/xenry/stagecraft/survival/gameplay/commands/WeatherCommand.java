@@ -138,11 +138,10 @@ public final class WeatherCommand extends Command<Survival,GameplayManager> {
 	@Override
 	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
 		switch(args.length){
-			case 0:
 			case 1:
-				return new ArrayList<>(types.keySet());
+				return filter(new ArrayList<>(types.keySet()), args[0]);
 			case 2:
-				return LocationUtil.getAllWorldNames();
+				return LocationUtil.getWorldNames(args[1]);
 			default:
 				return Collections.emptyList();
 		}

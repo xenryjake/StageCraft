@@ -1,5 +1,5 @@
 package com.xenry.stagecraft.survival.teleportation.commands.home;
-import com.xenry.stagecraft.command.Command;
+import com.xenry.stagecraft.command.PlayerCommand;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
 import com.xenry.stagecraft.survival.Survival;
@@ -9,7 +9,6 @@ import com.xenry.stagecraft.survival.teleportation.TeleportationManager;
 import com.xenry.stagecraft.survival.teleportation.commands.TPCommand;
 import com.xenry.stagecraft.util.M;
 import org.bukkit.Bukkit;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -23,16 +22,11 @@ import java.util.List;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public final class GoToHomeCommand extends Command<Survival,TeleportationManager> {
+public final class GoToHomeCommand extends PlayerCommand<Survival,TeleportationManager> {
 	
 	public GoToHomeCommand(TeleportationManager manager){
 		super(manager, Rank.MOD, "gotohome");
 		setCanBeDisabled(true);
-	}
-	
-	@Override
-	protected void serverPerform(CommandSender sender, String[] args, String label) {
-		onlyForPlayers(sender);
 	}
 	
 	@Override
@@ -62,15 +56,9 @@ public final class GoToHomeCommand extends Command<Survival,TeleportationManager
 	
 	@Override
 	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		return serverTabComplete(profile.getPlayer(), args, label);
-	}
-	
-	@Override
-	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
 		switch(args.length){
-			case 0:
 			case 1:
-				return allLocalPlayers();
+				return localPlayers(args[0]);
 			case 2:{
 				Player player = Bukkit.getPlayer(args[0]);
 				if(player == null){
@@ -80,7 +68,7 @@ public final class GoToHomeCommand extends Command<Survival,TeleportationManager
 				if(target == null){
 					return Collections.emptyList();
 				}
-				return manager.getHomeHandler().getHomeNameList(target);
+				return filter(manager.getHomeHandler().getHomeNameList(target), args[1]);
 			}
 			default:
 				return Collections.emptyList();

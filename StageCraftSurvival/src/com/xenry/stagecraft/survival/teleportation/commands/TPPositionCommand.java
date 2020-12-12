@@ -1,5 +1,5 @@
 package com.xenry.stagecraft.survival.teleportation.commands;
-import com.xenry.stagecraft.command.Command;
+import com.xenry.stagecraft.command.PlayerCommand;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.survival.Survival;
 import com.xenry.stagecraft.survival.teleportation.Teleportation;
@@ -7,7 +7,6 @@ import com.xenry.stagecraft.survival.teleportation.TeleportationManager;
 import com.xenry.stagecraft.util.M;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -22,16 +21,11 @@ import java.util.List;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public final class TPPositionCommand extends Command<Survival,TeleportationManager> {
+public final class TPPositionCommand extends PlayerCommand<Survival,TeleportationManager> {
 	
 	public TPPositionCommand(TeleportationManager manager){
 		super(manager, TPCommand.SELF_RANK, "teleportposition", "teleportpos", "tpposition", "tppos");
 		setCanBeDisabled(true);
-	}
-	
-	@Override
-	protected void serverPerform(CommandSender sender, String[] args, String label) {
-		onlyForPlayers(sender);
 	}
 	
 	@Override
@@ -100,7 +94,6 @@ public final class TPPositionCommand extends Command<Survival,TeleportationManag
 	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
 		Player player = profile.getPlayer();
 		switch(args.length){
-			case 0:
 			case 1:
 				return new ArrayList<>(Collections.singleton(String.valueOf(player.getLocation().getBlockX())));
 			case 2:
@@ -114,11 +107,6 @@ public final class TPPositionCommand extends Command<Survival,TeleportationManag
 			default:
 				return Collections.emptyList();
 		}
-	}
-	
-	@Override
-	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
-		return Collections.emptyList();
 	}
 	
 }

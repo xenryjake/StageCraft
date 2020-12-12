@@ -1,12 +1,11 @@
 package com.xenry.stagecraft.creative.gameplay.commands;
-import com.xenry.stagecraft.command.Command;
+import com.xenry.stagecraft.command.PlayerCommand;
 import com.xenry.stagecraft.creative.Creative;
 import com.xenry.stagecraft.creative.gameplay.GameplayManager;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
 import com.xenry.stagecraft.util.M;
 import com.xenry.stagecraft.util.MapUtil;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -22,7 +21,7 @@ import java.util.Map;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public final class NearCommand extends Command<Creative,GameplayManager> {
+public final class NearCommand extends PlayerCommand<Creative,GameplayManager> {
 	
 	public NearCommand(GameplayManager manager){
 		super(manager, Rank.HEAD_MOD, "near", "nearby");
@@ -67,17 +66,7 @@ public final class NearCommand extends Command<Creative,GameplayManager> {
 	}
 	
 	@Override
-	protected void serverPerform(CommandSender sender, String[] args, String label) {
-		onlyForPlayers(sender);
-	}
-	
-	@Override
 	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		return Collections.emptyList();
-	}
-	
-	@Override
-	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
 		return Collections.emptyList();
 	}
 	

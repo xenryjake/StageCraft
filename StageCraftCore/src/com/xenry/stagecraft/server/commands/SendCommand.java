@@ -87,15 +87,14 @@ public final class SendCommand extends Command<Core,ServerManager> {
 	@Override
 	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
 		switch(args.length){
-			case 0:
 			case 1:
 				List<String> results = new ArrayList<>(allNetworkPlayers());
 				results.add("current");
 				results.add("all");
 				results.addAll(manager.getNetworkPlayers().keySet());
-				return results;
+				return filter(results, args[0]);
 			case 2:
-				return new ArrayList<>(manager.getNetworkPlayers().keySet());
+				return filter(new ArrayList<>(manager.getNetworkPlayers().keySet()), args[1]);
 			default:
 				return Collections.emptyList();
 		}
@@ -104,15 +103,14 @@ public final class SendCommand extends Command<Core,ServerManager> {
 	@Override
 	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
 		switch(args.length){
-			case 0:
 			case 1:
 				List<String> results = new ArrayList<>(allNetworkPlayers());
 				results.add("current");
 				results.add("all");
-				results.addAll(manager.getNetworkPlayers().keySet());
-				return results;
+				results.addAll(manager.getNetworkPlayers().keySet()); //servers
+				return filter(results, args[0]);
 			case 2:
-				return new ArrayList<>(manager.getNetworkPlayers().keySet());
+				return filter(new ArrayList<>(manager.getNetworkPlayers().keySet()), args[1]); //servers
 			default:
 				return Collections.emptyList();
 		}

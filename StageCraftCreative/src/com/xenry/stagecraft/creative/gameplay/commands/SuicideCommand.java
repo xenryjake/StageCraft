@@ -1,10 +1,9 @@
 package com.xenry.stagecraft.creative.gameplay.commands;
-import com.xenry.stagecraft.command.Command;
+import com.xenry.stagecraft.command.PlayerCommand;
 import com.xenry.stagecraft.creative.Creative;
 import com.xenry.stagecraft.creative.gameplay.GameplayManager;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
-import org.bukkit.command.CommandSender;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.jetbrains.annotations.NotNull;
 
@@ -18,16 +17,11 @@ import java.util.List;
  * Usage of this content without written consent of Henry Jake
  * is prohibited.
  */
-public final class SuicideCommand extends Command<Creative,GameplayManager> {
+public final class SuicideCommand extends PlayerCommand<Creative,GameplayManager> {
 	
 	public SuicideCommand(GameplayManager manager){
-		super(manager, Rank.MEMBER, "suicide", "kms", "die", "kermit");
+		super(manager, Rank.MEMBER, "suicide", "kms", "die", "kermit", "cory");
 		setCanBeDisabled(true);
-	}
-	
-	@Override
-	protected void serverPerform(CommandSender sender, String[] args, String label) {
-		onlyForPlayers(sender);
 	}
 	
 	@Override
@@ -42,11 +36,6 @@ public final class SuicideCommand extends Command<Creative,GameplayManager> {
 	
 	@Override
 	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		return Collections.emptyList();
-	}
-	
-	@Override
-	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
 		return Collections.emptyList();
 	}
 	

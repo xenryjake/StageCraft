@@ -18,6 +18,7 @@ public abstract class GenericProfile extends BasicDBObject {
 	
 	protected static ProfileManager coreProfileManager;
 	
+	@SuppressWarnings("DeprecatedIsStillUsed")
 	@Deprecated
 	public GenericProfile(){
 		//required for Mongo instantiation

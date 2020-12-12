@@ -34,7 +34,7 @@ public final class WaypointCommand extends Command<Survival,GameplayManager> {
 	
 	@Override
 	protected void serverPerform(CommandSender sender, String[] args, String label) {
-		sender.sendMessage(M.msg + "§lWaypoint Commands:");
+		sender.sendMessage(M.msg + "Waypoint Commands:");
 		sender.sendMessage(M.help(label + " add <name> [icon]",
 				"Add a new waypoint where you're standing."));
 		sender.sendMessage(M.help(label + " remove <name>", "Remove a waypoint."));
@@ -42,11 +42,11 @@ public final class WaypointCommand extends Command<Survival,GameplayManager> {
 	
 	@Override
 	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		return Arrays.asList("add", "remove");
+		return filter(Arrays.asList("add", "remove"), args[0]);
 	}
 	
 	@Override
 	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
-		return Arrays.asList("add", "remove");
+		return filter(Arrays.asList("add", "remove"), args[0]);
 	}
 }

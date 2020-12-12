@@ -86,7 +86,7 @@ public final class ExtinguishCommand extends Command<Survival,GameplayManager> {
 		if(args.length == 1){
 			List<String> players = PlayerUtil.getOnlinePlayerNames();
 			players.add("**");
-			return players;
+			return filter(players, args[0]);
 		}else{
 			return Collections.emptyList();
 		}
@@ -97,7 +97,7 @@ public final class ExtinguishCommand extends Command<Survival,GameplayManager> {
 		if(args.length == 1){
 			List<String> players = PlayerUtil.getOnlinePlayerNames();
 			players.add("**");
-			return players;
+			return filter(players, args[0]);
 		}else{
 			return Collections.emptyList();
 		}

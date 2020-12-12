@@ -234,6 +234,19 @@ public final class CommandManager extends Manager<Core> implements TabExecutor {
 		return labels;
 	}
 	
+	public List<String> getCommandLabels(String startsWith){
+		startsWith = startsWith.toLowerCase();
+		List<String> labels = new ArrayList<>();
+		for(Command<?,?> command : commands){
+			for(String label : command.getLabels()){
+				if(label.toLowerCase().startsWith(startsWith)){
+					labels.add(label);
+				}
+			}
+		}
+		return labels;
+	}
+	
 	private String stripPluginPrefix(String buffer){
 		// todo make this better/less spaghetti
 		if(buffer.toLowerCase().startsWith("stagecraft:")){

@@ -42,11 +42,11 @@ public final class CommandCommand extends Command<Core,CommandManager> {
 	
 	@Override
 	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		return args.length == 1 ? Arrays.asList("enable", "disable", "info") : Collections.emptyList();
+		return args.length == 1 ? filter(Arrays.asList("enable", "disable", "info"), args[0]) : Collections.emptyList();
 	}
 	
 	@Override
 	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
-		return args.length == 1 ? Arrays.asList("enable", "disable", "info") : Collections.emptyList();
+		return args.length == 1 ? filter(Arrays.asList("enable", "disable", "info"), args[0]) : Collections.emptyList();
 	}
 }

@@ -102,12 +102,14 @@ public final class ArmorStandPoseCommand extends Command<Creative,GameplayManage
 			sender.sendMessage(M.msg + "Showing all poses:");
 		}
 		sender.spigot().sendMessage(cb.create());
-		sender.sendMessage(M.msg + "Use " + M.elm + "/as pose <name>" + M.msg + " to apply a pose.");
+		if(sender instanceof Player){
+			sender.sendMessage(M.msg + "Use " + M.elm + "/as pose <name>" + M.msg + " to apply a pose.");
+		}
 	}
 	
 	@Override
 	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		return args.length == 1 ? manager.getArmorStandHandler().getPoseNameList() : Collections.emptyList();
+		return args.length == 1 ? manager.getArmorStandHandler().getPoseNameList(args[0]) : Collections.emptyList();
 	}
 	
 	@Override

@@ -20,6 +20,8 @@ import java.util.List;
  */
 public final class OverrideListCommand extends Command<Creative,GameplayManager> {
 	
+	//todo display as names not uuids
+	
 	public OverrideListCommand(GameplayManager manager){
 		super(manager, Rank.MOD, "list");
 	}

@@ -147,7 +147,7 @@ public final class ArmorStandAdjustCommand extends AbstractArmorStandCommand {
 	
 	@Override
 	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		return args.length == 1 ? Arrays.asList("x", "y", "z", "clear") : Collections.emptyList();
+		return args.length == 1 ? filter(Arrays.asList("x", "y", "z", "clear"), args[0]) : Collections.emptyList();
 	}
 	
 	private enum Part {

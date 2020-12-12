@@ -87,6 +87,18 @@ public final class WarpHandler extends Handler<Survival,TeleportationManager> {
 		return names;
 	}
 	
+	public List<String> getWarpNameList(String startsWith){
+		startsWith = startsWith.toLowerCase();
+		List<String> names = new ArrayList<>();
+		for(Warp warp : warps){
+			if(warp.getName().toLowerCase().startsWith(startsWith)){
+				names.add(warp.getName());
+			}
+		}
+		Collections.sort(names);
+		return names;
+	}
+	
 	public Warp getWarp(String name){
 		name = name.toLowerCase();
 		for(Warp warp : warps){

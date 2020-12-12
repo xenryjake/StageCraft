@@ -1,7 +1,7 @@
 package com.xenry.stagecraft.survival.gameplay.sign;
 import com.google.common.base.Joiner;
 import com.xenry.stagecraft.chat.emotes.Emote;
-import com.xenry.stagecraft.command.Command;
+import com.xenry.stagecraft.command.PlayerCommand;
 import com.xenry.stagecraft.survival.Survival;
 import com.xenry.stagecraft.survival.gameplay.GameplayManager;
 import com.xenry.stagecraft.profile.Profile;
@@ -10,7 +10,6 @@ import com.xenry.stagecraft.util.M;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -25,15 +24,10 @@ import java.util.List;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public final class SignEditCommand extends Command<Survival,GameplayManager> {
+public final class SignEditCommand extends PlayerCommand<Survival,GameplayManager> {
 	
 	public SignEditCommand(GameplayManager manager){
 		super(manager, Rank.MEMBER, "edit");
-	}
-	
-	@Override
-	protected void serverPerform(CommandSender sender, String[] args, String label) {
-		onlyForPlayers(sender);
 	}
 	
 	@Override
@@ -82,12 +76,7 @@ public final class SignEditCommand extends Command<Survival,GameplayManager> {
 	
 	@Override
 	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		return args.length == 1 ? Arrays.asList("1", "2", "3", "4") : Collections.emptyList();
-	}
-	
-	@Override
-	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
-		return Collections.emptyList();
+		return args.length == 1 ? filter(Arrays.asList("1", "2", "3", "4"), args[0]) : Collections.emptyList();
 	}
 	
 }

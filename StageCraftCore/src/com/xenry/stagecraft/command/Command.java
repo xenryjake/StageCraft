@@ -222,9 +222,10 @@ public abstract class Command<P extends StageCraftPlugin,T extends Manager<P>> {
 	}
 	
 	protected final List<String> networkPlayers(String startsWith){
+		startsWith = startsWith.toLowerCase();
 		List<String> players = new ArrayList<>();
 		for(String player : allNetworkPlayers()){
-			if(player.startsWith(startsWith)){
+			if(player.toLowerCase().startsWith(startsWith)){
 				players.add(player);
 			}
 		}
@@ -232,13 +233,25 @@ public abstract class Command<P extends StageCraftPlugin,T extends Manager<P>> {
 	}
 	
 	protected final List<String> localPlayers(String startsWith){
+		startsWith = startsWith.toLowerCase();
 		List<String> players = new ArrayList<>();
 		for(String player : allLocalPlayers()){
-			if(player.startsWith(startsWith)){
+			if(player.toLowerCase().startsWith(startsWith)){
 				players.add(player);
 			}
 		}
 		return players;
+	}
+	
+	protected final List<String> filter(List<String> list, String startsWith){
+		startsWith = startsWith.toLowerCase();
+		List<String> newList = new ArrayList<>();
+		for(String string : list){
+			if(string.toLowerCase().equalsIgnoreCase(startsWith)){
+				newList.add(string);
+			}
+		}
+		return newList;
 	}
 	
 }

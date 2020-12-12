@@ -143,11 +143,10 @@ public final class GameModeCommand extends Command<Survival,GameplayManager> {
 			len++;
 		}
 		switch(len){
-			case 0:
 			case 1:
-				return Arrays.asList("creative", "survival", "adventure", "spectator");
+				return filter(Arrays.asList("creative", "survival", "adventure", "spectator"), args[0]);
 			case 2:
-				return allLocalPlayers();
+				return localPlayers(args[1]);
 			default:
 				return Collections.emptyList();
 		}
@@ -161,11 +160,10 @@ public final class GameModeCommand extends Command<Survival,GameplayManager> {
 			len++;
 		}
 		switch(len){
-			case 0:
 			case 1:
-				return Arrays.asList("creative", "survival", "adventure", "spectator");
+				return filter(Arrays.asList("creative", "survival", "adventure", "spectator"), args[0]);
 			case 2:
-				return allLocalPlayers();
+				return localPlayers(args[1]);
 			default:
 				return Collections.emptyList();
 		}

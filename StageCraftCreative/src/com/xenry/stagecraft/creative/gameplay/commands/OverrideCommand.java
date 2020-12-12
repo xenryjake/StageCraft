@@ -125,11 +125,10 @@ public final class OverrideCommand extends Command<Creative,GameplayManager> {
 	@Override
 	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
 		switch(args.length){
-			case 0:
 			case 1:
-				return Arrays.asList("on", "off", "toggle");
+				return filter(Arrays.asList("on", "off", "toggle"), args[0]);
 			case 2:
-				return allLocalPlayers();
+				return localPlayers(args[1]);
 			default:
 				return Collections.emptyList();
 		}
@@ -138,11 +137,10 @@ public final class OverrideCommand extends Command<Creative,GameplayManager> {
 	@Override
 	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
 		switch(args.length){
-			case 0:
 			case 1:
-				return Arrays.asList("on", "off", "toggle");
+				return filter(Arrays.asList("on", "off", "toggle"), args[0]);
 			case 2:
-				return allLocalPlayers();
+				return localPlayers(args[1]);
 			default:
 				return Collections.emptyList();
 		}

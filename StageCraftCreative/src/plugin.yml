@@ -1,5 +1,5 @@
 name: StageCraftCreative
-version: beta-2020.12.11a
+version: beta-2020.12.12a
 api-version: "1.16"
 author: Xenry
 main: com.xenry.stagecraft.creative.Creative
@@ -137,7 +137,7 @@ commands:
     aliases: [fix]
   suicide:
     description: "Commit suicide"
-    aliases: [kms,die,kermit]
+    aliases: [kms,die,kermit,cory]
   trash:
     description: "Open a trash can"
     aliases: [trashcan,disposal,d]

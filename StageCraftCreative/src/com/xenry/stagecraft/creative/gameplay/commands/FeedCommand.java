@@ -6,7 +6,6 @@ import com.xenry.stagecraft.creative.gameplay.GameplayManager;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
 import com.xenry.stagecraft.util.M;
-import com.xenry.stagecraft.util.PlayerUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -99,9 +98,9 @@ public final class FeedCommand extends Command<Creative,GameplayManager> {
 	@Override
 	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
 		if(args.length == 1 && OTHERS.has(profile)){
-			List<String> players = PlayerUtil.getOnlinePlayerNames();
+			List<String> players = allLocalPlayers();
 			players.add("**");
-			return players;
+			return filter(players, args[0]);
 		}else{
 			return Collections.emptyList();
 		}
@@ -110,9 +109,9 @@ public final class FeedCommand extends Command<Creative,GameplayManager> {
 	@Override
 	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
 		if(args.length == 1){
-			List<String> players = PlayerUtil.getOnlinePlayerNames();
+			List<String> players = allLocalPlayers();
 			players.add("**");
-			return players;
+			return filter(players, args[0]);
 		}else{
 			return Collections.emptyList();
 		}

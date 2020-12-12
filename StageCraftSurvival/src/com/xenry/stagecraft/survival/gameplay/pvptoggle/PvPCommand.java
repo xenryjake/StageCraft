@@ -111,15 +111,14 @@ public final class PvPCommand extends Command<Survival,GameplayManager> {
 	@Override
 	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
 		switch(args.length){
-			case 0:
 			case 1:
 				List<String> values = new ArrayList<>(Arrays.asList("on", "off"));
 				if(OTHERS.has(profile)){
 					values.add("view");
 				}
-				return values;
+				return filter(values, args[0]);
 			case 2:
-				return allLocalPlayers();
+				return localPlayers(args[0]);
 			default:
 				return Collections.emptyList();
 		}
@@ -128,11 +127,10 @@ public final class PvPCommand extends Command<Survival,GameplayManager> {
 	@Override
 	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
 		switch(args.length){
-			case 0:
 			case 1:
-				return Arrays.asList("on", "off", "view");
+				return filter(Arrays.asList("on", "off", "view"), args[0]);
 			case 2:
-				return allLocalPlayers();
+				return localPlayers(args[0]);
 			default:
 				return Collections.emptyList();
 		}

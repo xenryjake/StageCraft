@@ -1,5 +1,5 @@
 package com.xenry.stagecraft.creative.teleportation.commands;
-import com.xenry.stagecraft.command.Command;
+import com.xenry.stagecraft.command.PlayerCommand;
 import com.xenry.stagecraft.creative.Creative;
 import com.xenry.stagecraft.creative.teleportation.Teleportation;
 import com.xenry.stagecraft.creative.teleportation.TeleportationManager;
@@ -7,7 +7,6 @@ import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
 import com.xenry.stagecraft.util.M;
 import org.bukkit.Location;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -21,16 +20,11 @@ import java.util.List;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public final class BackCommand extends Command<Creative,TeleportationManager> {
+public final class BackCommand extends PlayerCommand<Creative,TeleportationManager> {
 	
 	public BackCommand(TeleportationManager manager){
 		super(manager, Rank.MEMBER, "back", "b", "backo", "bo");
 		setCanBeDisabled(true);
-	}
-	
-	@Override
-	protected void serverPerform(CommandSender sender, String[] args, String label) {
-		onlyForPlayers(sender);
 	}
 	
 	@Override
@@ -56,11 +50,6 @@ public final class BackCommand extends Command<Creative,TeleportationManager> {
 	
 	@Override
 	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		return Collections.emptyList();
-	}
-	
-	@Override
-	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
 		return Collections.emptyList();
 	}
 	

@@ -1,5 +1,5 @@
 package com.xenry.stagecraft.survival.gameplay.enchantment.commands;
-import com.xenry.stagecraft.command.Command;
+import com.xenry.stagecraft.command.PlayerCommand;
 import com.xenry.stagecraft.survival.Survival;
 import com.xenry.stagecraft.survival.gameplay.GameplayManager;
 import com.xenry.stagecraft.survival.gameplay.enchantment.CustomEnchantment;
@@ -8,7 +8,6 @@ import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
 import com.xenry.stagecraft.util.M;
 import org.bukkit.Material;
-import org.bukkit.command.CommandSender;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
@@ -23,16 +22,11 @@ import java.util.List;
  * Usage of this content without written consent of Henry Jake
  * is prohibited.
  */
-public final class GiveEnchantedItemCommand extends Command<Survival,GameplayManager> {
+public final class GiveEnchantedItemCommand extends PlayerCommand<Survival,GameplayManager> {
 	
 	public GiveEnchantedItemCommand(GameplayManager manager){
 		super(manager, Rank.ADMIN,"giveenchanteditem", "gei");
 		setCanBeDisabled(true);
-	}
-	
-	@Override
-	protected void serverPerform(CommandSender sender, String[] args, String label) {
-		onlyForPlayers(sender);
 	}
 	
 	@Override
@@ -98,12 +92,7 @@ public final class GiveEnchantedItemCommand extends Command<Survival,GameplayMan
 	
 	@Override
 	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		return args.length == 1 ? Arrays.asList("ore_miner", "lumberjack", "telekinesis", "delicate_walker", "growth", "ore_smelting", "grappling_hook", "grappling_hook_fuel") : Collections.emptyList();
-	}
-	
-	@Override
-	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
-		return Collections.emptyList();
+		return args.length == 1 ? filter(Arrays.asList("ore_miner", "lumberjack", "telekinesis", "delicate_walker", "growth", "ore_smelting", "grappling_hook", "grappling_hook_fuel"), args[0]) : Collections.emptyList();
 	}
 	
 }

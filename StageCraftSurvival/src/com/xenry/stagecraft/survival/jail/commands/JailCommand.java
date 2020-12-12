@@ -102,20 +102,19 @@ public final class JailCommand extends Command<Survival,JailManager> {
 	@Override
 	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
 		switch(args.length){
-			case 0:
 			case 1:
-				return allLocalPlayers();
+				return localPlayers(args[0]);
 			case 2:{
 				args[1] = args[1].toLowerCase().replaceAll("[smhd]", "");
 				try{
 					int value = Integer.parseInt(args[1]);
-					return Arrays.asList(value + "s", value + "m", value + "h", value + "d");
+					return filter(Arrays.asList(value + "s", value + "m", value + "h", value + "d"), args[0]);
 				}catch(Exception ex){
-					return Collections.singletonList("forever");
+					return filter(Collections.singletonList("forever"), args[0]);
 				}
 			}
 			case 3:
-				return manager.getJailHandler().getJailNameList();
+				return manager.getJailHandler().getJailNameList(args[0]);
 			default:
 				return Collections.emptyList();
 		}

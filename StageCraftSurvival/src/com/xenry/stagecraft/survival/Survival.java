@@ -35,7 +35,6 @@ public final class Survival extends StageCraftPlugin {
 			economyManager = loadManager(EconomyManager.class);
 			teleportationManager =  loadManager(TeleportationManager.class);
 			jailManager = loadManager(JailManager.class);
-			//petManager = loadManager(PetManager.class);
 		}catch(Exception ex){
 			ex.printStackTrace();
 			Log.severe("Something went wrong while loading the Survival managers!");
@@ -61,9 +60,5 @@ public final class Survival extends StageCraftPlugin {
 	public JailManager getJailManager() {
 		return jailManager;
 	}
-	
-	/*public PetManager getPetManager() {
-		return petManager;
-	}*/
 	
 }

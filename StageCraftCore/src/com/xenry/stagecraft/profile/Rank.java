@@ -136,6 +136,17 @@ public enum Rank implements Access {
 		return names;
 	}
 	
+	public static List<String> getRankNames(String startsWith){
+		startsWith = startsWith.toLowerCase();
+		List<String> names = new ArrayList<>();
+		for(Rank rank : values()){
+			if(rank.getName().toLowerCase().startsWith(startsWith)){
+				names.add(rank.getName());
+			}
+		}
+		return names;
+	}
+	
 	@Override
 	public String toString() {
 		return name();

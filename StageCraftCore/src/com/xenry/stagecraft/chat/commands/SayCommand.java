@@ -71,12 +71,12 @@ public final class SayCommand extends Command<Core,ChatManager> {
 	
 	@Override
 	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		return allNetworkPlayers();
+		return networkPlayers(args[args.length-1]);
 	}
 	
 	@Override
 	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
-		return allNetworkPlayers();
+		return networkPlayers(args[args.length-1]);
 	}
 	
 }

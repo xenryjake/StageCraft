@@ -1,15 +1,13 @@
 package com.xenry.stagecraft.survival.gameplay.sign;
-import com.xenry.stagecraft.command.Command;
+import com.xenry.stagecraft.command.PlayerCommand;
 import com.xenry.stagecraft.survival.Survival;
 import com.xenry.stagecraft.survival.gameplay.GameplayManager;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
 import com.xenry.stagecraft.util.M;
-import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -19,18 +17,13 @@ import java.util.List;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public final class SignCommand extends Command<Survival,GameplayManager> {
+public final class SignCommand extends PlayerCommand<Survival,GameplayManager> {
 	
 	public SignCommand(GameplayManager manager){
 		super(manager, Rank.MEMBER, "sign");
 		addSubCommand(new SignClearCommand(manager));
 		addSubCommand(new SignEditCommand(manager));
 		setCanBeDisabled(true);
-	}
-	
-	@Override
-	protected void serverPerform(CommandSender sender, String[] args, String label) {
-		onlyForPlayers(sender);
 	}
 	
 	@Override
@@ -42,12 +35,7 @@ public final class SignCommand extends Command<Survival,GameplayManager> {
 	
 	@Override
 	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		return Arrays.asList("edit", "clear");
-	}
-	
-	@Override
-	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
-		return Collections.emptyList();
+		return filter(Arrays.asList("edit", "clear"), args[0]);
 	}
 	
 }

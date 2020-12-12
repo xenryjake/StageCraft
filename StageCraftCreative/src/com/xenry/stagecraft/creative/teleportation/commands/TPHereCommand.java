@@ -1,5 +1,5 @@
 package com.xenry.stagecraft.creative.teleportation.commands;
-import com.xenry.stagecraft.command.Command;
+import com.xenry.stagecraft.command.PlayerCommand;
 import com.xenry.stagecraft.creative.Creative;
 import com.xenry.stagecraft.creative.teleportation.TeleportMenu;
 import com.xenry.stagecraft.creative.teleportation.Teleportation;
@@ -21,16 +21,11 @@ import java.util.List;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public final class TPHereCommand extends Command<Creative,TeleportationManager> {
+public final class TPHereCommand extends PlayerCommand<Creative,TeleportationManager> {
 	
 	public TPHereCommand(TeleportationManager manager){
 		super(manager, TPCommand.OTHER_RANK, "tphere", "tpohere");
 		setCanBeDisabled(true);
-	}
-	
-	@Override
-	protected void serverPerform(CommandSender sender, String[] args, String label) {
-		onlyForPlayers(sender);
 	}
 	
 	@Override
@@ -57,12 +52,7 @@ public final class TPHereCommand extends Command<Creative,TeleportationManager> 
 	
 	@Override
 	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		return args.length == 1 ? allLocalPlayers() : Collections.emptyList();
-	}
-	
-	@Override
-	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
-		return args.length == 1 ? allLocalPlayers() : Collections.emptyList();
+		return args.length == 1 ? localPlayers(args[0]) : Collections.emptyList();
 	}
 	
 }

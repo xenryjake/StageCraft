@@ -71,12 +71,12 @@ public final class PermissionSetViewCommand extends Command<Core,ProfileManager>
 	
 	@Override
 	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		return args.length == 1 ? manager.getPermissionsHandler().getPermissionSetNames() : Collections.emptyList();
+		return args.length == 1 ? filter(manager.getPermissionsHandler().getPermissionSetNames(), args[0]) : Collections.emptyList();
 	}
 	
 	@Override
 	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
-		return args.length == 1 ? manager.getPermissionsHandler().getPermissionSetNames() : Collections.emptyList();
+		return args.length == 1 ? filter(manager.getPermissionsHandler().getPermissionSetNames(), args[0]) : Collections.emptyList();
 	}
 	
 }

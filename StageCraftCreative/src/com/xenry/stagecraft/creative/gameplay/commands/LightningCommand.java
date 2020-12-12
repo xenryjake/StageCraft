@@ -7,7 +7,6 @@ import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
 import com.xenry.stagecraft.util.Cooldown;
 import com.xenry.stagecraft.util.M;
-import com.xenry.stagecraft.util.PlayerUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
@@ -78,9 +77,9 @@ public final class LightningCommand extends Command<Creative,GameplayManager> {
 	@Override
 	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
 		if(args.length == 1){
-			List<String> players = PlayerUtil.getOnlinePlayerNames();
+			List<String> players = allLocalPlayers();
 			players.add("**");
-			return players;
+			return filter(players, args[0]);
 		}else{
 			return Collections.emptyList();
 		}
@@ -89,9 +88,9 @@ public final class LightningCommand extends Command<Creative,GameplayManager> {
 	@Override
 	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
 		if(args.length == 1){
-			List<String> players = PlayerUtil.getOnlinePlayerNames();
+			List<String> players = allLocalPlayers();
 			players.add("**");
-			return players;
+			return filter(players, args[0]);
 		}else{
 			return Collections.emptyList();
 		}

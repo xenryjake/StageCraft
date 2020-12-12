@@ -1,5 +1,5 @@
 package com.xenry.stagecraft.survival.gameplay.commands;
-import com.xenry.stagecraft.command.Command;
+import com.xenry.stagecraft.command.PlayerCommand;
 import com.xenry.stagecraft.survival.Survival;
 import com.xenry.stagecraft.survival.gameplay.GameplayManager;
 import com.xenry.stagecraft.profile.Profile;
@@ -11,7 +11,6 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.CreatureSpawner;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -25,16 +24,11 @@ import java.util.List;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public final class SpawnerCommand extends Command<Survival,GameplayManager> {
+public final class SpawnerCommand extends PlayerCommand<Survival,GameplayManager> {
 	
 	public SpawnerCommand(GameplayManager manager){
 		super(manager, Rank.ADMIN, "spawner", "mobspawner");
 		setCanBeDisabled(true);
-	}
-	
-	@Override
-	protected void serverPerform(CommandSender sender, String[] args, String label) {
-		onlyForPlayers(sender);
 	}
 	
 	@Override
@@ -85,12 +79,7 @@ public final class SpawnerCommand extends Command<Survival,GameplayManager> {
 	
 	@Override
 	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		return args.length == 1 ? Entities.getAllMobIdentifiers() : Collections.emptyList();
-	}
-	
-	@Override
-	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
-		return Collections.emptyList();
+		return args.length == 1 ? Entities.getMobIdentifiers(args[0]) : Collections.emptyList();
 	}
 	
 }

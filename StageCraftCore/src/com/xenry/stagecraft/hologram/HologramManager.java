@@ -165,6 +165,17 @@ public final class HologramManager extends Manager<Core> {
 		return names;
 	}
 	
+	public List<String> getHologramNames(String startsWith){
+		startsWith = startsWith.toLowerCase();
+		List<String> names = new ArrayList<>();
+		for(Hologram hologram : holograms){
+			if(hologram.getName().toLowerCase().startsWith(startsWith)){
+				names.add(hologram.getName());
+			}
+		}
+		return names;
+	}
+	
 	/**
 	 * Get the hologram with the specified name. Current server type only.
 	 *

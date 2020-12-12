@@ -1,10 +1,9 @@
 package com.xenry.stagecraft.creative.gameplay.commands;
-import com.xenry.stagecraft.command.Command;
+import com.xenry.stagecraft.command.PlayerCommand;
 import com.xenry.stagecraft.creative.Creative;
 import com.xenry.stagecraft.creative.gameplay.GameplayManager;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
-import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
@@ -17,16 +16,11 @@ import java.util.List;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public final class EnchantingTableCommand extends Command<Creative,GameplayManager> {
+public final class EnchantingTableCommand extends PlayerCommand<Creative,GameplayManager> {
 	
 	public EnchantingTableCommand(GameplayManager manager){
 		super(manager, Rank.MEMBER, "enchantingtable", "enchanttable", "enchtable");
 		setCanBeDisabled(true);
-	}
-	
-	@Override
-	protected void serverPerform(CommandSender sender, String[] args, String label) {
-		onlyForPlayers(sender);
 	}
 	
 	@Override
@@ -37,11 +31,6 @@ public final class EnchantingTableCommand extends Command<Creative,GameplayManag
 	
 	@Override
 	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		return Collections.emptyList();
-	}
-	
-	@Override
-	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
 		return Collections.emptyList();
 	}
 	

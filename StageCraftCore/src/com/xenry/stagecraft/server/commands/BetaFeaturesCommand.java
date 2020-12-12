@@ -66,12 +66,12 @@ public final class BetaFeaturesCommand extends Command<Core,ServerManager> {
 	
 	@Override
 	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		return args.length == 1 ? Arrays.asList("on", "off", "toggle") : Collections.emptyList();
+		return args.length == 1 ? filter(Arrays.asList("on", "off", "toggle"), args[0]) : Collections.emptyList();
 	}
 	
 	@Override
 	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
-		return args.length == 1 ? Arrays.asList("on", "off", "toggle") : Collections.emptyList();
+		return args.length == 1 ? filter(Arrays.asList("on", "off", "toggle"), args[0]) : Collections.emptyList();
 	}
 	
 }

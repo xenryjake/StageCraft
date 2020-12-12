@@ -94,17 +94,21 @@ public final class HomeHandler extends Handler<Creative,TeleportationManager> {
 	}
 	
 	public List<String> getHomeNameList(Profile profile){
-		return getHomeNameList(profile.getUUID());
-	}
-	
-	public List<String> getHomeNameList(Player player){
-		return getHomeNameList(player.getUniqueId().toString());
-	}
-	
-	public List<String> getHomeNameList(String ownerUUID){
 		List<String> names = new ArrayList<>();
 		for(Home home : homes){
-			if(home.getOwnerUUID().equals(ownerUUID)){
+			if(home.getOwnerUUID().equals(profile.getUUID())){
+				names.add(home.getName());
+			}
+		}
+		Collections.sort(names);
+		return names;
+	}
+	
+	public List<String> getHomeNameList(Profile profile, String startsWith){
+		startsWith = startsWith.toLowerCase();
+		List<String> names = new ArrayList<>();
+		for(Home home : homes){
+			if(home.getOwnerUUID().equals(profile.getUUID()) && home.getName().toLowerCase().startsWith(startsWith)){
 				names.add(home.getName());
 			}
 		}

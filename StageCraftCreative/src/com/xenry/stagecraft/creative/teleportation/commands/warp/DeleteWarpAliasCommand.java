@@ -57,12 +57,12 @@ public final class DeleteWarpAliasCommand extends Command<Creative,Teleportation
 	
 	@Override
 	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		return args.length == 1 ? manager.getWarpHandler().getWarpNameList() : Collections.emptyList();
+		return args.length == 1 ? manager.getWarpHandler().getWarpNameList(args[0]) : Collections.emptyList();
 	}
 	
 	@Override
 	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
-		return args.length == 1 ? manager.getWarpHandler().getWarpNameList() : Collections.emptyList();
+		return args.length == 1 ? manager.getWarpHandler().getWarpNameList(args[0]) : Collections.emptyList();
 	}
 	
 }

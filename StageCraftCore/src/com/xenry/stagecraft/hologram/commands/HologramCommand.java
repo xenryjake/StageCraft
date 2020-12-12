@@ -59,12 +59,12 @@ public final class HologramCommand extends Command<Core,HologramManager> {
 	
 	@Override
 	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		return args.length == 1 ? Arrays.asList("create", "move", "center", "lineadd", "linedel", "lineedit", "delete", "update", "list", "info") : Collections.emptyList();
+		return args.length == 1 ? filter(Arrays.asList("create", "move", "center", "lineadd", "linedel", "lineedit", "delete", "update", "list", "info"),args[0]) : Collections.emptyList();
 	}
 	
 	@Override
 	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
-		return args.length == 1 ? Arrays.asList("create", "move", "center", "lineadd", "linedel", "lineedit", "delete", "update", "list", "info") : Collections.emptyList();
+		return args.length == 1 ? filter(Arrays.asList("create", "move", "center", "lineadd", "linedel", "lineedit", "delete", "update", "list", "info"),args[0]) : Collections.emptyList();
 	}
 
 }

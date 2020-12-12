@@ -1,11 +1,10 @@
 package com.xenry.stagecraft.survival.gameplay.villagers;
-import com.xenry.stagecraft.command.Command;
+import com.xenry.stagecraft.command.PlayerCommand;
 import com.xenry.stagecraft.survival.Survival;
 import com.xenry.stagecraft.survival.gameplay.GameplayManager;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
 import com.xenry.stagecraft.util.M;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -19,16 +18,11 @@ import java.util.List;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public final class VillagersDamageCommand extends Command<Survival,GameplayManager> {
+public final class VillagersDamageCommand extends PlayerCommand<Survival,GameplayManager> {
 	
 	public VillagersDamageCommand(GameplayManager manager){
 		super(manager, Rank.MEMBER, "villagersdamage", "villagerdamage", "vd");
 		setCanBeDisabled(true);
-	}
-	
-	@Override
-	protected void serverPerform(CommandSender sender, String[] args, String label) {
-		onlyForPlayers(sender);
 	}
 	
 	@Override
@@ -62,12 +56,7 @@ public final class VillagersDamageCommand extends Command<Survival,GameplayManag
 	
 	@Override
 	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		return Arrays.asList("enable", "disable");
-	}
-	
-	@Override
-	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
-		return Arrays.asList("enable", "disable");
+		return filter(Arrays.asList("enable", "disable"), args[0]);
 	}
 	
 }

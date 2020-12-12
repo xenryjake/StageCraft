@@ -98,11 +98,10 @@ public final class RepairCommand extends Command<Creative,GameplayManager> {
 	@Override
 	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
 		switch(args.length){
-			case 0:
 			case 1:
-				return Arrays.asList("all", "hand", "armor", "offhand");
+				return filter(Arrays.asList("all", "hand", "armor", "offhand"), args[0]);
 			case 2:
-				return allLocalPlayers();
+				return localPlayers(args[1]);
 			default:
 				return Collections.emptyList();
 		}
@@ -111,11 +110,10 @@ public final class RepairCommand extends Command<Creative,GameplayManager> {
 	@Override
 	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
 		switch(args.length){
-			case 0:
 			case 1:
-				return Arrays.asList("all", "hand", "armor", "offhand");
+				return filter(Arrays.asList("all", "hand", "armor", "offhand"), args[0]);
 			case 2:
-				return allLocalPlayers();
+				return localPlayers(args[1]);
 			default:
 				return Collections.emptyList();
 		}

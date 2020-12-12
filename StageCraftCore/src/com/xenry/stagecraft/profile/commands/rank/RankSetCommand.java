@@ -98,11 +98,10 @@ public final class RankSetCommand extends Command<Core,ProfileManager> {
 	@Override
 	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
 		switch(args.length){
-			case 0:
 			case 1:
-				return allNetworkPlayers();
+				return networkPlayers(args[0]);
 			case 2:
-				return Rank.getRankNames();
+				return Rank.getRankNames(args[1]);
 			default:
 				return Collections.emptyList();
 		}

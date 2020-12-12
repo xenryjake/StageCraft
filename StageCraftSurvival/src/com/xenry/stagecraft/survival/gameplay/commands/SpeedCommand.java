@@ -140,11 +140,10 @@ public final class SpeedCommand extends Command<Survival,GameplayManager> {
 	@Override
 	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
 		switch(args.length){
-			case 0:
 			case 1:
-				return Arrays.asList("fly", "walk");
+				return filter(Arrays.asList("fly", "walk"), args[0]);
 			case 3:
-				return allLocalPlayers();
+				return localPlayers(args[2]);
 			default:
 				return Collections.emptyList();
 		}

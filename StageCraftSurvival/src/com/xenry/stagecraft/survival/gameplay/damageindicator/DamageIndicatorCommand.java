@@ -8,6 +8,7 @@ import com.xenry.stagecraft.util.M;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -41,12 +42,12 @@ public final class DamageIndicatorCommand extends Command<Survival,GameplayManag
 	
 	@Override
 	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		return Collections.emptyList();
+		return args.length == 1 ? filter(Arrays.asList("despawn", "forcedespawn"), args[0]) : Collections.emptyList();
 	}
 	
 	@Override
 	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
-		return Collections.emptyList();
+		return args.length == 1 ? filter(Arrays.asList("despawn", "forcedespawn"), args[0]) : Collections.emptyList();
 	}
 	
 }

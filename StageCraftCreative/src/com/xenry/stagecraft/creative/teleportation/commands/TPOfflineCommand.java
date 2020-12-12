@@ -1,5 +1,5 @@
 package com.xenry.stagecraft.creative.teleportation.commands;
-import com.xenry.stagecraft.command.Command;
+import com.xenry.stagecraft.command.PlayerCommand;
 import com.xenry.stagecraft.creative.Creative;
 import com.xenry.stagecraft.creative.profile.CreativeProfile;
 import com.xenry.stagecraft.creative.teleportation.Teleportation;
@@ -11,7 +11,6 @@ import com.xenry.stagecraft.util.M;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -25,16 +24,11 @@ import java.util.List;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public final class TPOfflineCommand extends Command<Creative,TeleportationManager> {
+public final class TPOfflineCommand extends PlayerCommand<Creative,TeleportationManager> {
 	
 	public TPOfflineCommand(TeleportationManager manager){
 		super(manager, Rank.MOD, "tpoffline");
 		setCanBeDisabled(true);
-	}
-	
-	@Override
-	protected void serverPerform(CommandSender sender, String[] args, String label) {
-		onlyForPlayers(sender);
 	}
 	
 	@Override
@@ -79,11 +73,6 @@ public final class TPOfflineCommand extends Command<Creative,TeleportationManage
 	
 	@Override
 	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		return Collections.emptyList();
-	}
-	
-	@Override
-	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
 		return Collections.emptyList();
 	}
 	

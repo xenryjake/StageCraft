@@ -74,12 +74,12 @@ public final class SpawnCommand extends Command<Survival,TeleportationManager> {
 	
 	@Override
 	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		return args.length == 1 && TPCommand.OTHER_RANK.has(profile) ? allLocalPlayers() : Collections.emptyList();
+		return args.length == 1 && TPCommand.OTHER_RANK.has(profile) ? localPlayers(args[0]) : Collections.emptyList();
 	}
 	
 	@Override
 	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
-		return args.length == 1 ? allLocalPlayers() : Collections.emptyList();
+		return args.length == 1 ? localPlayers(args[0]) : Collections.emptyList();
 	}
 	
 }

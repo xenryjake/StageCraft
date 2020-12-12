@@ -1,5 +1,5 @@
 name: StageCraftSurvival
-version: beta-2020.12.11a
+version: beta-2020.12.12a
 api-version: "1.16"
 author: Xenry
 main: com.xenry.stagecraft.survival.Survival
@@ -239,7 +239,7 @@ commands:
     aliases: [ilore]
   skull:
     description: "Spawn or change a player skull"
-    aliases: [head]
+    aliases: [head,pskull,phead,playerskull,playerhead]
   experience:
     description: "Modify a player's experience levels"
     aliases: [exp,xp]

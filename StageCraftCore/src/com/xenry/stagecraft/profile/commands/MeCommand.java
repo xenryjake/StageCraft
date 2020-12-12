@@ -1,11 +1,10 @@
 package com.xenry.stagecraft.profile.commands;
 import com.xenry.stagecraft.Core;
-import com.xenry.stagecraft.command.Command;
+import com.xenry.stagecraft.command.PlayerCommand;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.ProfileManager;
 import com.xenry.stagecraft.profile.Rank;
 import com.xenry.stagecraft.profile.ui.MyProfileMenu;
-import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
@@ -18,16 +17,11 @@ import java.util.List;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public final class MeCommand extends Command<Core,ProfileManager> {
+public final class MeCommand extends PlayerCommand<Core,ProfileManager> {
 	
 	public MeCommand(ProfileManager manager){
 		super(manager, Rank.MEMBER, "me", "myprofile");
 		setCanBeDisabled(true);
-	}
-	
-	@Override
-	protected void serverPerform(CommandSender sender, String[] args, String label) {
-		onlyForPlayers(sender);
 	}
 	
 	@Override
@@ -42,11 +36,6 @@ public final class MeCommand extends Command<Core,ProfileManager> {
 	
 	@Override
 	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		return Collections.emptyList();
-	}
-	
-	@Override
-	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
 		return Collections.emptyList();
 	}
 	

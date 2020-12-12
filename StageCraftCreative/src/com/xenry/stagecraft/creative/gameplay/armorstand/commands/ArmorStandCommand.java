@@ -1,8 +1,12 @@
 package com.xenry.stagecraft.creative.gameplay.armorstand.commands;
+import com.xenry.stagecraft.command.Command;
+import com.xenry.stagecraft.creative.Creative;
+import com.xenry.stagecraft.creative.gameplay.GameplayManager;
 import com.xenry.stagecraft.creative.gameplay.armorstand.ArmorStandHandler;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
 import com.xenry.stagecraft.util.M;
+import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -19,10 +23,10 @@ import static com.xenry.stagecraft.creative.gameplay.armorstand.ArmorStandHandle
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public final class ArmorStandCommand extends AbstractArmorStandCommand {
+public final class ArmorStandCommand extends Command<Creative,GameplayManager> {
 	
 	public ArmorStandCommand(ArmorStandHandler handler){
-		super(handler, Rank.MEMBER, "armorstand", "as");
+		super(handler.getManager(), Rank.MEMBER, "armorstand", "as");
 		setCanBeDisabled(true);
 		addSubCommand(new ArmorStandInfoCommand(handler));
 		addSubCommand(new ArmorStandArmsCommand(handler));
@@ -38,6 +42,24 @@ public final class ArmorStandCommand extends AbstractArmorStandCommand {
 		addSubCommand(new ArmorStandInvisibleCommand(handler));
 		addSubCommand(new ArmorStandGravityCommand(handler));
 		addSubCommand(new ArmorStandYawPitchCommand(handler));
+	}
+	
+	@Override
+	protected void serverPerform(CommandSender sender, String[] args, String label) {
+		sender.sendMessage(M.msg + "Armor Stand commands:");
+		sender.sendMessage(M.help(label + " info", "View info about an armor stand."));
+		sender.sendMessage(M.help(label + " arms", "Toggle arms on an armor stand."));
+		sender.sendMessage(M.help(label + " base", "Toggle the base plate on an armor stand."));
+		sender.sendMessage(M.help(label + " small", "Toggle the size of an armor stand."));
+		sender.sendMessage(M.help(label + " pose", "Change the pose of the armor stand."));
+		sender.sendMessage(M.help(label + " <part>", "Adjust a part of the armor stand."));
+		sender.sendMessage(M.help(label + " center", "Center an armor stand in the current block."));
+		sender.sendMessage(M.help(label + " copy", "Copy an armor stand to your clipboard."));
+		sender.sendMessage(M.help(label + " paste", "Paste an armor stand from your clipboard."));
+		sender.sendMessage(M.help(label + " gravity", "Toggle gravity on an armor stand."));
+		sender.sendMessage(M.help(label + " savepose", "Save a pose to the database."));
+		sender.sendMessage(M.help(label + " delpose", "Delete a pose from the database."));
+		sender.sendMessage(M.help(label + " invisible", "Toggle armor stand visibility"));
 	}
 	
 	@Override
@@ -80,10 +102,15 @@ public final class ArmorStandCommand extends AbstractArmorStandCommand {
 			if(INTERACT_INVISIBLE.has(profile)){
 				list.add("invisible");
 			}
-			return list;
+			return filter(list, args[0]);
 		}else{
 			return Collections.emptyList();
 		}
+	}
+	
+	@Override
+	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
+		return Collections.emptyList();
 	}
 	
 }

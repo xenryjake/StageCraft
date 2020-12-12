@@ -131,11 +131,10 @@ public final class PunishmentViewCommand extends Command<Core,PunishmentManager>
 	@Override
 	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
 		switch(args.length){
-			case 0:
 			case 1:
-				return allNetworkPlayers();
+				return networkPlayers(args[0]);
 			case 2:
-				return Arrays.asList("ban", "mute", "kick");
+				return filter(Arrays.asList("ban", "mute", "kick"), args[0]);
 			default:
 				return Collections.emptyList();
 		}

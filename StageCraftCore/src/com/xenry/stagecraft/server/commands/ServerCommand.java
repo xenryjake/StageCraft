@@ -1,6 +1,6 @@
 package com.xenry.stagecraft.server.commands;
 import com.xenry.stagecraft.Core;
-import com.xenry.stagecraft.command.Command;
+import com.xenry.stagecraft.command.PlayerCommand;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
 import com.xenry.stagecraft.server.ServerManager;
@@ -11,7 +11,6 @@ import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.hover.content.Text;
-import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -23,16 +22,11 @@ import java.util.*;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public final class ServerCommand extends Command<Core,ServerManager> {
+public final class ServerCommand extends PlayerCommand<Core,ServerManager> {
 	
 	public ServerCommand(ServerManager manager){
 		super(manager, Rank.MEMBER, "server", "servers", "goto");
 		setCanBeDisabled(true);
-	}
-	
-	@Override
-	protected void serverPerform(CommandSender sender, String[] args, String label) {
-		onlyForPlayers(sender);
 	}
 	
 	@Override
@@ -71,12 +65,7 @@ public final class ServerCommand extends Command<Core,ServerManager> {
 	
 	@Override
 	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		return args.length == 1 ? new ArrayList<>(manager.getNetworkPlayers().keySet()) : Collections.emptyList();
-	}
-	
-	@Override
-	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
-		return Collections.emptyList();
+		return args.length == 1 ? filter(new ArrayList<>(manager.getNetworkPlayers().keySet()), args[0]) : Collections.emptyList();
 	}
 	
 }

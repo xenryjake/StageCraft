@@ -40,12 +40,12 @@ public final class PermissionCommand extends Command<Core,ProfileManager> {
 	
 	@Override
 	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		return args.length == 1 ? Collections.singletonList("set") : Collections.emptyList();
+		return args.length == 1 ? filter(Collections.singletonList("set"), args[0]) : Collections.emptyList();
 	}
 	
 	@Override
 	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
-		return args.length == 1 ? Collections.singletonList("set") : Collections.emptyList();
+		return args.length == 1 ? filter(Collections.singletonList("set"), args[0]) : Collections.emptyList();
 	}
 	
 }

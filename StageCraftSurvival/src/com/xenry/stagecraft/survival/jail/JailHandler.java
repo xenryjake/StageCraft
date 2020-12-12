@@ -82,6 +82,18 @@ public final class JailHandler extends Handler<Survival,JailManager> {
 		return names;
 	}
 	
+	public List<String> getJailNameList(String startsWith){
+		startsWith = startsWith.toLowerCase();
+		List<String> names = new ArrayList<>();
+		for(Jail jail : jails){
+			if(jail.getName().toLowerCase().startsWith(startsWith)){
+				names.add(jail.getName());
+			}
+		}
+		Collections.sort(names);
+		return names;
+	}
+	
 	public Jail getJail(String name){
 		if(name == null){
 			return null;

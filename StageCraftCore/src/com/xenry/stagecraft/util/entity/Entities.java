@@ -285,6 +285,17 @@ public enum Entities {
 		return allMobIdentifiers;
 	}
 	
+	public static List<String> getMobIdentifiers(String startsWith){
+		startsWith = startsWith.toLowerCase();
+		List<String> ids = new ArrayList<>();
+		for(String id : allMobIdentifiers){
+			if(id.toLowerCase().startsWith(startsWith)){
+				ids.add(id);
+			}
+		}
+		return ids;
+	}
+	
 	@Nullable
 	public static Entities getEntity(String identifier){
 		return entitiesByIdentifier.getOrDefault(makeIdentifier(identifier), null);

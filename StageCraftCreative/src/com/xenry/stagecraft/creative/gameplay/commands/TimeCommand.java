@@ -204,9 +204,9 @@ public final class TimeCommand extends Command<Creative,GameplayManager> {
 	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
 		switch(args.length){
 			case 1:
-				return new ArrayList<>(times.keySet());
+				return filter(new ArrayList<>(times.keySet()), args[0]);
 			case 2:
-				return LocationUtil.getAllWorldNames();
+				return LocationUtil.getWorldNames(args[1]);
 			default:
 				return Collections.emptyList();
 		}
@@ -216,9 +216,9 @@ public final class TimeCommand extends Command<Creative,GameplayManager> {
 	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
 		switch(args.length){
 			case 1:
-				return new ArrayList<>(times.keySet());
+				return filter(new ArrayList<>(times.keySet()), args[0]);
 			case 2:
-				return LocationUtil.getAllWorldNames();
+				return LocationUtil.getWorldNames(args[1]);
 			default:
 				return Collections.emptyList();
 		}

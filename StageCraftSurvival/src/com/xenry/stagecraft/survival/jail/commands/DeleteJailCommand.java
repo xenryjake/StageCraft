@@ -48,12 +48,12 @@ public final class DeleteJailCommand extends Command<Survival,JailManager> {
 	
 	@Override
 	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		return args.length == 1 ? manager.getJailHandler().getJailNameList() : Collections.emptyList();
+		return args.length == 1 ? manager.getJailHandler().getJailNameList(args[0]) : Collections.emptyList();
 	}
 	
 	@Override
 	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
-		return args.length == 1 ? manager.getJailHandler().getJailNameList() : Collections.emptyList();
+		return args.length == 1 ? manager.getJailHandler().getJailNameList(args[0]) : Collections.emptyList();
 	}
 	
 }

@@ -71,7 +71,7 @@ public final class BurnCommand extends Command<Creative,GameplayManager> {
 		if(args.length == 1){
 			List<String> players = new ArrayList<>(allLocalPlayers());
 			players.add("**");
-			return players;
+			return filter(players, args[0]);
 		}else{
 			return Collections.emptyList();
 		}
@@ -82,7 +82,7 @@ public final class BurnCommand extends Command<Creative,GameplayManager> {
 		if(args.length == 1){
 			List<String> players = new ArrayList<>(allLocalPlayers());
 			players.add("**");
-			return players;
+			return filter(players, args[0]);
 		}else{
 			return Collections.emptyList();
 		}

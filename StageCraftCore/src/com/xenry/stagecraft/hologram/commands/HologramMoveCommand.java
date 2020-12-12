@@ -1,14 +1,13 @@
 package com.xenry.stagecraft.hologram.commands;
 
 import com.xenry.stagecraft.Core;
-import com.xenry.stagecraft.command.Command;
+import com.xenry.stagecraft.command.PlayerCommand;
 import com.xenry.stagecraft.hologram.Hologram;
 import com.xenry.stagecraft.hologram.HologramManager;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
 import com.xenry.stagecraft.util.M;
 import org.bukkit.Location;
-import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
@@ -19,15 +18,10 @@ import java.util.List;
  * Copyright 2016 Henry Jake.
  * All content in this file may not be used without written consent of Henry Jake.
  */
-public final class HologramMoveCommand extends Command<Core,HologramManager> {
+public final class HologramMoveCommand extends PlayerCommand<Core,HologramManager> {
 
 	public HologramMoveCommand(HologramManager manager){
 		super(manager, Rank.HEAD_MOD, "move", "tphere", "movehere", "center");
-	}
-	
-	@Override
-	protected void serverPerform(CommandSender sender, String[] args, String label) {
-		onlyForPlayers(sender);
 	}
 	
 	@Override
@@ -54,12 +48,7 @@ public final class HologramMoveCommand extends Command<Core,HologramManager> {
 	
 	@Override
 	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		return args.length == 1 ? manager.getAllHologramNames() : Collections.emptyList();
-	}
-	
-	@Override
-	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
-		return Collections.emptyList();
+		return args.length == 1 ? manager.getHologramNames(args[0]) : Collections.emptyList();
 	}
 
 }

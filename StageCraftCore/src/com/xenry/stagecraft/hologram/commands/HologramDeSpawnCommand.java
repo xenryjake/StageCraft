@@ -74,14 +74,14 @@ public final class HologramDeSpawnCommand extends Command<Core,HologramManager> 
 	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
 		List<String> worlds = LocationUtil.getAllWorldNames();
 		worlds.add("all");
-		return worlds;
+		return filter(worlds, args[args.length-1]);
 	}
 	
 	@Override
 	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
 		List<String> worlds = LocationUtil.getAllWorldNames();
 		worlds.add("all");
-		return worlds;
+		return filter(worlds, args[args.length-1]);
 	}
 	
 }

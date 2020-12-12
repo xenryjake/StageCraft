@@ -1,13 +1,12 @@
 package com.xenry.stagecraft.creative.gameplay.commands;
 import com.xenry.stagecraft.command.Access;
-import com.xenry.stagecraft.command.Command;
+import com.xenry.stagecraft.command.PlayerCommand;
 import com.xenry.stagecraft.creative.Creative;
 import com.xenry.stagecraft.creative.gameplay.GameplayManager;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
 import com.xenry.stagecraft.util.M;
 import org.bukkit.Material;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -22,18 +21,13 @@ import java.util.List;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public final class MoreCommand extends Command<Creative,GameplayManager> {
+public final class MoreCommand extends PlayerCommand<Creative,GameplayManager> {
 	
 	public final static Access UNSAFE_ACCESS = Rank.HEAD_MOD;
 	
 	public MoreCommand(GameplayManager manager){
 		super(manager, Rank.MEMBER, "more");
 		setCanBeDisabled(true);
-	}
-	
-	@Override
-	protected void serverPerform(CommandSender sender, String[] args, String label) {
-		onlyForPlayers(sender);
 	}
 	
 	@Override
@@ -51,12 +45,7 @@ public final class MoreCommand extends Command<Creative,GameplayManager> {
 	
 	@Override
 	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		return args.length == 1 && UNSAFE_ACCESS.has(profile) ? Collections.singletonList("unsafe") : Collections.emptyList();
-	}
-	
-	@Override
-	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
-		return Collections.emptyList();
+		return args.length == 1 && UNSAFE_ACCESS.has(profile) ? filter(Collections.singletonList("unsafe"), args[0]) : Collections.emptyList();
 	}
 	
 }

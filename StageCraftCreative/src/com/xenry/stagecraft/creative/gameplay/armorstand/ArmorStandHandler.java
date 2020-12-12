@@ -99,6 +99,17 @@ public final class ArmorStandHandler extends Handler<Creative,GameplayManager> {
 		return names;
 	}
 	
+	public List<String> getPoseNameList(String startsWith){
+		startsWith = startsWith.toLowerCase();
+		List<String> names = new ArrayList<>();
+		for(Pose pose : poses){
+			if(pose.getName().toLowerCase().startsWith(startsWith)) {
+				names.add(pose.getName());
+			}
+		}
+		return names;
+	}
+	
 	public Pose getPose(String name){
 		name = name.toLowerCase();
 		for(Pose pose : poses){

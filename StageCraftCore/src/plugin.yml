@@ -1,5 +1,5 @@
 name: StageCraftCore
-version: beta-2020.12.11a
+version: beta-2020.12.12a
 api-version: "1.16"
 author: Xenry
 main: com.xenry.stagecraft.Core
@@ -88,9 +88,6 @@ commands:
     aliases: [holo]
 
 # CHAT COMMANDS
-  chat:
-    description: "Manage chat"
-    aliases: [ch]
   broadcast:
     description: "Broadcast a message"
     aliases: [bcast,bc]

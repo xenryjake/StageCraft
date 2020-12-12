@@ -182,4 +182,15 @@ public final class LocationUtil {
 		return names;
 	}
 	
+	public static List<String> getWorldNames(String startsWith){
+		startsWith = startsWith.toLowerCase();
+		List<String> names = new ArrayList<>();
+		for(World world : Bukkit.getWorlds()){
+			if(world.getName().toLowerCase().startsWith(startsWith)){
+				names.add(world.getName());
+			}
+		}
+		return names;
+	}
+	
 }

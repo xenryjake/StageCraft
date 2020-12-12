@@ -76,7 +76,7 @@ public final class DamageIndicatorDeSpawnCommand extends Command<Survival,Gamepl
 		if(args.length == 1){
 			List<String> worlds = LocationUtil.getAllWorldNames();
 			worlds.add("all");
-			return worlds;
+			return filter(worlds, args[0]);
 		}else{
 			return Collections.emptyList();
 		}
@@ -87,7 +87,7 @@ public final class DamageIndicatorDeSpawnCommand extends Command<Survival,Gamepl
 		if(args.length == 1){
 			List<String> worlds = LocationUtil.getAllWorldNames();
 			worlds.add("all");
-			return worlds;
+			return filter(worlds, args[0]);
 		}else{
 			return Collections.emptyList();
 		}

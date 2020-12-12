@@ -71,12 +71,12 @@ public final class PvPLockCommand extends Command<Survival,GameplayManager> {
 	
 	@Override
 	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		return Arrays.asList("none", "on", "off");
+		return filter(Arrays.asList("none", "on", "off"), args[0]);
 	}
 	
 	@Override
 	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
-		return Arrays.asList("none", "on", "off");
+		return filter(Arrays.asList("none", "on", "off"), args[0]);
 	}
 	
 }

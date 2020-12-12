@@ -89,11 +89,10 @@ public final class ExperienceCommand extends Command<Survival,GameplayManager> {
 	@Override
 	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
 		switch(args.length){
-			case 0:
 			case 1:
-				return Arrays.asList("clear","set","add","remove","view");
+				return filter(Arrays.asList("clear","set","add","remove","view"), args[0]);
 			case 2:
-				return allLocalPlayers();
+				return localPlayers(args[1]);
 			default:
 				return Collections.emptyList();
 		}

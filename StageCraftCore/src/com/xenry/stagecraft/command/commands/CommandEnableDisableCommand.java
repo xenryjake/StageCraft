@@ -67,12 +67,12 @@ public final class CommandEnableDisableCommand extends Command<Core,CommandManag
 	
 	@Override
 	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		return args.length == 1 ? manager.getAllCommandLabels() : Collections.emptyList();
+		return args.length == 1 ? manager.getCommandLabels(args[0]) : Collections.emptyList();
 	}
 	
 	@Override
 	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
-		return args.length == 1 ? manager.getAllCommandLabels() : Collections.emptyList();
+		return args.length == 1 ? manager.getCommandLabels(args[0]) : Collections.emptyList();
 	}
 	
 }

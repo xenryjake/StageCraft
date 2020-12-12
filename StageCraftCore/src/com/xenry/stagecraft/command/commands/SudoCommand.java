@@ -159,7 +159,7 @@ public final class SudoCommand extends Command<Core,CommandManager> {
 					players.add("#" + server);
 				}
 			}
-			return players;
+			return filter(players, args[0]);
 		}else{
 			return Collections.emptyList();
 		}
@@ -176,7 +176,7 @@ public final class SudoCommand extends Command<Core,CommandManager> {
 			for(String server : manager.plugin.getServerManager().getServerNames()){
 				players.add("#" + server);
 			}
-			return players;
+			return filter(players, args[0]);
 		}else{
 			return Collections.emptyList();
 		}

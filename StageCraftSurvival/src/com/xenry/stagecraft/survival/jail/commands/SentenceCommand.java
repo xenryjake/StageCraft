@@ -48,12 +48,12 @@ public final class SentenceCommand extends Command<Survival,JailManager> {
 	
 	@Override
 	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		return args.length == 1 ? Arrays.asList("update", "view", "remove") : Collections.emptyList();
+		return args.length == 1 ? filter(Arrays.asList("update", "view", "remove"), args[0]) : Collections.emptyList();
 	}
 	
 	@Override
 	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
-		return args.length == 1 ? Arrays.asList("update", "view", "remove") : Collections.emptyList();
+		return args.length == 1 ? filter(Arrays.asList("update", "view", "remove"), args[0]) : Collections.emptyList();
 	}
 	
 }

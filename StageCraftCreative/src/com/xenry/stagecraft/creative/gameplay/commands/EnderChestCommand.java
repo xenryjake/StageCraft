@@ -1,13 +1,12 @@
 package com.xenry.stagecraft.creative.gameplay.commands;
 import com.xenry.stagecraft.command.Access;
-import com.xenry.stagecraft.command.Command;
+import com.xenry.stagecraft.command.PlayerCommand;
 import com.xenry.stagecraft.creative.Creative;
 import com.xenry.stagecraft.creative.gameplay.GameplayManager;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
 import com.xenry.stagecraft.util.M;
 import org.bukkit.Bukkit;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -21,18 +20,13 @@ import java.util.List;
  * Usage of this content without written consent of Henry Jake
  * is prohibited.
  */
-public final class EnderChestCommand extends Command<Creative,GameplayManager> {
+public final class EnderChestCommand extends PlayerCommand<Creative,GameplayManager> {
 	
 	public static final Access OTHERS = Rank.HEAD_MOD;
 	
 	public EnderChestCommand(GameplayManager manager){
 		super(manager, Rank.MEMBER, "enderchest", "echest", "ec");
 		setCanBeDisabled(true);
-	}
-	
-	@Override
-	protected void serverPerform(CommandSender sender, String[] args, String label) {
-		onlyForPlayers(sender);
 	}
 	
 	@Override
@@ -53,12 +47,7 @@ public final class EnderChestCommand extends Command<Creative,GameplayManager> {
 	
 	@Override
 	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		return OTHERS.has(profile) && args.length == 1 ? allLocalPlayers() : Collections.emptyList();
-	}
-	
-	@Override
-	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
-		return Collections.emptyList();
+		return OTHERS.has(profile) && args.length == 1 ? localPlayers(args[0]) : Collections.emptyList();
 	}
 	
 }

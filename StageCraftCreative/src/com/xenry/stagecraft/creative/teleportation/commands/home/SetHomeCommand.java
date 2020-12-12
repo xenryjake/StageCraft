@@ -1,12 +1,11 @@
 package com.xenry.stagecraft.creative.teleportation.commands.home;
-import com.xenry.stagecraft.command.Command;
+import com.xenry.stagecraft.command.PlayerCommand;
 import com.xenry.stagecraft.creative.Creative;
 import com.xenry.stagecraft.creative.teleportation.Home;
 import com.xenry.stagecraft.creative.teleportation.TeleportationManager;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
 import com.xenry.stagecraft.util.M;
-import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
@@ -19,18 +18,13 @@ import java.util.List;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public final class SetHomeCommand extends Command<Creative,TeleportationManager> {
+public final class SetHomeCommand extends PlayerCommand<Creative,TeleportationManager> {
 	
 	public static final int MAX_HOMES_PER_PLAYER = 50;
 	
 	public SetHomeCommand(TeleportationManager manager){
 		super(manager, Rank.MEMBER, "sethome", "addhome", "homeset", "homeadd");
 		setCanBeDisabled(true);
-	}
-	
-	@Override
-	protected void serverPerform(CommandSender sender, String[] args, String label) {
-		onlyForPlayers(sender);
 	}
 	
 	@Override
@@ -66,11 +60,6 @@ public final class SetHomeCommand extends Command<Creative,TeleportationManager>
 	
 	@Override
 	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		return Collections.emptyList();
-	}
-	
-	@Override
-	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
 		return Collections.emptyList();
 	}
 	

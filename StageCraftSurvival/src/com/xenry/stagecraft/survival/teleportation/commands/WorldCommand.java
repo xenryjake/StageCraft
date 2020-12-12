@@ -1,5 +1,5 @@
 package com.xenry.stagecraft.survival.teleportation.commands;
-import com.xenry.stagecraft.command.Command;
+import com.xenry.stagecraft.command.PlayerCommand;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
 import com.xenry.stagecraft.survival.Survival;
@@ -9,7 +9,6 @@ import com.xenry.stagecraft.util.LocationUtil;
 import com.xenry.stagecraft.util.M;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -22,16 +21,11 @@ import java.util.List;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public final class WorldCommand extends Command<Survival,TeleportationManager> {
+public final class WorldCommand extends PlayerCommand<Survival,TeleportationManager> {
 	
 	public WorldCommand(TeleportationManager manager){
 		super(manager, Rank.ADMIN, "world");
 		setCanBeDisabled(true);
-	}
-	
-	@Override
-	protected void serverPerform(CommandSender sender, String[] args, String label) {
-		onlyForPlayers(sender);
 	}
 	
 	@Override
@@ -51,12 +45,7 @@ public final class WorldCommand extends Command<Survival,TeleportationManager> {
 	
 	@Override
 	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		return LocationUtil.getAllWorldNames();
-	}
-	
-	@Override
-	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
-		return LocationUtil.getAllWorldNames();
+		return LocationUtil.getWorldNames(args[args.length-1]);
 	}
 	
 }

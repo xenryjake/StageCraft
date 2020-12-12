@@ -5,7 +5,6 @@ import com.xenry.stagecraft.chat.commands.BroadcastCommand;
 import com.xenry.stagecraft.chat.commands.FakeMessageCommand;
 import com.xenry.stagecraft.chat.commands.SayCommand;
 import com.xenry.stagecraft.chat.commands.StaffChatCommand;
-import com.xenry.stagecraft.chat.commands.chat.ChatCommand;
 import com.xenry.stagecraft.chat.commands.privatemessage.MessageCommand;
 import com.xenry.stagecraft.chat.commands.privatemessage.ReplyCommand;
 import com.xenry.stagecraft.chat.emotes.Emote;
@@ -62,7 +61,6 @@ public final class ChatManager extends Manager<Core> {
 		broadcastPMSC = new BroadcastPMSC(this);
 		plugin.getPluginMessageManager().registerSubChannel(broadcastPMSC);
 		
-		registerCommand(new ChatCommand(this));
 		registerCommand(new BroadcastCommand(this));
 		registerCommand(new FakeMessageCommand(this));
 		registerCommand(new StaffChatCommand(this));

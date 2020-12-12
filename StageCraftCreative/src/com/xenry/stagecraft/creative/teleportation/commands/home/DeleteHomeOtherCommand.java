@@ -61,9 +61,8 @@ public final class DeleteHomeOtherCommand extends Command<Creative,Teleportation
 	@Override
 	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
 		switch(args.length){
-			case 0:
 			case 1:
-				return allLocalPlayers();
+				return localPlayers(args[0]);
 			case 2:{
 				Player player = Bukkit.getPlayer(args[0]);
 				if(player == null){
@@ -73,7 +72,7 @@ public final class DeleteHomeOtherCommand extends Command<Creative,Teleportation
 				if(target == null){
 					return Collections.emptyList();
 				}
-				return manager.getHomeHandler().getHomeNameList(target);
+				return manager.getHomeHandler().getHomeNameList(target, args[1]);
 			}
 			default:
 				return Collections.emptyList();
@@ -83,9 +82,8 @@ public final class DeleteHomeOtherCommand extends Command<Creative,Teleportation
 	@Override
 	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
 		switch(args.length){
-			case 0:
 			case 1:
-				return allLocalPlayers();
+				return localPlayers(args[0]);
 			case 2:{
 				Player player = Bukkit.getPlayer(args[0]);
 				if(player == null){
@@ -95,7 +93,7 @@ public final class DeleteHomeOtherCommand extends Command<Creative,Teleportation
 				if(target == null){
 					return Collections.emptyList();
 				}
-				return manager.getHomeHandler().getHomeNameList(target);
+				return manager.getHomeHandler().getHomeNameList(target, args[1]);
 			}
 			default:
 				return Collections.emptyList();
