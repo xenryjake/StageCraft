@@ -114,6 +114,11 @@ public class MenuContents {
 	}
 	
 	@NotNull
+	public MenuContents clear(){
+		return fill(null);
+	}
+	
+	@NotNull
 	public MenuContents fill(@Nullable Item item){
 		for(int row = 0; row < contents.length; row++){
 			for(int col = 0; col < contents[row].length; col++){

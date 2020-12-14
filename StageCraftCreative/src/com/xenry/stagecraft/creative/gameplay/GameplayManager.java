@@ -4,9 +4,6 @@ import com.xenry.stagecraft.creative.Creative;
 import com.xenry.stagecraft.creative.gameplay.armorstand.ArmorStandHandler;
 import com.xenry.stagecraft.creative.gameplay.commands.*;
 import com.xenry.stagecraft.creative.gameplay.armorstand.commands.ArmorStandCommand;
-import com.xenry.stagecraft.creative.gameplay.heads.HeadHandler;
-import com.xenry.stagecraft.creative.gameplay.heads.commands.HeadCommand;
-import com.xenry.stagecraft.creative.gameplay.heads.commands.PlayerHeadCommand;
 import com.xenry.stagecraft.creative.gameplay.pvptoggle.PvPCommand;
 import com.xenry.stagecraft.creative.gameplay.pvptoggle.PvPHandler;
 import com.xenry.stagecraft.creative.gameplay.pvptoggle.PvPLockCommand;
@@ -21,6 +18,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +33,7 @@ import java.util.List;
 public final class GameplayManager extends Manager<Creative> {
 	
 	private final List<String> playerOverrides;
+	
 	private final BlacklistHandler blacklistHandler;
 	private final PvPHandler pvpHandler;
 	private final SignEditHandler signEditHandler;
@@ -43,7 +42,6 @@ public final class GameplayManager extends Manager<Creative> {
 	private final AcceptRulesHandler acceptRulesHandler;
 	private final ArmorStandHandler armorStandHandler;
 	private final F3NHandler f3nHandler;
-	private final HeadHandler headHandler;
 	
 	private boolean lockoutMode = false;
 	
@@ -58,7 +56,6 @@ public final class GameplayManager extends Manager<Creative> {
 		acceptRulesHandler = new AcceptRulesHandler(this);
 		armorStandHandler = new ArmorStandHandler(this);
 		f3nHandler = new F3NHandler(this);
-		headHandler = new HeadHandler(this);
 	}
 	
 	@Override
@@ -82,10 +79,6 @@ public final class GameplayManager extends Manager<Creative> {
 		registerCommand(new ArmorStandCommand(armorStandHandler));
 		
 		registerListener(f3nHandler);
-		
-		registerListener(headHandler);
-		registerCommand(new PlayerHeadCommand(this));
-		registerCommand(new HeadCommand(this));
 		
 		registerCommand(new LockoutCommand(this));
 		registerCommand(new OverrideCommand(this));
@@ -126,7 +119,6 @@ public final class GameplayManager extends Manager<Creative> {
 		registerCommand(new MobCannonCommand(this));
 		
 		armorStandHandler.downloadPoses();
-		headHandler.setupHeads();
 	}
 	
 	@Override
@@ -162,24 +154,19 @@ public final class GameplayManager extends Manager<Creative> {
 		return armorStandHandler;
 	}
 	
-	public HeadHandler getHeadHandler() {
-		return headHandler;
-	}
-	
 	public List<String> getPlayerOverrides() {
 		return playerOverrides;
 	}
 	
 	public boolean isPlayerOverride(Player player){
-		return playerOverrides.contains(player.getUniqueId().toString());
+		return playerOverrides.contains(player.getName());
 	}
 	
 	public void setPlayerOverride(Player player, boolean state){
-		String uuid = player.getUniqueId().toString();
 		if(!state){
-			playerOverrides.remove(uuid);
-		}else if(!playerOverrides.contains(uuid)){
-			playerOverrides.add(uuid);
+			playerOverrides.remove(player.getName());
+		}else if(!playerOverrides.contains(player.getName())){
+			playerOverrides.add(player.getName());
 		}
 	}
 	
@@ -206,6 +193,11 @@ public final class GameplayManager extends Manager<Creative> {
 	public void onJoin(PlayerJoinEvent event){
 		Player player = event.getPlayer();
 		player.setGameMode(GameMode.CREATIVE);
+	}
+	
+	@EventHandler
+	public void onQuit(PlayerQuitEvent event){
+		playerOverrides.remove(event.getPlayer().getName());
 	}
 	
 }

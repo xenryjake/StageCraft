@@ -17,7 +17,15 @@ public class Pagination {
 	private Item[] items = new Item[0];
 	
 	public Item[] getItems(){
-		return Arrays.copyOfRange(items, current * itemsPerPage, (current + 1) * itemsPerPage);
+		return Arrays.copyOfRange(items, currentStart(), currentEnd());
+	}
+	
+	public int currentStart(){
+		return current * itemsPerPage;
+	}
+	
+	public int currentEnd(){
+		return Math.min((current + 1) * itemsPerPage, items.length);
 	}
 	
 	public int current() {
@@ -60,7 +68,7 @@ public class Pagination {
 	}
 	
 	public Pagination last(){
-		current = items.length / itemsPerPage;
+		current = (int)Math.ceil((double)items.length / itemsPerPage) - 1;
 		return this;
 	}
 	
@@ -76,6 +84,11 @@ public class Pagination {
 	
 	public Pagination setItems(Item...items){
 		this.items = items;
+		return this;
+	}
+	
+	public Pagination setEmptyItems(int size){
+		this.items = new Item[size];
 		return this;
 	}
 	

@@ -38,7 +38,7 @@ public final class SlashServerCommand extends PlayerCommand<Core,ServerManager> 
 				break;
 			case "skyblock":
 			case "sb":
-				profile.sendMessage(M.error("SkyBlock is coming later this year!"));
+				profile.sendMessage(M.error("SkyBlock is coming early 2021!"));
 				return;
 			default:
 				profile.sendMessage(M.error("Invalid server."));

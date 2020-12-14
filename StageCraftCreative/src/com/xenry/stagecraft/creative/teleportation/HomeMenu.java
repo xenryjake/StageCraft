@@ -65,6 +65,7 @@ public final class HomeMenu extends Menu<Creative,TeleportationManager> {
 		}
 		contents.setProperty("currentPage", contents.pagination().current());
 		
+		contents.clear();
 		contents.fillBorders(getBackgroundItem());
 		{
 			ItemStack is = new ItemStack(Material.BARRIER);
@@ -76,14 +77,14 @@ public final class HomeMenu extends Menu<Creative,TeleportationManager> {
 		if(!contents.pagination().isFirst()){
 			ItemStack is = new ItemStack(Material.ARROW);
 			ItemMeta im = is.getItemMeta();
-			im.setDisplayName("§a« Page " + (contents.pagination().current()-1));
+			im.setDisplayName("§a« Page " + (contents.pagination().current()));
 			is.setItemMeta(im);
 			contents.set(5, 0, new Button(is, (event) -> contents.pagination().prev()));
 		}
 		if(!contents.pagination().isLast()){
 			ItemStack is = new ItemStack(Material.ARROW);
 			ItemMeta im = is.getItemMeta();
-			im.setDisplayName("§aPage " + (contents.pagination().current()+1) + " »");
+			im.setDisplayName("§aPage " + (contents.pagination().current()+2) + " »");
 			is.setItemMeta(im);
 			contents.set(5, 8, new Button(is, (event) -> contents.pagination().next()));
 		}

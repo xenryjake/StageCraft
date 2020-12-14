@@ -1,8 +1,8 @@
-package com.xenry.stagecraft.creative.gameplay.heads.commands;
+package com.xenry.stagecraft.creative.heads.commands;
 import com.xenry.stagecraft.command.Access;
 import com.xenry.stagecraft.command.PlayerCommand;
 import com.xenry.stagecraft.creative.Creative;
-import com.xenry.stagecraft.creative.gameplay.GameplayManager;
+import com.xenry.stagecraft.creative.heads.HeadsManager;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
 import com.xenry.stagecraft.util.M;
@@ -24,11 +24,11 @@ import java.util.List;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public final class PlayerHeadCommand extends PlayerCommand<Creative,GameplayManager> {
+public final class PlayerHeadCommand extends PlayerCommand<Creative,HeadsManager> {
 	
 	public static final Access SPAWN_SKULL = Rank.MEMBER;
 	
-	public PlayerHeadCommand(GameplayManager manager){
+	public PlayerHeadCommand(HeadsManager manager){
 		super(manager, Rank.MEMBER, "playerhead", "playerskull", "pskull", "phead");
 		setCanBeDisabled(true);
 	}

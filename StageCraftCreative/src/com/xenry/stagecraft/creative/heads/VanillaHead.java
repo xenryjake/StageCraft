@@ -1,6 +1,7 @@
-package com.xenry.stagecraft.creative.gameplay.heads;
+package com.xenry.stagecraft.creative.heads;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +35,11 @@ public class VanillaHead extends Head {
 	
 	@Override
 	public ItemStack getItem() {
-		return new ItemStack(material);
+		ItemStack is = new ItemStack(material);
+		ItemMeta im = is.getItemMeta();
+		im.setDisplayName("§e" + name + " Head");
+		is.setItemMeta(im);
+		return is;
 	}
 	
 	public static List<VanillaHead> values(){

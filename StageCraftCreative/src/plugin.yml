@@ -15,6 +15,14 @@ commands:
     description: "View and accept the rules"
     aliases: [rule]
 
+  # HEADS COMMANDS
+  head:
+    description: "Spawn custom heads"
+    aliases: [skull,heads,skulls]
+  experience:
+    description: "Modify a player's experience levels"
+    aliases: [exp,xp]
+
   # TELEPORTATION COMMANDS
   tp:
     description: "Teleport to a player"
@@ -191,12 +199,6 @@ commands:
   playerhead:
     description: "Spawn or change a player skull"
     aliases: [playerskull,phead,pskull]
-  head:
-    description: "Spawn custom heads"
-    aliases: [skull,heads,skulls]
-  experience:
-    description: "Modify a player's experience levels"
-    aliases: [exp,xp]
   clearinventory:
     description: "Clear your inventory"
     aliases: [clear,ci]

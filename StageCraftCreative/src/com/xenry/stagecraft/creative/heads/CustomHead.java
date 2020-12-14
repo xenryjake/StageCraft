@@ -1,4 +1,4 @@
-package com.xenry.stagecraft.creative.gameplay.heads;
+package com.xenry.stagecraft.creative.heads;
 import com.xenry.stagecraft.util.SkullUtil;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -24,7 +24,6 @@ public class CustomHead extends Head {
 		ItemStack is = SkullUtil.getSkullFromTextureBase64(b64Value);
 		ItemMeta im = is.getItemMeta();
 		im.setDisplayName("§e" + getName());
-		//im.setLore(Collections.singletonList("§7" + getID()));
 		is.setItemMeta(im);
 		return is;
 	}

@@ -1,4 +1,4 @@
-package com.xenry.stagecraft.creative.gameplay.heads;
+package com.xenry.stagecraft.creative.heads;
 /**
  * StageCraft created by Henry Blasingame (Xenry) on 12/6/20
  * The content in this file and all related files are

@@ -1,6 +1,7 @@
-package com.xenry.stagecraft.creative.gameplay.heads;
+package com.xenry.stagecraft.creative.heads;
 import com.xenry.stagecraft.util.SkullUtil;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 /**
  * StageCraft created by Henry Blasingame (Xenry) on 12/6/20
@@ -20,7 +21,11 @@ public class PlayerHead extends Head {
 	
 	@Override
 	public ItemStack getItem() {
-		return SkullUtil.getSkullFromOwnerName(playerName);
+		ItemStack is = SkullUtil.getSkullFromOwnerName(playerName);
+		ItemMeta im = is.getItemMeta();
+		im.setDisplayName("§e" + name + " Head");
+		is.setItemMeta(im);
+		return is;
 	}
 	
 }

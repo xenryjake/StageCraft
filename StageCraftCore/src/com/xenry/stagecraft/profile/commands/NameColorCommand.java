@@ -1,12 +1,14 @@
 package com.xenry.stagecraft.profile.commands;
 import com.xenry.stagecraft.Core;
-import com.xenry.stagecraft.command.PlayerCommand;
+import com.xenry.stagecraft.command.Access;
+import com.xenry.stagecraft.command.Command;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.ProfileManager;
 import com.xenry.stagecraft.profile.Rank;
 import com.xenry.stagecraft.profile.ui.NameColorMenu;
 import com.xenry.stagecraft.util.M;
 import net.md_5.bungee.api.ChatColor;
+import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
@@ -19,7 +21,9 @@ import java.util.List;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public final class NameColorCommand extends PlayerCommand<Core,ProfileManager> {
+public final class NameColorCommand extends Command<Core,ProfileManager> {
+	
+	public static final Access OTHERS = Rank.HEAD_MOD;
 	
 	// todo add admin ability to change others
 	
@@ -54,8 +58,27 @@ public final class NameColorCommand extends PlayerCommand<Core,ProfileManager> {
 	}
 	
 	@Override
+	protected void serverPerform(CommandSender sender, String[] args, String label) {
+	
+	}
+	
+	private void handle(CommandSender sender, String[] args, String label, boolean others){
+	}
+	
+	@Override
 	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		return args.length == 1 ? filter(profile.getRank().getAvailableColorNames(), args[0]) : Collections.emptyList();
+		if(args.length == 1){
+			return filter(profile.getRank().getAvailableColorNames(), args[0]);
+		}else if(args.length == 2 && OTHERS.has(profile)){
+			return networkPlayers(args[1]);
+		}else{
+			return Collections.emptyList();
+		}
+	}
+	
+	@Override
+	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
+		return args.length == 2 ? networkPlayers(args[1]) : Collections.emptyList();
 	}
 	
 }
