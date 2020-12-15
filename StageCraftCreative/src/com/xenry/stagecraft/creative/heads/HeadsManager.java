@@ -6,7 +6,7 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.xenry.stagecraft.Manager;
 import com.xenry.stagecraft.creative.Creative;
-import com.xenry.stagecraft.creative.heads.commands.HeadCommand;
+import com.xenry.stagecraft.creative.heads.commands.HeadsCommand;
 import com.xenry.stagecraft.creative.heads.commands.PlayerHeadCommand;
 import com.xenry.stagecraft.ui.item.Button;
 import com.xenry.stagecraft.util.Log;
@@ -21,10 +21,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * StageCraft created by Henry Blasingame (Xenry) on 12/6/20
@@ -38,7 +35,7 @@ public final class HeadsManager extends Manager<Creative> {
 	private final DBCollection favoritesCollection;
 	private final HashMap<String,PlayerFavorites> playerFavorites;
 	
-	private final List<Head> heads;
+	private final HashMap<String,Head> heads;
 	private final List<String> allTags;
 	private final List<String> favoriteUpdates;
 	
@@ -47,7 +44,7 @@ public final class HeadsManager extends Manager<Creative> {
 		favoritesCollection = plugin.getCore().getMongoManager().getCoreCollection("playerFavoriteHeads");
 		favoritesCollection.setObjectClass(PlayerFavorites.class);
 		playerFavorites = new HashMap<>();
-		heads = new ArrayList<>();
+		heads = new LinkedHashMap<>();
 		allTags = new ArrayList<>();
 		favoriteUpdates = new ArrayList<>();
 	}
@@ -58,16 +55,14 @@ public final class HeadsManager extends Manager<Creative> {
 		downloadFavorites();
 		
 		registerCommand(new PlayerHeadCommand(this));
-		registerCommand(new HeadCommand(this));
+		registerCommand(new HeadsCommand(this));
 	}
 	
 	public void downloadFavorites(){
-		Log.debug("download favorites");
 		playerFavorites.clear();
 		DBCursor c = favoritesCollection.find();
 		while(c.hasNext()){
 			PlayerFavorites favorites = (PlayerFavorites)c.next();
-			Log.debug("found favorite for uuid: " + favorites.getUUID());
 			playerFavorites.put(favorites.getUUID(), favorites);
 		}
 	}
@@ -131,11 +126,28 @@ public final class HeadsManager extends Manager<Creative> {
 		return getPlayerFavorites(player.getUniqueId().toString());
 	}
 	
+	public List<Head> getFavoriteHeads(String uuid){
+		List<Head> heads = new ArrayList<>();
+		for(String id : getPlayerFavorites(uuid).getFavorites()){
+			Head head = getHead(id);
+			if(head != null){
+				heads.add(head);
+			}
+		}
+		return heads;
+	}
+	
+	public List<Head> getFavoriteHeads(HumanEntity player){
+		return getFavoriteHeads(player.getUniqueId().toString());
+	}
+	
 	public void setupHeads(){
 		heads.clear();
-		heads.addAll(VanillaHead.values());
+		for(VanillaHead head : VanillaHead.values()){
+			heads.put(head.id, head);
+		}
 		for(MHFHead head : MHFHead.values()){
-			heads.add(head.getHead());
+			heads.put(head.getHead().id, head.getHead());
 		}
 		
 		for(Head.Category category : Head.Category.values()){
@@ -156,7 +168,7 @@ public final class HeadsManager extends Manager<Creative> {
 				List<GsonHead> gsonHeads = new Gson().fromJson(json, new TypeToken<List<GsonHead>>(){}.getType());
 				for(GsonHead gsonHead : gsonHeads){
 					try{
-						heads.add(gsonHead.toCustomHead(category));
+						heads.put(gsonHead.uuid, gsonHead.toCustomHead(category));
 					}catch(Exception ignored){
 						Log.debug("Invalid head from api: " + gsonHead.uuid);
 					}
@@ -166,7 +178,7 @@ public final class HeadsManager extends Manager<Creative> {
 			}
 		}
 		
-		for(Head head : heads){
+		for(Head head : heads.values()){
 			for(String tag : head.getTags()){
 				if(!allTags.contains(tag)){
 					allTags.add(tag);
@@ -190,7 +202,7 @@ public final class HeadsManager extends Manager<Creative> {
 	}
 	
 	public List<Head> getAllHeads() {
-		return heads;
+		return new ArrayList<>(heads.values());
 	}
 	
 	public List<String> getAllTags() {
@@ -199,17 +211,12 @@ public final class HeadsManager extends Manager<Creative> {
 	
 	@Nullable
 	public Head getHead(String id){
-		for(Head head : heads){
-			if(head.getID().equals(id)){
-				return head;
-			}
-		}
-		return null;
+		return heads.getOrDefault(id, null);
 	}
 	
 	public List<Head> getHeadsByCategory(Head.Category category){
 		List<Head> heads = new ArrayList<>();
-		for(Head head : this.heads){
+		for(Head head : this.heads.values()){
 			if(head.getCategory() == category){
 				heads.add(head);
 			}
@@ -223,7 +230,7 @@ public final class HeadsManager extends Manager<Creative> {
 	
 	public int countHeads(Head.Category category){
 		int i = 0;
-		for(Head head : this.heads){
+		for(Head head : this.heads.values()){
 			if(head.getCategory() == category){
 				i++;
 			}
@@ -233,7 +240,7 @@ public final class HeadsManager extends Manager<Creative> {
 	
 	public int countHeads(String tag){
 		int i = 0;
-		for(Head head : this.heads){
+		for(Head head : this.heads.values()){
 			if(head.getTags().contains(tag)){
 				i++;
 			}
@@ -243,7 +250,7 @@ public final class HeadsManager extends Manager<Creative> {
 	
 	public List<Head> getHeadsByTag(String tag){
 		List<Head> heads = new ArrayList<>();
-		for(Head head : this.heads){
+		for(Head head : this.heads.values()){
 			if(head.getTags().contains(tag)){
 				heads.add(head);
 			}
@@ -265,7 +272,7 @@ public final class HeadsManager extends Manager<Creative> {
 		ItemStack is = head.getItem();
 		ItemMeta im = is.getItemMeta();
 		if(favorite){
-			im.setDisplayName("§c⭐§r " + im.getDisplayName());
+			im.setDisplayName("§c❤§r " + im.getDisplayName());
 		}
 		im.setLore(Arrays.asList("§fTags: " + Joiner.on(", ").join(head.getTags()),
 				"§7Left-click to spawn this head",

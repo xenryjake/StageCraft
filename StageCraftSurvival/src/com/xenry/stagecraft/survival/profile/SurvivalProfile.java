@@ -31,8 +31,8 @@ public class SurvivalProfile extends GenericProfile {
 		put("lastLocationX", 0.0);
 		put("lastLocationY", 0.0);
 		put("lastLocationZ", 0.0);
-		put("lastLocationYaw", 0.0F);
-		put("lastLocationPitch", 0.0F);
+		put("lastLocationYaw", 0.0);
+		put("lastLocationPitch", 0.0);
 		put("lastLocationWorldName", "world");
 		
 		put("currency", new HashMap<String,Integer>());
@@ -71,21 +71,21 @@ public class SurvivalProfile extends GenericProfile {
 			put("lastLocationZ", 0);
 			z = 0;
 		}
-		float yaw;
-		if(objYaw instanceof Float){
-			yaw = (Float)objYaw;
+		double yaw;
+		if(objYaw instanceof Double){
+			yaw = (Double)objYaw;
 		}else{
 			put("lastLocationYaw", 0);
 			yaw = 0;
 		}
-		float pitch;
-		if(objPitch instanceof Float){
-			pitch = (Float)objPitch;
+		double pitch;
+		if(objPitch instanceof Double){
+			pitch = (Double)objPitch;
 		}else{
 			put("lastLocationPitch", 0);
 			pitch = 0;
 		}
-		return new LocationVector(x, y, z, yaw, pitch);
+		return new LocationVector(x, y, z, (float)yaw, (float)pitch);
 	}
 	
 	public String getLastLocationWorldName(){
@@ -98,7 +98,7 @@ public class SurvivalProfile extends GenericProfile {
 		}
 	}
 	
-	public void setLastLocation(double x, double y, double z, float yaw, float pitch){
+	public void setLastLocation(double x, double y, double z, double yaw, double pitch){
 		put("lastLocationX", x);
 		put("lastLocationY", y);
 		put("lastLocationZ", z);
