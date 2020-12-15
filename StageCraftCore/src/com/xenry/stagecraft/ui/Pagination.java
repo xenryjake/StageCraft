@@ -84,16 +84,19 @@ public class Pagination {
 	
 	public Pagination setItems(Item...items){
 		this.items = items;
+		current = Math.min(current, items.length / itemsPerPage);
 		return this;
 	}
 	
 	public Pagination setEmptyItems(int size){
 		this.items = new Item[size];
+		current = Math.min(current, items.length / itemsPerPage);
 		return this;
 	}
 	
 	public Pagination setItemsPerPage(int itemsPerPage){
 		this.itemsPerPage = itemsPerPage;
+		current = Math.min(current, items.length / itemsPerPage);
 		return this;
 	}
 	

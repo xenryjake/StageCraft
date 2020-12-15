@@ -15,26 +15,24 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.List;
 
 /**
- * StageCraft created by Henry Blasingame (Xenry) on 12/13/20
+ * StageCraft created by Henry Blasingame (Xenry) on 12/14/20
  * The content in this file and all related files are
  * Copyright (C) 2020 Henry Blasingame.
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public class HeadCategoryMenu extends Menu<Creative,HeadsManager> {
+public class HeadsTagMenu extends Menu<Creative,HeadsManager> {
 	
-	private final Head.Category category;
-	private final String command;
+	private final String tag;
 	
-	public HeadCategoryMenu(HeadsManager manager, Head.Category category, String uuid, String command){
-		super(manager, "head-category-" + category.id + "#" + uuid, "Heads: " + category.name + " (" + manager.countHeads(category) + ")", 6);
-		this.category = category;
-		this.command = command;
+	public HeadsTagMenu(HeadsManager manager, String tag, String uuid){
+		super(manager, "head-tag-" + tag + "#" + uuid, "Heads: " + tag + " (" + manager.countHeads(tag) + ")", 6);
+		this.tag = tag;
 	}
 	
 	@Override
 	protected void init(Player player, MenuContents contents) {
-		List<Head> heads = manager.getHeadsByCategory(category);
+		List<Head> heads = manager.getHeadsByTag(tag);
 		if(heads.size() < 1){
 			contents.fill(getBackgroundItem());
 			ItemStack is = new ItemStack(Material.BARRIER);
@@ -68,11 +66,23 @@ public class HeadCategoryMenu extends Menu<Creative,HeadsManager> {
 			is.setItemMeta(im);
 			contents.set(5, 4, Button.closeInventoryButton(is));
 		}{
-			ItemStack is = new ItemStack(Material.ARROW);
+			ItemStack is = SkullUtil.getSkullFromTextureBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTYzMzBhNGEyMmZmNTU4NzFmYzhjNjE4ZTQyMWEzNzczM2FjMWRjYWI5YzhlMWE0YmI3M2FlNjQ1YTRhNGUifX19");
 			ItemMeta im = is.getItemMeta();
-			im.setDisplayName("§a« View Categories");
+			im.setDisplayName("§aView Categories");
 			is.setItemMeta(im);
-			contents.set(5, 3, Button.runCommandButton(is, command));
+			contents.set(5, 3, Button.runCommandButton(is, "heads"));
+		}{
+			ItemStack is = new ItemStack(Material.NAME_TAG);
+			ItemMeta im = is.getItemMeta();
+			im.setDisplayName("§aView Tags");
+			is.setItemMeta(im);
+			contents.set(5,5, Button.runCommandButton(is, "heads tags"));
+		}{
+			ItemStack is = SkullUtil.getSkullFromTextureBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmM4ZmI2MzdkNmUxYTdiYThmYTk3ZWU5ZDI5MTVlODQzZThlYzc5MGQ4YjdiZjYwNDhiZTYyMWVlNGQ1OWZiYSJ9fX0=");
+			ItemMeta im = is.getItemMeta();
+			im.setDisplayName("§c❤§r §aView Favorites");
+			is.setItemMeta(im);
+			contents.set(0, 8, Button.runCommandButton(is, "heads favorites"));
 		}
 		if(!contents.pagination().isFirst()){
 			{
@@ -105,7 +115,7 @@ public class HeadCategoryMenu extends Menu<Creative,HeadsManager> {
 			}
 		}
 		
-		List<Head> heads = manager.getHeadsByCategory(category);
+		List<Head> heads = manager.getHeadsByTag(tag);
 		for(int i = contents.pagination().currentStart(); i < contents.pagination().currentEnd(); i++){
 			Head head = heads.get(i);
 			boolean favorite = manager.getPlayerFavorites(player).isFavorite(head.id);

@@ -3,7 +3,8 @@ import com.google.common.base.Joiner;
 import com.xenry.stagecraft.command.PlayerCommand;
 import com.xenry.stagecraft.creative.Creative;
 import com.xenry.stagecraft.creative.heads.HeadsManager;
-import com.xenry.stagecraft.creative.heads.ui.HeadTagMenu;
+import com.xenry.stagecraft.creative.heads.ui.HeadsTagListMenu;
+import com.xenry.stagecraft.creative.heads.ui.HeadsTagMenu;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
 import com.xenry.stagecraft.util.M;
@@ -19,16 +20,16 @@ import java.util.List;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public class HeadTagCommand extends PlayerCommand<Creative,HeadsManager> {
+public class HeadsTagCommand extends PlayerCommand<Creative,HeadsManager> {
 	
-	public HeadTagCommand(HeadsManager manager){
+	public HeadsTagCommand(HeadsManager manager){
 		super(manager, Rank.MEMBER, "tag", "tags");
 	}
 	
 	@Override
 	protected void playerPerform(Profile profile, String[] args, String label) {
 		if(args.length < 1){
-			profile.sendMessage(M.usage("/head tag <tag>"));
+			new HeadsTagListMenu(manager, profile.getUUID()).open(profile.getPlayer());
 			return;
 		}
 		String input = Joiner.on(' ').join(args);
@@ -37,12 +38,12 @@ public class HeadTagCommand extends PlayerCommand<Creative,HeadsManager> {
 			profile.sendMessage(M.error("Tag does not exist: " + input));
 			return;
 		}
-		new HeadTagMenu(manager, tag, profile.getUUID());
+		new HeadsTagMenu(manager, tag, profile.getUUID()).open(profile.getPlayer());
 	}
 	
 	@Override
 	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		return args.length == 1 ? manager.getAllTags() : Collections.emptyList();
+		return args.length == 1 ? filter(manager.getAllTags(), args[0]) : Collections.emptyList();
 	}
 	
 }

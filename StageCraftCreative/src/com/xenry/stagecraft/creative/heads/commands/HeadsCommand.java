@@ -3,8 +3,9 @@ import com.xenry.stagecraft.command.PlayerCommand;
 import com.xenry.stagecraft.creative.Creative;
 import com.xenry.stagecraft.creative.heads.Head;
 import com.xenry.stagecraft.creative.heads.HeadsManager;
-import com.xenry.stagecraft.creative.heads.ui.HeadCategoryMenu;
-import com.xenry.stagecraft.creative.heads.ui.HeadsHomeMenu;
+import com.xenry.stagecraft.creative.heads.ui.HeadsCategoryMenu;
+import com.xenry.stagecraft.creative.heads.ui.HeadsFavoriteMenu;
+import com.xenry.stagecraft.creative.heads.ui.HeadsCategoryListMenu;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
 import com.xenry.stagecraft.util.M;
@@ -20,30 +21,29 @@ import java.util.List;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public final class HeadCommand extends PlayerCommand<Creative,HeadsManager> {
+public final class HeadsCommand extends PlayerCommand<Creative,HeadsManager> {
 	
-	public HeadCommand(HeadsManager manager) {
+	public HeadsCommand(HeadsManager manager) {
 		super(manager, Rank.MEMBER, "head", "skull", "heads", "skulls");
-		addSubCommand(new HeadTagCommand(manager));
+		addSubCommand(new HeadsTagCommand(manager));
 	}
 	
 	@Override
 	protected void playerPerform(Profile profile, String[] args, String label) {
 		if(args.length < 1){
-			new HeadsHomeMenu(manager, profile.getUUID(), label).open(profile.getPlayer());
+			new HeadsCategoryListMenu(manager, profile.getUUID()).open(profile.getPlayer());
 			return;
 		}
 		Head.Category category = Head.Category.fromID(args[0]);
 		if(args[0].equalsIgnoreCase("favorite") || args[0].equalsIgnoreCase("favorites")){
-			//todo open favorites menu
-			profile.sendMessage(M.err + "Favorites view coming soon.");
+			new HeadsFavoriteMenu(manager, profile.getUUID()).open(profile.getPlayer());
 			return;
 		}
 		if(category == null){
 			profile.sendMessage(M.error("Invalid category: " + args[0]));
 			return;
 		}
-		new HeadCategoryMenu(manager, category, profile.getUUID(), label).open(profile.getPlayer());
+		new HeadsCategoryMenu(manager, category, profile.getUUID()).open(profile.getPlayer());
 	}
 	
 	@Override
