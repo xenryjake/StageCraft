@@ -24,7 +24,6 @@ public final class SetHomeCommand extends PlayerCommand<Survival,TeleportationMa
 	
 	public SetHomeCommand(TeleportationManager manager){
 		super(manager, Rank.MEMBER, "sethome", "addhome", "homeset", "homeadd");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

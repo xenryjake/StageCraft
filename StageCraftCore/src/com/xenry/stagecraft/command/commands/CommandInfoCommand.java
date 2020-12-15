@@ -22,7 +22,7 @@ import java.util.List;
 public final class CommandInfoCommand extends Command<Core,CommandManager> {
 	
 	public CommandInfoCommand(CommandManager manager){
-		super(manager, Rank.HEAD_MOD, "info");
+		super(manager, Rank.HEAD_MOD, false, "info");
 	}
 	
 	@Override
@@ -54,8 +54,8 @@ public final class CommandInfoCommand extends Command<Core,CommandManager> {
 		sender.sendMessage(M.arrow("Manager: " + M.elm + command.getManager().name));
 		sender.sendMessage(M.arrow("Access: " + accessString));
 		sender.sendMessage(M.arrow("Labels: " + labelsString));
-		sender.sendMessage(M.arrow("Can be disabled: " + (command.canBeDisabled() ? "§atrue" : "§cfalse")));
-		if(command.canBeDisabled()){
+		sender.sendMessage(M.arrow("Can be disabled: " + (command.canBeDisabled ? "§atrue" : "§cfalse")));
+		if(command.canBeDisabled){
 			sender.sendMessage(M.arrow("Is disabled: " + (command.isDisabled() ? "§atrue" : "§cfalse")));
 		}
 	}

@@ -25,7 +25,6 @@ public final class ExperienceCommand extends Command<Creative,GameplayManager> {
 	
 	public ExperienceCommand(GameplayManager manager){
 		super(manager, Rank.HEAD_MOD, "experience", "exp", "xp");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

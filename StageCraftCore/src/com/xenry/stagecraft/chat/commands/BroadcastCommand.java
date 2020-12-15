@@ -27,8 +27,7 @@ import java.util.List;
 public final class BroadcastCommand extends Command<Core,ChatManager> {
 
 	public BroadcastCommand(ChatManager manager){
-		super(manager, Rank.MOD, "broadcast", "bc", "bcast");
-		setCanBeDisabled(true);
+		super(manager, Rank.MOD, true, "broadcast", "bc", "bcast");
 	}
 	
 	@Override

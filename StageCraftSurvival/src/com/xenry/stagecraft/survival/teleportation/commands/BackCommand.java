@@ -24,7 +24,6 @@ public final class BackCommand extends PlayerCommand<Survival,TeleportationManag
 	
 	public BackCommand(TeleportationManager manager){
 		super(manager, Rank.MEMBER, "back", "b", "backo", "bo");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

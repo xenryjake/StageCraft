@@ -19,8 +19,7 @@ import java.util.List;
 public final class AnvilCommand extends PlayerCommand<Survival,GameplayManager> {
 	
 	public AnvilCommand(GameplayManager manager){
-		super(manager, Rank.ADMIN, "anvil");
-		setCanBeDisabled(true);
+		super(manager, Rank.HEAD_MOD, "anvil");
 	}
 	
 	@Override

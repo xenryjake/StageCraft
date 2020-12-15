@@ -25,7 +25,6 @@ public final class TopCommand extends PlayerCommand<Survival,TeleportationManage
 	
 	public TopCommand(TeleportationManager manager){
 		super(manager, Rank.HEAD_MOD, "top");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

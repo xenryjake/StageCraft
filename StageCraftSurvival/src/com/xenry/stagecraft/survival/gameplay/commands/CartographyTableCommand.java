@@ -20,7 +20,6 @@ public final class CartographyTableCommand extends PlayerCommand<Survival,Gamepl
 	
 	public CartographyTableCommand(GameplayManager manager){
 		super(manager, Rank.PREMIUM, "cartographytable", "carttable", "cartography", "cart");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

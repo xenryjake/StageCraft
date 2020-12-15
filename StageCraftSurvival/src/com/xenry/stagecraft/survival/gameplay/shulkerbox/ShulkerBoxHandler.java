@@ -1,4 +1,5 @@
 package com.xenry.stagecraft.survival.gameplay.shulkerbox;
+import com.google.common.annotations.Beta;
 import com.xenry.stagecraft.Handler;
 import com.xenry.stagecraft.command.Access;
 import com.xenry.stagecraft.survival.Survival;
@@ -26,6 +27,7 @@ import java.util.HashMap;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
+@Beta
 public final class ShulkerBoxHandler extends Handler<Survival,GameplayManager> {
 	
 	public static final Access CAN_OPEN_WITHOUT_PLACING = Rank.MEMBER;

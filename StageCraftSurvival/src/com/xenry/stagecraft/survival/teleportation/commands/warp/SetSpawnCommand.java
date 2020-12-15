@@ -23,7 +23,6 @@ public final class SetSpawnCommand extends PlayerCommand<Survival,TeleportationM
 	
 	public SetSpawnCommand(TeleportationManager manager){
 		super(manager, Rank.ADMIN, "setspawn");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

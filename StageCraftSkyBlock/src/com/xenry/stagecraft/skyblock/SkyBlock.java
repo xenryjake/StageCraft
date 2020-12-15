@@ -1,14 +1,10 @@
 package com.xenry.stagecraft.skyblock;
 import com.xenry.stagecraft.Core;
 import com.xenry.stagecraft.StageCraftPlugin;
+import com.xenry.stagecraft.skyblock.gameplay.GameplayManager;
 import com.xenry.stagecraft.skyblock.island.IslandManager;
 import com.xenry.stagecraft.skyblock.profile.SkyBlockProfileManager;
 import com.xenry.stagecraft.util.Log;
-import org.bukkit.GameMode;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.generator.ChunkGenerator;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -24,6 +20,7 @@ public final class SkyBlock extends StageCraftPlugin {
 	
 	private SkyBlockProfileManager skyBlockProfileManager;
 	private IslandManager islandManager;
+	private GameplayManager gameplayManager;
 	
 	public SkyBlock(){
 		super("SkyBlock", Core.getInstance());
@@ -34,6 +31,7 @@ public final class SkyBlock extends StageCraftPlugin {
 		try{
 			skyBlockProfileManager = loadManager(SkyBlockProfileManager.class);
 			islandManager = loadManager(IslandManager.class);
+			gameplayManager = loadManager(GameplayManager.class);
 		}catch(Exception ex){
 			ex.printStackTrace();
 			Log.severe("Something went wrong while loading the SkyBlock managers!");
@@ -48,16 +46,13 @@ public final class SkyBlock extends StageCraftPlugin {
 		return islandManager;
 	}
 	
+	public GameplayManager getGameplayManager() {
+		return gameplayManager;
+	}
+	
 	@Override
 	public ChunkGenerator getDefaultWorldGenerator(@NotNull String worldName, @Nullable String id) {
 		return new VoidGenerator();
-	}
-	
-	//todo move this to gameplay manager
-	@EventHandler(priority = EventPriority.HIGHEST)
-	public void onJoin(PlayerJoinEvent event){
-		Player player = event.getPlayer();
-		player.setGameMode(GameMode.SURVIVAL);
 	}
 	
 }

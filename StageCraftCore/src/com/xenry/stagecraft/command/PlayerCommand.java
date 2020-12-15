@@ -16,6 +16,10 @@ import java.util.List;
  */
 public abstract class PlayerCommand<P extends StageCraftPlugin,T extends Manager<P>> extends Command<P,T> {
 	
+	public PlayerCommand(T manager, Access access, boolean canBeDisabled, String... labels) {
+		super(manager, access, canBeDisabled, labels);
+	}
+	
 	protected PlayerCommand(T manager, Access access, String... labels) {
 		super(manager, access, labels);
 	}

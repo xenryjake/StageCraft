@@ -26,7 +26,6 @@ public final class GoToHomeCommand extends PlayerCommand<Creative,TeleportationM
 	
 	public GoToHomeCommand(TeleportationManager manager){
 		super(manager, Rank.MOD, "gotohome");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

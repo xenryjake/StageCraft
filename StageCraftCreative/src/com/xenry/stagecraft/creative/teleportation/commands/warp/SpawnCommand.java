@@ -27,7 +27,6 @@ public final class SpawnCommand extends Command<Creative,TeleportationManager> {
 	
 	public SpawnCommand(TeleportationManager manager){
 		super(manager, Rank.MEMBER, "spawn", "spawno");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

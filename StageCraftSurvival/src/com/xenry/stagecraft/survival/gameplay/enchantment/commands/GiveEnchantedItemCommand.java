@@ -26,7 +26,6 @@ public final class GiveEnchantedItemCommand extends PlayerCommand<Survival,Gamep
 	
 	public GiveEnchantedItemCommand(GameplayManager manager){
 		super(manager, Rank.ADMIN,"giveenchanteditem", "gei");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

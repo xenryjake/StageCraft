@@ -22,7 +22,6 @@ public final class TPCancelCommand extends PlayerCommand<Survival,TeleportationM
 	
 	public TPCancelCommand(TeleportationManager manager){
 		super(manager, Rank.MEMBER, "tpcancel");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

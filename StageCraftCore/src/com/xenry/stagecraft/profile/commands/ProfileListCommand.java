@@ -34,7 +34,6 @@ public final class ProfileListCommand extends Command<Core,ProfileManager> {
 	
 	public ProfileListCommand(ProfileManager manager){
 		super(manager, ACCESS, "profilelist");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

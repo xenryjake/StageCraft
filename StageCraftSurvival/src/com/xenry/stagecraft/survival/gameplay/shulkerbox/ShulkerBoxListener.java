@@ -1,5 +1,6 @@
 package com.xenry.stagecraft.survival.gameplay.shulkerbox;
 
+import com.google.common.annotations.Beta;
 import com.xenry.stagecraft.Handler;
 import com.xenry.stagecraft.survival.Survival;
 import com.xenry.stagecraft.survival.gameplay.GameplayManager;
@@ -25,6 +26,7 @@ import java.util.ArrayList;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
+@Beta
 public final class ShulkerBoxListener extends Handler<Survival,GameplayManager> {
 	
 	private final ShulkerBoxHandler handler;

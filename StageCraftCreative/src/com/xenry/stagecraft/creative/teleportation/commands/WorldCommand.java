@@ -26,7 +26,6 @@ public final class WorldCommand extends PlayerCommand<Creative,TeleportationMana
 	
 	public WorldCommand(TeleportationManager manager){
 		super(manager, Rank.HEAD_MOD, "world");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

@@ -23,7 +23,6 @@ public final class SetWarpAliasCommand extends Command<Creative,TeleportationMan
 	
 	public SetWarpAliasCommand(TeleportationManager manager){
 		super(manager, Rank.MEMBER, "setwarpalias", "addwarpalias");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

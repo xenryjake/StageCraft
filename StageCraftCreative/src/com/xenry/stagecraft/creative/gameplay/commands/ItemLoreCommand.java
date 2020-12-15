@@ -29,7 +29,6 @@ public final class ItemLoreCommand extends PlayerCommand<Creative,GameplayManage
 	
 	public ItemLoreCommand(GameplayManager manager){
 		super(manager, Rank.ELITE, "itemlore", "ilore");
-		setCanBeDisabled(true);
 	}
 	
 	@SuppressWarnings("ConstantConditions")

@@ -21,7 +21,6 @@ public final class SuicideCommand extends PlayerCommand<Creative,GameplayManager
 	
 	public SuicideCommand(GameplayManager manager){
 		super(manager, Rank.MEMBER, "suicide", "kms", "die", "kermit", "cory");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

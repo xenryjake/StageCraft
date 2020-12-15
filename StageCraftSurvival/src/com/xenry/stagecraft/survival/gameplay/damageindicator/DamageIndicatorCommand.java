@@ -22,10 +22,9 @@ import java.util.List;
 public final class DamageIndicatorCommand extends Command<Survival,GameplayManager> {
 	
 	public DamageIndicatorCommand(GameplayManager manager){
-		super(manager, Rank.ADMIN, "damageindicator", "damageindicators", "di");
+		super(manager, Rank.HEAD_MOD, "damageindicator", "damageindicators", "di");
 		addSubCommand(new DamageIndicatorDeSpawnCommand(manager));
 		addSubCommand(new DamageIndicatorForceDeSpawnCommand(manager));
-		setCanBeDisabled(true);
 	}
 	
 	@Override

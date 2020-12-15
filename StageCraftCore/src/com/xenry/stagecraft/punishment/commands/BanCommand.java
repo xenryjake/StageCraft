@@ -31,7 +31,6 @@ public final class BanCommand extends Command<Core,PunishmentManager> {
 	
 	public BanCommand(PunishmentManager manager){
 		super(manager, Rank.MOD, "ban");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

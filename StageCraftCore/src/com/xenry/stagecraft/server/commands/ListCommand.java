@@ -34,7 +34,6 @@ public final class ListCommand extends Command<Core,ServerManager> {
 	
 	public ListCommand(ServerManager manager){
 		super(manager, Rank.MEMBER, "list", "who", "online", "ls");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

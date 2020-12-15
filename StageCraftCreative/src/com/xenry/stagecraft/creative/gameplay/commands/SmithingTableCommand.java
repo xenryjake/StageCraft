@@ -20,7 +20,6 @@ public final class SmithingTableCommand extends PlayerCommand<Creative,GameplayM
 	
 	public SmithingTableCommand(GameplayManager manager){
 		super(manager, Rank.MEMBER, "smith", "smithingtable", "smithing");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

@@ -23,7 +23,6 @@ public final class SetWarpAliasCommand extends Command<Survival,TeleportationMan
 	
 	public SetWarpAliasCommand(TeleportationManager manager){
 		super(manager, Rank.MOD, "setwarpalias", "addwarpalias");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

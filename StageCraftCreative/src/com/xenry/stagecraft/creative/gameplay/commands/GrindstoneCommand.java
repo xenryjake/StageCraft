@@ -20,7 +20,6 @@ public final class GrindstoneCommand extends PlayerCommand<Creative,GameplayMana
 	
 	public GrindstoneCommand(GameplayManager manager){
 		super(manager, Rank.MEMBER, "grindstone", "grind");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

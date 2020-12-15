@@ -22,7 +22,6 @@ public final class NearCommand extends PlayerCommand<Survival,GameplayManager> {
 	
 	public NearCommand(GameplayManager manager){
 		super(manager, Rank.HEAD_MOD, "near", "nearby");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

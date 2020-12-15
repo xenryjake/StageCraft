@@ -30,7 +30,6 @@ public final class PlayerHeadCommand extends PlayerCommand<Creative,HeadsManager
 	
 	public PlayerHeadCommand(HeadsManager manager){
 		super(manager, Rank.MEMBER, "playerhead", "playerskull", "pskull", "phead");
-		setCanBeDisabled(true);
 	}
 	
 	@SuppressWarnings("ConstantConditions")

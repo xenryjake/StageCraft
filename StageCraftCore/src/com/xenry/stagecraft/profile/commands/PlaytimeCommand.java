@@ -29,7 +29,6 @@ public final class PlaytimeCommand extends Command<Core,ProfileManager> {
 	
 	public PlaytimeCommand(ProfileManager manager){
 		super(manager, Rank.MEMBER, "playtime");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

@@ -20,7 +20,6 @@ public final class LoomCommand extends PlayerCommand<Creative,GameplayManager> {
 	
 	public LoomCommand(GameplayManager manager){
 		super(manager, Rank.MEMBER, "loom");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

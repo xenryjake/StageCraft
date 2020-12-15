@@ -148,7 +148,7 @@ commands:
     aliases: [kms,die,kermit,cory]
   trash:
     description: "Open a trash can"
-    aliases: [trashcan,disposal,d]
+    aliases: [trashcan,disposal,d,shea]
   kill:
     description: "Kill a player"
     aliases: [murder]

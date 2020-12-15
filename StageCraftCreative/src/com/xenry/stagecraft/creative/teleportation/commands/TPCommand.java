@@ -30,7 +30,6 @@ public final class TPCommand extends Command<Creative,TeleportationManager> {
 	
 	public TPCommand(TeleportationManager manager){
 		super(manager, SELF_RANK, "tp", "tpo", "teleport");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

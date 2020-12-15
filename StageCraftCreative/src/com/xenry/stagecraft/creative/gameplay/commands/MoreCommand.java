@@ -27,7 +27,6 @@ public final class MoreCommand extends PlayerCommand<Creative,GameplayManager> {
 	
 	public MoreCommand(GameplayManager manager){
 		super(manager, Rank.MEMBER, "more");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

@@ -30,7 +30,6 @@ public final class PvPCommand extends Command<Creative,GameplayManager> {
 	
 	public PvPCommand(GameplayManager manager){
 		super(manager, Rank.MEMBER, "pvp");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

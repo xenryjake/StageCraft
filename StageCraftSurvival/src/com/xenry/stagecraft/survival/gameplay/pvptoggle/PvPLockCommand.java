@@ -27,7 +27,6 @@ public final class PvPLockCommand extends Command<Survival,GameplayManager> {
 	
 	public PvPLockCommand(GameplayManager manager){
 		super(manager, ACCESS, "pvplock", "lockpvp");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

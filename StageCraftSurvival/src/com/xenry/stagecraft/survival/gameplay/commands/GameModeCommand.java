@@ -30,7 +30,6 @@ public final class GameModeCommand extends Command<Survival,GameplayManager> {
 	
 	public GameModeCommand(GameplayManager manager){
 		super(manager, Rank.ADMIN, "gamemode", "gm", "gmc", "gms", "gmsp", "gma");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

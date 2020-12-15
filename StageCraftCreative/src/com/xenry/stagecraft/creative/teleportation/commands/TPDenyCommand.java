@@ -22,7 +22,6 @@ public final class TPDenyCommand extends PlayerCommand<Creative,TeleportationMan
 	
 	public TPDenyCommand(TeleportationManager manager){
 		super(manager, Rank.MEMBER, "tpdeny", "tpno");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

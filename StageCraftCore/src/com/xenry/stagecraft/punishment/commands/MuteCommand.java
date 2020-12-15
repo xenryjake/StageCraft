@@ -31,7 +31,6 @@ public final class MuteCommand extends Command<Core,PunishmentManager> {
 	
 	public MuteCommand(PunishmentManager manager) {
 		super(manager, Rank.MOD, "mute");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

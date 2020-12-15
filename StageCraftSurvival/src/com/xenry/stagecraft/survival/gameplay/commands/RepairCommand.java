@@ -31,7 +31,6 @@ public final class RepairCommand extends Command<Survival,GameplayManager> {
 	
 	public RepairCommand(GameplayManager manager){
 		super(manager, Rank.HEAD_MOD, "repair", "fix");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

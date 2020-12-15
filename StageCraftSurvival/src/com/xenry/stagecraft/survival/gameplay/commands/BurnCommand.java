@@ -25,7 +25,6 @@ public final class BurnCommand extends Command<Survival,GameplayManager> {
 	
 	public BurnCommand(GameplayManager manager){
 		super(manager, Rank.ADMIN, "burn");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

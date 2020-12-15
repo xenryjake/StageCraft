@@ -27,7 +27,6 @@ public final class DisconnectCommand extends Command<Core,PunishmentManager> {
 	
 	public DisconnectCommand(PunishmentManager manager){
 		super(manager, Rank.HEAD_MOD, "disconnect", "discon");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

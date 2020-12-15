@@ -20,7 +20,6 @@ public final class EnchantingTableCommand extends PlayerCommand<Survival,Gamepla
 	
 	public EnchantingTableCommand(GameplayManager manager){
 		super(manager, Rank.ADMIN, "enchantingtable", "enchanttable", "enchtable");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

@@ -23,9 +23,8 @@ import java.util.List;
 public final class MessageCommand extends Command<Core,ChatManager> {
 	
 	public MessageCommand(ChatManager manager){
-		super(manager, Rank.MEMBER, "message", "msg", "m", "tell", "t", "whisper", "w", "privatemessage",
-				"pmsg", "pm");
-		setCanBeDisabled(true);
+		super(manager, Rank.MEMBER, true, "message", "msg", "m", "tell", "t", "whisper", "w",
+				"privatemessage", "pmsg", "pm");
 	}
 	
 	/*@Override

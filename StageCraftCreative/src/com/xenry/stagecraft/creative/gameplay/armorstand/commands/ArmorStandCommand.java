@@ -27,7 +27,6 @@ public final class ArmorStandCommand extends Command<Creative,GameplayManager> {
 	
 	public ArmorStandCommand(ArmorStandHandler handler){
 		super(handler.getManager(), Rank.MEMBER, "armorstand", "as");
-		setCanBeDisabled(true);
 		addSubCommand(new ArmorStandInfoCommand(handler));
 		addSubCommand(new ArmorStandArmsCommand(handler));
 		addSubCommand(new ArmorStandBaseCommand(handler));

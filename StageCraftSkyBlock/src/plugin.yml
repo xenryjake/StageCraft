@@ -7,3 +7,12 @@ depend: [StageCraftCore]
 softdepend: [ProtocolLib,Vault,Essentials,TitleManager,GriefPrevention]
 commands:
 
+  # ISLAND COMMANDS
+  island:
+    description: "Manage your islands"
+    aliases: [islands,is]
+  islandadmin:
+    description: "Manage islands as an admin"
+    aliases: [islandsadmin,isa]
+
+

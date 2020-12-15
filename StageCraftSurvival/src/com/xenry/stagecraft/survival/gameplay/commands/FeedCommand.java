@@ -29,8 +29,7 @@ public final class FeedCommand extends Command<Survival,GameplayManager> {
 	private static final List<Integer> potionEffectTypesToRemove = Collections.singletonList(17);
 	
 	public FeedCommand(GameplayManager manager){
-		super(manager, Rank.ADMIN, "feed", "eat");
-		setCanBeDisabled(true);
+		super(manager, Rank.HEAD_MOD, "feed", "eat");
 	}
 	
 	@Override

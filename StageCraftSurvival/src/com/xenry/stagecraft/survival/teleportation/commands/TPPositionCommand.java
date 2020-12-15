@@ -25,7 +25,6 @@ public final class TPPositionCommand extends PlayerCommand<Survival,Teleportatio
 	
 	public TPPositionCommand(TeleportationManager manager){
 		super(manager, TPCommand.SELF_RANK, "teleportposition", "teleportpos", "tpposition", "tppos");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

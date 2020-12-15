@@ -30,7 +30,6 @@ public final class ShopCommand extends PlayerCommand<Survival,GameplayManager> {
 	
 	public ShopCommand(GameplayManager manager){
 		super(manager, Rank.MEMBER, "shop");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

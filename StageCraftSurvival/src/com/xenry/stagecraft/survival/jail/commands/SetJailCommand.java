@@ -24,7 +24,6 @@ public final class SetJailCommand extends PlayerCommand<Survival,JailManager> {
 	
 	public SetJailCommand(JailManager manager){
 		super(manager, Rank.MOD, "setjail", "addjail", "jailset", "jailadd");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

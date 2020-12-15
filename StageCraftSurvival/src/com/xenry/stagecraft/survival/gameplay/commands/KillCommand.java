@@ -25,7 +25,6 @@ public final class KillCommand extends Command<Survival,GameplayManager> {
 	
 	public KillCommand(GameplayManager manager){
 		super(manager, Rank.ADMIN, "kill", "murder");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

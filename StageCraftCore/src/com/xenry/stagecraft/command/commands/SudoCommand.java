@@ -34,7 +34,6 @@ public final class SudoCommand extends Command<Core,CommandManager> {
 	
 	public SudoCommand(CommandManager manager){
 		super(manager, Rank.HEAD_MOD, "sudo");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

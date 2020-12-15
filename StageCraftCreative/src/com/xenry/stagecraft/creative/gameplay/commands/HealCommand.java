@@ -35,7 +35,6 @@ public final class HealCommand extends Command<Creative,GameplayManager> {
 	
 	public HealCommand(GameplayManager manager){
 		super(manager, Rank.MEMBER, "heal");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

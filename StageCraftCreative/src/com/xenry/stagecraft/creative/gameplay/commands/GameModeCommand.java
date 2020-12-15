@@ -30,7 +30,6 @@ public final class GameModeCommand extends Command<Creative,GameplayManager> {
 	
 	public GameModeCommand(GameplayManager manager){
 		super(manager, Rank.MEMBER, "gamemode", "gm", "gmc", "gms", "gmsp", "gma");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

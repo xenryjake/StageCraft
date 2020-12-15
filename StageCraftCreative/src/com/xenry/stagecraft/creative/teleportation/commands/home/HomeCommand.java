@@ -22,7 +22,6 @@ public final class HomeCommand extends PlayerCommand<Creative,TeleportationManag
 	
 	public HomeCommand(TeleportationManager manager){
 		super(manager, Rank.MEMBER, "home", "h", "homeo", "ho", "homes");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

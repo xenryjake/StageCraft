@@ -25,7 +25,6 @@ public final class BurnCommand extends Command<Creative,GameplayManager> {
 	
 	public BurnCommand(GameplayManager manager){
 		super(manager, Rank.HEAD_MOD, "burn");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

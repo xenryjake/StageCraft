@@ -22,7 +22,6 @@ public final class PermissionCommand extends Command<Core,ProfileManager> {
 	
 	public PermissionCommand(ProfileManager manager){
 		super(manager, Rank.ADMIN, "permission", "permissions", "perm", "perms");
-		setCanBeDisabled(true);
 		addSubCommand(new PermissionSetCommand(manager));
 	}
 	

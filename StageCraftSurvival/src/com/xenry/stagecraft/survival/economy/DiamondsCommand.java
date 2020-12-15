@@ -20,7 +20,6 @@ public final class DiamondsCommand extends PlayerCommand<Survival,EconomyManager
 	
 	public DiamondsCommand(EconomyManager manager){
 		super(manager, Rank.ADMIN, "diamonds");
-		setCanBeDisabled(true);
 		setDisabled(true);
 	}
 	

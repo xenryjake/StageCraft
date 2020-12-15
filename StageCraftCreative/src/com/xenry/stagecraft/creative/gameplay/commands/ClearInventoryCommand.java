@@ -30,7 +30,6 @@ public final class ClearInventoryCommand extends Command<Creative,GameplayManage
 	public ClearInventoryCommand(GameplayManager manager){
 		super(manager, Rank.MEMBER, "clearinventory", "clear", "ci");
 		confirms = new Cooldown(15000, null);
-		setCanBeDisabled(true);
 	}
 	
 	@Override

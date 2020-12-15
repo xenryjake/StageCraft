@@ -28,7 +28,6 @@ public final class NickCommand extends Command<Core,ProfileManager> {
 	
 	public NickCommand(ProfileManager manager){
 		super(manager, Rank.HEAD_MOD, "nick", "nickname");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

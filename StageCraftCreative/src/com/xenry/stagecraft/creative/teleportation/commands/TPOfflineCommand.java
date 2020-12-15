@@ -28,7 +28,6 @@ public final class TPOfflineCommand extends PlayerCommand<Creative,Teleportation
 	
 	public TPOfflineCommand(TeleportationManager manager){
 		super(manager, Rank.MOD, "tpoffline");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

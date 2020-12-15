@@ -22,7 +22,6 @@ public final class WebRegisterCommand extends PlayerCommand<Survival,GameplayMan
 	
 	public WebRegisterCommand(GameplayManager manager){
 		super(manager, Rank.MEMBER, "webregister", "webreg");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

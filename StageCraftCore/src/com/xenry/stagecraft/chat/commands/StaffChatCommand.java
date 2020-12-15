@@ -29,8 +29,7 @@ public final class StaffChatCommand extends Command<Core,ChatManager> {
 	public static final Access ACCESS = Rank.MOD;
 	
 	public StaffChatCommand(ChatManager manager){
-		super(manager, ACCESS, "staffchat", "sc");
-		setCanBeDisabled(true);
+		super(manager, ACCESS, true, "staffchat", "sc");
 	}
 	
 	@Override

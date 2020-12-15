@@ -30,7 +30,6 @@ public final class JailCommand extends Command<Survival,JailManager> {
 	
 	public JailCommand(JailManager manager){
 		super(manager, Rank.MOD, "jail");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

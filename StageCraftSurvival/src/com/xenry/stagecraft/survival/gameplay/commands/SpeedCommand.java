@@ -25,8 +25,7 @@ import java.util.List;
 public final class SpeedCommand extends Command<Survival,GameplayManager> {
 	
 	public SpeedCommand(GameplayManager manager){
-		super(manager, Rank.ADMIN, "speed");
-		setCanBeDisabled(true);
+		super(manager, Rank.HEAD_MOD, "speed");
 	}
 	
 	@Override

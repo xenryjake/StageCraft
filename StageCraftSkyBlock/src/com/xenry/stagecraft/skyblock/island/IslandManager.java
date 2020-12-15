@@ -4,10 +4,13 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.xenry.stagecraft.Manager;
 import com.xenry.stagecraft.skyblock.SkyBlock;
+import com.xenry.stagecraft.skyblock.island.commands.IslandCommand;
+import com.xenry.stagecraft.skyblock.island.commands.admin.IslandAdminCommand;
 import org.bukkit.Bukkit;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -31,6 +34,9 @@ public final class IslandManager extends Manager<SkyBlock> {
 	
 	@Override
 	protected void onEnable() {
+		registerCommand(new IslandCommand(this));
+		registerCommand(new IslandAdminCommand(this));
+		
 		download();
 	}
 	
@@ -39,8 +45,14 @@ public final class IslandManager extends Manager<SkyBlock> {
 		saveAllSync();
 	}
 	
-	public List<Island> getIslands() {
-		return islands;
+	@Nullable
+	public Island getIsland(String id){
+		for(Island island : islands){
+			if(id.equalsIgnoreCase(island.getID())){
+				return island;
+			}
+		}
+		return null;
 	}
 	
 	@Nullable
@@ -53,25 +65,6 @@ public final class IslandManager extends Manager<SkyBlock> {
 		return null;
 	}
 	
-	@Nullable
-	public Island getIsland(String id){
-		if(!id.matches("^-?\\d+,-?\\d+$")){
-			return null;
-		}
-		String[] split = id.split(",");
-		if(split.length != 2){
-			return null;
-		}
-		int x, z;
-		try{
-			x = Integer.parseInt(split[0]);
-			z = Integer.parseInt(split[1]);
-		}catch(Exception ex){
-			return null;
-		}
-		return getIsland(x,z);
-	}
-	
 	private void download(){
 		islands.clear();
 		DBCursor c = collection.find(new BasicDBObject("serverName", getCore().getServerName()));
@@ -81,9 +74,11 @@ public final class IslandManager extends Manager<SkyBlock> {
 	}
 	
 	public void saveAll(){
-		for(Island island : islands){
-			save(island);
-		}
+		Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+			for(Island island : islands){
+				collection.save(island);
+			}
+		});
 	}
 	
 	public void save(final Island island){

@@ -25,7 +25,6 @@ public final class TopCommand extends PlayerCommand<Creative,TeleportationManage
 	
 	public TopCommand(TeleportationManager manager){
 		super(manager, Rank.PREMIUM, "top");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

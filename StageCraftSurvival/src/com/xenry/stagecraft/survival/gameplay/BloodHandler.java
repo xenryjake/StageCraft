@@ -1,4 +1,5 @@
 package com.xenry.stagecraft.survival.gameplay;
+import com.google.common.annotations.Beta;
 import com.xenry.stagecraft.Handler;
 import com.xenry.stagecraft.survival.Survival;
 import org.bukkit.Color;
@@ -19,6 +20,7 @@ import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
+@Beta
 public final class BloodHandler extends Handler<Survival,GameplayManager> {
 	
 	private static final String NO_BLOOD_METADATA = "SC-NO-BLOOD";

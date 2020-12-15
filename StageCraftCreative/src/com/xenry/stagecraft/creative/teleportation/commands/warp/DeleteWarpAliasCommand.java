@@ -23,7 +23,6 @@ public final class DeleteWarpAliasCommand extends Command<Creative,Teleportation
 	
 	public DeleteWarpAliasCommand(TeleportationManager manager){
 		super(manager, Rank.MOD, "deletewarpalias", "removewarpalias", "delwarpalias");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

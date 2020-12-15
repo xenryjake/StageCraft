@@ -20,7 +20,6 @@ public final class AnvilCommand extends PlayerCommand<Creative,GameplayManager> 
 	
 	public AnvilCommand(GameplayManager manager){
 		super(manager, Rank.MEMBER, "anvil");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

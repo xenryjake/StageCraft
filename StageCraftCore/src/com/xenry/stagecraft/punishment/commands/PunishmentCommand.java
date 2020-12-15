@@ -26,7 +26,6 @@ public final class PunishmentCommand extends Command<Core,PunishmentManager> {
 		addSubCommand(new PunishmentUpdateCommand(manager));
 		addSubCommand(new PunishmentViewCommand(manager));
 		addSubCommand(new PunishmentRemoveCommand(manager));
-		setCanBeDisabled(true);
 	}
 	
 	@Override

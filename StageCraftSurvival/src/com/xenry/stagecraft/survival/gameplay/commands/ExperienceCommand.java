@@ -25,7 +25,6 @@ public final class ExperienceCommand extends Command<Survival,GameplayManager> {
 	
 	public ExperienceCommand(GameplayManager manager){
 		super(manager, Rank.ADMIN, "experience", "exp", "xp");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

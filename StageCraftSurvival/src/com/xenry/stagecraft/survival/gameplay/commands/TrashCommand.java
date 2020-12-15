@@ -19,8 +19,7 @@ import java.util.List;
 public final class TrashCommand extends PlayerCommand<Survival,GameplayManager> {
 	
 	public TrashCommand(GameplayManager manager){
-		super(manager, Rank.MEMBER, "trash", "trashcan", "disposal", "d");
-		setCanBeDisabled(true);
+		super(manager, Rank.MEMBER, "trash", "trashcan", "disposal", "d", "shea");
 	}
 	
 	@Override

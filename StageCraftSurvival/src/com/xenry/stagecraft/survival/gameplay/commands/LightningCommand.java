@@ -26,7 +26,6 @@ public final class LightningCommand extends Command<Survival,GameplayManager> {
 	
 	public LightningCommand(GameplayManager manager){
 		super(manager, Rank.HEAD_MOD, "lightning", "strike", "smite");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

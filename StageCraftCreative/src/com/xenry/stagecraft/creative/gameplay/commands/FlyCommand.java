@@ -27,7 +27,6 @@ public final class FlyCommand extends Command<Creative,GameplayManager> {
 	
 	public FlyCommand(GameplayManager manager){
 		super(manager, Rank.MEMBER, "fly");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

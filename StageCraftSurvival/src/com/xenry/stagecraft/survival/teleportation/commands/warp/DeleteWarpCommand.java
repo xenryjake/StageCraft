@@ -23,7 +23,6 @@ public final class DeleteWarpCommand extends Command<Survival,TeleportationManag
 	
 	public DeleteWarpCommand(TeleportationManager manager){
 		super(manager, Rank.MOD, "deletewarp", "removewarp", "delwarp", "warpdelete", "warpremove", "warpdel");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

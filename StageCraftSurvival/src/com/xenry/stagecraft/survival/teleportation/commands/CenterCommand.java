@@ -23,7 +23,6 @@ public final class CenterCommand extends PlayerCommand<Survival,TeleportationMan
 	
 	public CenterCommand(TeleportationManager manager){
 		super(manager, Rank.HEAD_MOD, "center");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

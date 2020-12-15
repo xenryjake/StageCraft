@@ -26,7 +26,6 @@ public final class RestCommand extends Command<Survival,GameplayManager> {
 	
 	public RestCommand(GameplayManager manager){
 		super(manager, Rank.HEAD_MOD, "rest");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

@@ -23,7 +23,6 @@ public final class SignCommand extends PlayerCommand<Survival,GameplayManager> {
 		super(manager, Rank.MEMBER, "sign");
 		addSubCommand(new SignClearCommand(manager));
 		addSubCommand(new SignEditCommand(manager));
-		setCanBeDisabled(true);
 	}
 	
 	@Override

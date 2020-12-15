@@ -20,7 +20,6 @@ public final class WorkbenchCommand extends PlayerCommand<Creative,GameplayManag
 	
 	public WorkbenchCommand(GameplayManager manager){
 		super(manager, Rank.MEMBER, "workbench", "craftingtable", "craft", "wb");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

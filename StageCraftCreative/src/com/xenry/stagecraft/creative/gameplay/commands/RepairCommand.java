@@ -31,7 +31,6 @@ public final class RepairCommand extends Command<Creative,GameplayManager> {
 	
 	public RepairCommand(GameplayManager manager){
 		super(manager, Rank.MEMBER, "repair", "fix");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

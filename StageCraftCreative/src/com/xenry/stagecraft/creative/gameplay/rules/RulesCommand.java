@@ -24,7 +24,6 @@ public final class RulesCommand extends PlayerCommand<Creative,GameplayManager> 
 		super(manager, Rank.MEMBER, "rules", "rule");
 		addSubCommand(new RulesAcceptCommand(manager));
 		addSubCommand(new RulesDenyCommand(manager));
-		setCanBeDisabled(true);
 	}
 	
 	@Override

@@ -28,8 +28,7 @@ import java.util.List;
 public final class FakeMessageCommand extends Command<Core,ChatManager> {
 	
 	public FakeMessageCommand(ChatManager manager){
-		super(manager, Rank.HEAD_MOD, "fm", "lfm");
-		setCanBeDisabled(true);
+		super(manager, Rank.HEAD_MOD, true, "fm", "lfm");
 	}
 	
 	@Override

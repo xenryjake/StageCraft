@@ -180,7 +180,7 @@ commands:
     aliases: [kms,die,kermit]
   trash:
     description: "Open a trash can"
-    aliases: [trashcan,disposal,d]
+    aliases: [trashcan,disposal,d,shea]
   kill:
     description: "Kill a player"
     aliases: [murder]
@@ -248,7 +248,7 @@ commands:
     aliases: [damageindicators,di]
   clearinventory:
     description: "Clear your inventory"
-    aliases: [ clear,ci ]
+    aliases: [clear,ci]
   book:
     description: "Edit books"
 

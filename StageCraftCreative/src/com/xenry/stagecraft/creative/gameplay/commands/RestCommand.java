@@ -28,7 +28,6 @@ public final class RestCommand extends Command<Creative,GameplayManager> {
 	
 	public RestCommand(GameplayManager manager){
 		super(manager, Rank.MEMBER, "rest");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

@@ -32,8 +32,7 @@ public final class HealCommand extends Command<Survival,GameplayManager> {
 	private static final List<Integer> potionEffectTypesToRemove = Arrays.asList(7, 17, 19, 20);
 	
 	public HealCommand(GameplayManager manager){
-		super(manager, Rank.ADMIN, "heal");
-		setCanBeDisabled(true);
+		super(manager, Rank.HEAD_MOD, "heal");
 	}
 	
 	@Override

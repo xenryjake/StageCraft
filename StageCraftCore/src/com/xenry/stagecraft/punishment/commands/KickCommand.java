@@ -30,7 +30,6 @@ public final class KickCommand extends Command<Core,PunishmentManager> {
 	
 	public KickCommand(PunishmentManager manager){
 		super(manager, Rank.MOD, "kick");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

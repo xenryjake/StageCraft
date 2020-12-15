@@ -23,7 +23,6 @@ public final class TPAllCommand extends PlayerCommand<Survival,TeleportationMana
 	
 	public TPAllCommand(TeleportationManager manager){
 		super(manager, TPCommand.OTHER_RANK, "tpall", "tpoall");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

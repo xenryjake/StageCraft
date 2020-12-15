@@ -35,7 +35,6 @@ public final class LookupCommand extends Command<Core,ProfileManager> {
 	
 	public LookupCommand(ProfileManager manager){
 		super(manager, Rank.MOD, "lookup", "whois");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

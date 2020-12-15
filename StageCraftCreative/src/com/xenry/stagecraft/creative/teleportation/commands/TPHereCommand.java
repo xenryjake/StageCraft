@@ -25,7 +25,6 @@ public final class TPHereCommand extends PlayerCommand<Creative,TeleportationMan
 	
 	public TPHereCommand(TeleportationManager manager){
 		super(manager, TPCommand.OTHER_RANK, "tphere", "tpohere");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

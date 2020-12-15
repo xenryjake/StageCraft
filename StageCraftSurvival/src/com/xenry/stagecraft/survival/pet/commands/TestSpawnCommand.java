@@ -21,6 +21,7 @@ public final class TestSpawnCommand extends PlayerCommand<Survival,PetManager> {
 	
 	public TestSpawnCommand(PetManager manager){
 		super(manager, Rank.ADMIN, "testspawnpet");
+		setDisabled(true);
 	}
 	
 	@Override

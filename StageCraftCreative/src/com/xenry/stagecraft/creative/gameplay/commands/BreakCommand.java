@@ -26,7 +26,6 @@ public final class BreakCommand extends PlayerCommand<Creative,GameplayManager> 
 	
 	public BreakCommand(GameplayManager manager){
 		super(manager, Rank.HEAD_MOD, "break");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

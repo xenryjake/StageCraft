@@ -26,8 +26,7 @@ import java.util.List;
 public final class ItemNameCommand extends PlayerCommand<Survival,GameplayManager> {
 	
 	public ItemNameCommand(GameplayManager manager) {
-		super(manager, Rank.ADMIN, "itemname", "iname");
-		setCanBeDisabled(true);
+		super(manager, Rank.HEAD_MOD, "itemname", "iname");
 	}
 	
 	@SuppressWarnings("ConstantConditions")

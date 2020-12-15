@@ -22,7 +22,6 @@ public final class PermTestCommand extends Command<Core,ProfileManager> {
 	
 	public PermTestCommand(ProfileManager manager) {
 		super(manager, Rank.MEMBER, "permtest");
-		setCanBeDisabled(true);
 		setDisabled(true); // disabled by default
 	}
 	

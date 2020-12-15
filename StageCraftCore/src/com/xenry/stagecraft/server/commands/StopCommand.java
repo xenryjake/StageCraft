@@ -24,7 +24,6 @@ public final class StopCommand extends Command<Core,ServerManager> {
 	
 	public StopCommand(ServerManager manager){
 		super(manager, Rank.ADMIN, "stop", "shutdown");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

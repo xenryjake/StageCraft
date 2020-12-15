@@ -23,7 +23,6 @@ public final class SentenceCommand extends Command<Survival,JailManager> {
 	
 	public SentenceCommand(JailManager manager) {
 		super(manager, Rank.MOD, "sentence", "jailsentence", "jailsentences");
-		setCanBeDisabled(true);
 		addSubCommand(new SentenceViewCommand(manager));
 		addSubCommand(new SentenceRemoveCommand(manager));
 		addSubCommand(new SentenceUpdateCommand(manager));

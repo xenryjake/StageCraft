@@ -27,7 +27,6 @@ public final class MoreCommand extends PlayerCommand<Survival,GameplayManager> {
 	
 	public MoreCommand(GameplayManager manager){
 		super(manager, Rank.ADMIN, "more");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

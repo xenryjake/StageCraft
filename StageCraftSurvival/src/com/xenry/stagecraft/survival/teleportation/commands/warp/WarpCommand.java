@@ -36,7 +36,6 @@ public final class WarpCommand extends Command<Survival,TeleportationManager> {
 	
 	public WarpCommand(TeleportationManager manager){
 		super(manager, Rank.MEMBER, "warp", "w", "warpo", "wo", "warps");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

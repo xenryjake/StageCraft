@@ -29,7 +29,6 @@ public final class SpeedCommand extends Command<Creative,GameplayManager> {
 	
 	public SpeedCommand(GameplayManager manager){
 		super(manager, Rank.HEAD_MOD, "speed");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

@@ -17,16 +17,21 @@ public class Island extends BasicDBObject {
 	
 	public static final int WIDTH = 256;
 	
+	// ISLAND COORDS to CHUNK COORDS
+	// [x,z]: (16x,16z) -> (16x+width-1,16z+width-1)
+	
 	// ISLAND COORDS to ACTUAL COORDS
-	// [x,z]: (16x,16z) -> (16x+size-1,16z+size-1)
+	// [x,z]: (width*x,width*z) -> (width*(x+1)-1,width*(z+1)-1)
 	
 	@Deprecated
 	public Island(){
 		//required for Mongo instantiation
 	}
 	
-	public Island(String serverName, Player owner, int x, int z){
+	public Island(String serverName, String id, String name, Player owner, int x, int z){
 		put("serverName", serverName);
+		put("id", id);
+		put("name", name);
 		put("ownerUUID", owner.getUniqueId().toString());
 		put("x", x);
 		put("z", z);
@@ -39,7 +44,11 @@ public class Island extends BasicDBObject {
 	}
 	
 	public String getID(){
-		return getX() + "," + getZ();
+		return getString("id");
+	}
+	
+	public String getName(){
+		return getString("name");
 	}
 	
 	public int getX(){
@@ -50,20 +59,36 @@ public class Island extends BasicDBObject {
 		return getInt("z");
 	}
 	
-	public int getActualX1(){
+	public int getChunkX1(){
 		return 16*getX();
 	}
 	
-	public int getActualZ1(){
+	public int getChunkZ1(){
 		return 16*getZ();
 	}
 	
-	public int getActualX2(){
+	public int getChunkX2(){
 		return 16*getX() + WIDTH - 1;
 	}
 	
-	public int getActualZ2(){
+	public int getChunkZ2(){
 		return 16*getZ() + WIDTH - 1;
+	}
+	
+	public int getActualX1(){
+		return WIDTH*getX();
+	}
+	
+	public int getActualZ1(){
+		return WIDTH*getZ();
+	}
+	
+	public int getActualX2(){
+		return WIDTH*(getX()+1) - 1;
+	}
+	
+	public int getActualZ2(){
+		return WIDTH*(getZ()+1) - 1;
 	}
 	
 	@SuppressWarnings("unchecked")

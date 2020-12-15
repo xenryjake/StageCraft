@@ -22,7 +22,6 @@ public final class TPAcceptCommand extends PlayerCommand<Survival,TeleportationM
 	
 	public TPAcceptCommand(TeleportationManager manager){
 		super(manager, Rank.MEMBER, "tpaccept", "tpyes");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

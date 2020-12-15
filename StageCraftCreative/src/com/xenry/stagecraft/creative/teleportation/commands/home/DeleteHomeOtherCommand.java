@@ -25,7 +25,6 @@ public final class DeleteHomeOtherCommand extends Command<Creative,Teleportation
 	
 	public DeleteHomeOtherCommand(TeleportationManager manager){
 		super(manager, Rank.MOD, "deletehomeother", "removehomeother", "delhomeother", "homedeleteother", "homeremoveother", "homedelother");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

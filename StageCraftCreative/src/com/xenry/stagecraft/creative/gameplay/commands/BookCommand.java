@@ -36,7 +36,6 @@ public final class BookCommand extends PlayerCommand<Creative,GameplayManager> {
 	
 	public BookCommand(GameplayManager manager){
 		super(manager, Rank.MEMBER, "book");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

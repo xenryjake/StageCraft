@@ -27,7 +27,6 @@ public final class ItemNameCommand extends PlayerCommand<Creative,GameplayManage
 	
 	public ItemNameCommand(GameplayManager manager) {
 		super(manager, Rank.ELITE, "itemname", "iname");
-		setCanBeDisabled(true);
 	}
 	
 	@SuppressWarnings("ConstantConditions")

@@ -24,7 +24,6 @@ public final class WarpInfoCommand extends Command<Survival,TeleportationManager
 	
 	public WarpInfoCommand(TeleportationManager manager){
 		super(manager, Rank.MEMBER, "warpinfo", "winfo", "warpi", "wi");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

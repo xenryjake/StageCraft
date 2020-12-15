@@ -36,7 +36,6 @@ public final class BookCommand extends PlayerCommand<Survival,GameplayManager> {
 	
 	public BookCommand(GameplayManager manager){
 		super(manager, Rank.PREMIUM, "book");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

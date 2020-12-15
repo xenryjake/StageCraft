@@ -25,7 +25,6 @@ public final class RankCommand extends Command<Core,ProfileManager> {
 		super(manager, Rank.HEAD_MOD, "rank");
 		addSubCommand(new RankSetCommand(manager));
 		addSubCommand(new RankListCommand(manager));
-		setCanBeDisabled(true);
 	}
 	
 	@Override

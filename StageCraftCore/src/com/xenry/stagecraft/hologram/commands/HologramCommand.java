@@ -33,7 +33,6 @@ public final class HologramCommand extends Command<Core,HologramManager> {
 		addSubCommand(new HologramListCommand(manager));
 		addSubCommand(new HologramInfoCommand(manager));
 		addSubCommand(new HologramDeSpawnCommand(manager));
-		setCanBeDisabled(true);
 	}
 	
 	@Override

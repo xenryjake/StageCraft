@@ -20,7 +20,7 @@ import java.util.List;
 public final class EvacuateCommand extends PlayerCommand<Core,ServerManager> {
 	
 	public EvacuateCommand(ServerManager manager) {
-		super(manager, Rank.MEMBER, "evacuate");
+		super(manager, Rank.MEMBER, false, "evacuate");
 	}
 	
 	@Override

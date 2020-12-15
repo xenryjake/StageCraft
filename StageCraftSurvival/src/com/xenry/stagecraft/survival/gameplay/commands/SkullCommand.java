@@ -30,7 +30,6 @@ public final class SkullCommand extends PlayerCommand<Survival,GameplayManager> 
 	
 	public SkullCommand(GameplayManager manager){
 		super(manager, Rank.HEAD_MOD, "skull", "head", "pskull", "phead", "playerskull", "playerhead");
-		setCanBeDisabled(true);
 	}
 	
 	@SuppressWarnings("ConstantConditions")

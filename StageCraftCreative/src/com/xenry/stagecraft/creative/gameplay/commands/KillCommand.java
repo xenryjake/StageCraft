@@ -24,7 +24,6 @@ public final class KillCommand extends Command<Creative,GameplayManager> {
 	
 	public KillCommand(GameplayManager manager){
 		super(manager, Rank.HEAD_MOD, "kill", "murder");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

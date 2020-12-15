@@ -41,8 +41,7 @@ public final class WeatherCommand extends Command<Survival,GameplayManager> {
 	}
 	
 	public WeatherCommand(GameplayManager manager){
-		super(manager, Rank.ADMIN, "weather", "sun", "rain", "storm", "thunder");
-		setCanBeDisabled(true);
+		super(manager, Rank.HEAD_MOD, "weather", "sun", "rain", "storm", "thunder");
 	}
 	
 	@Override

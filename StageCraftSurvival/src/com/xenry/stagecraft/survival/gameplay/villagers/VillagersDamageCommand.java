@@ -22,7 +22,6 @@ public final class VillagersDamageCommand extends PlayerCommand<Survival,Gamepla
 	
 	public VillagersDamageCommand(GameplayManager manager){
 		super(manager, Rank.MEMBER, "villagersdamage", "villagerdamage", "vd");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

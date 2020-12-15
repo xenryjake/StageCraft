@@ -32,7 +32,6 @@ public final class FeedCommand extends Command<Creative,GameplayManager> {
 	
 	public FeedCommand(GameplayManager manager){
 		super(manager, Rank.MEMBER, "feed", "eat");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

@@ -27,7 +27,6 @@ public final class SetWarpCommand extends PlayerCommand<Survival,TeleportationMa
 	
 	public SetWarpCommand(TeleportationManager manager){
 		super(manager, Rank.MOD, "setwarp", "addwarp", "warpset", "warpadd");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

@@ -24,7 +24,6 @@ public final class FindCommand extends Command<Core,ServerManager> {
 	
 	public FindCommand(ServerManager manager){
 		super(manager, Rank.MOD, "find", "whereis");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

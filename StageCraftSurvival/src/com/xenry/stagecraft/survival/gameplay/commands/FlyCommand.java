@@ -27,7 +27,6 @@ public final class FlyCommand extends Command<Survival,GameplayManager> {
 	
 	public FlyCommand(GameplayManager manager){
 		super(manager, Rank.HEAD_MOD, "fly");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

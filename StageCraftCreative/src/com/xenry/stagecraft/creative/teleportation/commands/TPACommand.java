@@ -24,7 +24,6 @@ public final class TPACommand extends PlayerCommand<Creative,TeleportationManage
 	
 	public TPACommand(TeleportationManager manager){
 		super(manager, Rank.MEMBER, "tpa", "tpahere");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

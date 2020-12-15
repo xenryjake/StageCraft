@@ -22,7 +22,6 @@ public final class TPAcceptCommand extends PlayerCommand<Creative,TeleportationM
 	
 	public TPAcceptCommand(TeleportationManager manager){
 		super(manager, Rank.MEMBER, "tpaccept", "tpyes");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

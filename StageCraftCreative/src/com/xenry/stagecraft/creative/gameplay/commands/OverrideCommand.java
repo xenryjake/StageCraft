@@ -29,7 +29,6 @@ public final class OverrideCommand extends Command<Creative,GameplayManager> {
 	public OverrideCommand(GameplayManager manager) {
 		super(manager, Rank.HEAD_MOD, "override", "ov");
 		addSubCommand(new OverrideListCommand(manager));
-		setCanBeDisabled(true);
 	}
 	
 	@Override

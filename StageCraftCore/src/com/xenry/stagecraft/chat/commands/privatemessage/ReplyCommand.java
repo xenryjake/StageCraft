@@ -21,8 +21,7 @@ import java.util.List;
 public final class ReplyCommand extends Command<Core,ChatManager> {
 	
 	public ReplyCommand(ChatManager manager){
-		super(manager, Rank.MEMBER, "reply", "respond", "r");
-		setCanBeDisabled(true);
+		super(manager, Rank.MEMBER, true, "reply", "respond", "r");
 	}
 	
 	/*@Override

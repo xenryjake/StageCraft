@@ -23,7 +23,6 @@ public final class CenterCommand extends PlayerCommand<Creative,TeleportationMan
 	
 	public CenterCommand(TeleportationManager manager){
 		super(manager, Rank.PREMIUM, "center");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

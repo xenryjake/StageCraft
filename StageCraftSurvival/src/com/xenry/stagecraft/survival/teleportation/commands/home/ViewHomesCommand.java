@@ -30,7 +30,6 @@ public final class ViewHomesCommand extends Command<Survival,TeleportationManage
 	
 	public ViewHomesCommand(TeleportationManager manager){
 		super(manager, Rank.MOD, "viewhomes", "seehomes", "viewhome", "seehome", "listhomes", "listhome");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

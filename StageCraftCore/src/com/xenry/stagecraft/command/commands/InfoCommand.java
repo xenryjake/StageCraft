@@ -22,7 +22,6 @@ public final class InfoCommand extends Command<Core,CommandManager> {
 	
 	public InfoCommand(CommandManager manager){
 		super(manager, Rank.MEMBER, "info", "information", "help");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

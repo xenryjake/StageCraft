@@ -24,7 +24,6 @@ public final class WaypointCommand extends Command<Survival,GameplayManager> {
 		super(manager, Rank.MOD, "waypoint", "wayp", "wp");
 		addSubCommand(new WaypointAddCommand(manager));
 		addSubCommand(new WaypointRemoveCommand(manager));
-		setCanBeDisabled(true);
 	}
 	
 	@Override

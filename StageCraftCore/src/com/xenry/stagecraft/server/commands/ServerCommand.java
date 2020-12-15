@@ -26,7 +26,6 @@ public final class ServerCommand extends PlayerCommand<Core,ServerManager> {
 	
 	public ServerCommand(ServerManager manager){
 		super(manager, Rank.MEMBER, "server", "servers", "goto");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

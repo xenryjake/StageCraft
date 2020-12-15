@@ -22,7 +22,6 @@ public final class UpdateWarpCommand extends PlayerCommand<Survival,Teleportatio
 	
 	public UpdateWarpCommand(TeleportationManager manager){
 		super(manager, Rank.MOD, "updatewarp", "warpupdate", "changewarp", "warpchange");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

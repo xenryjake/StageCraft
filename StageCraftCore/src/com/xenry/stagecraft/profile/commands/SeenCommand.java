@@ -31,7 +31,6 @@ public final class SeenCommand extends Command<Core,ProfileManager> {
 	
 	public SeenCommand(ProfileManager manager){
 		super(manager, Rank.MEMBER, "seen");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

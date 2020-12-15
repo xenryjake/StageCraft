@@ -24,8 +24,7 @@ import java.util.List;
 public final class WorldCommand extends PlayerCommand<Survival,TeleportationManager> {
 	
 	public WorldCommand(TeleportationManager manager){
-		super(manager, Rank.ADMIN, "world");
-		setCanBeDisabled(true);
+		super(manager, Rank.HEAD_MOD, "world");
 	}
 	
 	@Override

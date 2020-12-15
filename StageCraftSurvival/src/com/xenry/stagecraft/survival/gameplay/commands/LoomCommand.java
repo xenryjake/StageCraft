@@ -20,7 +20,6 @@ public final class LoomCommand extends PlayerCommand<Survival,GameplayManager> {
 	
 	public LoomCommand(GameplayManager manager){
 		super(manager, Rank.PREMIUM, "loom");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

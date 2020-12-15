@@ -26,7 +26,7 @@ public final class CommandEnableDisableCommand extends Command<Core,CommandManag
 	public static final Access ACCESS = Rank.HEAD_MOD;
 	
 	public CommandEnableDisableCommand(CommandManager manager){
-		super(manager, ACCESS, "enable", "disable", "en", "dis");
+		super(manager, ACCESS, false, "enable", "disable", "en", "dis");
 	}
 	
 	@Override
@@ -45,7 +45,7 @@ public final class CommandEnableDisableCommand extends Command<Core,CommandManag
 			sender.sendMessage(M.error("No command found with label: " + args[0]));
 			return;
 		}
-		if(!command.canBeDisabled()){
+		if(!command.canBeDisabled){
 			sender.sendMessage(M.error("This command cannot be disabled."));
 			return;
 		}

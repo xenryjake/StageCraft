@@ -25,18 +25,23 @@ public abstract class Command<P extends StageCraftPlugin,T extends Manager<P>> {
 	protected final Access access;
 	protected final List<String> labels;
 	protected final List<Command<P,T>> subCommands;
-	private boolean canBeDisabled = false;
+	public final boolean canBeDisabled;
 	private boolean disabled = false;
 	private boolean useEvents = true;
 	
-	protected Command(T manager, Access access, String...labels){
+	protected Command(T manager, Access access, boolean canBeDisabled, String...labels){
 		this.manager = manager;
 		this.access = access;
+		this.canBeDisabled = canBeDisabled;
 		this.labels = new ArrayList<>();
 		for(String lb : labels) {
 			this.labels.add(lb.toLowerCase());
 		}
 		subCommands = new ArrayList<>();
+	}
+	
+	protected Command(T manager, Access access, String...labels){
+		this(manager, access, true, labels);
 	}
 	
 	public Access getAccess() {
@@ -68,18 +73,6 @@ public abstract class Command<P extends StageCraftPlugin,T extends Manager<P>> {
 			}
 		}
 		return null;
-	}
-	
-	public boolean canBeDisabled() {
-		return canBeDisabled;
-	}
-	
-	@SuppressWarnings("SameParameterValue")
-	protected void setCanBeDisabled(boolean canBeDisabled){
-		this.canBeDisabled = canBeDisabled;
-		if(!canBeDisabled && disabled){
-			disabled = false;
-		}
 	}
 	
 	public boolean isDisabled(){

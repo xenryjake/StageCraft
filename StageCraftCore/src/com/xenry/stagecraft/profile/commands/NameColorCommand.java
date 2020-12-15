@@ -29,7 +29,6 @@ public final class NameColorCommand extends Command<Core,ProfileManager> {
 	
 	public NameColorCommand(ProfileManager manager){
 		super(manager, Rank.MEMBER, "namecolor");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

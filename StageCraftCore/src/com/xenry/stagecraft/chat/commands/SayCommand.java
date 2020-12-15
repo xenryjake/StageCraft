@@ -29,8 +29,7 @@ import java.util.List;
 public final class SayCommand extends Command<Core,ChatManager> {
 	
 	public SayCommand(ChatManager manager){
-		super(manager, Rank.MEMBER, "say");
-		setCanBeDisabled(true);
+		super(manager, Rank.MEMBER, true, "say");
 	}
 	
 	@Override

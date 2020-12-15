@@ -23,8 +23,7 @@ public final class EmotesCommand extends Command<Core,ChatManager> {
 	public static final int EMOTES_PER_PAGE = 10;
 	
 	public EmotesCommand(ChatManager manager){
-		super(manager, Emote.EMOTE_ACCESS, "emotes", "emotelist", "emote");
-		setCanBeDisabled(true);
+		super(manager, Emote.EMOTE_ACCESS, true, "emotes", "emotelist", "emote");
 	}
 	
 	@Override

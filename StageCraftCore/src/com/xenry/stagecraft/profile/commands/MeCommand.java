@@ -21,7 +21,6 @@ public final class MeCommand extends PlayerCommand<Core,ProfileManager> {
 	
 	public MeCommand(ProfileManager manager){
 		super(manager, Rank.MEMBER, "me", "myprofile");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

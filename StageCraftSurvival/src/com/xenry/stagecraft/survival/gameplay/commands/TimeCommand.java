@@ -47,7 +47,6 @@ public final class TimeCommand extends Command<Survival,GameplayManager> {
 	
 	public TimeCommand(GameplayManager manager){
 		super(manager, Rank.HEAD_MOD, "time", "day", "night", "dawn", "dusk", "noon", "midnight");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

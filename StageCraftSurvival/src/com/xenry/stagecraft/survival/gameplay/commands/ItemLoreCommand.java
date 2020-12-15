@@ -28,8 +28,7 @@ import java.util.List;
 public final class ItemLoreCommand extends PlayerCommand<Survival,GameplayManager> {
 	
 	public ItemLoreCommand(GameplayManager manager){
-		super(manager, Rank.ADMIN, "itemlore", "ilore");
-		setCanBeDisabled(true);
+		super(manager, Rank.HEAD_MOD, "itemlore", "ilore");
 	}
 	
 	@SuppressWarnings("ConstantConditions")

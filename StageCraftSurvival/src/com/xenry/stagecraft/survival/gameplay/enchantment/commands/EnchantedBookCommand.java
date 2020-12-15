@@ -27,7 +27,6 @@ public final class EnchantedBookCommand extends PlayerCommand<Survival,GameplayM
 	
 	public EnchantedBookCommand(GameplayManager manager){
 		super(manager, Rank.ADMIN, "enchantedbook", "eb");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

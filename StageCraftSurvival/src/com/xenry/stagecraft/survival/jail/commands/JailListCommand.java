@@ -23,7 +23,6 @@ public final class JailListCommand extends Command<Survival,JailManager> {
 	
 	public JailListCommand(JailManager manager){
 		super(manager, Rank.MOD, "jails", "jaillist", "jailslist", "listjail", "listjails");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

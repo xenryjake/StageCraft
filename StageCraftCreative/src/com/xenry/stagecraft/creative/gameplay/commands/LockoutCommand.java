@@ -29,7 +29,6 @@ public final class LockoutCommand extends Command<Creative,GameplayManager> {
 	
 	public LockoutCommand(GameplayManager manager){
 		super(manager, ACCESS, "lockout");
-		setCanBeDisabled(true);
 		rank = null;
 	}
 	

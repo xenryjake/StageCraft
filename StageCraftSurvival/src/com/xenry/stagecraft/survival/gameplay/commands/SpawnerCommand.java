@@ -28,7 +28,6 @@ public final class SpawnerCommand extends PlayerCommand<Survival,GameplayManager
 	
 	public SpawnerCommand(GameplayManager manager){
 		super(manager, Rank.ADMIN, "spawner", "mobspawner");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

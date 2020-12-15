@@ -26,7 +26,7 @@ import java.util.List;
 public final class DamageIndicatorForceDeSpawnCommand extends Command<Survival,GameplayManager> {
 
 	public DamageIndicatorForceDeSpawnCommand(GameplayManager manager){
-		super(manager, Rank.ADMIN, "forcedespawn");
+		super(manager, Rank.HEAD_MOD, "forcedespawn");
 	}
 	
 	@Override

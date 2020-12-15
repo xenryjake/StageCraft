@@ -26,7 +26,6 @@ public final class EnderChestCommand extends PlayerCommand<Creative,GameplayMana
 	
 	public EnderChestCommand(GameplayManager manager){
 		super(manager, Rank.MEMBER, "enderchest", "echest", "ec");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

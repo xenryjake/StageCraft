@@ -23,7 +23,6 @@ public final class DeleteJailCommand extends Command<Survival,JailManager> {
 	
 	public DeleteJailCommand(JailManager manager){
 		super(manager, Rank.MOD, "deletejail", "removejail", "deljail", "jaildelete", "jailremove", "jaildel");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

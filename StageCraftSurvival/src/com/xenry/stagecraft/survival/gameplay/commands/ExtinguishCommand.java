@@ -25,7 +25,6 @@ public final class ExtinguishCommand extends Command<Survival,GameplayManager> {
 	
 	public ExtinguishCommand(GameplayManager manager){
 		super(manager, Rank.HEAD_MOD, "extinguish", "ext");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

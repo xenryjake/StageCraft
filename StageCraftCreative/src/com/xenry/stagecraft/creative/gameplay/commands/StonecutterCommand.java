@@ -20,7 +20,6 @@ public final class StonecutterCommand extends PlayerCommand<Creative,GameplayMan
 	
 	public StonecutterCommand(GameplayManager manager){
 		super(manager, Rank.MEMBER, "stonecutter", "stonecut");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

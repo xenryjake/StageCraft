@@ -50,7 +50,6 @@ public final class TimeCommand extends Command<Creative,GameplayManager> {
 	
 	public TimeCommand(GameplayManager manager){
 		super(manager, Rank.MEMBER, "time", "day", "night", "dawn", "dusk", "noon", "midnight");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

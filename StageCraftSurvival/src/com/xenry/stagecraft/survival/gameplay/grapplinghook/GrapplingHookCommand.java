@@ -23,7 +23,6 @@ public final class GrapplingHookCommand extends Command<Survival,GameplayManager
 
 	public GrapplingHookCommand(GameplayManager manager){
 		super(manager, Rank.HEAD_MOD, "graphook");
-		setCanBeDisabled(true);
 	}
 	
 	@Override

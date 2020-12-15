@@ -22,7 +22,6 @@ public final class DeleteHomeCommand extends PlayerCommand<Survival,Teleportatio
 	
 	public DeleteHomeCommand(TeleportationManager manager){
 		super(manager, Rank.MEMBER, "deletehome", "removehome", "delhome", "homedelete", "homeremove", "homedel");
-		setCanBeDisabled(true);
 	}
 	
 	@Override
