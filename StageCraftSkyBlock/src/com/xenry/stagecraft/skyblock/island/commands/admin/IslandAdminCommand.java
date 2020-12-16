@@ -5,8 +5,10 @@ import com.xenry.stagecraft.profile.Rank;
 import com.xenry.stagecraft.skyblock.SkyBlock;
 import com.xenry.stagecraft.skyblock.island.IslandManager;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -24,7 +26,12 @@ public class IslandAdminCommand extends Command<SkyBlock,IslandManager> {
 	
 	@Override
 	protected void playerPerform(Profile profile, String[] args, String label) {
-	
+		if(args.length > 0 && args[0].equalsIgnoreCase("testpaste")){
+			Player player = profile.getPlayer();
+			manager.getSchematicHandler().pasteMainIsland(player.getWorld(), player.getLocation().getBlockX(), player.getLocation().getBlockY(), player.getLocation().getBlockZ());
+		}else if(args.length > 0 && args[0].equalsIgnoreCase("testload")){
+			manager.getSchematicHandler().loadSchematics();
+		}
 	}
 	
 	@Override
@@ -34,12 +41,12 @@ public class IslandAdminCommand extends Command<SkyBlock,IslandManager> {
 	
 	@Override
 	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		return null;
+		return Collections.emptyList();
 	}
 	
 	@Override
 	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
-		return null;
+		return Collections.emptyList();
 	}
 	
 }

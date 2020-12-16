@@ -27,6 +27,7 @@ public class IslandCommand extends PlayerCommand<SkyBlock,IslandManager> {
 	@Override
 	protected void playerPerform(Profile sender, String[] args, String label) {
 		sender.sendMessage(M.msg + "Island Commands:");
+		sender.sendMessage(M.help(label + " info", "Get info about the island you're standing on"));
 		sender.sendMessage(M.help(label + " create", "Create a new island"));
 		sender.sendMessage(M.help(label + " invite", "Invite a player to your current island"));
 		sender.sendMessage(M.help(label + " join", "Join an island you've been invited to"));
@@ -35,11 +36,12 @@ public class IslandCommand extends PlayerCommand<SkyBlock,IslandManager> {
 		sender.sendMessage(M.help(label + " delete", "Delete your current island"));
 		sender.sendMessage(M.help(label + " kick", "Kick a player from your current island"));
 		sender.sendMessage(M.help(label + " transfer", "Transfer your current island to another player"));
+		sender.sendMessage(M.help(label + " rename", "Rename your current island"));
 	}
 	
 	@Override
 	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		return args.length == 1 ? filter(Arrays.asList("create", "invite", "join", "leave", "reset", "delete", "kick", "transfer"), args[0]) : Collections.emptyList();
+		return args.length == 1 ? filter(Arrays.asList("info", "create", "invite", "join", "leave", "reset", "delete", "kick", "transfer", "rename"), args[0]) : Collections.emptyList();
 	}
 	
 }

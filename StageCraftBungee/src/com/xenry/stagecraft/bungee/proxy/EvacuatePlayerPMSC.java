@@ -25,6 +25,7 @@ public final class EvacuatePlayerPMSC extends PluginMessageSubChannel<ProxyManag
 				continue;
 			}
 			receiver.connect(server, ServerConnectEvent.Reason.SERVER_DOWN_REDIRECT);
+			break;
 		}
 	}
 	

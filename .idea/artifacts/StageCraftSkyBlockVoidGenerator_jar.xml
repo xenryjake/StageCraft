@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="StageCraftSkyBlockVoidGenerator:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/StageCraftSkyBlockVoidGenerator_jar</output-path>
+    <root id="archive" name="StageCraftSkyBlockVoidGenerator.jar">
+      <element id="module-output" name="StageCraftSkyBlockVoidGenerator" />
+    </root>
+  </artifact>
+</component>

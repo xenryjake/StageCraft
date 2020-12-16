@@ -1,0 +1,6 @@
+name: StageCraftSkyBlockVoidGenerator
+version: beta-2020.12.15a
+api-version: "1.16"
+author: Xenry
+main: com.xenry.stagecraft.skyblock.SkyBlockVoidGenerator
+load: STARTUP

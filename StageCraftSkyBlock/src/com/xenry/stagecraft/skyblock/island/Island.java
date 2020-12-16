@@ -3,6 +3,7 @@ import com.mongodb.BasicDBObject;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -15,13 +16,16 @@ import java.util.List;
  */
 public class Island extends BasicDBObject {
 	
-	public static final int WIDTH = 256;
+	public static final int WIDTH_IN_CHUNKS = 16;
+	public static final int WIDTH = 16*WIDTH_IN_CHUNKS;
 	
-	// ISLAND COORDS to CHUNK COORDS
-	// [x,z]: (16x,16z) -> (16x+width-1,16z+width-1)
+	// ISLAND COORDS to CHUNK COORDS (chunkWidth = 16)
+	// [x,z]: (16x,16z) -> (16x+chunkWidth-1,16z+chunkWidth-1)
+	// [0,0]: (0,0) -> (15,15)
 	
 	// ISLAND COORDS to ACTUAL COORDS
 	// [x,z]: (width*x,width*z) -> (width*(x+1)-1,width*(z+1)-1)
+	// [0,0]: (0,0) -> (255,255)
 	
 	@Deprecated
 	public Island(){
@@ -32,11 +36,17 @@ public class Island extends BasicDBObject {
 		put("serverName", serverName);
 		put("id", id);
 		put("name", name);
-		put("ownerUUID", owner.getUniqueId().toString());
 		put("x", x);
 		put("z", z);
 		
-		put("members", new ArrayList<String>());
+		put("ownerUUID", owner.getUniqueId().toString());
+		put("members", new ArrayList<>(Collections.singletonList(owner.getUniqueId().toString())));
+		
+		put("homeX", 0.0);
+		put("homeY", 0.0);
+		put("homeZ", 0.0);
+		put("homeYaw", 0.0);
+		put("homePitch", 0.0);
 	}
 	
 	public String getServerName(){
@@ -49,6 +59,33 @@ public class Island extends BasicDBObject {
 	
 	public String getName(){
 		return getString("name");
+	}
+	
+	public String getOwnerUUID(){
+		return getString("ownerUUID");
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<String> getMemberUUIDs(){
+		Object obj = get("members");
+		if(obj instanceof List){
+			return (List<String>)obj;
+		}else{
+			put("members", new ArrayList<>());
+			return getMemberUUIDs();
+		}
+	}
+	
+	public void addMember(String uuid){
+		List<String> members = getMemberUUIDs();
+		members.add(uuid);
+		put("members", members);
+	}
+	
+	public void removeMember(String uuid){
+		List<String> members = getMemberUUIDs();
+		members.remove(uuid);
+		put("members", members);
 	}
 	
 	public int getX(){
@@ -68,11 +105,11 @@ public class Island extends BasicDBObject {
 	}
 	
 	public int getChunkX2(){
-		return 16*getX() + WIDTH - 1;
+		return 16*getX() + WIDTH_IN_CHUNKS - 1;
 	}
 	
 	public int getChunkZ2(){
-		return 16*getZ() + WIDTH - 1;
+		return 16*getZ() + WIDTH_IN_CHUNKS - 1;
 	}
 	
 	public int getActualX1(){
@@ -104,6 +141,22 @@ public class Island extends BasicDBObject {
 	
 	public boolean isMember(String uuid){
 		return getMembers().contains(uuid);
+	}
+	
+	public static int islandToChunk(int island){
+		return (16*island)+WIDTH_IN_CHUNKS-1;
+	}
+	
+	public static int chunkToIsland(int chunk){
+		return (int)Math.ceil((double)(chunk-WIDTH_IN_CHUNKS+1)/16);
+	}
+	
+	public static int islandToActual(int island){
+		return WIDTH*(island+1)-1;
+	}
+	
+	public static int actualToIsland(int actual){
+		return (int)Math.ceil((double)(actual+1)/WIDTH-1);
 	}
 	
 }

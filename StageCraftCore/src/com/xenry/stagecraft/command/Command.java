@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -146,10 +147,10 @@ public abstract class Command<P extends StageCraftPlugin,T extends Manager<P>> {
 	
 	public final List<String> playerTabCompleteExecute(Profile profile, String[] args, String label){
 		if(!access.has(profile) || disabled){
-			return new ArrayList<>();
+			return Collections.emptyList();
 		}
 		if(args.length < 1 || hasNoSubCommands()){
-			return playerTabComplete(profile, args, label);
+			return Collections.emptyList();
 		}
 		Command<P,T> sub = getSubCommand(args[0].toLowerCase());
 		if(sub == null){
@@ -163,10 +164,10 @@ public abstract class Command<P extends StageCraftPlugin,T extends Manager<P>> {
 	
 	public final List<String> serverTabCompleteExecute(CommandSender sender, String[] args, String label){
 		if(disabled){
-			return new ArrayList<>();
+			return Collections.emptyList();
 		}
 		if(args.length < 1 || hasNoSubCommands()){
-			return serverTabComplete(sender, args, label);
+			return Collections.emptyList();
 		}
 		Command<P,T> sub = getSubCommand(args[0].toLowerCase());
 		if(sub == null){

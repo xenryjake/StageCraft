@@ -28,6 +28,8 @@ public final class IntegrationManager extends Manager<Core> {
 	private TitleManagerAPI titleManager;
 	private GriefPrevention griefPrevention;
 	
+	private boolean worldEdit;
+	
 	public IntegrationManager(Core plugin){
 		super("Integration", plugin, false);
 	}
@@ -58,6 +60,11 @@ public final class IntegrationManager extends Manager<Core> {
 			Log.info("Successfully hooked into GriefPrevention.");
 		}else{
 			Log.warn("GriefPrevention not found. GriefPrevention integration failed.");
+		}
+		if(checkWorldEdit()){
+			Log.info("Successfully hooked into WorldEdit.");
+		}else{
+			Log.warn("WorldEdit not found. WorldEdit integration failed.");
 		}
 	}
 	
@@ -116,6 +123,10 @@ public final class IntegrationManager extends Manager<Core> {
 		return griefPrevention != null;
 	}
 	
+	private boolean checkWorldEdit(){
+		return plugin.getServer().getPluginManager().getPlugin("WorldEdit") != null;
+	}
+	
 	@Nullable
 	public ProtocolManager getProtocolManager() {
 		return protocolManager;
@@ -139,6 +150,10 @@ public final class IntegrationManager extends Manager<Core> {
 	@Nullable
 	public GriefPrevention getGriefPrevention() {
 		return griefPrevention;
+	}
+	
+	public boolean isWorldEdit() {
+		return worldEdit;
 	}
 	
 }

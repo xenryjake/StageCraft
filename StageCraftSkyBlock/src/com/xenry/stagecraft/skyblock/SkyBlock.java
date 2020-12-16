@@ -5,9 +5,6 @@ import com.xenry.stagecraft.skyblock.gameplay.GameplayManager;
 import com.xenry.stagecraft.skyblock.island.IslandManager;
 import com.xenry.stagecraft.skyblock.profile.SkyBlockProfileManager;
 import com.xenry.stagecraft.util.Log;
-import org.bukkit.generator.ChunkGenerator;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * SCSkyBlock created by Henry Blasingame (Xenry) on 9/24/20
@@ -24,6 +21,11 @@ public final class SkyBlock extends StageCraftPlugin {
 	
 	public SkyBlock(){
 		super("SkyBlock", Core.getInstance());
+	}
+	
+	@Override
+	protected void onLoadPreManager() {
+		saveDefaultConfig();
 	}
 	
 	@Override
@@ -48,11 +50,6 @@ public final class SkyBlock extends StageCraftPlugin {
 	
 	public GameplayManager getGameplayManager() {
 		return gameplayManager;
-	}
-	
-	@Override
-	public ChunkGenerator getDefaultWorldGenerator(@NotNull String worldName, @Nullable String id) {
-		return new VoidGenerator();
 	}
 	
 }

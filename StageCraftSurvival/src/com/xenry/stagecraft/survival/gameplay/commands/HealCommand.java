@@ -89,6 +89,7 @@ public final class HealCommand extends Command<Survival,GameplayManager> {
 			player.setHealth(healthAttribute.getValue());
 			player.setFoodLevel(20);
 			player.setFireTicks(0);
+			player.setRemainingAir(player.getMaximumAir());
 			for(PotionEffect effect : player.getActivePotionEffects()){
 				//noinspection deprecation
 				if(potionEffectTypesToRemove.contains(effect.getType().getId())){

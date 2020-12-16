@@ -7,8 +7,8 @@
       <module fileurl="file://$PROJECT_DIR$/StageCraftCore/StageCraftCore.iml" filepath="$PROJECT_DIR$/StageCraftCore/StageCraftCore.iml" />
       <module fileurl="file://$PROJECT_DIR$/StageCraftCreative/StageCraftCreative.iml" filepath="$PROJECT_DIR$/StageCraftCreative/StageCraftCreative.iml" />
       <module fileurl="file://$PROJECT_DIR$/StageCraftSkyBlock/StageCraftSkyBlock.iml" filepath="$PROJECT_DIR$/StageCraftSkyBlock/StageCraftSkyBlock.iml" />
+      <module fileurl="file://$PROJECT_DIR$/StageCraftSkyBlockVoidGenerator/StageCraftSkyBlockVoidGenerator.iml" filepath="$PROJECT_DIR$/StageCraftSkyBlockVoidGenerator/StageCraftSkyBlockVoidGenerator.iml" />
       <module fileurl="file://$PROJECT_DIR$/StageCraftSurvival/StageCraftSurvival.iml" filepath="$PROJECT_DIR$/StageCraftSurvival/StageCraftSurvival.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Test/Test.iml" filepath="$PROJECT_DIR$/Test/Test.iml" />
     </modules>
   </component>
 </project>

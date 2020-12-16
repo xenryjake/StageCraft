@@ -149,8 +149,7 @@ public final class SkyBlockProfileManager extends Manager<SkyBlock> {
 		Location loc = player.getLocation();
 		World world = loc.getWorld();
 		if(world != null) {
-			profile.setLastLocation(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ());
-			profile.setLastLocationWorldName(world.getName());
+			profile.setLastLocation(loc);
 		}
 		save(profile);
 		profiles.remove(profile.getUUID());

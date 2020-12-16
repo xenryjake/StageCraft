@@ -1,0 +1,9 @@
+# world generator must be configured through bukkit.yml
+island-world: world
+schematics:
+  main-island:
+    file: main-island.schem
+    x: 127
+    y: 64
+    z: 127
+

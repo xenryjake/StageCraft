@@ -87,7 +87,8 @@ public final class GameplayManager extends Manager<Survival> {
 	}
 	
 	//NOTE: TelekinesisHandler must be registered AFTER OreSmeltingHandler
-	public void onEnable(){
+	@Override
+	protected void onEnable(){
 		
 		registerEnchantments();
 		
