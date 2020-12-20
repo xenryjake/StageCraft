@@ -22,7 +22,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public class GameplayManager extends Manager<SkyBlock> {
+public final class GameplayManager extends Manager<SkyBlock> {
 	
 	private PvPHandler pvpHandler;
 	private AcceptRulesHandler acceptRulesHandler;

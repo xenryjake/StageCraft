@@ -3,6 +3,7 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.xenry.stagecraft.Manager;
+import com.xenry.stagecraft.profile.GenericProfile;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.skyblock.SkyBlock;
 import org.bukkit.Bukkit;
@@ -83,6 +84,14 @@ public final class SkyBlockProfileManager extends Manager<SkyBlock> {
 			return null;
 		}
 		return profiles.getOrDefault(p.getUniqueId().toString(), null);
+	}
+	
+	@Nullable
+	public SkyBlockProfile getProfile(@Nullable GenericProfile profile){
+		if(profile == null){
+			return null;
+		}
+		return profiles.getOrDefault(profile.getUUID(), null);
 	}
 	
 	public List<SkyBlockProfile> getOnlineProfiles(){

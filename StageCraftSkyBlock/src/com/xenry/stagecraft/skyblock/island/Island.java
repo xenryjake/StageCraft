@@ -1,5 +1,7 @@
 package com.xenry.stagecraft.skyblock.island;
 import com.mongodb.BasicDBObject;
+import com.xenry.stagecraft.util.LocationVector;
+import com.xenry.stagecraft.util.Vector2DInt;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -32,19 +34,19 @@ public class Island extends BasicDBObject {
 		//required for Mongo instantiation
 	}
 	
-	public Island(String serverName, String id, String name, Player owner, int x, int z){
-		put("serverName", serverName);
+	public Island(IslandManager manager, String id, Player owner, int x, int z){
+		put("serverName", manager.getCore().getServerName());
 		put("id", id);
-		put("name", name);
+		put("name", owner.getName() + "'s Island");
 		put("x", x);
 		put("z", z);
 		
 		put("ownerUUID", owner.getUniqueId().toString());
 		put("members", new ArrayList<>(Collections.singletonList(owner.getUniqueId().toString())));
 		
-		put("homeX", 0.0);
-		put("homeY", 0.0);
-		put("homeZ", 0.0);
+		put("homeX", getActualX1() + manager.getSchematicHandler().getMainIslandSpawnX());
+		put("homeY", manager.getSchematicHandler().getMainIslandSpawnY());
+		put("homeZ", getActualZ1() + manager.getSchematicHandler().getMainIslandSpawnZ());
 		put("homeYaw", 0.0);
 		put("homePitch", 0.0);
 	}
@@ -59,6 +61,10 @@ public class Island extends BasicDBObject {
 	
 	public String getName(){
 		return getString("name");
+	}
+	
+	public void setName(String name){
+		put("name", name);
 	}
 	
 	public String getOwnerUUID(){
@@ -86,6 +92,54 @@ public class Island extends BasicDBObject {
 		List<String> members = getMemberUUIDs();
 		members.remove(uuid);
 		put("members", members);
+	}
+	
+	public boolean isMember(String uuid){
+		return getMemberUUIDs().contains(uuid);
+	}
+	
+	public LocationVector getHomeVector(){
+		Object objX = get("homeX");
+		Object objY = get("homeY");
+		Object objZ = get("homeZ");
+		Object objYaw = get("homeYaw");
+		Object objPitch = get("homePitch");
+		double x;
+		if(objX instanceof Double){
+			x = (Double)objX;
+		}else{
+			put("homeX", 0);
+			x = 0;
+		}
+		double y;
+		if(objY instanceof Double){
+			y = (Double)objY;
+		}else{
+			put("homeY", 0);
+			y = 0;
+		}
+		double z;
+		if(objZ instanceof Double){
+			z = (Double)objZ;
+		}else{
+			put("homeZ", 0);
+			z = 0;
+		}
+		double yaw;
+		if(objYaw instanceof Double){
+			yaw = (Double)objYaw;
+		}else{
+			put("homeYaw", 0);
+			yaw = 0;
+		}
+		double pitch;
+		if(objPitch instanceof Double){
+			pitch = (Double)objPitch;
+		}else{
+			put("homePitch", 0);
+			pitch = 0;
+		}
+		return new LocationVector(x, y, z, (float)yaw, (float)pitch);
 	}
 	
 	public int getX(){
@@ -128,22 +182,11 @@ public class Island extends BasicDBObject {
 		return WIDTH*(getZ()+1) - 1;
 	}
 	
-	@SuppressWarnings("unchecked")
-	public List<String> getMembers(){
-		Object obj = get("members");
-		if(obj instanceof HashMap){
-			return (List<String>)obj;
-		}else{
-			put("members", new ArrayList<>());
-			return getMembers();
-		}
+	public static int islandToChunk1(int island){
+		return 16*island;
 	}
 	
-	public boolean isMember(String uuid){
-		return getMembers().contains(uuid);
-	}
-	
-	public static int islandToChunk(int island){
+	public static int islandToChunk2(int island){
 		return (16*island)+WIDTH_IN_CHUNKS-1;
 	}
 	
@@ -151,7 +194,11 @@ public class Island extends BasicDBObject {
 		return (int)Math.ceil((double)(chunk-WIDTH_IN_CHUNKS+1)/16);
 	}
 	
-	public static int islandToActual(int island){
+	public static int islandToActual1(int island){
+		return WIDTH*island;
+	}
+	
+	public static int islandToActual2(int island){
 		return WIDTH*(island+1)-1;
 	}
 	

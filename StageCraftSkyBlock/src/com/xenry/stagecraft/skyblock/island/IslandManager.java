@@ -4,18 +4,17 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.xenry.stagecraft.Manager;
 import com.xenry.stagecraft.profile.GenericProfile;
-import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.skyblock.SkyBlock;
 import com.xenry.stagecraft.skyblock.island.commands.IslandCommand;
 import com.xenry.stagecraft.skyblock.island.commands.admin.IslandAdminCommand;
 import com.xenry.stagecraft.util.Log;
+import com.xenry.stagecraft.util.Vector2DInt;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -26,6 +25,9 @@ import java.util.List;
  * is prohibited.
  */
 public final class IslandManager extends Manager<SkyBlock> {
+	
+	public final static int MAX_OWNED_ISLANDS_PER_PLAYER = 3;
+	public final static int MAX_JOINED_ISLANDS_PER_PLAYER = 5;
 	
 	private final DBCollection collection;
 	private final List<Island> islands;
@@ -58,17 +60,20 @@ public final class IslandManager extends Manager<SkyBlock> {
 			}
 		}
 		
-		
 		registerCommand(new IslandCommand(this));
 		registerCommand(new IslandAdminCommand(this));
 		
 		download();
-		schematicHandler.loadSchematics();
+		schematicHandler.loadMainIslandSchematic();
 	}
 	
 	@Override
 	protected void onDisable() {
 		saveAllSync();
+	}
+	
+	public World getWorld() {
+		return world;
 	}
 	
 	public SchematicHandler getSchematicHandler() {
@@ -103,7 +108,7 @@ public final class IslandManager extends Manager<SkyBlock> {
 		return getIsland(Island.actualToIsland(location.getBlockX()), Island.actualToIsland(location.getBlockZ()));
 	}
 	
-	public List<Island> getIslands(GenericProfile profile){
+	public List<Island> getOwnedIslands(GenericProfile profile){
 		List<Island> islands = new ArrayList<>();
 		for(Island island : this.islands){
 			if(profile.getUUID().equals(island.getOwnerUUID())){
@@ -111,6 +116,54 @@ public final class IslandManager extends Manager<SkyBlock> {
 			}
 		}
 		return islands;
+	}
+	
+	public List<Island> getJoinedIslands(GenericProfile profile){
+		List<Island> islands = new ArrayList<>();
+		for(Island island : this.islands){
+			if(island.isMember(profile.getUUID())){
+				islands.add(island);
+			}
+		}
+		return islands;
+	}
+	
+	public Vector2DInt getAvailableIslandPosition(){
+		int r = 0;
+		int x = 0;
+		int z = 0;
+		while(true){
+			Island island = getIsland(x, z);
+			if(island == null){
+				return new Vector2DInt(x, z);
+			}
+			if(z < r){
+				z++;
+				continue;
+			}
+			if(x > 0){
+				x--;
+				continue;
+			}
+			r++;
+			x = r;
+			z = 0;
+		}
+	}
+	
+	public boolean createIsland(Island island){
+		if(getIsland(island.getID()) != null || getIsland(island.getX(), island.getZ()) != null){
+			return false;
+		}
+		Log.info("Creating new island " + island.getID() + " at (" + island.getX() + "," + island.getZ() + ")");
+		boolean success = schematicHandler.pasteMainIsland(world, island);
+		addIsland(island);
+		return success;
+	}
+	
+	private void addIsland(Island island){
+		islands.add(island);
+		save(island);
 	}
 	
 	private void download(){

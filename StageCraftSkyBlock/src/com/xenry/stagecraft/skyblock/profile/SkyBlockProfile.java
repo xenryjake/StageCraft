@@ -3,7 +3,6 @@ import com.xenry.stagecraft.profile.GenericProfile;
 import com.xenry.stagecraft.skyblock.island.Island;
 import com.xenry.stagecraft.skyblock.island.IslandManager;
 import com.xenry.stagecraft.util.LocationVector;
-import com.xenry.stagecraft.util.Vector3DInt;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -45,7 +44,15 @@ public class SkyBlockProfile extends GenericProfile {
 	
 	@Nullable
 	public Island getActiveIsland(@NotNull IslandManager islandManager){
-		return islandManager.getIsland(getActiveIslandID());
+		Island island = islandManager.getIsland(getActiveIslandID());
+		if(island == null || !island.isMember(getUUID())){
+			return null;
+		}
+		return island;
+	}
+	
+	public void setActiveIsland(@NotNull Island island){
+		put("activeIslandID", island.getID());
 	}
 	
 	public LocationVector getLastLocationVector(){

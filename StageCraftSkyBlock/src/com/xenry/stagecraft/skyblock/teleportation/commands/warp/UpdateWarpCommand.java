@@ -1,10 +1,10 @@
-package com.xenry.stagecraft.survival.teleportation.commands.warp;
+package com.xenry.stagecraft.skyblock.teleportation.commands.warp;
 import com.xenry.stagecraft.command.PlayerCommand;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
-import com.xenry.stagecraft.survival.Survival;
-import com.xenry.stagecraft.survival.teleportation.TeleportationManager;
-import com.xenry.stagecraft.survival.teleportation.Warp;
+import com.xenry.stagecraft.skyblock.SkyBlock;
+import com.xenry.stagecraft.skyblock.teleportation.TeleportationManager;
+import com.xenry.stagecraft.skyblock.teleportation.Warp;
 import com.xenry.stagecraft.util.M;
 import org.jetbrains.annotations.NotNull;
 
@@ -18,10 +18,10 @@ import java.util.List;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public final class UpdateWarpCommand extends PlayerCommand<Survival,TeleportationManager> {
+public final class UpdateWarpCommand extends PlayerCommand<SkyBlock,TeleportationManager> {
 	
 	public UpdateWarpCommand(TeleportationManager manager){
-		super(manager, Rank.MOD, "updatewarp", "warpupdate", "changewarp", "warpchange");
+		super(manager, Rank.ADMIN, "updatewarp", "warpupdate", "changewarp", "warpchange");
 	}
 	
 	@Override

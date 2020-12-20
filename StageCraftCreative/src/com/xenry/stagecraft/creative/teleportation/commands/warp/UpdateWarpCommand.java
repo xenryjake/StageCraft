@@ -39,7 +39,7 @@ public final class UpdateWarpCommand extends PlayerCommand<Creative,Teleportatio
 			profile.sendMessage(M.error("That warp does not exist: " + args[0]));
 			return;
 		}
-		if(warp.setLocation(profile.getPlayer().getLocation())){
+		if(!warp.setLocation(profile.getPlayer().getLocation())){
 			profile.sendMessage(M.error("Invalid world."));
 			return;
 		}

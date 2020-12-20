@@ -99,7 +99,8 @@ public final class ListCommand extends Command<Core,ServerManager> {
 		if(playersString.endsWith(",")){
 			playersString = playersString.substring(0, playersString.length() - 1);
 		}
-		sender.sendMessage(M.msg + M.BOLD + "Online Players (" + M.elm + M.BOLD + amount + M.msg + M.BOLD + "):");
+		sender.sendMessage(M.msg + M.BOLD + "Online Players (" + M.elm + M.BOLD + (amount == 0 ? "unknown" : amount)
+				+ M.msg + M.BOLD + "):");
 		sender.sendMessage(M.arrow(playersString));
 	}
 	

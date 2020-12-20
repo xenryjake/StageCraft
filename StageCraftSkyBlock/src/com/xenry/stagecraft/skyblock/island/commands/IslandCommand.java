@@ -18,10 +18,15 @@ import java.util.List;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public class IslandCommand extends PlayerCommand<SkyBlock,IslandManager> {
+public final class IslandCommand extends PlayerCommand<SkyBlock,IslandManager> {
 	
 	public IslandCommand(IslandManager manager){
 		super(manager, Rank.MEMBER, "island", "islands", "is");
+		addSubCommand(new IslandInfoCommand(manager));
+		addSubCommand(new IslandCreateCommand(manager));
+		addSubCommand(new IslandRenameCommand(manager));
+		addSubCommand(new IslandListCommand(manager));
+		addSubCommand(new IslandHomeCommand(manager));
 	}
 	
 	@Override
@@ -37,11 +42,14 @@ public class IslandCommand extends PlayerCommand<SkyBlock,IslandManager> {
 		sender.sendMessage(M.help(label + " kick", "Kick a player from your current island"));
 		sender.sendMessage(M.help(label + " transfer", "Transfer your current island to another player"));
 		sender.sendMessage(M.help(label + " rename", "Rename your current island"));
+		sender.sendMessage(M.help(label + " list", "List islands you are a part of"));
+		sender.sendMessage(M.help(label + " home", "Go to the home point of your current island"));
+		sender.sendMessage(M.help(label + " sethome", "Set the home point of your current island"));
 	}
 	
 	@Override
 	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		return args.length == 1 ? filter(Arrays.asList("info", "create", "invite", "join", "leave", "reset", "delete", "kick", "transfer", "rename"), args[0]) : Collections.emptyList();
+		return args.length == 1 ? filter(Arrays.asList("info", "create", "invite", "join", "leave", "reset", "delete", "kick", "transfer", "rename", "list", "home", "sethome"), args[0]) : Collections.emptyList();
 	}
 	
 }

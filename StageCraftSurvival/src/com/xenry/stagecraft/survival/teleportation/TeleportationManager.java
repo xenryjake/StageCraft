@@ -241,8 +241,7 @@ public final class TeleportationManager extends Manager<Survival> {
 	
 	@EventHandler
 	public void onRespawn(PlayerRespawnEvent event){
-		Warp spawn = warpHandler.getSpawn();
-		Location respawnLocation = spawn == null ? null : spawn.getLocation();
+		Location respawnLocation = null;
 		Profile profile = getCore().getProfileManager().getProfile(event.getPlayer());
 		if(profile != null){
 			Sentence sentence = plugin.getJailManager().getOutstandingSentence(profile);
@@ -251,6 +250,17 @@ public final class TeleportationManager extends Manager<Survival> {
 				if(jail != null){
 					respawnLocation = jail.getLocation();
 				}
+			}else{
+				Home respawn = homeHandler.getRespawnPoint(profile);
+				if(respawn != null){
+					respawnLocation = respawn.getLocation();
+				}
+			}
+		}
+		if(respawnLocation == null){
+			Warp spawn = warpHandler.getSpawn();
+			if(spawn != null){
+				respawnLocation = spawn.getLocation();
 			}
 		}
 		if(respawnLocation != null){

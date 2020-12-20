@@ -21,6 +21,8 @@ import java.util.List;
  */
 public final class HomeHandler extends Handler<Survival,TeleportationManager> {
 	
+	public static final String RESPAWN_HOME_NAME = "respawn";
+	
 	private final DBCollection collection;
 	private final List<Home> homes;
 	
@@ -131,6 +133,18 @@ public final class HomeHandler extends Handler<Survival,TeleportationManager> {
 			}
 		}
 		return null;
+	}
+	
+	public Home getRespawnPoint(Profile profile){
+		return getHome(profile, RESPAWN_HOME_NAME);
+	}
+	
+	public Home getRespawnPoint(Player player){
+		return getHome(player, RESPAWN_HOME_NAME);
+	}
+	
+	public Home getRespawnPoint(String ownerUUID){
+		return getHome(ownerUUID, RESPAWN_HOME_NAME);
 	}
 	
 }

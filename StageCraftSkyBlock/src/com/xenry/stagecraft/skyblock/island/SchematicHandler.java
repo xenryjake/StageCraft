@@ -2,7 +2,6 @@ package com.xenry.stagecraft.skyblock.island;
 import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
-import com.sk89q.worldedit.extension.factory.parser.pattern.SingleBlockPatternParser;
 import com.sk89q.worldedit.extent.clipboard.Clipboard;
 import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormat;
 import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormats;
@@ -11,7 +10,6 @@ import com.sk89q.worldedit.function.RegionFunction;
 import com.sk89q.worldedit.function.block.BlockReplace;
 import com.sk89q.worldedit.function.operation.Operation;
 import com.sk89q.worldedit.function.operation.Operations;
-import com.sk89q.worldedit.function.operation.SetBlockMap;
 import com.sk89q.worldedit.function.visitor.RegionVisitor;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.regions.CuboidRegion;
@@ -36,16 +34,29 @@ import java.io.FileInputStream;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public class SchematicHandler extends Handler<SkyBlock,IslandManager> {
+public final class SchematicHandler extends Handler<SkyBlock,IslandManager> {
 	
 	private Clipboard mainIslandClipboard;
+	private int mainIslandX, mainIslandY, mainIslandZ;
+	private int mainIslandSpawnX, mainIslandSpawnY, mainIslandSpawnZ;
 	
 	public SchematicHandler(IslandManager manager) {
 		super(manager);
 	}
 	
-	public void loadSchematics(){
+	public void loadMainIslandSchematic(){
 		Log.debug("LOADING SCHEMATIC...");
+		try{
+			mainIslandX = manager.plugin.getConfig().getInt("schematics.main-island.x");
+			mainIslandY = manager.plugin.getConfig().getInt("schematics.main-island.y");
+			mainIslandZ = manager.plugin.getConfig().getInt("schematics.main-island.z");
+			mainIslandSpawnX = manager.plugin.getConfig().getInt("schematics.main-island.spawn-x");
+			mainIslandSpawnY = manager.plugin.getConfig().getInt("schematics.main-island.spawn-y");
+			mainIslandSpawnZ = manager.plugin.getConfig().getInt("schematics.main-island.spawn-z");
+		}catch(Exception ex){
+			Log.warn("Something went wrong when loading the main-island schematic locations!");
+			ex.printStackTrace();
+		}
 		try{
 			String relative = manager.plugin.getConfig().getString("schematics.main-island.file");
 			File file = new File(manager.plugin.getDataFolder().getAbsolutePath() + "/" + relative);
@@ -74,18 +85,32 @@ public class SchematicHandler extends Handler<SkyBlock,IslandManager> {
 		return mainIslandClipboard;
 	}
 	
+	public int getMainIslandX() {
+		return mainIslandX;
+	}
+	
+	public int getMainIslandY() {
+		return mainIslandY;
+	}
+	
+	public int getMainIslandZ() {
+		return mainIslandZ;
+	}
+	
+	public int getMainIslandSpawnX() {
+		return mainIslandSpawnX;
+	}
+	
+	public int getMainIslandSpawnY() {
+		return mainIslandSpawnY;
+	}
+	
+	public int getMainIslandSpawnZ() {
+		return mainIslandSpawnZ;
+	}
+	
 	public boolean pasteMainIsland(@NotNull World bukkitWorld, @NotNull Island island){
-		int x, y, z;
-		try{
-			x = island.getActualX1() + manager.plugin.getConfig().getInt("schematics.main-island.x");
-			y = manager.plugin.getConfig().getInt("schematics.main-island.y");
-			z = island.getActualZ1() + manager.plugin.getConfig().getInt("schematics.main-island.z");
-		}catch(Exception ex){
-			Log.warn("Something went wrong when trying to determine where to paste main-island");
-			ex.printStackTrace();
-			return false;
-		}
-		return pasteMainIsland(bukkitWorld, x, y, z);
+		return pasteMainIsland(bukkitWorld, island.getActualX1() + mainIslandX, mainIslandY, island.getActualZ1() + mainIslandZ);
 	}
 	
 	public boolean pasteMainIsland(@NotNull World bukkitWorld, int x, int y, int z){

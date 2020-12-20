@@ -6,4 +6,7 @@ schematics:
     x: 127
     y: 64
     z: 127
+    spawn-x: 127
+    spawn-y: 65
+    spawn-z: 127
 
