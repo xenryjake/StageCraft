@@ -12,73 +12,99 @@ commands:
     description: "Toggle PvP"
   pvplock:
     description: "Lock PvP"
-    aliases: [ lockpvp ]
-  rules:
-    description: "View and accept the rules"
-    aliases: [ rule ]
-  sign:
-    desciprtion: "Edit signs"
+    aliases: [lockpvp]
 
+  anvil:
+    description: "Open an anvil"
+  cartographytable:
+    description: "Open a cartography table"
+    aliases: [carttable,cartography,cart]
+  grindstone:
+    description: "Open a grindstone"
+    aliases: [grind]
+  loom:
+    description: "Open a loom"
+  enchantingtable:
+    description: "Open an enchanting table"
+    aliases: [enchanttable,enchtable]
+  stonecutter:
+    description: "Open a stonecutter"
+    aliases: [stonecut]
   gamemode:
     description: "Change your gamemode or another player's gamemode"
-    aliases: [ gm,gmc,gma,gms,gmsp ]
+    aliases: [gm,gmc,gma,gms,gmsp]
   fly:
     description: "Toggle fly mode for yourself or another player"
   enderchest:
     description: "Open your enderchest"
-    aliases: [ echest,fec ]
+    aliases: [echest,fec]
   workbench:
     description: "Open a workbench"
-    aliases: [ workbench,wb,craft,craftingtable ]
+    aliases: [workbench,wb,craft,craftingtable]
+  smithingtable:
+    description: "Open a smithing table"
+    aliases: [smithing,smith]
   repair:
     description: "Repair your armor and tools"
-    aliases: [ fix ]
+    aliases: [fix]
   suicide:
     description: "Commit suicide"
-    aliases: [ kms,die,kermit ]
+    aliases: [kms,die,kermit]
   trash:
     description: "Open a trash can"
-    aliases: [ trashcan,disposal,d,shea ]
+    aliases: [trashcan,disposal,d,shea]
   kill:
     description: "Kill a player"
-    aliases: [ murder ]
+    aliases: [murder]
   near:
     description: "See which players are nearby"
-    aliases: [ nearby ]
+    aliases: [nearby]
   heal:
     description: "Heal players"
   feed:
     description: "Feed players"
-    aliases: [ eat ]
+    aliases: [eat]
   weather:
     description: "Change the weather"
-    aliases: [ sun,rain,storm,thunder ]
+    aliases: [sun,rain,storm,thunder]
   time:
     description: "Change the time"
-    aliases: [ day,night,dawn,dusk,noon,midnight ]
+    aliases: [day,night,dawn,dusk,noon,midnight]
   extinguish:
     description: "Extinguish a player"
-    aliases: [ ext ]
+    aliases: [ext]
   burn:
     description: "Burn a player"
   more:
     description: "Get more of an item."
   speed:
     description: "Change your speed"
+  break:
+    description: "Break a block"
   spawner:
     description: "Change a mob spawner"
   lightning:
     description: "Strike lightning"
-    aliases: [ smite,strike ]
+    aliases: [smite,strike]
   rest:
     description: "Reset time since last sleep"
+  itemname:
+    description: "Change the name of an item"
+    aliases: [iname]
+  itemlore:
+    description: "Change the lore of an item"
+    aliases: [ilore]
+  skull:
+    description: "Spawn or change a player skull"
+    aliases: [head,pskull,phead,playerskull,playerhead]
   experience:
     description: "Modify a player's experience levels"
-    aliases: [ exp,xp ]
+    aliases: [exp,xp]
   clearinventory:
     description: "Clear your inventory"
-    aliases: [ clear,ci ]
-
+    aliases: [clear,ci]
+  book:
+    description: "Edit books"
   # TELEPORTATION COMMANDS
   tp:
     description: "Teleport to a player"
