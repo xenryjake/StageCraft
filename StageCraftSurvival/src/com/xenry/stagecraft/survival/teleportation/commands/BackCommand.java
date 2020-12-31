@@ -1,4 +1,5 @@
 package com.xenry.stagecraft.survival.teleportation.commands;
+import com.xenry.stagecraft.command.Access;
 import com.xenry.stagecraft.command.PlayerCommand;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
@@ -22,8 +23,11 @@ import java.util.List;
  */
 public final class BackCommand extends PlayerCommand<Survival,TeleportationManager> {
 	
+	public static final Access ACCESS = Rank.MEMBER;
+	public static final Access NOTIFY_ON_DEATH = new Access.False();
+	
 	public BackCommand(TeleportationManager manager){
-		super(manager, Rank.MEMBER, "back", "b", "backo", "bo");
+		super(manager, ACCESS, "back", "b", "backo", "bo");
 	}
 	
 	@Override

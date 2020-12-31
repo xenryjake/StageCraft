@@ -21,7 +21,7 @@ import java.util.List;
 public final class SlashServerCommand extends PlayerCommand<Core,ServerManager> {
 	
 	public SlashServerCommand(ServerManager manager){
-		super(manager, Rank.MEMBER, "survival", "sv", "creative", "cr", "skyblock", "sb");
+		super(manager, Rank.MEMBER, "survival", "sv", "creative", "cr", "skyblock", "sb", "fun");
 	}
 	
 	@Override
@@ -40,6 +40,9 @@ public final class SlashServerCommand extends PlayerCommand<Core,ServerManager> 
 			case "sb":
 				profile.sendMessage(M.error("SkyBlock is coming early 2021!"));
 				return;
+			case "fun":
+				serverName = "fun";
+				break;
 			default:
 				profile.sendMessage(M.error("Invalid server."));
 				return;

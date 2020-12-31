@@ -16,6 +16,34 @@ public interface Access {
 	
 	boolean has(@NotNull CommandSender sender);
 	
+	class True implements Access {
+		
+		@Override
+		public boolean has(@NotNull Profile profile) {
+			return true;
+		}
+		
+		@Override
+		public boolean has(@NotNull CommandSender sender) {
+			return true;
+		}
+		
+	}
+	
+	class False implements Access {
+		
+		@Override
+		public boolean has(@NotNull Profile profile) {
+			return false;
+		}
+		
+		@Override
+		public boolean has(@NotNull CommandSender sender) {
+			return false;
+		}
+		
+	}
+	
 	class Any implements Access {
 		
 		private final Access[] accesses;
@@ -58,6 +86,36 @@ public interface Access {
 		public boolean has(@NotNull Profile profile) {
 			for(Access access : accesses){
 				if(!access.has(profile)){
+					return false;
+				}
+			}
+			return true;
+		}
+		
+		@Override
+		public boolean has(@NotNull CommandSender sender) {
+			for(Access access : accesses){
+				if(!access.has(sender)){
+					return false;
+				}
+			}
+			return true;
+		}
+		
+	}
+	
+	class None implements Access {
+		
+		private final Access[] accesses;
+		
+		public None(Access...accesses) {
+			this.accesses = accesses;
+		}
+		
+		@Override
+		public boolean has(@NotNull Profile profile) {
+			for(Access access : accesses){
+				if(access.has(profile)){
 					return false;
 				}
 			}

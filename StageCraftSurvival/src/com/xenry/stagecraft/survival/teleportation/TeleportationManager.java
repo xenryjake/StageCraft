@@ -203,9 +203,11 @@ public final class TeleportationManager extends Manager<Survival> {
 	@EventHandler
 	public void onDeath(PlayerDeathEvent event){
 		setLastLocation(event.getEntity(), event.getEntity().getLocation());
-		ClickEvent ce = new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/back");
-		event.getEntity().spigot().sendMessage(new ComponentBuilder("Click here to go back to your last location.")
-				.color(ChatColor.AQUA).underlined(true).event(ce).create());
+		if(BackCommand.NOTIFY_ON_DEATH.has(event.getEntity())){
+			ClickEvent ce = new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/back");
+			event.getEntity().spigot().sendMessage(new ComponentBuilder("Click here to go back to your last location.")
+					.color(ChatColor.AQUA).underlined(true).event(ce).create());
+		}
 	}
 	
 	@EventHandler

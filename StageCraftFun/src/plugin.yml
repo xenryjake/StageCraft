@@ -1,0 +1,123 @@
+name: StageCraftFun
+version: beta-2020.12.31a
+api-version: "1.16"
+author: Xenry
+main: com.xenry.stagecraft.fun.Fun
+depend: [StageCraftCore]
+softdepend: [ProtocolLib,Vault,Essentials,TitleManager,GriefPrevention]
+commands:
+
+  # GAMEPLAY COMMANDS
+  pvp:
+    description: "Toggle PvP"
+  pvplock:
+    description: "Lock PvP"
+    aliases: [ lockpvp ]
+  rules:
+    description: "View and accept the rules"
+    aliases: [ rule ]
+  sign:
+    desciprtion: "Edit signs"
+
+  gamemode:
+    description: "Change your gamemode or another player's gamemode"
+    aliases: [ gm,gmc,gma,gms,gmsp ]
+  fly:
+    description: "Toggle fly mode for yourself or another player"
+  enderchest:
+    description: "Open your enderchest"
+    aliases: [ echest,fec ]
+  workbench:
+    description: "Open a workbench"
+    aliases: [ workbench,wb,craft,craftingtable ]
+  repair:
+    description: "Repair your armor and tools"
+    aliases: [ fix ]
+  suicide:
+    description: "Commit suicide"
+    aliases: [ kms,die,kermit ]
+  trash:
+    description: "Open a trash can"
+    aliases: [ trashcan,disposal,d,shea ]
+  kill:
+    description: "Kill a player"
+    aliases: [ murder ]
+  near:
+    description: "See which players are nearby"
+    aliases: [ nearby ]
+  heal:
+    description: "Heal players"
+  feed:
+    description: "Feed players"
+    aliases: [ eat ]
+  weather:
+    description: "Change the weather"
+    aliases: [ sun,rain,storm,thunder ]
+  time:
+    description: "Change the time"
+    aliases: [ day,night,dawn,dusk,noon,midnight ]
+  extinguish:
+    description: "Extinguish a player"
+    aliases: [ ext ]
+  burn:
+    description: "Burn a player"
+  more:
+    description: "Get more of an item."
+  speed:
+    description: "Change your speed"
+  spawner:
+    description: "Change a mob spawner"
+  lightning:
+    description: "Strike lightning"
+    aliases: [ smite,strike ]
+  rest:
+    description: "Reset time since last sleep"
+  experience:
+    description: "Modify a player's experience levels"
+    aliases: [ exp,xp ]
+  clearinventory:
+    description: "Clear your inventory"
+    aliases: [ clear,ci ]
+
+  # TELEPORTATION COMMANDS
+  tp:
+    description: "Teleport to a player"
+    aliases: [ tpo ]
+  tphere:
+    description: "Teleport a player to you"
+    aliases: [ tpohere ]
+  spawn:
+    description: "Teleport to spawn"
+    aliases: [ spawno ]
+  setspawn:
+    description: "Set the server spawn point"
+    aliases: [ setspawn ]
+  tpa:
+    description: "Request to teleport to a player"
+  tpahere:
+    description: "Request a player to teleport to you"
+  tpaccept:
+    description: "Accept a teleport request"
+    aliases: [ tpyes ]
+  tpdeny:
+    description: "Deny a teleport request"
+    aliases: [ tpno ]
+  tpcancel:
+    description: "Cancel your teleport requests"
+  tpall:
+    description: "Teleport everyone to you"
+    aliases: [ tpoall ]
+  tpaall:
+    description: "Ask all players to teleport to you"
+  teleportposition:
+    description: "Teleport to a specific position"
+    aliases: [ teleportpos,tpposition,tppos ]
+  top:
+    description: "Teleport to the highest position"
+  world:
+    description: "Teleport to a world"
+  center:
+    description: "Center yourself on the block"
+  jump:
+    description: "Jump to where you're looking"
+    aliases: [ jumpto,j ]

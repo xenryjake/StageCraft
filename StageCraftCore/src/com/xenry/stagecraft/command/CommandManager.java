@@ -252,6 +252,9 @@ public final class CommandManager extends Manager<Core> implements TabExecutor {
 		if(buffer.toLowerCase().startsWith("stagecraft:")){
 			buffer = buffer.substring(11);
 		}
+		if(buffer.toLowerCase().startsWith("stagecraftfun:")){
+			buffer = buffer.substring(14);
+		}
 		if(buffer.toLowerCase().startsWith("stagecraftcore:")){
 			buffer = buffer.substring(15);
 		}

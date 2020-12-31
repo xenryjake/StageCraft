@@ -1,11 +1,11 @@
-package com.xenry.stagecraft.skyblock.teleportation.commands;
+package com.xenry.stagecraft.fun.teleportation.commands;
 import com.xenry.stagecraft.command.Access;
 import com.xenry.stagecraft.command.PlayerCommand;
+import com.xenry.stagecraft.fun.Fun;
+import com.xenry.stagecraft.fun.teleportation.Teleportation;
+import com.xenry.stagecraft.fun.teleportation.TeleportationManager;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
-import com.xenry.stagecraft.skyblock.SkyBlock;
-import com.xenry.stagecraft.skyblock.teleportation.Teleportation;
-import com.xenry.stagecraft.skyblock.teleportation.TeleportationManager;
 import com.xenry.stagecraft.util.M;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -21,7 +21,7 @@ import java.util.List;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public final class BackCommand extends PlayerCommand<SkyBlock,TeleportationManager> {
+public final class BackCommand extends PlayerCommand<Fun,TeleportationManager> {
 	
 	public static final Access ACCESS = Rank.ADMIN;
 	public static final Access NOTIFY_ON_DEATH = new Access.False();

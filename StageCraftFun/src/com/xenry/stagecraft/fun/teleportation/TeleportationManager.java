@@ -1,9 +1,7 @@
-package com.xenry.stagecraft.creative.teleportation;
+package com.xenry.stagecraft.fun.teleportation;
 import com.xenry.stagecraft.Manager;
-import com.xenry.stagecraft.creative.Creative;
-import com.xenry.stagecraft.creative.teleportation.commands.*;
-import com.xenry.stagecraft.creative.teleportation.commands.home.*;
-import com.xenry.stagecraft.creative.teleportation.commands.warp.*;
+import com.xenry.stagecraft.fun.Fun;
+import com.xenry.stagecraft.fun.teleportation.commands.*;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.util.Cooldown;
 import com.xenry.stagecraft.util.M;
@@ -30,17 +28,14 @@ import java.util.List;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public final class TeleportationManager extends Manager<Creative> {
-	
-	private WarpHandler warpHandler;
-	private HomeHandler homeHandler;
+public final class TeleportationManager extends Manager<Fun> {
 	
 	private final HashMap<String,Teleportation> teleportations;
 	private final HashMap<String,TeleportRequest> requestsTo;
 	private final HashMap<String,Location> lastLocations;
 	public final Cooldown cooldown;
 	
-	public TeleportationManager(Creative plugin){
+	public TeleportationManager(Fun plugin){
 		super("Teleportation", plugin);
 		teleportations = new HashMap<>();
 		requestsTo = new HashMap<>();
@@ -50,15 +45,11 @@ public final class TeleportationManager extends Manager<Creative> {
 	
 	@Override
 	protected void onEnable() {
-		warpHandler = new WarpHandler(this);
-		homeHandler = new HomeHandler(this);
-		
 		registerCommand(new TPCommand(this));
 		registerCommand(new TPHereCommand(this));
 		registerCommand(new TPAllCommand(this));
 		registerCommand(new TPPositionCommand(this));
 		registerCommand(new TopCommand(this));
-		registerCommand(new TPOfflineCommand(this));
 		registerCommand(new WorldCommand(this));
 		registerCommand(new CenterCommand(this));
 		registerCommand(new JumpCommand(this));
@@ -69,41 +60,10 @@ public final class TeleportationManager extends Manager<Creative> {
 		registerCommand(new TPDenyCommand(this));
 		registerCommand(new TPCancelCommand(this));
 		
-		registerCommand(new WarpCommand(this));
-		registerCommand(new SetWarpCommand(this));
-		registerCommand(new UpdateWarpCommand(this));
-		registerCommand(new DeleteWarpCommand(this));
-		registerCommand(new SpawnCommand(this));
-		registerCommand(new SetSpawnCommand(this));
-		registerCommand(new WarpInfoCommand(this));
-		registerCommand(new SetWarpAliasCommand(this));
-		registerCommand(new DeleteWarpAliasCommand(this));
-		
-		registerCommand(new HomeCommand(this));
-		registerCommand(new SetHomeCommand(this));
-		registerCommand(new DeleteHomeCommand(this));
-		registerCommand(new ViewHomesCommand(this));
-		registerCommand(new GoToHomeCommand(this));
-		registerCommand(new DeleteHomeOtherCommand(this));
-		
 		registerCommand(new BackCommand(this));
 		
-		warpHandler.downloadWarps();
-		homeHandler.downloadHomes();
-	}
-	
-	@Override
-	protected void onDisable(){
-		warpHandler.saveAllWarpsSync();
-		homeHandler.saveAllHomesSync();
-	}
-	
-	public WarpHandler getWarpHandler() {
-		return warpHandler;
-	}
-	
-	public HomeHandler getHomeHandler() {
-		return homeHandler;
+		registerCommand(new SpawnCommand(this));
+		registerCommand(new SetSpawnCommand(this));
 	}
 	
 	public void createAndExecuteTeleportation(Player target, CommandSender teleporter, Location originalLocation,
@@ -208,7 +168,7 @@ public final class TeleportationManager extends Manager<Creative> {
 		}
 	}
 	
-	//@EventHandler
+	@EventHandler
 	public void onMove(PlayerMoveEvent event){
 		Player player = event.getPlayer();
 		Teleportation teleportation = getTeleportation(player);
@@ -223,7 +183,7 @@ public final class TeleportationManager extends Manager<Creative> {
 		}
 	}
 	
-	//@EventHandler
+	@EventHandler
 	public void onDamage(EntityDamageByEntityEvent event){
 		if(event.getDamage() <= 0){
 			return;
@@ -240,41 +200,8 @@ public final class TeleportationManager extends Manager<Creative> {
 	}
 	
 	@EventHandler
-	public void onRespawn(PlayerRespawnEvent event){
-		Location respawnLocation = null;
-		Profile profile = getCore().getProfileManager().getProfile(event.getPlayer());
-		if(profile != null){
-			Home respawn = homeHandler.getRespawnPoint(profile);
-			if(respawn != null){
-				respawnLocation = respawn.getLocation();
-			}
-		}
-		if(respawnLocation == null){
-			Warp spawn = warpHandler.getSpawn();
-			if(spawn != null){
-				respawnLocation = spawn.getLocation();
-			}
-		}
-		if(respawnLocation != null){
-			event.setRespawnLocation(respawnLocation);
-		}
-	}
-	
-	@EventHandler
-	public void onJoin(PlayerJoinEvent event){
-		Player player = event.getPlayer();
-		if(player.hasPlayedBefore()) {
-			return;
-		}
-		Warp spawn = warpHandler.getSpawn();
-		if(spawn != null){
-			player.teleport(spawn.getLocation());
-		}
-	}
-	
-	@EventHandler
 	public void onQuit(PlayerQuitEvent event){
-		cancelTeleportation(event.getPlayer(), "You quit the server.");
+		cancelTeleportation(event.getPlayer(), "false");
 		cancelRequestTo(event.getPlayer(), false);
 	}
 	
