@@ -149,7 +149,7 @@ public abstract class Command<P extends StageCraftPlugin,T extends Manager<P>> {
 		if(!access.has(profile) || disabled){
 			return Collections.emptyList();
 		}
-		if(args.length < 1 || hasNoSubCommands()){
+		if(args.length < 1){
 			return Collections.emptyList();
 		}
 		Command<P,T> sub = getSubCommand(args[0].toLowerCase());
@@ -166,7 +166,7 @@ public abstract class Command<P extends StageCraftPlugin,T extends Manager<P>> {
 		if(disabled){
 			return Collections.emptyList();
 		}
-		if(args.length < 1 || hasNoSubCommands()){
+		if(args.length < 1){
 			return Collections.emptyList();
 		}
 		Command<P,T> sub = getSubCommand(args[0].toLowerCase());

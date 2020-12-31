@@ -1,7 +1,10 @@
 package com.xenry.stagecraft.skyblock.island;
 import com.mongodb.BasicDBObject;
+import com.xenry.stagecraft.profile.GenericProfile;
 import com.xenry.stagecraft.util.LocationVector;
+import com.xenry.stagecraft.util.NumberUtil;
 import com.xenry.stagecraft.util.Vector2DInt;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -20,6 +23,7 @@ public class Island extends BasicDBObject {
 	
 	public static final int WIDTH_IN_CHUNKS = 16;
 	public static final int WIDTH = 16*WIDTH_IN_CHUNKS;
+	public static final int BUILD_BUFFER = 16;
 	
 	// ISLAND COORDS to CHUNK COORDS (chunkWidth = 16)
 	// [x,z]: (16x,16z) -> (16x+chunkWidth-1,16z+chunkWidth-1)
@@ -71,6 +75,10 @@ public class Island extends BasicDBObject {
 		return getString("ownerUUID");
 	}
 	
+	public void setOwnerUUID(String ownerUUID){
+		put("ownerUUID", ownerUUID);
+	}
+	
 	@SuppressWarnings("unchecked")
 	public List<String> getMemberUUIDs(){
 		Object obj = get("members");
@@ -96,6 +104,14 @@ public class Island extends BasicDBObject {
 	
 	public boolean isMember(String uuid){
 		return getMemberUUIDs().contains(uuid);
+	}
+	
+	public boolean isMember(Player player){
+		return isMember(player.getUniqueId().toString());
+	}
+	
+	public boolean isMember(GenericProfile profile){
+		return isMember(profile.getUUID());
 	}
 	
 	public LocationVector getHomeVector(){
@@ -142,6 +158,14 @@ public class Island extends BasicDBObject {
 		return new LocationVector(x, y, z, (float)yaw, (float)pitch);
 	}
 	
+	public void setHome(LocationVector vector){
+		put("homeX", vector.x);
+		put("homeY", vector.y);
+		put("homeZ", vector.z);
+		put("homeYaw", vector.yaw);
+		put("homePitch", vector.pitch);
+	}
+	
 	public int getX(){
 		return getInt("x");
 	}
@@ -180,6 +204,30 @@ public class Island extends BasicDBObject {
 	
 	public int getActualZ2(){
 		return WIDTH*(getZ()+1) - 1;
+	}
+	
+	public boolean isInIsland(int x, int z){
+		return NumberUtil.isIntWithin(x, getActualX1(), getActualX2()) && NumberUtil.isIntWithin(z, getActualZ1(), getActualZ2());
+	}
+	
+	public boolean isInIsland(Location location){
+		return isInIsland(location.getBlockX(), location.getBlockZ());
+	}
+	
+	public boolean isInBuildArea(int x, int z){
+		return NumberUtil.isIntWithin(x, getActualX1() + BUILD_BUFFER, getActualX2() - BUILD_BUFFER) && NumberUtil.isIntWithin(z, getActualZ1() + BUILD_BUFFER, getActualZ2() - BUILD_BUFFER);
+	}
+	
+	public boolean isInBuildArea(Location location){
+		return isInBuildArea(location.getBlockX(), location.getBlockZ());
+	}
+	
+	public boolean isInBufferZone(int x, int z){
+		return isInIsland(x, z) && !isInBuildArea(x, z);
+	}
+	
+	public boolean isInBufferZone(Location location){
+		return isInBufferZone(location.getBlockX(), location.getBlockZ());
 	}
 	
 	public static int islandToChunk1(int island){

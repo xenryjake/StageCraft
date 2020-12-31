@@ -6,7 +6,6 @@ import com.xenry.stagecraft.skyblock.SkyBlock;
 import com.xenry.stagecraft.skyblock.island.Island;
 import com.xenry.stagecraft.skyblock.island.IslandManager;
 import com.xenry.stagecraft.skyblock.profile.SkyBlockProfile;
-import com.xenry.stagecraft.skyblock.teleportation.Teleportation;
 import com.xenry.stagecraft.util.LocationVector;
 import com.xenry.stagecraft.util.M;
 import org.bukkit.Location;
@@ -16,16 +15,16 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * StageCraft created by Henry Blasingame (Xenry) on 12/19/20
+ * StageCraft created by Henry Blasingame (Xenry) on 12/22/20
  * The content in this file and all related files are
  * Copyright (C) 2020 Henry Blasingame.
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public final class IslandHomeCommand extends PlayerCommand<SkyBlock,IslandManager> {
+public final class IslandSetHomeCommand extends PlayerCommand<SkyBlock,IslandManager> {
 	
-	public IslandHomeCommand(IslandManager manager) {
-		super(manager, Rank.MEMBER, "home", "spawn");
+	public IslandSetHomeCommand(IslandManager manager){
+		super(manager, Rank.MEMBER, "sethome", "setspawn");
 	}
 	
 	@Override
@@ -40,9 +39,22 @@ public final class IslandHomeCommand extends PlayerCommand<SkyBlock,IslandManage
 			profile.sendMessage(M.error("You do not have an active island."));
 			return;
 		}
-		LocationVector vector = island.getHomeVector();
-		Location location = new Location(manager.getWorld(), vector.x, vector.y, vector.z, vector.yaw, vector.pitch);
-		manager.plugin.getTeleportationManager().createAndExecuteTeleportation(profile.getPlayer(), profile.getPlayer(), profile.getPlayer().getLocation(), location, Teleportation.Type.HOME, true);
+		if(!island.getOwnerUUID().equals(profile.getUUID())){
+			profile.sendMessage(M.error("You are not the owner of this island."));
+			return;
+		}
+		Location location = profile.getPlayer().getLocation();
+		if(location.getWorld() != manager.getWorld()){
+			profile.sendMessage(M.error("You aren't in the SkyBlock world."));
+			return;
+		}
+		if(!island.isInBuildArea(location)){
+			profile.sendMessage(M.error("You can't set the island home here."));
+			return;
+		}
+		LocationVector vector = new LocationVector(location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch());
+		island.setHome(vector);
+		profile.sendMessage(M.msg + "Set island home to your current location.");
 	}
 	
 	@Override

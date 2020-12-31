@@ -6,7 +6,9 @@ import com.xenry.stagecraft.profile.Rank;
 import com.xenry.stagecraft.skyblock.SkyBlock;
 import com.xenry.stagecraft.skyblock.island.Island;
 import com.xenry.stagecraft.skyblock.island.IslandManager;
+import com.xenry.stagecraft.util.LocationVector;
 import com.xenry.stagecraft.util.M;
+import com.xenry.stagecraft.util.NumberUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -64,7 +66,10 @@ public final class IslandInfoCommand extends PlayerCommand<SkyBlock,IslandManage
 		sender.sendMessage(M.arrow("Position: " + M.WHITE + island.getX() + M.msg + ", " + M.WHITE + island.getZ()));
 		sender.sendMessage(M.arrow("Owner: " + M.WHITE + owner.getDisplayName()));
 		sender.sendMessage(M.arrow("Members: " + M.WHITE + Joiner.on(M.gry + ", " + M.WHITE).join(members)));
-		//todo add home location / other info
+		LocationVector vector = island.getHomeVector();
+		if(!vector.isZero()){
+			sender.sendMessage(M.arrow("Home: " + M.elm + NumberUtil.displayAsHundredths(vector.x) + M.msg + ", " + M.elm + NumberUtil.displayAsHundredths(vector.y) + M.msg + ", " + M.elm + NumberUtil.displayAsHundredths(vector.z)));
+		}
 	}
 	
 	@Override

@@ -17,4 +17,8 @@ public class LocationVector extends Vector3DDouble {
 		this.pitch = pitch;
 	}
 	
+	public boolean isZero(){
+		return x == 0 && y == 0 && z == 0 && yaw == 0 && pitch == 0;
+	}
+	
 }

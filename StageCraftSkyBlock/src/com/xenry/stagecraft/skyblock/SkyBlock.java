@@ -4,6 +4,7 @@ import com.xenry.stagecraft.StageCraftPlugin;
 import com.xenry.stagecraft.skyblock.gameplay.GameplayManager;
 import com.xenry.stagecraft.skyblock.island.IslandManager;
 import com.xenry.stagecraft.skyblock.profile.SkyBlockProfileManager;
+import com.xenry.stagecraft.skyblock.teleportation.TeleportationManager;
 import com.xenry.stagecraft.util.Log;
 
 /**
@@ -18,6 +19,7 @@ public final class SkyBlock extends StageCraftPlugin {
 	private SkyBlockProfileManager skyBlockProfileManager;
 	private IslandManager islandManager;
 	private GameplayManager gameplayManager;
+	private TeleportationManager teleportationManager;
 	
 	public SkyBlock(){
 		super("SkyBlock", Core.getInstance());
@@ -34,6 +36,7 @@ public final class SkyBlock extends StageCraftPlugin {
 			skyBlockProfileManager = loadManager(SkyBlockProfileManager.class);
 			islandManager = loadManager(IslandManager.class);
 			gameplayManager = loadManager(GameplayManager.class);
+			teleportationManager = loadManager(TeleportationManager.class);
 		}catch(Exception ex){
 			ex.printStackTrace();
 			Log.severe("Something went wrong while loading the SkyBlock managers!");
@@ -50,6 +53,10 @@ public final class SkyBlock extends StageCraftPlugin {
 	
 	public GameplayManager getGameplayManager() {
 		return gameplayManager;
+	}
+	
+	public TeleportationManager getTeleportationManager() {
+		return teleportationManager;
 	}
 	
 }

@@ -1,5 +1,5 @@
 name: StageCraftSkyBlock
-version: beta-2020.12.15a
+version: beta-2020.12.31a
 api-version: "1.16"
 author: Xenry
 main: com.xenry.stagecraft.skyblock.SkyBlock
@@ -14,6 +14,11 @@ commands:
   islandadmin:
     description: "Manage islands as an admin"
     aliases: [islandsadmin,isa]
+  islandtest:
+    description: "Island test commands"
+    aliases: [islandstest,ist]
+  pst:
+    description: "Player state testing"
 
   # GAMEPLAY COMMANDS
   pvp:

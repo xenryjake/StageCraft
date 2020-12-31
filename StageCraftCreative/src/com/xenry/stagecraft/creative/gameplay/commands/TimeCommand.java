@@ -25,7 +25,7 @@ import java.util.*;
  */
 public final class TimeCommand extends Command<Creative,GameplayManager> {
 	
-	public static final Access ALWAYS_CAN_CHANGE_TIME = Rank.MOD;
+	public static final Access ALWAYS_CAN_CHANGE_TIME = new Access.Any(Rank.ELITE, Rank.MOD);
 	
 	private static final HashMap<String,Integer> times;
 	

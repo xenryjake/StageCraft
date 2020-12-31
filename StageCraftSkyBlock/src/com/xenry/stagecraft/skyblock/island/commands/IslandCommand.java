@@ -24,9 +24,18 @@ public final class IslandCommand extends PlayerCommand<SkyBlock,IslandManager> {
 		super(manager, Rank.MEMBER, "island", "islands", "is");
 		addSubCommand(new IslandInfoCommand(manager));
 		addSubCommand(new IslandCreateCommand(manager));
+		addSubCommand(new IslandSwitchCommand(manager));
+		addSubCommand(new IslandInviteCommand(manager));
+		addSubCommand(new IslandJoinCommand(manager));
+		addSubCommand(new IslandLeaveCommand(manager));
+		//reset
+		//delete
+		addSubCommand(new IslandKickCommand(manager));
+		addSubCommand(new IslandTransferCommand(manager));
 		addSubCommand(new IslandRenameCommand(manager));
 		addSubCommand(new IslandListCommand(manager));
 		addSubCommand(new IslandHomeCommand(manager));
+		addSubCommand(new IslandSetHomeCommand(manager));
 	}
 	
 	@Override
@@ -34,11 +43,12 @@ public final class IslandCommand extends PlayerCommand<SkyBlock,IslandManager> {
 		sender.sendMessage(M.msg + "Island Commands:");
 		sender.sendMessage(M.help(label + " info", "Get info about the island you're standing on"));
 		sender.sendMessage(M.help(label + " create", "Create a new island"));
+		sender.sendMessage(M.help(label + " switch", "Switch to another one of your islands."));
 		sender.sendMessage(M.help(label + " invite", "Invite a player to your current island"));
 		sender.sendMessage(M.help(label + " join", "Join an island you've been invited to"));
 		sender.sendMessage(M.help(label + " leave", "Leave your current island"));
-		sender.sendMessage(M.help(label + " reset", "Reset your current island"));
-		sender.sendMessage(M.help(label + " delete", "Delete your current island"));
+		//sender.sendMessage(M.help(label + " reset", "Reset your current island"));
+		//sender.sendMessage(M.help(label + " delete", "Delete your current island"));
 		sender.sendMessage(M.help(label + " kick", "Kick a player from your current island"));
 		sender.sendMessage(M.help(label + " transfer", "Transfer your current island to another player"));
 		sender.sendMessage(M.help(label + " rename", "Rename your current island"));

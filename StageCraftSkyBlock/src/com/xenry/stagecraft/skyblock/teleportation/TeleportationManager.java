@@ -2,9 +2,12 @@ package com.xenry.stagecraft.skyblock.teleportation;
 import com.xenry.stagecraft.Manager;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.skyblock.SkyBlock;
+import com.xenry.stagecraft.skyblock.island.Island;
+import com.xenry.stagecraft.skyblock.profile.SkyBlockProfile;
 import com.xenry.stagecraft.skyblock.teleportation.commands.*;
 import com.xenry.stagecraft.skyblock.teleportation.commands.warp.*;
 import com.xenry.stagecraft.util.Cooldown;
+import com.xenry.stagecraft.util.LocationVector;
 import com.xenry.stagecraft.util.M;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -223,9 +226,23 @@ public final class TeleportationManager extends Manager<SkyBlock> {
 	
 	@EventHandler
 	public void onRespawn(PlayerRespawnEvent event){
-		Warp spawn = warpHandler.getSpawn();
-		Location respawnLocation = spawn == null ? null : spawn.getLocation();
-		//todo setup respawn location at island
+		Location respawnLocation = null;
+		SkyBlockProfile profile = plugin.getSkyBlockProfileManager().getProfile(event.getPlayer());
+		if(profile != null){
+			Island island = profile.getActiveIsland(plugin.getIslandManager());
+			if(island != null){
+				LocationVector vector = island.getHomeVector();
+				if(!vector.isZero()){
+					respawnLocation = new Location(plugin.getIslandManager().getWorld(), vector.x, vector.y, vector.z, vector.yaw, vector.pitch);
+				}
+			}
+		}
+		if(respawnLocation == null){
+			Warp spawn = warpHandler.getSpawn();
+			if(spawn != null){
+				respawnLocation = spawn.getLocation();
+			}
+		}
 		if(respawnLocation != null){
 			event.setRespawnLocation(respawnLocation);
 		}

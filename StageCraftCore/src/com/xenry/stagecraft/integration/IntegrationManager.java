@@ -124,7 +124,7 @@ public final class IntegrationManager extends Manager<Core> {
 	}
 	
 	private boolean checkWorldEdit(){
-		return plugin.getServer().getPluginManager().getPlugin("WorldEdit") != null;
+		return worldEdit = plugin.getServer().getPluginManager().getPlugin("WorldEdit") != null;
 	}
 	
 	@Nullable

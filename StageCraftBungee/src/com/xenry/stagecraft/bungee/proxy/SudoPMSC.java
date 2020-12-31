@@ -82,7 +82,7 @@ public class SudoPMSC extends PluginMessageSubChannel<ProxyManager> {
 		out.writeUTF(content);
 		byte[] data = out.toByteArray();
 		for(ServerInfo server : servers){
-			server.sendData("BungeeCord", data);
+			server.sendData("BungeeCord", data, false);
 		}
 	}
 	

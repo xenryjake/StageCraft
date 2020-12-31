@@ -4,9 +4,14 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.xenry.stagecraft.Manager;
 import com.xenry.stagecraft.profile.GenericProfile;
+import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.skyblock.SkyBlock;
 import com.xenry.stagecraft.skyblock.island.commands.IslandCommand;
 import com.xenry.stagecraft.skyblock.island.commands.admin.IslandAdminCommand;
+import com.xenry.stagecraft.skyblock.island.commands.admin.IslandTestCommand;
+import com.xenry.stagecraft.skyblock.island.playerstate.PlayerStateHandler;
+import com.xenry.stagecraft.skyblock.island.playerstate.PlayerStateTestCommand;
+import com.xenry.stagecraft.skyblock.profile.SkyBlockProfile;
 import com.xenry.stagecraft.util.Log;
 import com.xenry.stagecraft.util.Vector2DInt;
 import org.bukkit.Bukkit;
@@ -31,21 +36,27 @@ public final class IslandManager extends Manager<SkyBlock> {
 	
 	private final DBCollection collection;
 	private final List<Island> islands;
+	private final List<Invite> invites;
 	
 	private World world;
 	private SchematicHandler schematicHandler;
+	private ProtectionHandler protectionHandler;
+	private PlayerStateHandler playerStateHandler;
 	
 	public IslandManager(SkyBlock skyBlock){
 		super("Islands", skyBlock);
 		collection = getCore().getMongoManager().getCoreCollection("skyblockIslands");
 		collection.setObjectClass(Island.class);
 		islands = new ArrayList<>();
+		invites = new ArrayList<>();
 		
 		if(getCore().getIntegrationManager().isWorldEdit()){
-			Log.severe("WorldEdit not found! Cannot setup the schematic handler!");
-		}else{
 			schematicHandler = new SchematicHandler(this);
+		}else{
+			Log.severe("WorldEdit not found! Cannot setup the schematic handler!");
 		}
+		protectionHandler = new ProtectionHandler(this);
+		playerStateHandler = new PlayerStateHandler(this);
 	}
 	
 	@Override
@@ -62,9 +73,14 @@ public final class IslandManager extends Manager<SkyBlock> {
 		
 		registerCommand(new IslandCommand(this));
 		registerCommand(new IslandAdminCommand(this));
+		registerCommand(new IslandTestCommand(this));
+		registerCommand(new PlayerStateTestCommand(this));
+		
+		schematicHandler.loadMainIslandSchematic();
+		
+		registerListener(protectionHandler);
 		
 		download();
-		schematicHandler.loadMainIslandSchematic();
 	}
 	
 	@Override
@@ -78,6 +94,14 @@ public final class IslandManager extends Manager<SkyBlock> {
 	
 	public SchematicHandler getSchematicHandler() {
 		return schematicHandler;
+	}
+	
+	public ProtectionHandler getProtectionHandler() {
+		return protectionHandler;
+	}
+	
+	public PlayerStateHandler getPlayerStateHandler() {
+		return playerStateHandler;
 	}
 	
 	@Nullable
@@ -102,7 +126,7 @@ public final class IslandManager extends Manager<SkyBlock> {
 	
 	@Nullable
 	public Island getIsland(Location location){
-		if(!location.getWorld().equals(world)){
+		if(!world.equals(location.getWorld())){
 			return null;
 		}
 		return getIsland(Island.actualToIsland(location.getBlockX()), Island.actualToIsland(location.getBlockZ()));
@@ -160,6 +184,77 @@ public final class IslandManager extends Manager<SkyBlock> {
 		addIsland(island);
 		return success;
 	}
+	
+	public List<String> getIslandIDs(){
+		List<String> ids = new ArrayList<>();
+		for(Island island : islands){
+			ids.add(island.getID());
+		}
+		return ids;
+	}
+	
+	public List<String> getIslandIDs(String startsWith){
+		startsWith = startsWith.toLowerCase();
+		List<String> ids = new ArrayList<>();
+		for(Island island : islands){
+			if(island.getID().toLowerCase().startsWith(startsWith)){
+				ids.add(island.getID());
+			}
+		}
+		return ids;
+	}
+	
+	public List<String> getIslandIDs(SkyBlockProfile profile){
+		List<String> ids = new ArrayList<>();
+		for(Island island : islands){
+			if(island.isMember(profile)){
+				ids.add(island.getID());
+			}
+		}
+		return ids;
+	}
+	
+	public List<String> getIslandIDs(GenericProfile profile, String startsWith){
+		startsWith = startsWith.toLowerCase();
+		List<String> ids = new ArrayList<>();
+		for(Island island : islands){
+			if(island.isMember(profile) && island.getID().toLowerCase().startsWith(startsWith)){
+				ids.add(island.getID());
+			}
+		}
+		return ids;
+	}
+	
+	public void sendMessageToIsland(Island island, String message){
+		for(String uuid : island.getMemberUUIDs()){
+			Profile profile = getCore().getProfileManager().getOnlineProfileByUUID(uuid);
+			if(profile != null && profile.isOnline()){
+				profile.sendMessage(message);
+			}
+		}
+	}
+	
+	// INVITES
+	
+	public void addInvite(Invite invite){
+		invites.add(invite);
+	}
+	
+	public void removeInvite(Invite invite){
+		invites.remove(invite);
+	}
+	
+	@Nullable
+	public Invite getInvite(String invitedUUID, String islandID){
+		for(Invite invite : invites){
+			if(invite.invitedUUID.equals(invitedUUID) && invite.islandID.equals(islandID)){
+				return invite;
+			}
+		}
+		return null;
+	}
+	
+	// ISLAND DATABASE MANAGEMENT
 	
 	private void addIsland(Island island){
 		islands.add(island);
