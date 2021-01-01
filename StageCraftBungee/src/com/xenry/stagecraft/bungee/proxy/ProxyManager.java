@@ -14,6 +14,7 @@ import net.md_5.bungee.api.scheduler.ScheduledTask;
 import net.md_5.bungee.event.EventHandler;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -32,8 +33,11 @@ public final class ProxyManager extends Manager {
 	private NetworkPlayersUpdatePMSC networkPlayersUpdatePMSC;
 	private PlayerWillSwitchPMSC playerWillSwitchPMSC;
 	
+	private final HashMap<String,Long> recentDisconnects;
+	
 	public ProxyManager(Bungee plugin){
 		super("Proxy", plugin);
+		recentDisconnects = new HashMap<>();
 	}
 	
 	@Override
@@ -92,10 +96,24 @@ public final class ProxyManager extends Manager {
 	}
 	
 	@EventHandler
-	public void onJoin(PreLoginEvent event){
+	public void onPreLogin(PreLoginEvent event){
 		if(willShutDown){
 			event.setCancelled(true);
 			event.setCancelReason(new TextComponent("The server is about to shut down. Try again later."));
+		}
+	}
+	
+	//this method can't go in PreLoginEvent - event#getConnection returns null
+	@EventHandler
+	public void onLogin(LoginEvent event){
+		String uuid = event.getConnection().getUniqueId().toString();
+		long time = recentDisconnects.getOrDefault(uuid, -1L);
+		long since = System.currentTimeMillis() - time;
+		if(since < 2000){
+			event.setCancelled(true);
+			event.setCancelReason(new TextComponent("Please wait a moment before trying to log in again."));
+		}else{
+			recentDisconnects.remove(uuid);
 		}
 	}
 	
@@ -165,6 +183,7 @@ public final class ProxyManager extends Manager {
 	@EventHandler
 	public void onDisconnect(PlayerDisconnectEvent event){
 		plugin.getProxy().getScheduler().schedule(plugin, this::sendNetworkPlayersUpdate, 50L, TimeUnit.MILLISECONDS);
+		recentDisconnects.put(event.getPlayer().getUniqueId().toString(), System.currentTimeMillis());
 	}
 	
 	private static final TextComponent TAB_LIST_HEADER = new TextComponent(new ComponentBuilder()

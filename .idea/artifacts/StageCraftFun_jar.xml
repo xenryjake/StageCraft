@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="StageCraftFun:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/StageCraftFun_jar</output-path>
+    <root id="archive" name="StageCraftFun.jar">
+      <element id="module-output" name="StageCraftCommon" />
+      <element id="module-output" name="StageCraftFun" />
+    </root>
+  </artifact>
+</component>
