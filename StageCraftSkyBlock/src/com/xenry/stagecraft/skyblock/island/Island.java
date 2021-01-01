@@ -3,13 +3,11 @@ import com.mongodb.BasicDBObject;
 import com.xenry.stagecraft.profile.GenericProfile;
 import com.xenry.stagecraft.util.LocationVector;
 import com.xenry.stagecraft.util.NumberUtil;
-import com.xenry.stagecraft.util.Vector2DInt;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 
 /**

@@ -39,9 +39,9 @@ public final class IslandManager extends Manager<SkyBlock> {
 	private final List<Invite> invites;
 	
 	private World world;
-	private SchematicHandler schematicHandler;
-	private ProtectionHandler protectionHandler;
-	private PlayerStateHandler playerStateHandler;
+	private final SchematicHandler schematicHandler;
+	private final ProtectionHandler protectionHandler;
+	private final PlayerStateHandler playerStateHandler;
 	
 	public IslandManager(SkyBlock skyBlock){
 		super("Islands", skyBlock);
@@ -53,6 +53,7 @@ public final class IslandManager extends Manager<SkyBlock> {
 		if(getCore().getIntegrationManager().isWorldEdit()){
 			schematicHandler = new SchematicHandler(this);
 		}else{
+			schematicHandler = null;
 			Log.severe("WorldEdit not found! Cannot setup the schematic handler!");
 		}
 		protectionHandler = new ProtectionHandler(this);

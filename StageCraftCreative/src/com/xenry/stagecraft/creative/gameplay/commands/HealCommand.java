@@ -107,24 +107,12 @@ public final class HealCommand extends Command<Creative,GameplayManager> {
 	
 	@Override
 	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		if(args.length == 1 && OTHERS.has(profile)){
-			List<String> players = allLocalPlayers();
-			players.add("**");
-			return filter(players, args[0]);
-		}else{
-			return Collections.emptyList();
-		}
+		return args.length == 1 ? localPlayers(args[0], "**") : Collections.emptyList();
 	}
 	
 	@Override
 	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
-		if(args.length == 1){
-			List<String> players = allLocalPlayers();
-			players.add("**");
-			return filter(players, args[0]);
-		}else{
-			return Collections.emptyList();
-		}
+		return args.length == 1 ? localPlayers(args[0], "**") : Collections.emptyList();
 	}
 	
 }

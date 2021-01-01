@@ -5,9 +5,12 @@ import com.xenry.stagecraft.StageCraftPlugin;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.util.M;
 import com.xenry.stagecraft.util.PlayerUtil;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -203,8 +206,11 @@ public abstract class Command<P extends StageCraftPlugin,T extends Manager<P>> {
 		noPermission(profile.getPlayer());
 	}
 	
+	private final BaseComponent[] noPermissionMessage =
+			new ComponentBuilder("You do not have access to that command.").color(M.DRED).create();
+	
 	protected final void noPermission(Player player){
-		player.sendMessage(M.DRED + "You do not have access to that command.");
+		player.sendMessage(noPermissionMessage);
 	}
 	
 	protected final List<String> allNetworkPlayers(){
@@ -216,29 +222,30 @@ public abstract class Command<P extends StageCraftPlugin,T extends Manager<P>> {
 	}
 	
 	protected final List<String> networkPlayers(String startsWith){
-		startsWith = startsWith.toLowerCase();
-		List<String> players = new ArrayList<>();
-		for(String player : allNetworkPlayers()){
-			if(player.toLowerCase().startsWith(startsWith)){
-				players.add(player);
-			}
-		}
-		return players;
+		return filter(allNetworkPlayers(), startsWith);
+	}
+	
+	protected final List<String> networkPlayers(String startsWith, String add){
+		return filter(allNetworkPlayers(), startsWith, add);
 	}
 	
 	protected final List<String> localPlayers(String startsWith){
-		startsWith = startsWith.toLowerCase();
-		List<String> players = new ArrayList<>();
-		for(String player : allLocalPlayers()){
-			if(player.toLowerCase().startsWith(startsWith)){
-				players.add(player);
-			}
-		}
-		return players;
+		return filter(allLocalPlayers(), startsWith);
+	}
+	
+	protected final List<String> localPlayers(String startsWith, String add){
+		return filter(allLocalPlayers(), startsWith, add);
 	}
 	
 	protected final List<String> filter(List<String> list, String startsWith){
+		return filter(list, startsWith, null);
+	}
+	
+	protected final List<String> filter(@NotNull List<String> list, @NotNull String startsWith, @Nullable String add){
 		startsWith = startsWith.toLowerCase();
+		if(add != null && !add.isEmpty()){
+			list.add(add);
+		}
 		List<String> newList = new ArrayList<>();
 		for(String string : list){
 			if(string.toLowerCase().startsWith(startsWith)){

@@ -10,7 +10,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -67,24 +66,12 @@ public final class BurnCommand extends Command<Creative,GameplayManager> {
 	
 	@Override
 	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		if(args.length == 1){
-			List<String> players = new ArrayList<>(allLocalPlayers());
-			players.add("**");
-			return filter(players, args[0]);
-		}else{
-			return Collections.emptyList();
-		}
+		return args.length == 1 ? localPlayers(args[0], "**") : Collections.emptyList();
 	}
 	
 	@Override
 	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
-		if(args.length == 1){
-			List<String> players = new ArrayList<>(allLocalPlayers());
-			players.add("**");
-			return filter(players, args[0]);
-		}else{
-			return Collections.emptyList();
-		}
+		return args.length == 1 ? localPlayers(args[0], "**") : Collections.emptyList();
 	}
 	
 }

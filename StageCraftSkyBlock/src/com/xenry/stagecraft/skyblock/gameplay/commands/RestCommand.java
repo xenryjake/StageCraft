@@ -5,7 +5,6 @@ import com.xenry.stagecraft.profile.Rank;
 import com.xenry.stagecraft.skyblock.SkyBlock;
 import com.xenry.stagecraft.skyblock.gameplay.GameplayManager;
 import com.xenry.stagecraft.util.M;
-import com.xenry.stagecraft.util.PlayerUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Statistic;
 import org.bukkit.command.CommandSender;
@@ -80,24 +79,12 @@ public final class RestCommand extends Command<SkyBlock,GameplayManager> {
 	
 	@Override
 	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		if(args.length == 1){
-			List<String> players = PlayerUtil.getOnlinePlayerNames();
-			players.add("**");
-			return filter(players, args[0]);
-		}else{
-			return Collections.emptyList();
-		}
+		return args.length == 1 ? localPlayers(args[0], "**") : Collections.emptyList();
 	}
 	
 	@Override
 	protected @NotNull List<String> serverTabComplete(CommandSender sender, String[] args, String label) {
-		if(args.length == 1){
-			List<String> players = PlayerUtil.getOnlinePlayerNames();
-			players.add("**");
-			return filter(players, args[0]);
-		}else{
-			return Collections.emptyList();
-		}
+		return args.length == 1 ? localPlayers(args[0], "**") : Collections.emptyList();
 	}
 	
 }
