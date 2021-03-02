@@ -79,7 +79,7 @@ public final class ProxyManager extends Manager {
 		ServerPing response = event.getResponse();
 		response.getPlayers().setSample(getSample(9));
 		response.setDescriptionComponent(plugin.getConfiguration().getMOTDComponent());
-		response.setVersion(new ServerPing.Protocol("Join with 1.16.4", response.getVersion().getProtocol()));
+		response.setVersion(new ServerPing.Protocol("Join with 1.16.5", response.getVersion().getProtocol()));
 	}
 	
 	@SuppressWarnings("SameParameterValue")

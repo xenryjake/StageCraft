@@ -84,7 +84,7 @@ public final class ViewHomesCommand extends Command<Creative,TeleportationManage
 		if(homes.size() > HOMES_PER_PAGE){
 			sender.sendMessage(M.msg + "Showing " + M.elm + profile.getLatestUsername() + M.msg + "'s homes, page " + M.elm + page + M.msg + " of " + M.elm + maxPages + M.msg + " (" + M.elm + firstHome + M.msg + "-" + M.elm + (firstHome + homesOnThisPage) + M.msg + " of " + M.elm + homes.size() + M.msg + " homes):");
 		}else{
-			sender.sendMessage(M.msg + M.BOLD + "Showing all of " + M.elm + profile.getLatestUsername() + "'s homes:");
+			sender.sendMessage(M.msg + "Showing all of " + M.elm + profile.getLatestUsername() + "'s homes:");
 		}
 		for(Home home : homesToDisplay){
 			String name = home.getName();

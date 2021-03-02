@@ -6,12 +6,12 @@
       <root url="jar://$PROJECT_DIR$/../depend/TitleManager-2.3.0.jar!/" />
       <root url="jar://$PROJECT_DIR$/../depend/GriefPrevention.jar!/" />
       <root url="jar://$PROJECT_DIR$/../depend/ProtocolLib.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../depend/patched_1.16.4.jar!/" />
       <root url="jar://$PROJECT_DIR$/../depend/worldedit-bukkit-7.2.0-dist.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../depend/patched_1.16.5.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
-      <root url="jar://$PROJECT_DIR$/../depend/patched_1.16.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../depend/patched_1.16.5.jar!/" />
     </SOURCES>
   </library>
 </component>
