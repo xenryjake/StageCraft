@@ -1,5 +1,5 @@
 name: StageCraftCore
-version: beta-2021.03.01a
+version: beta-2021.03.04a
 api-version: "1.16"
 author: Xenry
 main: com.xenry.stagecraft.Core
@@ -76,8 +76,6 @@ commands:
   me:
     description: "Lookup your own profile"
     aliases: [myprofile]
-  profilelist:
-    description: "View the list of all profiles"
   permission:
     description: "Manage permissions"
     aliases: [permissions,perm,perms,permtest]

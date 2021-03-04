@@ -5,8 +5,14 @@ import com.xenry.stagecraft.command.Command;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.ProfileManager;
 import com.xenry.stagecraft.profile.Rank;
+import com.xenry.stagecraft.server.PlayerState;
 import com.xenry.stagecraft.util.M;
 import com.xenry.stagecraft.util.time.TimeUtil;
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
@@ -24,8 +30,6 @@ import static com.xenry.stagecraft.profile.commands.LookupCommand.SENSITIVE_VIEW
  * is prohibited.
  */
 public final class SeenCommand extends Command<Core,ProfileManager> {
-	
-	//todo work cross-server
 	
 	public static final Access DETAILED_VIEW_ACCESS = Rank.MOD;
 	
@@ -62,18 +66,29 @@ public final class SeenCommand extends Command<Core,ProfileManager> {
 			sender.sendMessage(M.error("There is no profile for that player."));
 			return;
 		}
-		boolean online = target.isOnline();
-		long time = online ? target.getSecondsSinceLastLogin(manager.plugin.getServerName()) : target.getSecondsSinceLastLogout(manager.plugin.getServerName());
-		if(time <= 0){
-			sender.sendMessage(M.elm + target.getLatestUsername() + M.msg + " has never been on " + M.elm + manager.plugin.getServerName() + M.msg + ".");
+		
+		PlayerState state = manager.plugin.getServerManager().getPlayerState(target.getUUID());
+		boolean onlineLocal = target.isOnline();
+		boolean onlineGlobal = state != null;
+		
+		ComponentBuilder cb = new ComponentBuilder(target.getLatestUsername()).color(M.elm).append(" is ").color(M.msg);
+		if(onlineGlobal){
+			cb.append("online").color(ChatColor.GREEN);
+			cb.append(" at ").color(M.msg);
+			cb.append(state.getServerName()).color(M.elm);
+			if(onlineLocal){
+				long time = target.getSecondsSinceLastLogin(manager.plugin.getServerName());
+				cb.append(" (").color(M.msg).append(TimeUtil.simplerString(time)).color(M.elm).append(")").color(M.msg);
+			}else{
+				cb.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/server " + state.getServerName()))
+						.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text("Go to " + state.getServerName())));
+			}
 		}else{
-			//todo include both network-wide and per-server
-			sender.sendMessage(M.elm + target.getLatestUsername() + M.msg + " has been " + (online ? "§aonline" : "§coffline") + M.msg + " for " + M.elm + TimeUtil.simplerString(time));
-			/*if(detailedViewAccess && !online){
-				Vector3D lastLocation = target.getLastLocation();
-				sender.sendMessage(M.arrow("Last location: " + M.WHITE + "(" + lastLocation.x + "," + lastLocation.y + "," + lastLocation.z + ") [" + target.getLastLocationWorldName() + "]"));
-			}*/ //todo move to survival or something??
+			cb.append("offline").color(ChatColor.RED);
+			long time = target.getMostRecentLogout();
+			cb.append(" (").color(M.msg).append(TimeUtil.simplerString(time)).color(M.elm).append(")").color(M.msg);
 		}
+		sender.sendMessage(cb.create());
 		if(sensitiveViewAccess){
 			sender.sendMessage(M.arrow("Latest address: " + M.WHITE + target.getLatestAddress()));
 		}

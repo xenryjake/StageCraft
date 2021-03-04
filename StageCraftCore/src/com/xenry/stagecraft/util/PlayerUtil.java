@@ -39,10 +39,22 @@ public final class PlayerUtil {
 		return players.get(0);
 	}
 	
+	@Nullable
+	public static Player getAnyPlayerExcept(String name){
+		for(Player player : Bukkit.getOnlinePlayers()){
+			if(player.getName().equalsIgnoreCase(name)){
+				continue;
+			}
+			return player;
+		}
+		return null;
+	}
+	
 	public static boolean arePlayersOnline(){
 		return Bukkit.getOnlinePlayers().size() > 0;
 	}
 	
+	@SuppressWarnings("ConstantConditions")
 	public static boolean hasItemsInInventory(HumanEntity player){
 		if(player == null){
 			return false;

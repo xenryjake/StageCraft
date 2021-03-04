@@ -18,6 +18,9 @@ import java.util.*;
  */
 public class Profile extends GenericProfile {
 	
+	private boolean afk = false;
+	private boolean vanished = false;
+	
 	@Deprecated
 	public Profile(){
 		//required for Mongo instantiation
@@ -49,6 +52,22 @@ public class Profile extends GenericProfile {
 	
 	public Profile(Player player){
 		this(player.getUniqueId(), player.getName(), player.getAddress());
+	}
+	
+	public boolean isAFK() {
+		return afk;
+	}
+	
+	public void setAFK(boolean afk) {
+		this.afk = afk;
+	}
+	
+	public boolean isVanished() {
+		return vanished;
+	}
+	
+	public void setVanished(boolean vanished) {
+		this.vanished = vanished;
 	}
 	
 	public void updateDisplayName(){
@@ -162,7 +181,7 @@ public class Profile extends GenericProfile {
 	}
 	
 	public long getLastLogin(String serverName){
-		return getLastLogins().getOrDefault(serverName, 0L);
+		return getLastLogins().getOrDefault(serverName, -1L);
 	}
 	
 	public void setLastLogin(String serverName, long timestamp){
@@ -173,11 +192,11 @@ public class Profile extends GenericProfile {
 	}
 	
 	public long getSecondsSinceLastLogin(String serverName){
-		long value = TimeUtil.nowSeconds() - getLastLogin(serverName);
-		if(value <= 0){
-			value = -1;
+		long last = getLastLogin(serverName);
+		if(last < 0){
+			return -1;
 		}
-		return value;
+		return TimeUtil.nowSeconds() - last;
 	}
 	
 	public long getMostRecentLogin(){
@@ -202,7 +221,7 @@ public class Profile extends GenericProfile {
 	}
 	
 	public long getLastLogout(String serverName){
-		return getLastLogouts().getOrDefault(serverName, 0L);
+		return getLastLogouts().getOrDefault(serverName, -1L);
 	}
 	
 	public void setLastLogout(String serverName, long timestamp){
@@ -212,11 +231,11 @@ public class Profile extends GenericProfile {
 	}
 	
 	public long getSecondsSinceLastLogout(String serverName){
-		long value = TimeUtil.nowSeconds() - getLastLogout(serverName);
-		if(value <= 0){
-			value = -1;
+		long last = getLastLogout(serverName);
+		if(last < 0){
+			return -1;
 		}
-		return value;
+		return TimeUtil.nowSeconds() - last;
 	}
 	
 	public long getMostRecentLogout(){

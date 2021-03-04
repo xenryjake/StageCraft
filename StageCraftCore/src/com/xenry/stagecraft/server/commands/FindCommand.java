@@ -6,6 +6,10 @@ import com.xenry.stagecraft.profile.Rank;
 import com.xenry.stagecraft.server.ServerManager;
 import com.xenry.stagecraft.util.CollectionUtil;
 import com.xenry.stagecraft.util.M;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
@@ -44,7 +48,11 @@ public final class FindCommand extends Command<Core,ServerManager> {
 		}
 		for(Map.Entry<String,List<String>> entry : manager.getNetworkPlayers().entrySet()){
 			if(entry.getValue().contains(name)){
-				sender.sendMessage(M.elm + name + M.msg + " is online at " + M.elm + entry.getKey() + M.msg + ".");
+				ClickEvent ce = new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/server " + entry.getKey());
+				HoverEvent he = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text("Go to " + entry.getKey()));
+				ComponentBuilder cb = new ComponentBuilder(name).color(M.elm).append(" is online at ").color(M.msg);
+				cb.append(entry.getKey()).color(M.elm).event(ce).event(he);
+				cb.append(".").color(M.msg).event((ClickEvent)null).event((HoverEvent)null);
 				return;
 			}
 		}

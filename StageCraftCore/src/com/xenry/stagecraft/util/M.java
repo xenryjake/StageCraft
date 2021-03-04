@@ -47,4 +47,20 @@ public final class M {
 		return error("Player not found: " + playerName);
 	}
 	
+	public static String trueFalse(boolean value, String trueWord, String falseWord){
+		return value ? "§a" + trueWord : "§c" + falseWord;
+	}
+	
+	public static String yesNo(boolean value){
+		return trueFalse(value, "yes", "no");
+	}
+	
+	public static String onOff(boolean value){
+		return trueFalse(value, "on", "Off");
+	}
+	
+	public static String enabledDisabled(boolean value){
+		return trueFalse(value, "enabled", "disabled");
+	}
+	
 }

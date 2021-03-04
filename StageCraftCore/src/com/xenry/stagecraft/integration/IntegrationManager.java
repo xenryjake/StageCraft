@@ -1,6 +1,4 @@
 package com.xenry.stagecraft.integration;
-import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.ProtocolManager;
 import com.earth2me.essentials.Essentials;
 import com.xenry.stagecraft.Manager;
 import com.xenry.stagecraft.Core;
@@ -22,11 +20,13 @@ import org.jetbrains.annotations.Nullable;
  */
 public final class IntegrationManager extends Manager<Core> {
 	
-	private ProtocolManager protocolManager;
+	//private ProtocolManager protocolManager;
 	private Economy vaultEconomy;
 	private Essentials essentials;
 	private TitleManagerAPI titleManager;
 	private GriefPrevention griefPrevention;
+	
+	private EssentialsIntegration essentialsIntegration;
 	
 	private boolean worldEdit;
 	
@@ -36,11 +36,11 @@ public final class IntegrationManager extends Manager<Core> {
 	
 	@Override
 	protected void onEnable() {
-		if(setupProtocolLib()){
+		/*if(setupProtocolLib()){
 			Log.info("Successfully hooked into ProtocolLib.");
 		}else{
 			Log.warn("ProtocolLib not found. ProtocolLib integration failed.");
-		}
+		}*/
 		if(setupEconomy()){
 			Log.info("Successfully hooked into Vault Economy.");
 		}else{
@@ -48,6 +48,8 @@ public final class IntegrationManager extends Manager<Core> {
 		}
 		if(setupEssentials()){
 			Log.info("Successfully hooked into Essentials.");
+			essentialsIntegration = new EssentialsIntegration(this, essentials);
+			registerListener(essentialsIntegration);
 		}else{
 			Log.warn("Essentials not found. Essentials integration failed.");
 		}
@@ -68,14 +70,14 @@ public final class IntegrationManager extends Manager<Core> {
 		}
 	}
 	
-	private boolean setupProtocolLib(){
+	/*private boolean setupProtocolLib(){
 		if(plugin.getServer().getPluginManager().getPlugin("ProtocolLib") == null){
 			protocolManager = null;
 			return false;
 		}
 		protocolManager = ProtocolLibrary.getProtocolManager();
 		return protocolManager != null;
-	}
+	}*/
 	
 	private boolean setupEconomy(){
 		if(plugin.getServer().getPluginManager().getPlugin("Vault") == null) {
@@ -127,10 +129,10 @@ public final class IntegrationManager extends Manager<Core> {
 		return worldEdit = plugin.getServer().getPluginManager().getPlugin("WorldEdit") != null;
 	}
 	
-	@Nullable
+	/*@Nullable
 	public ProtocolManager getProtocolManager() {
 		return protocolManager;
-	}
+	}*/
 	
 	@Nullable
 	public Economy getVaultEconomy() {
@@ -154,6 +156,11 @@ public final class IntegrationManager extends Manager<Core> {
 	
 	public boolean isWorldEdit() {
 		return worldEdit;
+	}
+	
+	@Nullable
+	public EssentialsIntegration getEssentialsIntegration() {
+		return essentialsIntegration;
 	}
 	
 }

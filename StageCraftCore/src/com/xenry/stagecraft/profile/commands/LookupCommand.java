@@ -1,5 +1,4 @@
 package com.xenry.stagecraft.profile.commands;
-import com.earth2me.essentials.Essentials;
 import com.google.common.collect.Lists;
 import com.xenry.stagecraft.Core;
 import com.xenry.stagecraft.command.Access;
@@ -7,8 +6,14 @@ import com.xenry.stagecraft.command.Command;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.ProfileManager;
 import com.xenry.stagecraft.profile.Rank;
+import com.xenry.stagecraft.server.PlayerState;
 import com.xenry.stagecraft.util.M;
 import com.xenry.stagecraft.util.time.TimeUtil;
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
@@ -25,8 +30,6 @@ import java.util.List;
  * is prohibited.
  */
 public final class LookupCommand extends Command<Core,ProfileManager> {
-	
-	//todo work cross-server
 	
 	public static final Access SENSITIVE_VIEW_ACCESS = Rank.ADMIN;
 	
@@ -88,34 +91,42 @@ public final class LookupCommand extends Command<Core,ProfileManager> {
 			}
 		}
 		
-		//Vector3D lastLoc = profile.getLastLocation();
-		boolean online = profile.isOnline();
+		PlayerState state = manager.plugin.getServerManager().getPlayerState(profile.getUUID());
+		boolean onlineLocal = profile.isOnline();
+		boolean onlineGlobal = state != null;
 
 		sender.sendMessage(M.msg + "Profile of " + M.elm + profile.getLatestUsername() + M.msg + ":");
 		sender.sendMessage(M.arrow("UUID: " + M.WHITE + profile.getUUID()));
 		sender.sendMessage(M.arrow("Rank: " + profile.getRank().getColoredName()));
-		sender.sendMessage(M.arrow("Logged Usernames: " + M.elm + profile.getUsernames().size() + M.gry + " §o(/lookup " + profile.getLatestUsername() + " names)"));
+		sender.sendMessage(M.arrow("Logged Usernames: " + M.elm + profile.getUsernames().size() + M.gry + M.ITALIC + " (/lookup " + profile.getLatestUsername() + " names)"));
 		sender.sendMessage(M.arrow("Total Playtime: " + M.WHITE + TimeUtil.simplerString(profile.getTotalPlaytime())));
 		sender.sendMessage(M.arrow("Nickname: " + profile.getDisplayName()));
 		if(detailedAccess){
 			sender.sendMessage(M.arrow("Address: " + M.WHITE + profile.getLatestAddress()));
 		}
-		if(online){
-			Essentials ess = manager.plugin.getIntegrationManager().getEssentials();
-			if(ess != null){
-				sender.sendMessage(M.arrow("AFK: " + (ess.getUser(profile.getPlayer()).isAfk() ? "§ayes" : "§cno")));
+		if(onlineGlobal){
+			sender.sendMessage(M.arrow("AFK: " + M.yesNo(state.isAFK())));
+			sender.sendMessage(M.arrow("Vanished: " + M.yesNo(state.isVanished())));
+		}
+		
+		ComponentBuilder cb = new ComponentBuilder(" » ").color(M.DGRAY).append("Status: ").color(M.msg);
+		if(onlineGlobal){
+			cb.append("Online").color(ChatColor.GREEN);
+			cb.append(" at ").color(M.msg);
+			cb.append(state.getServerName()).color(M.elm);
+			if(onlineLocal){
+				long time = profile.getSecondsSinceLastLogin(manager.plugin.getServerName());
+				cb.append(" (").color(M.msg).append(TimeUtil.simplerString(time)).color(M.elm).append(")").color(M.msg);
+			}else{
+				cb.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/server " + state.getServerName()))
+						.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text("Go to " + state.getServerName())));
 			}
 		}else{
-			//todo add to survival somehow?
-			//sender.sendMessage(M.arrow("Last Location: " + M.elm + "(" + lastLoc.x + "," + lastLoc.y + "," + lastLoc.z + ") [" + profile.getLastLocationWorldName() + "]"));
+			cb.append("Offline").color(ChatColor.RED);
+			long time = profile.getMostRecentLogout();
+			cb.append(" (").color(M.msg).append(TimeUtil.simplerString(time)).color(M.elm).append(")").color(M.msg);
 		}
-		//todo include both network-wide and per-server
-		long time = online ? profile.getSecondsSinceLastLogin(manager.plugin.getServerName()) : profile.getSecondsSinceLastLogout(manager.plugin.getServerName());
-		if(time <= 0){
-			sender.sendMessage(M.arrow("Status: " + (online ? "§aOnline" : "§cOffline")));
-		}else{
-			sender.sendMessage(M.arrow("Status: " + (online ? "§aOnline " : "§cOffline ") + M.msg + "(" + M.elm + TimeUtil.simplerString(time) + M.msg + ")"));
-		}
+		sender.sendMessage(cb.create());
 	}
 	
 	@Override

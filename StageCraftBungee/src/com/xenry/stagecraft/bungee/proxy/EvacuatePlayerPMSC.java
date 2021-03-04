@@ -1,6 +1,7 @@
 package com.xenry.stagecraft.bungee.proxy;
 import com.google.common.io.ByteArrayDataInput;
 import com.xenry.stagecraft.bungee.pluginmessage.PluginMessageSubChannel;
+import com.xenry.stagecraft.bungee.util.Log;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.ServerConnectEvent;
@@ -21,12 +22,13 @@ public final class EvacuatePlayerPMSC extends PluginMessageSubChannel<ProxyManag
 	@Override
 	protected void receive(ByteArrayDataInput in, ProxiedPlayer receiver) {
 		for(ServerInfo server : manager.plugin.getProxy().getServers().values()){
-			if(receiver.getServer().getInfo().getName().equals(server.getName())){
+			if(receiver.getServer().getInfo().getName().equals(server.getName()) || !server.canAccess(receiver)){
 				continue;
 			}
 			receiver.connect(server, ServerConnectEvent.Reason.SERVER_DOWN_REDIRECT);
-			break;
+			return;
 		}
+		Log.info("Could not evacuate " + receiver.getName() + ": No available servers");
 	}
 	
 }

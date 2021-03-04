@@ -1,5 +1,6 @@
 package com.xenry.stagecraft.survival.gameplay.enchantment.automine;
 import com.xenry.stagecraft.survival.gameplay.enchantment.CustomEnchantment;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.enchantments.EnchantmentTarget;
 import org.bukkit.inventory.ItemStack;
@@ -28,6 +29,11 @@ public final class OreMinerEnchantment extends CustomEnchantment {
 	@Override
 	public boolean canEnchantItem(@NotNull ItemStack item) {
 		return types.contains(item.getType());
+	}
+	
+	@Override
+	public @NotNull Component displayName(int i) {
+		return Component.text("Ore Miner " + levelToRoman(i));
 	}
 	
 	@Override

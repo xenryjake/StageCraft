@@ -199,6 +199,7 @@ public final class SpecialItemHandler extends Handler<Survival,GameplayManager> 
 		}
 	}
 	
+	@SuppressWarnings("ConstantConditions")
 	@EventHandler
 	public void onSpecialItem(CraftItemEvent event){
 		for(ItemStack item : event.getInventory().getMatrix()){

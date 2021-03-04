@@ -1,6 +1,8 @@
 package com.xenry.stagecraft.server;
 import com.xenry.stagecraft.Manager;
 import com.xenry.stagecraft.Core;
+import com.xenry.stagecraft.RawPlayerState;
+import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.server.commands.*;
 import com.xenry.stagecraft.util.Log;
 import com.xenry.stagecraft.util.M;
@@ -13,6 +15,7 @@ import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.server.ServerListPingEvent;
 import org.bukkit.scheduler.BukkitTask;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
@@ -27,16 +30,20 @@ public final class ServerManager extends Manager<Core> {
 	
 	private boolean willShutDown = false;
 	private BukkitTask shutdownTask;
-	private EvacuatePlayerPMSC evacuatePlayerPMSC;
 	
 	private HashMap<String,List<String>> networkPlayers;
 	private List<String> allNetworkPlayers;
+	private HashMap<String,PlayerState> playerStates;
+	
+	private EvacuatePlayerPMSC evacuatePlayerPMSC;
 	private SendPlayersPMSC sendPlayersPMSC;
+	private PlayerStateUpdatePMSC playerStateUpdatePMSC;
 	
 	public ServerManager(Core plugin){
 		super("Server", plugin);
 		networkPlayers = new HashMap<>();
 		allNetworkPlayers = new ArrayList<>();
+		playerStates = new HashMap<>();
 	}
 	
 	@Override
@@ -46,6 +53,8 @@ public final class ServerManager extends Manager<Core> {
 		plugin.getPluginMessageManager().registerSubChannel(new NetworkPlayersUpdatePMSC(this));
 		sendPlayersPMSC = new SendPlayersPMSC(this);
 		plugin.getPluginMessageManager().registerSubChannel(new SendPlayersPMSC(this));
+		playerStateUpdatePMSC = new PlayerStateUpdatePMSC(this);
+		plugin.getPluginMessageManager().registerSubChannel(playerStateUpdatePMSC);
 		
 		registerCommand(new DebugModeCommand(this));
 		registerCommand(new BetaFeaturesCommand(this));
@@ -67,6 +76,10 @@ public final class ServerManager extends Manager<Core> {
 		return sendPlayersPMSC;
 	}
 	
+	public PlayerStateUpdatePMSC getPlayerStateUpdatePMSC() {
+		return playerStateUpdatePMSC;
+	}
+	
 	@EventHandler
 	public void onListPing(ServerListPingEvent event){
 		event.setMotd("StageCraft internal server. Connect to proxy.");
@@ -85,12 +98,13 @@ public final class ServerManager extends Manager<Core> {
 		if(Bukkit.getOnlinePlayers().size() > 1){
 			return;
 		}
-		Player player = PlayerUtil.getAnyPlayer();
-		if(player != null && player != event.getPlayer()){
+		Player player = PlayerUtil.getAnyPlayerExcept(event.getPlayer().getName());
+		if(player != null){
 			return;
 		}
 		allNetworkPlayers = new ArrayList<>();
 		networkPlayers = new HashMap<>();
+		playerStates = new HashMap<>();
 	}
 	
 	public void cancelShutdown(){
@@ -168,6 +182,36 @@ public final class ServerManager extends Manager<Core> {
 	
 	public Set<String> getServerNames(){
 		return networkPlayers.keySet();
+	}
+	
+	public HashMap<String,PlayerState> getPlayerStates() {
+		return playerStates;
+	}
+	
+	@Nullable
+	public PlayerState getPlayerState(String uuid){
+		return playerStates.get(uuid);
+	}
+	
+	@Nullable
+	public PlayerState getPlayerStateByName(String name){
+		for(PlayerState state : playerStates.values()){
+			if(state.getName().equalsIgnoreCase(name)){
+				return state;
+			}
+		}
+		return null;
+	}
+	
+	public void setPlayerStates(List<RawPlayerState> rawStates){
+		playerStates = new HashMap<>();
+		for(RawPlayerState state : rawStates){
+			playerStates.put(state.getUUID(), new PlayerState(state));
+		}
+	}
+	
+	public void sendStateUpdate(Player player, Profile profile){
+		playerStateUpdatePMSC.send(player, player, profile.isAFK(), profile.isVanished());
 	}
 	
 }

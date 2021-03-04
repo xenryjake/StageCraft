@@ -1,5 +1,6 @@
 package com.xenry.stagecraft.survival.gameplay.enchantment.autosmelt;
 import com.xenry.stagecraft.survival.gameplay.enchantment.CustomEnchantment;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentTarget;
@@ -29,6 +30,11 @@ public final class OreSmeltingEnchantment extends CustomEnchantment {
 	@Override
 	public boolean canEnchantItem(@NotNull ItemStack item) {
 		return item.getEnchantmentLevel(Enchantment.SILK_TOUCH) == 0 && types.contains(item.getType());
+	}
+	
+	@Override
+	public @NotNull Component displayName(int i) {
+		return Component.text("Ore Smelting");
 	}
 	
 	@Override

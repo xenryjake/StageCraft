@@ -1,5 +1,6 @@
 package com.xenry.stagecraft.survival.gameplay.enchantment.growth;
 import com.xenry.stagecraft.survival.gameplay.enchantment.CustomEnchantment;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.enchantments.EnchantmentTarget;
 import org.bukkit.inventory.ItemStack;
@@ -44,6 +45,11 @@ public final class GrowthEnchantment extends CustomEnchantment {
 	@Override
 	public boolean canEnchantItem(@NotNull ItemStack item) {
 		return types.contains(item.getType());
+	}
+	
+	@Override
+	public @NotNull Component displayName(int i) {
+		return Component.text("Growth " + levelToRoman(i));
 	}
 	
 	@Override

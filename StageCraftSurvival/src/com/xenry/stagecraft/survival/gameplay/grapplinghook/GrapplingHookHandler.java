@@ -180,6 +180,7 @@ public final class GrapplingHookHandler extends Handler<Survival,GameplayManager
 		return item.getType() == Material.PLAYER_HEAD && im != null && im.getEnchantLevel(CustomEnchantment.SPECIAL_ITEM) > 0 && im.getDisplayName().equals(FUEL_NAME);
 	}
 	
+	@SuppressWarnings("ConstantConditions")
 	public boolean useFuelItem(Player player){
 		Inventory inv = player.getInventory();
 		for(ItemStack is : inv.getStorageContents()){

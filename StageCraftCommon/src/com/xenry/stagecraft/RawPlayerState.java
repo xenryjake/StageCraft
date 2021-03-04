@@ -14,14 +14,14 @@ public class RawPlayerState implements Serializable {
 	
 	private final String uuid;
 	private final String name;
-	private boolean afk;
-	//private boolean vanished;
+	private String serverName;
+	private boolean afk = false;
+	private boolean vanished = false;
 	
-	public RawPlayerState(String uuid, String name, boolean afk) {
+	public RawPlayerState(String uuid, String name, String serverName) {
 		this.uuid = uuid;
 		this.name = name;
-		this.afk = afk;
-		//this.vanished = vanished;
+		this.serverName = serverName;
 	}
 	
 	public String getUUID() {
@@ -32,6 +32,14 @@ public class RawPlayerState implements Serializable {
 		return name;
 	}
 	
+	public String getServerName() {
+		return serverName;
+	}
+	
+	public void setServerName(String serverName) {
+		this.serverName = serverName;
+	}
+	
 	public boolean isAFK() {
 		return afk;
 	}
@@ -40,12 +48,12 @@ public class RawPlayerState implements Serializable {
 		this.afk = afk;
 	}
 	
-	/*public boolean isVanished() {
+	public boolean isVanished() {
 		return vanished;
 	}
 	
 	public void setVanished(boolean vanished) {
 		this.vanished = vanished;
-	}*/
+	}
 	
 }

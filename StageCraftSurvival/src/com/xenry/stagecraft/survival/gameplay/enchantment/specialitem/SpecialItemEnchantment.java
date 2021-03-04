@@ -1,5 +1,6 @@
 package com.xenry.stagecraft.survival.gameplay.enchantment.specialitem;
 import com.xenry.stagecraft.survival.gameplay.enchantment.CustomEnchantment;
+import net.kyori.adventure.text.Component;
 import org.bukkit.enchantments.EnchantmentTarget;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -20,6 +21,11 @@ public final class SpecialItemEnchantment extends CustomEnchantment {
 	@Override
 	public boolean canEnchantItem(@NotNull ItemStack item) {
 		return true;
+	}
+	
+	@Override
+	public @NotNull Component displayName(int i) {
+		return Component.text("");
 	}
 	
 	@SuppressWarnings("ConstantConditions")

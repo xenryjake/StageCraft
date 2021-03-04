@@ -83,7 +83,7 @@ public final class Bungee extends Plugin {
 	
 	@Override
 	public final void onDisable() {
-		Log.info("Disabling  managers...");
+		Log.info("Disabling managers...");
 		try{
 			ArrayList<Manager> reversed = new ArrayList<>(managers);
 			Collections.reverse(reversed);

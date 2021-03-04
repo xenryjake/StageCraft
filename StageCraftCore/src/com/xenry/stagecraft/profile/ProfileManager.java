@@ -3,6 +3,8 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.xenry.stagecraft.Manager;
 import com.xenry.stagecraft.Core;
+import com.xenry.stagecraft.integration.AFKChangeEvent;
+import com.xenry.stagecraft.integration.VanishChangeEvent;
 import com.xenry.stagecraft.profile.commands.*;
 import com.xenry.stagecraft.profile.commands.rank.RankCommand;
 import com.xenry.stagecraft.profile.permissions.PermissionHandler;
@@ -71,7 +73,6 @@ public final class ProfileManager extends Manager<Core> {
 		registerCommand(new NameColorCommand(this));
 		registerCommand(new PlaytimeCommand(this));
 		registerCommand(new MeCommand(this));
-		registerCommand(new ProfileListCommand(this));
 		
 		//downloadProfiles();
 	}
@@ -261,6 +262,18 @@ public final class ProfileManager extends Manager<Core> {
 		save(profile);
 		profiles.remove(profile.getUUID());
 		//event.setQuitMessage(" §c-§7 " + player.getDisplayName());
+	}
+	
+	@EventHandler
+	public void onAFK(AFKChangeEvent event){
+		event.profile.setAFK(event.state);
+		plugin.getServerManager().sendStateUpdate(event.profile.getPlayer(), event.profile);
+	}
+	
+	@EventHandler
+	public void onVanish(VanishChangeEvent event){
+		event.profile.setVanished(event.state);
+		plugin.getServerManager().sendStateUpdate(event.profile.getPlayer(), event.profile);
 	}
 	
 }

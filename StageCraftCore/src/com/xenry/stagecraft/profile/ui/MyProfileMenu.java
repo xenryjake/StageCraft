@@ -35,7 +35,7 @@ public final class MyProfileMenu extends Menu<Core,ProfileManager> {
 		if(profile == null){
 			ItemStack is = new ItemStack(Material.BARRIER);
 			ItemMeta im = is.getItemMeta();
-			im.setDisplayName("§cError loading profile.");
+			im.setDisplayName(M.err + "Error loading profile.");
 			is.setItemMeta(im);
 			contents.set(2, 4, new Item(is));
 			return;
@@ -44,7 +44,7 @@ public final class MyProfileMenu extends Menu<Core,ProfileManager> {
 			ItemStack is = SkullUtil.getSkullFromOwnerName(profile.getLatestUsername());
 			ItemMeta im = is.getItemMeta();
 			im.setDisplayName(profile.getDisplayName() + M.msg + "'s Profile");
-			im.setLore(Collections.singletonList("§7" + profile.getUUID()));
+			im.setLore(Collections.singletonList(M.gry + profile.getUUID()));
 			is.setItemMeta(im);
 			contents.set(1, 4, new Item(is));
 		}{
