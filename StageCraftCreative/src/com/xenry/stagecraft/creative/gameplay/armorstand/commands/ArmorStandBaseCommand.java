@@ -36,7 +36,7 @@ public final class ArmorStandBaseCommand extends AbstractArmorStandCommand {
 		}
 		boolean state = !as.hasBasePlate();
 		as.setBasePlate(state);
-		player.sendMessage(M.msg + "This armor stand's base plate is now " + (state ? "§avisible" : "§chidden") + M.msg + ".");
+		player.sendMessage(M.msg + "This armor stand's base plate is now " + M.bool(state, "visible", "hidden") + M.msg + ".");
 	}
 	
 	@Override

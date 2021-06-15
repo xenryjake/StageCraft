@@ -5,14 +5,9 @@
       <item index="0" class="java.lang.String" itemvalue="net.md_5.bungee.event.EventHandler" />
       <item index="1" class="java.lang.String" itemvalue="org.bukkit.event.EventHandler" />
     </list>
-    <pattern value="com.xenry.stagecraft.builder.BuildArea" />
-    <pattern value="com.xenry.stagecraft.builder.BuildArea" method="setAZ" />
-    <pattern value="com.xenry.stagecraft.builder.BuildArea" method="setBX" />
-    <pattern value="com.xenry.stagecraft.builder.BuildArea" method="setBZ" />
-    <pattern value="com.xenry.stagecraft.builder.BuildArea" method="setName" />
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="openjdk-16" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
 </project>

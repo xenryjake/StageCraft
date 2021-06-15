@@ -28,7 +28,7 @@ public final class Fun extends StageCraftPlugin {
 			teleportationManager = loadManager(TeleportationManager.class);
 		}catch(Exception ex){
 			ex.printStackTrace();
-			Log.severe("Something went wrong while loading the SkyBlock managers!");
+			Log.severe("Something went wrong while loading the Fun managers!");
 		}
 	}
 	

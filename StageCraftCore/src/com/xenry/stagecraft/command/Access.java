@@ -16,8 +16,7 @@ public interface Access {
 	
 	boolean has(@NotNull CommandSender sender);
 	
-	class True implements Access {
-		
+	Access TRUE = new Access() {
 		@Override
 		public boolean has(@NotNull Profile profile) {
 			return true;
@@ -27,22 +26,19 @@ public interface Access {
 		public boolean has(@NotNull CommandSender sender) {
 			return true;
 		}
-		
-	}
+	};
 	
-	class False implements Access {
-		
+	Access FALSE = new Access() {
 		@Override
 		public boolean has(@NotNull Profile profile) {
-			return false;
+			return true;
 		}
 		
 		@Override
 		public boolean has(@NotNull CommandSender sender) {
-			return false;
+			return true;
 		}
-		
-	}
+	};
 	
 	class Any implements Access {
 		

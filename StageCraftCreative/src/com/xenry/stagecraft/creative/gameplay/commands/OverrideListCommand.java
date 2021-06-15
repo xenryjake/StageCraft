@@ -35,7 +35,7 @@ public final class OverrideListCommand extends Command<Creative,GameplayManager>
 		sb.append(M.msg).append("Players in override mode: ");
 		String message;
 		if(manager.getPlayerOverrides().size() == 0){
-			sb.append("§cnone");
+			sb.append(M.err).append("none");
 			message = sb.toString();
 		}else{
 			for(String name : manager.getPlayerOverrides()){

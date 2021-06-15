@@ -82,7 +82,7 @@ public final class ServerManager extends Manager<Core> {
 	
 	@EventHandler
 	public void onListPing(ServerListPingEvent event){
-		event.setMotd("StageCraft internal server. Connect to proxy.");
+		event.setMotd("Internal server. Connect to the proxy.");
 	}
 	
 	@EventHandler

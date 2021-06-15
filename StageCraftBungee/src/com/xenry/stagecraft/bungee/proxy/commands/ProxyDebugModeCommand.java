@@ -1,7 +1,7 @@
 package com.xenry.stagecraft.bungee.proxy.commands;
 
 import com.xenry.stagecraft.bungee.Bungee;
-import com.xenry.stagecraft.bungee.commands.ProxyCommand;
+import com.xenry.stagecraft.bungee.commands.ProxyAdminCommand;
 import com.xenry.stagecraft.bungee.proxy.ProxyManager;
 import com.xenry.stagecraft.bungee.util.Log;
 import com.xenry.stagecraft.bungee.util.M;
@@ -18,17 +18,17 @@ import java.util.Collections;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public final class ProxyDebugModeCommand extends ProxyCommand<ProxyManager> {
+public final class ProxyDebugModeCommand extends ProxyAdminCommand<ProxyManager> {
 	
 	public ProxyDebugModeCommand(ProxyManager manager){
-		super(manager, "proxydebugmode", "stagecraft.admin", "proxydebug");
+		super(manager, "proxydebugmode", "proxydebug");
 	}
 	
 	@Override
 	public void execute(CommandSender sender, String[] args) {
 		boolean enabled = Bungee.betaFeaturesEnabled();
 		if(args.length < 1){
-			sender.sendMessage(M.msg("Proxy debug mode is currently " + (enabled ? "§aenabled" : "§cdisabled") + M.msg + "."));
+			sender.sendMessage(M.msg("Proxy debug mode is currently " + M.enabledDisabled(enabled) + M.msg + "."));
 			sender.sendMessage(M.usage("/proxydebugmode <on|off>"));
 			return;
 		}
@@ -44,14 +44,14 @@ public final class ProxyDebugModeCommand extends ProxyCommand<ProxyManager> {
 			return;
 		}
 		manager.plugin.setDebugMode(enabled);
-		sender.sendMessage(M.msg("Proxy debug mode is now " + (enabled ? "§aenabled" : "§cdisabled") + M.msg + "."));
+		sender.sendMessage(M.msg("Proxy debug mode is now " + M.enabledDisabled(enabled) + M.msg + "."));
 		for(ProxiedPlayer player : manager.plugin.getProxy().getPlayers()){
 			if(hasPermission(player) && player != sender){
-				player.sendMessage(M.msg(M.elm + sender.getName() + (enabled ? " §aenabled" : " §cdisabled")
+				player.sendMessage(M.msg(M.elm + sender.getName() + M.enabledDisabled(enabled)
 						+ M.msg + " proxy debug mode"));
 			}
 		}
-		Log.info(M.elm + sender.getName() + (enabled ? " §aenabled" : " §cdisabled") + M.msg + " proxy debug mode.");
+		Log.info(M.elm + sender.getName() + M.enabledDisabled(enabled) + M.msg + " proxy debug mode.");
 	}
 	
 	@Override

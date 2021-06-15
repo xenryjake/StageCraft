@@ -30,7 +30,7 @@ public final class VillagersDamageCommand extends PlayerCommand<Survival,Gamepla
 		VillagersHandler vh = manager.getVillagersHandler();
 		boolean status = vh.hasVillagerDamageEnabled(player);
 		if(args.length < 1){
-			profile.sendMessage(M.msg + "You currently have villager damage " + (status ? "§aenabled" : "§cdisabled") + M.msg + ".");
+			profile.sendMessage(M.msg + "You currently have villager damage " + M.enabledDisabled(status) + M.msg + ".");
 			return;
 		}
 		args[0] = args[0].toLowerCase();
@@ -50,7 +50,7 @@ public final class VillagersDamageCommand extends PlayerCommand<Survival,Gamepla
 			return;
 		}
 		vh.setVillagerDamageEnabled(player, enable);
-		profile.sendMessage(M.msg + "Villager damage " + (enable ? "§aenabled" : "§cdisabled") + M.msg + ".");
+		profile.sendMessage(M.msg + "Villager damage " + M.enabledDisabled(enable) + M.msg + ".");
 	}
 	
 	@Override

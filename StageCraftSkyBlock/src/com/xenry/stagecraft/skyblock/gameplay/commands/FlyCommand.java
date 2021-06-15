@@ -45,9 +45,9 @@ public final class FlyCommand extends Command<SkyBlock,GameplayManager> {
 		if(!target.getAllowFlight()){
 			target.setFlying(false);
 		}
-		target.sendMessage(M.msg + "Fly mode " + (enabled ? "§aenabled" : "§cdisabled") + M.msg + ".");
+		target.sendMessage(M.msg + "Fly mode " + M.enabledDisabled(enabled) + M.msg + ".");
 		if(profile.getPlayer() != target){
-			profile.sendMessage(M.msg + "Fly mode " + (enabled ? "§aenabled" : "§cdisabled") + M.msg + " for "
+			profile.sendMessage(M.msg + "Fly mode " + M.enabledDisabled(enabled) + M.msg + " for "
 					+ M.elm + target.getName() + M.msg + ".");
 		}
 	}
@@ -66,8 +66,8 @@ public final class FlyCommand extends Command<SkyBlock,GameplayManager> {
 		if(!target.getAllowFlight()){
 			target.setFlying(false);
 		}
-		target.sendMessage(M.msg + "Fly mode " + (enabled ? "§aenabled" : "§cdisabled") + M.msg + ".");
-		sender.sendMessage(M.msg + "Fly mode " + (enabled ? "§aenabled" : "§cdisabled") + M.msg + " for "
+		target.sendMessage(M.msg + "Fly mode " + M.enabledDisabled(enabled) + M.msg + ".");
+		sender.sendMessage(M.msg + "Fly mode " + M.enabledDisabled(enabled) + M.msg + " for "
 				+ M.elm + target.getName() + M.msg + ".");
 	}
 	

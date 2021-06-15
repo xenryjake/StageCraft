@@ -79,7 +79,7 @@ public final class AcceptRulesHandler extends Handler<Survival,GameplayManager> 
 			return;
 		}
 		player.sendMessage(M.elm + M.BOLD + "You must accept the rules before playing.");
-		player.sendMessage(M.msg + "View the §a§lStage§9§lCraft" + M.msg + " server rules at " + M.elm + "town hall" + M.msg + " or at " + M.elm + M.BOLD + "http://mc.xenry.com/rules");
+		player.sendMessage(M.msg + "View the " + M.SERVER_NAME_FORMATTED + M.msg + " server rules at " + M.elm + "town hall" + M.msg + " or at " + M.elm + M.BOLD + "http://mc.xenry.com/rules");
 	}
 	
 }

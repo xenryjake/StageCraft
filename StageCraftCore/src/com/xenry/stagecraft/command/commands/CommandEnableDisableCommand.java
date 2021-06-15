@@ -51,11 +51,11 @@ public final class CommandEnableDisableCommand extends Command<Core,CommandManag
 		}
 		boolean disable = label.startsWith("dis");
 		command.setDisabled(disable);
-		sender.sendMessage(M.elm + args[0] + M.msg + " has been " + (disable ? "§cdisabled" : "§aenabled") + M.msg
+		sender.sendMessage(M.elm + args[0] + M.msg + " has been " + M.enabledDisabled(!disable) + M.msg
 				+ " until the next server restart.");
 		
 		String senderName = sender instanceof Player ? sender.getName() : M.CONSOLE_NAME;
-		String notification = M.elm + senderName + M.msg + (disable ? " §cdisabled" : " §aenabled") + M.msg + " the command "
+		String notification = M.elm + senderName + M.msg + M.enabledDisabled(!disable) + M.msg + " the command "
 				+ M.elm + args[0] + M.msg + ".";
 		Log.toCS(notification);
 		for(Profile profile : manager.plugin.getProfileManager().getOnlineProfiles()){

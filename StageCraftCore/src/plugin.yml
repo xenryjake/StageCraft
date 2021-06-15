@@ -10,12 +10,6 @@ commands:
   commands:
     description: "Manage commands"
     aliases: [command,cmds,cmd]
-  webregister:
-    description: "Register with the online map"
-    aliases: [webreg]
-  waypoint:
-    description: "Manage waypoints"
-    aliases: [wayp,wp]
   info:
     description: "View info about the server"
     aliases: [information,help]

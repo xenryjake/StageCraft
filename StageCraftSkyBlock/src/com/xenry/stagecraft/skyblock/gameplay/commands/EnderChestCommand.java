@@ -1,4 +1,5 @@
 package com.xenry.stagecraft.skyblock.gameplay.commands;
+import com.xenry.stagecraft.command.Access;
 import com.xenry.stagecraft.command.PlayerCommand;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
@@ -21,6 +22,8 @@ import java.util.List;
  */
 public final class EnderChestCommand extends PlayerCommand<SkyBlock,GameplayManager> {
 	
+	public static final Access OTHERS = Rank.ADMIN;
+	
 	public EnderChestCommand(GameplayManager manager){
 		super(manager, Rank.ADMIN, "enderchest", "echest", "ec");
 	}
@@ -28,7 +31,7 @@ public final class EnderChestCommand extends PlayerCommand<SkyBlock,GameplayMana
 	@Override
 	protected void playerPerform(Profile profile, String[] args, String label) {
 		Player target;
-		if(args.length < 1 || !profile.getPlayer().hasPermission("stagecraft.enderchest.others")){
+		if(args.length < 1 || !OTHERS.has(profile)){
 			target = profile.getPlayer();
 		}else{
 			target = Bukkit.getPlayer(args[0]);

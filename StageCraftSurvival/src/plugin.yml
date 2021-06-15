@@ -7,6 +7,13 @@ depend: [StageCraftCore]
 softdepend: [ProtocolLib,Vault,Essentials,TitleManager,GriefPrevention]
 commands:
 
+  webregister:
+    description: "Register with the online map"
+    aliases: [webreg]
+  waypoint:
+    description: "Manage waypoints"
+    aliases: [wayp,wp]
+
   # BUILDER COMMANDS
 #  builder:
 #    description: "Toggle builder mode"

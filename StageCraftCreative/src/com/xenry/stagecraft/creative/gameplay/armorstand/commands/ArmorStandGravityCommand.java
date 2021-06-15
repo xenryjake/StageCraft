@@ -37,7 +37,7 @@ public final class ArmorStandGravityCommand extends AbstractArmorStandCommand {
 		}
 		boolean state = !as.hasGravity();
 		as.setGravity(state);
-		player.sendMessage(M.msg + "This armor stand's gravity has been " + (state ? "§aenabled" : "§cdisabled") + M.msg + ".");
+		player.sendMessage(M.msg + "This armor stand's gravity has been " + M.bool(state, "visible", "hidden") + M.msg + ".");
 	}
 	
 	@Override

@@ -1,5 +1,5 @@
 package com.xenry.stagecraft.bungee.proxy.commands;
-import com.xenry.stagecraft.bungee.commands.ProxyCommand;
+import com.xenry.stagecraft.bungee.commands.ProxyAdminCommand;
 import com.xenry.stagecraft.bungee.proxy.ProxyManager;
 import com.xenry.stagecraft.bungee.util.M;
 import net.md_5.bungee.api.CommandSender;
@@ -11,10 +11,10 @@ import net.md_5.bungee.api.CommandSender;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public final class ProxyConfigReloadCommand extends ProxyCommand<ProxyManager> {
+public final class ProxyConfigReloadCommand extends ProxyAdminCommand<ProxyManager> {
 	
 	public ProxyConfigReloadCommand(ProxyManager manager){
-		super(manager, "proxyconfigreload", "stagecraft.admin");
+		super(manager, "proxyconfigreload");
 	}
 	
 	@Override

@@ -37,7 +37,7 @@ public final class ArmorStandInvisibleCommand extends AbstractArmorStandCommand 
 		}
 		boolean invisible = !as.isInvisible();
 		as.setInvisible(invisible);
-		player.sendMessage(M.msg + "This armor stand is now " + (invisible ? "§cinvisible" : "§avisible") + M.msg + ".");
+		player.sendMessage(M.msg + "This armor stand is now " + M.bool(invisible, "invisible", "visible") + M.msg + ".");
 	}
 	
 	@Override

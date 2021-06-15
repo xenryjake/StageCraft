@@ -37,7 +37,7 @@ public final class DebugModeCommand extends Command<Core,ServerManager> {
 	protected void serverPerform(CommandSender sender, String[] args, String label) {
 		boolean enabled = Core.isDebugMode();
 		if(args.length < 1){
-			sender.sendMessage(M.msg + "Debug mode is currently " + (enabled ? "§aenabled" : "§cdisabled") + M.msg + ".");
+			sender.sendMessage(M.msg + "Debug mode is currently " + M.enabledDisabled(enabled) + M.msg + ".");
 			sender.sendMessage(M.usage("/" + label + " <on|off>"));
 			return;
 		}
@@ -53,14 +53,14 @@ public final class DebugModeCommand extends Command<Core,ServerManager> {
 			return;
 		}
 		manager.plugin.setDebugMode(enabled);
-		sender.sendMessage(M.msg + "Debug mode is now " + (enabled ? "§aenabled" : "§cdisabled") + M.msg + ".");
+		sender.sendMessage(M.msg + "Debug mode is now " + M.enabledDisabled(enabled) + M.msg + ".");
 		for(Player player : Bukkit.getOnlinePlayers()){
 			if(access.has(player)){
-				player.sendMessage(M.elm + sender.getName() + (enabled ? " §aenabled" : " §cdisabled")
+				player.sendMessage(M.elm + sender.getName() + M.enabledDisabled(enabled)
 						+ M.msg + " debug mode");
 			}
 		}
-		Log.toCS(M.elm + sender.getName() + (enabled ? " §aenabled" : " §cdisabled") + M.msg + " debug mode.");
+		Log.toCS(M.elm + sender.getName() + M.enabledDisabled(enabled) + M.msg + " debug mode.");
 	}
 	
 	@Override

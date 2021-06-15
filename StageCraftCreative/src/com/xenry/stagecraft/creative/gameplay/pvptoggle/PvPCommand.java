@@ -56,12 +56,12 @@ public final class PvPCommand extends Command<Creative,GameplayManager> {
 			value = false;
 		}else{
 			value = profile.getSetting(Setting.CREATIVE_PVP_ENABLED);
-			sender.sendMessage(M.elm + target.getName() + M.msg + "'s PvP is currently " + (value ? "§aon" : "§coff") + M.msg + ".");
+			sender.sendMessage(M.elm + target.getName() + M.msg + "'s PvP is currently " + M.onOff(value) + M.msg + ".");
 			return;
 		}
 		profile.setSetting(Setting.CREATIVE_PVP_ENABLED, value);
-		sender.sendMessage(M.elm + target.getName() + M.msg + "'s PvP is now " + (value ? "§aon" : "§coff") + M.msg + ".");
-		target.sendMessage(M.msg + "Your PvP is now " + (value ? "§aon" : "§coff") + M.msg + ".");
+		sender.sendMessage(M.elm + target.getName() + M.msg + "'s PvP is now " + M.onOff(value) + M.msg + ".");
+		target.sendMessage(M.msg + "Your PvP is now " + M.onOff(value) + M.msg + ".");
 	}
 	
 	@Override
@@ -96,14 +96,14 @@ public final class PvPCommand extends Command<Creative,GameplayManager> {
 			value = false;
 		}else{
 			value = targetProfile.getSetting(Setting.CREATIVE_PVP_ENABLED);
-			profile.sendMessage((profile == targetProfile ? M.msg + "Your" : M.elm + target.getName() + M.msg + "'s") + " PvP is currently " + (value ? "§aon" : "§coff") + M.msg + ".");
+			profile.sendMessage((profile == targetProfile ? M.msg + "Your" : M.elm + target.getName() + M.msg + "'s") + " PvP is currently " + M.onOff(value) + M.msg + ".");
 		}
 		targetProfile.setSetting(Setting.CREATIVE_PVP_ENABLED, value);
 		if(profile == targetProfile){
-			profile.sendMessage(M.msg + "Your PvP is now " + (value ? "§aon" : "§coff") + M.msg + ".");
+			profile.sendMessage(M.msg + "Your PvP is now " + M.onOff(value) + M.msg + ".");
 		}else{
-			profile.sendMessage(M.elm + target.getName() + M.msg + "'s PvP is now " + (value ? "§aon" : "§coff") + M.msg + ".");
-			target.sendMessage(M.msg + "Your PvP is now " + (value ? "§aon" : "§coff") + M.msg + ".");
+			profile.sendMessage(M.elm + target.getName() + M.msg + "'s PvP is now " + M.onOff(value) + M.msg + ".");
+			target.sendMessage(M.msg + "Your PvP is now " + M.onOff(value) + M.msg + ".");
 		}
 	}
 	

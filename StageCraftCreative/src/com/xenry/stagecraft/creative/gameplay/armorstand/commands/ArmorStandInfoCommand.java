@@ -47,9 +47,9 @@ public final class ArmorStandInfoCommand extends AbstractArmorStandCommand {
 		if(name != null && !name.isEmpty()){
 			player.sendMessage(M.arrow("Custom name: " + M.WHITE + name));
 		}
-		player.sendMessage(M.arrow("Is small: " + (small ? "§atrue" : "§cfalse")));
-		player.sendMessage(M.arrow("Has arms: " + (arms ? "§atrue" : "§cfalse")));
-		player.sendMessage(M.arrow("Has base plate: " + (basePlate ? "§atrue" : "§cfalse")));
+		player.sendMessage(M.arrow("Is small: " + M.trueFalse(small)));
+		player.sendMessage(M.arrow("Has arms: " + M.trueFalse(arms)));
+		player.sendMessage(M.arrow("Has base plate: " + M.trueFalse(basePlate)));
 		player.sendMessage(M.arrow("Body pose: " + M.elm + display(body.getX()) + M.msg + ", "
 				+ M.elm + display(body.getY()) + M.msg + ", " + M.elm + display(body.getZ())));
 		player.sendMessage(M.arrow("Head pose: " + M.elm + display(head.getX()) + M.msg + ", "

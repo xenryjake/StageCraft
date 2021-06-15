@@ -2,6 +2,7 @@ package com.xenry.stagecraft.survival.profile;
 import com.xenry.stagecraft.profile.GenericProfile;
 import com.xenry.stagecraft.survival.economy.Currency;
 import com.xenry.stagecraft.util.LocationVector;
+import com.xenry.stagecraft.util.M;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -160,7 +161,7 @@ public class SurvivalProfile extends GenericProfile {
 		int newAmount = getCurrency(currency) + amount;
 		if(!currency.canBeNegative() && newAmount < 0) newAmount = 0;
 		if(notify && isOnline()){
-			sendMessage("§b" + currency.getName() + (amount < 0 ? "§c-" : "§a+") + currency.getDisplay(amount));
+			sendMessage(M.AQUA + currency.getName() + M.bool(amount < 0, "-", "+") + currency.getDisplay(amount));
 		}
 		setCurrency(currency, newAmount);
 	}

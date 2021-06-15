@@ -2,6 +2,7 @@ package com.xenry.stagecraft.bungee.proxy;
 import com.xenry.stagecraft.bungee.Bungee;
 import com.xenry.stagecraft.bungee.Manager;
 import com.xenry.stagecraft.bungee.proxy.commands.*;
+import com.xenry.stagecraft.bungee.util.M;
 import net.md_5.bungee.BungeeTitle;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ServerPing;
@@ -165,7 +166,7 @@ public final class ProxyManager extends Manager {
 	}
 	
 	private void shutdownNow(){
-		ComponentBuilder cb = new ComponentBuilder("StageCraft is shutting down.").color(ChatColor.RED);
+		ComponentBuilder cb = new ComponentBuilder(M.SERVER_NAME_RAW + " is shutting down.").color(ChatColor.RED);
 		if(shutdownReason != null && !shutdownReason.isEmpty()){
 			cb.append("\n" + shutdownReason).color(ChatColor.WHITE);
 		}

@@ -3,7 +3,6 @@ import com.earth2me.essentials.Essentials;
 import com.xenry.stagecraft.Core;
 import com.xenry.stagecraft.Handler;
 import com.xenry.stagecraft.profile.Profile;
-import com.xenry.stagecraft.util.Log;
 import net.ess3.api.IUser;
 import net.ess3.api.events.AfkStatusChangeEvent;
 import net.ess3.api.events.VanishStatusChangeEvent;

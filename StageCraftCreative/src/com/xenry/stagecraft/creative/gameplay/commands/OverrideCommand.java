@@ -66,7 +66,7 @@ public final class OverrideCommand extends Command<Creative,GameplayManager> {
 				sender.sendMessage(M.error("Invalid state. Please specify on, off, or toggle."));
 				return;
 		}
-		String enableDisable = state ? "§aenabled" : "§cdisabled";
+		String enableDisable = M.enabledDisabled(state);
 		if(state == manager.isPlayerOverride(sender)){
 			sender.sendMessage(M.error("You already have override mode " + enableDisable + M.err + "."));
 			return;
@@ -107,7 +107,7 @@ public final class OverrideCommand extends Command<Creative,GameplayManager> {
 				sender.sendMessage(M.error("Invalid state. Please specify on, off, or toggle."));
 				return;
 		}
-		String enableDisable = state ? "§aenabled" : "§cdisabled";
+		String enableDisable = M.enabledDisabled(state);
 		if(state == manager.isPlayerOverride(target)){
 			sender.sendMessage(M.error((self ? "You already have" : M.elm + target.getName() + M.err + " already has")
 					+ " override mode " + enableDisable + M.err + "."));

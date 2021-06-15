@@ -63,7 +63,7 @@ public final class MyProfileMenu extends Menu<Core,ProfileManager> {
 			boolean online = profile.isOnline();
 			ItemStack is = new ItemStack(online ? Material.LIME_DYE : Material.LIGHT_GRAY_DYE);
 			ItemMeta im = is.getItemMeta();
-			im.setDisplayName(online ? "§aOnline" : "§cOffline");
+			im.setDisplayName(M.bool(online, "Online", "Offline"));
 			im.setLore(Collections.singletonList(M.WHITE + TimeUtil.simplerString(profile.getSecondsSinceLastLogin(manager.plugin.getServerName()))));
 			is.setItemMeta(im);
 			contents.set(3, 6, new Item(is));
@@ -103,7 +103,7 @@ public final class MyProfileMenu extends Menu<Core,ProfileManager> {
 			boolean online = profile.isOnline();
 			ItemStack is = new ItemStack(online ? Material.LIME_DYE : Material.LIGHT_GRAY_DYE);
 			ItemMeta im = is.getItemMeta();
-			im.setDisplayName(online ? "§aOnline" : "§cOffline");
+			im.setDisplayName(M.bool(online, "Online", "Offline"));
 			im.setLore(Collections.singletonList(M.WHITE + TimeUtil.simplerString(profile.getSecondsSinceLastLogin(manager.plugin.getServerName()))));
 			is.setItemMeta(im);
 			contents.set(3, 6, new Item(is));

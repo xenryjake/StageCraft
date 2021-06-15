@@ -32,10 +32,10 @@ public final class InfoCommand extends Command<Core,CommandManager> {
 	@Override
 	protected void serverPerform(CommandSender sender, String[] args, String label) {
 		sender.sendMessage();
-		sender.sendMessage(M.msg + "   Welcome to §9§lStage§a§lCraft§3!");
-		sender.sendMessage(M.msg + "Visit our website at §emc.xenry.com");
-		sender.sendMessage(M.msg + "For a list of commands, see §emc.xenry.com/info");
-		sender.sendMessage(M.msg + "Before you play, please accept the rules: §emc.xenry.com/rules");
+		sender.sendMessage(M.msg + "   Welcome to " + M.SERVER_NAME_FORMATTED + M.msg + "!");
+		sender.sendMessage(M.msg + "Visit our website at " + M.elm + "mc.xenry.com");
+		sender.sendMessage(M.msg + "For a list of commands, see " + M.elm + "mc.xenry.com/info");
+		sender.sendMessage(M.msg + "Before you play, please accept the rules: " + M.elm + "mc.xenry.com/rules");
 		sender.sendMessage();
 		sender.sendMessage(M.msg + "We have a Survival Server and a Creative Server!");
 		sender.sendMessage(M.msg + "Type " + M.elm + "/survival" + M.msg + " or " + M.elm + "/creative" + M.msg + " to change servers.");

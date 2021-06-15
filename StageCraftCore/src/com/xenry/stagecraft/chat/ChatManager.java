@@ -128,7 +128,7 @@ public final class ChatManager extends Manager<Core> {
 				.append(TextComponent.fromLegacyText("§r" + chatEvent.getPrefix()
 						+ (chatEvent.prefixContainsText() ? " " : "")))
 				.append(TextComponent.fromLegacyText(chatEvent.getDisplayName())).event(he).event(ce)
-				.append(TextComponent.fromLegacyText("§8:§r ")).event((ClickEvent)null).event((HoverEvent)null)
+				.append(TextComponent.fromLegacyText(M.DGRAY + ":§r ")).event((ClickEvent)null).event((HoverEvent)null)
 				.append(TextComponent.fromLegacyText(chatEvent.getMessage(), ChatColor.WHITE)).create();
 		playerChatPMSC.send(player, message);
 		Log.toCS(message);

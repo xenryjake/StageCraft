@@ -12,6 +12,7 @@ import com.xenry.stagecraft.creative.gameplay.rules.RulesCommand;
 import com.xenry.stagecraft.creative.gameplay.sign.SignCommand;
 import com.xenry.stagecraft.creative.gameplay.sign.SignEditHandler;
 import com.xenry.stagecraft.util.Log;
+import com.xenry.stagecraft.util.M;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
@@ -176,15 +177,15 @@ public final class GameplayManager extends Manager<Creative> {
 	
 	public void setLockoutMode(boolean lockoutMode, String senderName) {
 		this.lockoutMode = lockoutMode;
-		String enableDisable = lockoutMode ? "§aenabled§b" : "§cdisabled§b";
+		String enableDisable = M.enabledDisabled(lockoutMode) + M.AQUA;
 		Log.toCS("");
-		Log.toCS("§e" + senderName + "§b has " + enableDisable + " lockout mode.");
+		Log.toCS(M.elm + senderName + M.AQUA + " has " + enableDisable + " lockout mode.");
 		Log.toCS("");
 		for(Player player : Bukkit.getOnlinePlayers()){
 			if(LockoutCommand.ACCESS.has(player)){
-				player.sendMessage("§r\n§e" + senderName + "§b has " + enableDisable + " lockout mode.\n§r");
+				player.sendMessage("§r\n" + M.elm + senderName + M.AQUA + " has " + enableDisable + " lockout mode.\n§r");
 			}else{
-				player.sendMessage("§r\n§bLockout mode has been " + enableDisable + ".\n§r");
+				player.sendMessage("§r\n" + M.AQUA + "Lockout mode has been " + enableDisable + ".\n§r");
 			}
 		}
 	}

@@ -43,7 +43,7 @@ public final class WarpInfoCommand extends Command<SkyBlock,TeleportationManager
 			return;
 		}
 		
-		String aliasString = "§fnone";
+		String aliasString = M.WHITE + "none";
 		List<String> aliases = warp.getAliases();
 		if(!aliases.isEmpty()){
 			StringBuilder sb = new StringBuilder();

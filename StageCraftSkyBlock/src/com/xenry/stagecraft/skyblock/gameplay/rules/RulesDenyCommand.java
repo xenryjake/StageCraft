@@ -31,7 +31,7 @@ public final class RulesDenyCommand extends PlayerCommand<SkyBlock,GameplayManag
 			throw new NullPointerException("No SurvivalProfile exists for " + profile.getLatestUsername());
 		}
 		sp.setHasAcceptedRules(false);
-		profile.getPlayer().kickPlayer(M.err + "You cannot play on StageCraft if you do not accept the rules.");
+		profile.getPlayer().kickPlayer(M.err + "You cannot play on " + M.SERVER_NAME_RAW + " if you do not accept the rules.");
 	}
 	
 	@Override

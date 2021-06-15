@@ -51,13 +51,13 @@ public final class PlaytimeCommand extends Command<Core,ProfileManager> {
 		}
 		String serverName = manager.plugin.getServerName();
 		if(args.length >= 2){
-			serverName = args[2].toLowerCase();
+			serverName = args[1].toLowerCase();
 		}
 		long serverPlaytime = target.getPlaytime(serverName);
 		sender.sendMessage(M.elm + target.getLatestUsername() + M.msg + "'s playtime:");
 		sender.sendMessage(M.arrow("Total: " + M.WHITE + TimeUtil.simplerString(target.getTotalPlaytime())));
 		if(serverPlaytime > 0){
-			sender.sendMessage(M.arrow(manager.plugin.getServerName() + ": " + M.WHITE + TimeUtil.simplerString(target.getPlaytime(manager.plugin.getServerName()))));
+			sender.sendMessage(M.arrow(manager.plugin.getServerName() + ": " + M.WHITE + TimeUtil.simplerString(serverPlaytime)));
 		}
 	}
 	
@@ -83,13 +83,13 @@ public final class PlaytimeCommand extends Command<Core,ProfileManager> {
 		}
 		String serverName = manager.plugin.getServerName();
 		if(args.length >= 2){
-			serverName = args[2].toLowerCase();
+			serverName = args[1].toLowerCase();
 		}
 		long serverPlaytime = target.getPlaytime(serverName);
 		sender.sendMessage(M.elm + target.getLatestUsername() + M.msg + "'s playtime:");
 		sender.sendMessage(M.arrow("Total: " + M.WHITE + TimeUtil.simplerString(target.getTotalPlaytime())));
 		if(serverPlaytime > 0){
-			sender.sendMessage(M.arrow(manager.plugin.getServerName() + ": " + M.WHITE + TimeUtil.simplerString(target.getPlaytime(manager.plugin.getServerName()))));
+			sender.sendMessage(M.arrow(manager.plugin.getServerName() + ": " + M.WHITE + TimeUtil.simplerString(serverPlaytime)));
 		}
 	}
 	

@@ -1,8 +1,6 @@
 package com.xenry.stagecraft.bungee.player;
 import com.xenry.stagecraft.RawPlayerState;
-import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
-import net.md_5.bungee.api.connection.Server;
 
 /**
  * StageCraft created by Henry Blasingame (Xenry) on 10/14/20

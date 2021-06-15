@@ -24,6 +24,8 @@ public final class M {
 	
 	public static final ChatColor WHITE = ChatColor.WHITE;
 	
+	public static final String SERVER_NAME_FORMATTED = "§a§lStage§9§lCraft";
+	public static final String SERVER_NAME_RAW = "StageCraft";
 	public static final String CONSOLE_NAME = "Server";
 	
 	public static BaseComponent[] msg(String message){
@@ -52,6 +54,26 @@ public final class M {
 	
 	public static BaseComponent[] playerNotFound(String playerName){
 		return error("Player not found: " + playerName);
+	}
+	
+	public static String bool(boolean value, String trueWord, String falseWord){
+		return value ? "§a" + trueWord : "§c" + falseWord;
+	}
+	
+	public static String trueFalse(boolean value){
+		return bool(value, "true", "false");
+	}
+	
+	public static String yesNo(boolean value){
+		return bool(value, "yes", "no");
+	}
+	
+	public static String onOff(boolean value){
+		return bool(value, "on", "off");
+	}
+	
+	public static String enabledDisabled(boolean value){
+		return bool(value, "enabled", "disabled");
 	}
 	
 }

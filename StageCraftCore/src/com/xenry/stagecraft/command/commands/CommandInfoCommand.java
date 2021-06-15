@@ -54,9 +54,9 @@ public final class CommandInfoCommand extends Command<Core,CommandManager> {
 		sender.sendMessage(M.arrow("Manager: " + M.elm + command.getManager().name));
 		sender.sendMessage(M.arrow("Access: " + accessString));
 		sender.sendMessage(M.arrow("Labels: " + labelsString));
-		sender.sendMessage(M.arrow("Can be disabled: " + (command.canBeDisabled ? "§atrue" : "§cfalse")));
+		sender.sendMessage(M.arrow("Can be disabled: " + M.trueFalse(command.canBeDisabled)));
 		if(command.canBeDisabled){
-			sender.sendMessage(M.arrow("Is disabled: " + (command.isDisabled() ? "§atrue" : "§cfalse")));
+			sender.sendMessage(M.arrow("Is disabled: " + M.trueFalse(command.isDisabled())));
 		}
 	}
 	

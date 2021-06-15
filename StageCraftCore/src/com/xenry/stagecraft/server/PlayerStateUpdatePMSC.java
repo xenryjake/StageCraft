@@ -1,4 +1,4 @@
-package com.xenry.stagecraft.server.commands;
+package com.xenry.stagecraft.server;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;

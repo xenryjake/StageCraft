@@ -32,7 +32,7 @@ public final class RulesCommand extends PlayerCommand<Creative,GameplayManager> 
 		if(cp != null && !cp.hasAcceptedRules()){
 			sender.sendMessage(M.elm + M.BOLD + "You must accept the rules before playing.");
 		}
-		sender.sendMessage(M.msg + "View the §a§lStage§9§lCraft" + M.msg + " server rules at " + M.elm + M.BOLD + "http://mc.xenry.com/rules");
+		sender.sendMessage(M.msg + "View the " + M.SERVER_NAME_FORMATTED + M.msg + " server rules at " + M.elm + M.BOLD + "http://mc.xenry.com/rules");
 	}
 	
 	@Override

@@ -65,7 +65,7 @@ public final class PvPLockCommand extends Command<Fun,GameplayManager> {
 			sender.sendMessage(M.msg + "You have cleared the PvP Lock.");
 		}else{
 			sender.sendMessage(M.msg + "You have locked all players' PvP to "
-					+ (lockState == LOCK_ON ? "§aon" : "§coff") + M.msg + ".");
+					+ M.onOff(lockState == LOCK_ON)+ M.msg + ".");
 		}
 	}
 	

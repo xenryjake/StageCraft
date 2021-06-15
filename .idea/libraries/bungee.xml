@@ -1,7 +1,7 @@
 <component name="libraryTable">
   <library name="bungee">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../depend/BungeeCord.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../depend/waterfall-1.16-403.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

@@ -83,7 +83,7 @@ public final class Core extends StageCraftPlugin {
 	
 	@Override
 	protected void onServerEnabled(){
-		Log.toCS("§a§lThe server has loaded.");
+		Log.toCS("\n\n\n§a§lThe server has loaded.\n\n\n");
 	}
 	
 	public static Core getInstance() {

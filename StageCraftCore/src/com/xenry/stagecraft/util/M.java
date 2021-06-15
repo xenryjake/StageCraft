@@ -20,11 +20,14 @@ public final class M {
 	public static final ChatColor WHITE = ChatColor.WHITE;
 	public static final ChatColor DGRAY = ChatColor.DARK_GRAY;
 	public static final ChatColor DRED  = ChatColor.DARK_RED;
+	public static final ChatColor AQUA  = ChatColor.AQUA;
 	public static final ChatColor ORANG = ChatColor.of("#ff9900");
 	
 	public static final String BOLD = ChatColor.BOLD.toString();
 	public static final String ITALIC = ChatColor.ITALIC.toString();
 	
+	public static final String SERVER_NAME_FORMATTED = "§a§lStage§9§lCraft";
+	public static final String SERVER_NAME_RAW = "StageCraft";
 	public static final String CONSOLE_NAME = "Server";
 	
 	public static String error(String message){
@@ -47,20 +50,24 @@ public final class M {
 		return error("Player not found: " + playerName);
 	}
 	
-	public static String trueFalse(boolean value, String trueWord, String falseWord){
+	public static String bool(boolean value, String trueWord, String falseWord){
 		return value ? "§a" + trueWord : "§c" + falseWord;
 	}
 	
+	public static String trueFalse(boolean value){
+		return bool(value, "true", "false");
+	}
+	
 	public static String yesNo(boolean value){
-		return trueFalse(value, "yes", "no");
+		return bool(value, "yes", "no");
 	}
 	
 	public static String onOff(boolean value){
-		return trueFalse(value, "on", "Off");
+		return bool(value, "on", "off");
 	}
 	
 	public static String enabledDisabled(boolean value){
-		return trueFalse(value, "enabled", "disabled");
+		return bool(value, "enabled", "disabled");
 	}
 	
 }

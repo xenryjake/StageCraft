@@ -34,7 +34,7 @@ public final class GrapplingHookCommand extends Command<Survival,GameplayManager
 	protected void serverPerform(CommandSender sender, String[] args, String label) {
 		boolean status = GrapplingHookHandler.enabled;
 		if(args.length < 1){
-			sender.sendMessage(M.msg + "Grappling Hooks are currently " + (status ? "§aenabled" : "§cdisabled") + M.msg + ".");
+			sender.sendMessage(M.msg + "Grappling Hooks are currently " + M.enabledDisabled(status) + M.msg + ".");
 			return;
 		}
 		args[0] = args[0].toLowerCase();
@@ -51,11 +51,11 @@ public final class GrapplingHookCommand extends Command<Survival,GameplayManager
 			return;
 		}
 		if(status == enable){
-			sender.sendMessage(M.error("Grappling Hooks are already " + (status ? "enabled" : "disabled") + "."));
+			sender.sendMessage(M.error("Grappling Hooks are already " + M.enabledDisabled(status) + "."));
 			return;
 		}
 		GrapplingHookHandler.enabled = enable;
-		sender.sendMessage(M.msg + "Grappling hooks " + (enable ? "§aenabled" : "§cdisabled") + M.msg + ".");
+		sender.sendMessage(M.msg + "Grappling hooks " + M.enabledDisabled(status) + M.msg + ".");
 	}
 	
 	@Override

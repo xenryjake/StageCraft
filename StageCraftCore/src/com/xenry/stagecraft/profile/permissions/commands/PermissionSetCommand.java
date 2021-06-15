@@ -34,7 +34,7 @@ public final class PermissionSetCommand extends Command<Core,ProfileManager> {
 	
 	@Override
 	protected void serverPerform(CommandSender sender, String[] args, String label) {
-		sender.sendMessage(M.msg + "§lPermission Set Commands:");
+		sender.sendMessage(M.msg + "Permission Set Commands:");
 		sender.sendMessage(M.help("perm set list", "List permission sets"));
 		sender.sendMessage(M.help("perm set view <name>", "View a permission set"));
 	}

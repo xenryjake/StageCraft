@@ -37,7 +37,7 @@ public final class PermTestCommand extends Command<Core,ProfileManager> {
 			return;
 		}
 		boolean value = sender.hasPermission(args[0]);
-		sender.sendMessage(M.WHITE + args[0] + M.DGRAY + ": " + (value ? "§atrue" : "§cfalse"));
+		sender.sendMessage(M.WHITE + args[0] + M.DGRAY + ": " + M.trueFalse(value));
 	}
 	
 	@Override

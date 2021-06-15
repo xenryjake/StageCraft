@@ -60,7 +60,7 @@ public final class EmotesCommand extends Command<Core,ChatManager> {
 			if(emote.keywords.length == 0){
 				continue;
 			}
-			sb.append("§r").append(M.arrow("§r")).append(emote.keywords[0]).append("§7 - §r").append(emote.replacement).append("\n");
+			sb.append("§r").append(M.arrow("§r")).append(emote.keywords[0]).append(M.gry).append(" - §r").append(emote.replacement).append("\n");
 		}
 		String emoteString = sb.toString().trim();
 		if(emoteString.endsWith(",")){
