@@ -29,6 +29,7 @@ public abstract class Menu<P extends StageCraftPlugin,T extends Manager<P>> {
 	
 	private String title;
 	private boolean closable;
+	//private boolean canMoveItems = false;
 	
 	public Menu(T manager, UIManager uiManager, String id, String title, InventoryType type, int rows, int cols, Menu<P,T> parent, boolean closable) {
 		this.manager = manager;
@@ -61,6 +62,14 @@ public abstract class Menu<P extends StageCraftPlugin,T extends Manager<P>> {
 	public void setClosable(boolean closable) {
 		this.closable = closable;
 	}
+	
+	/*public boolean canMoveItems() {
+		return canMoveItems;
+	}
+	
+	public void setCanMoveItems(boolean canMoveItems) {
+		this.canMoveItems = canMoveItems;
+	}*/
 	
 	public String getTitle() {
 		return title;
@@ -104,9 +113,9 @@ public abstract class Menu<P extends StageCraftPlugin,T extends Manager<P>> {
 	
 	protected void onClick(InventoryClickEvent event){}
 	
-	protected void onDrag(InventoryDragEvent event){}
+	protected void onClickOther(InventoryClickEvent event){}
 	
-	protected void onOpen(InventoryOpenEvent event){}
+	protected void onDrag(InventoryDragEvent event){}
 	
 	protected void onClose(InventoryCloseEvent event){}
 	

@@ -23,7 +23,7 @@ import java.util.List;
  */
 public final class CommandEnableDisableCommand extends Command<Core,CommandManager> {
 	
-	public static final Access ACCESS = Rank.HEAD_MOD;
+	public static final Access ACCESS = Rank.ADMIN;
 	
 	public CommandEnableDisableCommand(CommandManager manager){
 		super(manager, ACCESS, false, "enable", "disable", "en", "dis");
@@ -55,7 +55,7 @@ public final class CommandEnableDisableCommand extends Command<Core,CommandManag
 				+ " until the next server restart.");
 		
 		String senderName = sender instanceof Player ? sender.getName() : M.CONSOLE_NAME;
-		String notification = M.elm + senderName + M.msg + M.enabledDisabled(!disable) + M.msg + " the command "
+		String notification = M.elm + senderName + " " + M.enabledDisabled(!disable) + M.msg + " the command "
 				+ M.elm + args[0] + M.msg + ".";
 		Log.toCS(notification);
 		for(Profile profile : manager.plugin.getProfileManager().getOnlineProfiles()){

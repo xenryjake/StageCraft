@@ -23,33 +23,29 @@ import java.util.List;
 public final class MessageCommand extends Command<Core,ChatManager> {
 	
 	public MessageCommand(ChatManager manager){
-		super(manager, Rank.MEMBER, true, "message", "msg", "m", "tell", "t", "whisper", "w",
+		super(manager, Rank.MEMBER, "message", "msg", "m", "tell", "t", "whisper", "w",
 				"privatemessage", "pmsg", "pm");
 	}
 	
-	/*@Override
+	@Override
 	protected void serverPerform(CommandSender sender, String[] args, String label) {
-		if(args.length < 2){
+		/*if(args.length < 2){
 			sender.sendMessage(M.usage("/" + label + " <player> <message>"));
 			return;
 		}
-		Player to;
+		String toName;
 		if(args[0].equalsIgnoreCase(M.CONSOLE_NAME)) {
-			to = null;
+			toName = M.CONSOLE_NAME;
 		}else{
-			to = Bukkit.getPlayer(args[0]);
-			if(to == null){
+			toName = CollectionUtil.findClosestMatchByStart(allNetworkPlayers(), args[0]);
+			if(toName == null){
 				sender.sendMessage(M.playerNotFound(args[0]));
 				return;
 			}
 		}
 		String msg = Joiner.on(' ').join(Arrays.copyOfRange(args, 1, args.length));
-		manager.sendPrivateMessage(manager.plugin.getProfileManager().getProfile(to), null, msg);
-	}*/
-	
-	@Override
-	protected void serverPerform(CommandSender sender, String[] args, String label) {
-		onlyForPlayers(sender);
+		manager.handleServerPrivateMessage(sender, toName, msg);*/
+		sender.sendMessage(M.error("Please use the proxy to send direct messages from console."));
 	}
 	
 	@Override
@@ -58,24 +54,18 @@ public final class MessageCommand extends Command<Core,ChatManager> {
 			profile.sendMessage(M.usage("/" + label + " <player> <message>"));
 			return;
 		}
-		/*Player to;
+		String toName;
 		if(args[0].equalsIgnoreCase(M.CONSOLE_NAME)) {
-			to = null;
+			toName = M.CONSOLE_NAME;
 		}else{
-			to = Bukkit.getPlayer(args[0]);
-			if(to == null){
+			toName = CollectionUtil.findClosestMatchByStart(allNetworkPlayers(), args[0]);
+			if(toName == null){
 				profile.sendMessage(M.playerNotFound(args[0]));
 				return;
 			}
-		}*/
-		String toName = CollectionUtil.findClosestMatchByStart(allNetworkPlayers(), args[0]);
-		if(toName == null){
-			profile.sendMessage(M.playerNotFound(args[0]));
-			return;
 		}
 		
 		String msg = Joiner.on(' ').join(Arrays.copyOfRange(args, 1, args.length));
-		//manager.sendPrivateMessage(manager.plugin.getProfileManager().getProfile(to), profile, msg);
 		manager.handlePrivateMessage(profile, toName, msg);
 	}
 	

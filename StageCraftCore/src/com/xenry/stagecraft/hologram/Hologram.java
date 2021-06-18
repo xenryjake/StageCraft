@@ -131,7 +131,7 @@ public class Hologram extends BasicDBObject {
 		for(int i = armorStands.length; i > 0; i--){
 			int j = armorStands.length - i;
 			armorStands[j] = world.spawn(location, ArmorStand.class);
-			armorStands[j].setCustomName(Emote.replaceEmotes(lines.get(i-1), ChatColor.WHITE));
+			armorStands[j].setCustomName(Emote.replaceAllEmotes(lines.get(i-1), ChatColor.WHITE));
 			armorStands[j].setCustomNameVisible(true);
 			armorStands[j].setVisible(false);
 			armorStands[j].setGravity(false);

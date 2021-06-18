@@ -4,8 +4,8 @@ import com.xenry.stagecraft.Core;
 import com.xenry.stagecraft.command.Command;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
-import com.xenry.stagecraft.punishment.Punishment;
 import com.xenry.stagecraft.punishment.LocalPunishmentExecution;
+import com.xenry.stagecraft.punishment.Punishment;
 import com.xenry.stagecraft.punishment.PunishmentManager;
 import com.xenry.stagecraft.util.M;
 import com.xenry.stagecraft.util.PlayerUtil;
@@ -20,22 +20,22 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * StageCraft created by Henry Blasingame (Xenry) on 6/26/20
+ * MineTogether created by Henry Blasingame (Xenry) on 3/29/21
  * The content in this file and all related files are
- * Copyright (C) 2020 Henry Blasingame.
+ * Copyright (C) 2021 Henry Blasingame.
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public final class KickCommand extends Command<Core,PunishmentManager> {
+public final class WarnCommand extends Command<Core,PunishmentManager> {
 	
-	public KickCommand(PunishmentManager manager){
-		super(manager, Rank.MOD, "kick");
+	public WarnCommand(PunishmentManager manager){
+		super(manager, Rank.MOD, "warn", "warning");
 	}
 	
 	@Override
 	protected void playerPerform(Profile profile, String[] args, String label) {
 		Player player = profile.getPlayer();
-		doKick(player, args, label, profile.getUUID(), player, !Punishment.CAN_PUNISH_WITHOUT_REASON.has(profile));
+		doWarn(player, args, label, profile.getUUID(), player);
 	}
 	
 	@Override
@@ -46,13 +46,12 @@ public final class KickCommand extends Command<Core,PunishmentManager> {
 			sender.sendMessage(ChatColor.DARK_RED + "WARNING! " + M.err + "No players are online this instance. If the player is online another instance, changes will not take effect until the player switches servers or relogs.");
 			sender.sendMessage("");
 		}
-		doKick(sender, args, label, M.CONSOLE_NAME, pmscSender, false);
+		doWarn(sender, args, label, M.CONSOLE_NAME, pmscSender);
 	}
 	
-	private void doKick(CommandSender sender, String[] args, String label, String punishedBy, Player pmscSender,
-						boolean requiresReason){
+	private void doWarn(CommandSender sender, String[] args, String label, String punishedBy, Player pmscSender){
 		if(args.length < 1){
-			sender.sendMessage(M.usage("/" + label + " <player> [reason]"));
+			sender.sendMessage(M.usage("/" + label + " <player> <reason>"));
 			return;
 		}
 		Profile target;
@@ -70,24 +69,20 @@ public final class KickCommand extends Command<Core,PunishmentManager> {
 			sender.sendMessage(M.error("There is no profile for that player."));
 			return;
 		}
-		if(!manager.plugin.getServerManager().getAllNetworkPlayers().contains(target.getLatestUsername())){
-			sender.sendMessage(M.error("That player is not online."));
-			return;
-		}
 		if(Punishment.IMMUNITY.has(target)){
 			sender.sendMessage(M.error(target.getLatestUsername() + " is immune to punishment."));
 			return;
 		}
 		
-		String reason = "";
+		String reason;
 		if(args.length > 1){
 			reason = Joiner.on(' ').join(Arrays.copyOfRange(args, 1, args.length));
-		}else if(requiresReason){
+		}else{
 			sender.sendMessage(M.error("You must specify a reason."));
 			return;
 		}
-		Punishment kick = new Punishment(Punishment.Type.KICK, target.getUUID(), punishedBy, reason);
-		LocalPunishmentExecution execution = new LocalPunishmentExecution(manager, kick, sender, pmscSender);
+		Punishment warning = new Punishment(Punishment.Type.WARNING, target.getUUID(), punishedBy, reason);
+		LocalPunishmentExecution execution = new LocalPunishmentExecution(manager, warning, sender, pmscSender);
 		execution.apply();
 	}
 	

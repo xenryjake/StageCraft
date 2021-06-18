@@ -146,7 +146,7 @@ public class MenuContents {
 		if(col < 0){
 			throw new IllegalArgumentException("col must not be negative");
 		}
-		for(int row = 0; row < contents.length; col++){
+		for(int row = 0; row < contents.length; row++){
 			set(row, col, item);
 		}
 		return this;

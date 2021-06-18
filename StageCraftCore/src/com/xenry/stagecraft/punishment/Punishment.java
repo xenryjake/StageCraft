@@ -1,6 +1,5 @@
 package com.xenry.stagecraft.punishment;
 import com.mongodb.BasicDBObject;
-import com.xenry.stagecraft.chat.emotes.Emote;
 import com.xenry.stagecraft.command.Access;
 import com.xenry.stagecraft.profile.Rank;
 import com.xenry.stagecraft.util.M;
@@ -17,7 +16,8 @@ import net.md_5.bungee.api.ChatColor;
  */
 public class Punishment extends BasicDBObject {
 	
-	public static final Access IMMUNITY = Rank.HEAD_MOD;
+	public static final Access IMMUNITY = Rank.MOD;
+	public static final Access CAN_PUNISH_WITHOUT_REASON = Rank.ADMIN;
 	
 	// All times for punishments are stored in seconds
 	
@@ -26,7 +26,8 @@ public class Punishment extends BasicDBObject {
 		//required for Mongo instantiation
 	}
 	
-	public Punishment(Type type, String playerUUID, String punishedByUUID, String reason, long timestamp, long expiresAt, long duration){
+	public Punishment(Type type, String playerUUID, String punishedByUUID, String reason, long timestamp,
+					  long expiresAt, long duration){
 		put("type", type.toString());
 		put("player", playerUUID);
 		put("punishedBy", punishedByUUID);
@@ -37,18 +38,14 @@ public class Punishment extends BasicDBObject {
 		put("removed", false);
 	}
 	
-	public Punishment(Type type, String playerUUID, String punishedByUUID, String reason, long expiresAt, long duration) {
+	public Punishment(Type type, String playerUUID, String punishedByUUID, String reason, long expiresAt,
+					  long duration) {
 		this(type, playerUUID, punishedByUUID, reason, TimeUtil.nowSeconds(), expiresAt, duration);
 	}
 	
 	public Punishment(Type type, String playerUUID, String punishedByUUID, String reason){
 		this(type, playerUUID, punishedByUUID, reason, type.defaultExpiry, type.defaultExpiry);
 	}
-	
-	/*public Punishment(Jail jail, String playerUUID, String punishedByUUID, String reason, long expiresAt, long duration){
-		this(Type.JAIL, playerUUID, punishedByUUID, reason, expiresAt, duration);
-		put("jail", jail.getName());
-	}*/
 	
 	/*public Punishment(Type type, Profile player, Profile punishedBy, String reason, long expiresAt, long duration){
 		this(type, player.getUUID(), punishedBy.getUUID(), reason, expiresAt, duration);
@@ -85,18 +82,10 @@ public class Punishment extends BasicDBObject {
 	}
 	
 	public String getReason(){
-		String reason = Emote.replaceEmotes((String) get("reason"), ChatColor.WHITE);
+		//String reason = Emote.replaceAllEmotes((String) get("reason"), ChatColor.WHITE);
+		String reason = getString("reason");
 		return ChatColor.translateAlternateColorCodes('&', reason);
 	}
-	
-	/*public String getJailName(){
-		Object obj = get("jail");
-		if(obj instanceof String){
-			return (String)obj;
-		}else{
-			return null;
-		}
-	}*/
 	
 	public long getExpiresAt(){
 		Object obj = get("expiresAt");
@@ -134,7 +123,7 @@ public class Punishment extends BasicDBObject {
 	}
 	
 	public boolean isActive(){
-		return !isRemoved() && (getExpiresAt() == -1 || getTimeRemaining() > 0);
+		return getType().isTimed() && !isRemoved() && (getExpiresAt() == -1 || getTimeRemaining() > 0);
 	}
 	
 	public boolean isRemoved(){
@@ -147,29 +136,39 @@ public class Punishment extends BasicDBObject {
 	
 	public String getMessage(){
 		StringBuilder sb = new StringBuilder();
-		sb.append(M.msg).append("You have been ").append(M.elm).append(getType().verb).append(M.msg).append("!").append("\n");
-		if(getType() != Type.KICK){
-			sb.append(M.msg).append("Duration: ").append(M.WHITE).append(TimeUtil.simplerString(getTimeRemaining())).append("\n");
-		}
+		sb.append(M.msg).append("You have been ").append(M.elm).append(getType().verb).append(M.msg).append("!");
 		if(!getReason().isEmpty()){
-			sb.append(M.msg).append("Reason: ").append(M.WHITE).append(getReason());
+			sb.append("\n").append(M.msg).append("Reason: ").append(M.WHITE).append(getReason());
+		}
+		if(getType().isTimed()){
+			sb.append("\n").append(M.msg).append("Duration: ").append(M.WHITE)
+					.append(TimeUtil.simplerString(getTimeRemaining()));
+			sb.append("\n").append(M.msg).append("You can submit an appeal on our discord: ").append(M.elm)
+					.append("https://mine-together.net/discord");
 		}
 		return sb.toString().trim();
 	}
 	
 	public enum Type {
 		
-		BAN("Ban", "banned", -1),
-		MUTE("Mute", "muted", -1),
-		KICK("Kick", "kicked", 0);
+		BAN("Ban", "banned", -1, true),
+		MUTE("Mute", "muted", -1, false),
+		KICK("Kick", "kicked", 0, true),
+		WARNING("Warning", "warned", 0, false);
 		
 		public final String name, verb;
 		public final int defaultExpiry;
+		public final boolean kickPlayer;
 		
-		Type(String name, String verb, int defaultExpiry){
+		Type(String name, String verb, int defaultExpiry, boolean kickPlayer){
 			this.name = name;
 			this.verb = verb;
 			this.defaultExpiry = defaultExpiry;
+			this.kickPlayer = kickPlayer;
+		}
+		
+		public boolean isTimed(){
+			return defaultExpiry != 0;
 		}
 		
 	}

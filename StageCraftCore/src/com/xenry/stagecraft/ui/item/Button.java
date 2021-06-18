@@ -24,8 +24,14 @@ public class Button extends Item {
 	}
 	
 	public static Button runCommandButton(ItemStack itemStack, String command){
+		return runCommandButton(itemStack, command, true);
+	}
+	
+	public static Button runCommandButton(ItemStack itemStack, String command, boolean closeInventory){
 		return new Button(itemStack, (event) -> {
-			event.getWhoClicked().closeInventory();
+			if(closeInventory){
+				event.getWhoClicked().closeInventory();
+			}
 			((Player)event.getWhoClicked()).performCommand(command);
 		});
 	}

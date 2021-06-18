@@ -20,37 +20,44 @@ import java.util.List;
 public enum Rank implements Access {
 	
 	MEMBER("Member", ChatColor.GRAY, 0),
-	PREMIUM("Premium", ChatColor.AQUA, 10,
-			MEMBER),
-	ELITE("Elite", ChatColor.LIGHT_PURPLE, 15,
-			PREMIUM, MEMBER),
-	MOD("Mod", ChatColor.RED, 50,
-			MEMBER),
-	PREMIUM_MOD("Premium_Mod", ChatColor.RED, 50,
-			MOD, PREMIUM, MEMBER),
-	ELITE_MOD("Elite_Mod", ChatColor.RED, 50,
-			PREMIUM_MOD, MOD, ELITE, PREMIUM, MEMBER),
-	HEAD_MOD("Head_Mod", ChatColor.RED, 75,
-			MOD, MEMBER),
-	PREMIUM_HEAD_MOD("Premium_Head_Mod", ChatColor.RED, 75,
-			HEAD_MOD, PREMIUM_MOD, MOD, PREMIUM, MEMBER),
-	ELITE_HEAD_MOD("Elite_Head_Mod", ChatColor.RED, 75,
-			PREMIUM_HEAD_MOD, HEAD_MOD, ELITE_MOD, PREMIUM_MOD, MOD, ELITE, PREMIUM, MEMBER),
-	ADMIN("Admin", ChatColor.DARK_RED, 100,
-			ELITE_HEAD_MOD, PREMIUM_HEAD_MOD, HEAD_MOD, ELITE_MOD, PREMIUM_MOD, MOD, ELITE, PREMIUM, MEMBER);
+	PREMIUM("Premium", ChatColor.AQUA, 10, MEMBER),
+	ELITE("Elite", ChatColor.LIGHT_PURPLE, 20, PREMIUM, MEMBER),
+	MOD("Mod", ChatColor.RED, 80, MEMBER),
+	ADMIN("Admin", ChatColor.DARK_RED, 100, false, MOD, PREMIUM, MEMBER);
 	
-	private final String name;
-	private final ChatColor color;
-	private final int weight;
+	public static final Rank DEFAULT = MEMBER;
+	
+	public final String name;
+	public final String prefix;
+	public final ChatColor color;
+	public final int weight;
+	public final boolean playersCanAssign;
 	private final List<Rank> inherits;
 	private List<ChatColor> availableColors;
 	private List<String> availableColorNames;
 	
+	private final Explicit explicit;
+	
 	Rank(String name, ChatColor color, int weight, Rank...inherits){
+		this(name, "", color, weight, true, inherits);
+	}
+	
+	Rank(String name, String prefix, ChatColor color, int weight, Rank...inherits){
+		this(name, prefix, color, weight, true, inherits);
+	}
+	
+	Rank(String name, ChatColor color, int weight, boolean playersCanAssign, Rank...inherits){
+		this(name, "", color, weight, playersCanAssign, inherits);
+	}
+	
+	Rank(String name, String prefix, ChatColor color, int weight, boolean playersCanAssign, Rank...inherits){
 		this.name = name;
+		this.prefix = prefix;
 		this.color = color;
 		this.weight = weight;
+		this.playersCanAssign = playersCanAssign;
 		this.inherits = Arrays.asList(inherits);
+		explicit = new Explicit(this);
 	}
 	
 	public boolean hasAccessToColor(ChatColor color){
@@ -83,6 +90,14 @@ public enum Rank implements Access {
 		return name;
 	}
 	
+	public String getPlainPrefix() {
+		return prefix;
+	}
+	
+	public String getColoredPrefix() {
+		return color + prefix;
+	}
+	
 	public ChatColor getColor(){
 		return color;
 	}
@@ -113,11 +128,14 @@ public enum Rank implements Access {
 	
 	@Override
 	public boolean has(@NotNull Profile profile) {
-		return profile.getRank().check(this);
+		return this == DEFAULT || profile.check(this);
 	}
 	
 	@Override
 	public boolean has(@NotNull CommandSender sender) {
+		if(this == DEFAULT){
+			return true;
+		}
 		if(sender instanceof Player) {
 			Profile profile = Core.getInstance().getProfileManager().getProfile((Player)sender);
 			if(profile == null){
@@ -131,7 +149,7 @@ public enum Rank implements Access {
 	public static List<String> getRankNames(){
 		List<String> names = new ArrayList<>();
 		for(Rank rank : values()){
-			names.add(rank.getName());
+			names.add(rank.name());
 		}
 		return names;
 	}
@@ -140,16 +158,47 @@ public enum Rank implements Access {
 		startsWith = startsWith.toLowerCase();
 		List<String> names = new ArrayList<>();
 		for(Rank rank : values()){
-			if(rank.getName().toLowerCase().startsWith(startsWith)){
-				names.add(rank.getName());
+			if(rank.name().toLowerCase().startsWith(startsWith)){
+				names.add(rank.name());
 			}
 		}
 		return names;
 	}
 	
+	public Explicit explicit(){
+		return explicit;
+	}
+	
 	@Override
 	public String toString() {
 		return name();
+	}
+	
+	public static final class Explicit implements Access {
+		
+		public final Rank rank;
+		
+		private Explicit(Rank rank) {
+			this.rank = rank;
+		}
+		
+		@Override
+		public boolean has(@NotNull Profile profile) {
+			return profile.hasRankExplicit(rank);
+		}
+		
+		@Override
+		public boolean has(@NotNull CommandSender sender) {
+			if(sender instanceof Player) {
+				Profile profile = Core.getInstance().getProfileManager().getProfile((Player)sender);
+				if(profile == null){
+					return false;
+				}
+				return has(profile);
+			}
+			return true;
+		}
+		
 	}
 	
 }

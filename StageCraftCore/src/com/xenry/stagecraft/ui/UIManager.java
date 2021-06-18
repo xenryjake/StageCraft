@@ -180,11 +180,13 @@ public final class UIManager extends Manager<Core> {
 		if(menu == null){
 			return;
 		}
+		//if(!menu.canMoveItems()){
 		event.setCancelled(true);
+		//}*/
 		if(event.getAction() == InventoryAction.COLLECT_TO_CURSOR
 				|| (event.getAction() == InventoryAction.MOVE_TO_OTHER_INVENTORY &&
 				(!(event.getClick() == ClickType.SHIFT_LEFT || event.getClick() == ClickType.SHIFT_RIGHT)
-				|| event.getClickedInventory() == player.getOpenInventory().getBottomInventory()))
+						|| event.getClickedInventory() == player.getOpenInventory().getBottomInventory()))
 				|| (event.getAction() == InventoryAction.NOTHING && event.getClick() != ClickType.MIDDLE)){
 			return;
 		}
@@ -197,9 +199,12 @@ public final class UIManager extends Manager<Core> {
 			Item item = contents.get(player).get(row, col);
 			menu.onClick(event);
 			if(item instanceof Button){
+				event.setCancelled(true);
 				((Button)item).onClick(event);
 			}
 			player.updateInventory();
+		}else{
+			menu.onClickOther(event);
 		}
 	}
 	

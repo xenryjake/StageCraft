@@ -21,6 +21,7 @@ public final class M {
 	public static final ChatColor DGRAY = ChatColor.DARK_GRAY;
 	public static final ChatColor DRED  = ChatColor.DARK_RED;
 	public static final ChatColor AQUA  = ChatColor.AQUA;
+	public static final ChatColor GREEN = ChatColor.GREEN;
 	public static final ChatColor ORANG = ChatColor.of("#ff9900");
 	
 	public static final String BOLD = ChatColor.BOLD.toString();

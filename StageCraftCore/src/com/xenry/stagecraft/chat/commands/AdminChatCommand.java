@@ -21,10 +21,10 @@ import java.util.List;
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public final class StaffChatCommand extends Command<Core,ChatManager> {
+public final class AdminChatCommand extends Command<Core,ChatManager> {
 	
-	public StaffChatCommand(ChatManager manager){
-		super(manager, Channel.STAFF.access, "staffchat", "sc", "stfc");
+	public AdminChatCommand(ChatManager manager){
+		super(manager, Channel.ADMIN.access, "adminchat", "admc");
 	}
 	
 	@Override
@@ -46,7 +46,7 @@ public final class StaffChatCommand extends Command<Core,ChatManager> {
 		Player pluginMessageSender;
 		if(sender instanceof Player){
 			pluginMessageSender = (Player)sender;
-			ChatEvent chatEvent = new ChatEvent(false, Channel.STAFF, profile, message);
+			ChatEvent chatEvent = new ChatEvent(false, Channel.ADMIN, profile, message);
 			manager.plugin.getServer().getPluginManager().callEvent(chatEvent);
 			if(chatEvent.isCancelled()){
 				return;
@@ -60,7 +60,7 @@ public final class StaffChatCommand extends Command<Core,ChatManager> {
 			}
 		}
 		
-		manager.sendChat(pluginMessageSender, Channel.STAFF, Channel.STAFF.format(manager, profile, message));
+		manager.sendChat(pluginMessageSender, Channel.ADMIN, Channel.ADMIN.format(manager, profile, message));
 	}
 	
 	@Override

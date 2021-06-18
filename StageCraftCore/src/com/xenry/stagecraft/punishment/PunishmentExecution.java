@@ -42,7 +42,7 @@ public abstract class PunishmentExecution {
 	protected void broadcastMessage(){
 		StringBuilder sb = new StringBuilder();
 		sb.append(M.elm).append(punished.getLatestUsername()).append(M.msg).append(" has been ").append(M.elm).append(punishment.getType().verb).append(M.msg).append(" by ").append(M.elm).append(punishedByName).append(M.msg).append(":").append("\n");
-		if(punishment.getType() != Punishment.Type.KICK){
+		if(punishment.getType().isTimed()){
 			sb.append(M.arrow("Duration: ")).append(M.WHITE).append(TimeUtil.simplerString(punishment.getTimeRemaining())).append("\n");
 		}
 		if(!punishment.getReason().trim().isEmpty()){

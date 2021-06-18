@@ -1,10 +1,9 @@
 package com.xenry.stagecraft.profile.commands.rank;
 import com.xenry.stagecraft.Core;
-import com.xenry.stagecraft.command.Access;
 import com.xenry.stagecraft.command.Command;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.ProfileManager;
-import com.xenry.stagecraft.profile.ProfileRankChangeEvent;
+import com.xenry.stagecraft.profile.ProfileRanksUpdateEvent;
 import com.xenry.stagecraft.profile.Rank;
 import com.xenry.stagecraft.util.Log;
 import com.xenry.stagecraft.util.M;
@@ -17,19 +16,19 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Collections;
 import java.util.List;
 
+import static com.xenry.stagecraft.profile.ProfileRanksUpdatePMSC.SEE_RANK_UPDATES;
+
 /**
- * StageCraft created by Henry Blasingame (Xenry) on 6/23/20
+ * MineTogether created by Henry Blasingame (Xenry) on 3/18/21
  * The content in this file and all related files are
- * Copyright (C) 2020 Henry Blasingame.
+ * Copyright (C) 2021 Henry Blasingame.
  * Usage of this content without written consent of Henry Blasingame
  * is prohibited.
  */
-public final class RankSetCommand extends Command<Core,ProfileManager> {
+public final class RankPermanentCommand extends Command<Core,ProfileManager> {
 	
-	public static final Access SEE_RANK_UPDATES = Rank.MOD;
-	
-	public RankSetCommand(ProfileManager manager) {
-		super(manager, Rank.ADMIN, "set");
+	public RankPermanentCommand(ProfileManager manager){
+		super(manager, Rank.ADMIN, "permanent", "perm", "add");
 	}
 	
 	@Override
@@ -40,7 +39,7 @@ public final class RankSetCommand extends Command<Core,ProfileManager> {
 	@Override
 	protected void serverPerform(CommandSender sender, String[] args, String label) {
 		if(args.length < 2){
-			sender.sendMessage(M.usage("/rank set <player> <rank>"));
+			sender.sendMessage(M.usage("/rank perm <player> <rank>"));
 			return;
 		}
 		
@@ -54,6 +53,7 @@ public final class RankSetCommand extends Command<Core,ProfileManager> {
 			sender.sendMessage(M.error("There is no profile for " + args[0] + "."));
 			return;
 		}
+		
 		Rank rank;
 		try{
 			rank = Rank.valueOf(args[1].toUpperCase());
@@ -61,22 +61,35 @@ public final class RankSetCommand extends Command<Core,ProfileManager> {
 			sender.sendMessage(M.error(args[1].toUpperCase() + " is not a valid rank."));
 			return;
 		}
-		Rank oldRank = target.getRank();
-		target.setRank(rank);
-		sender.sendMessage(M.msg + "You have set " + M.elm + target.getLatestUsername() + M.msg + "'s rank to " + rank.getColoredName() + M.msg + ".");
-		if(target.isOnline() && !sender.getName().equals(target.getOnlinePlayerName())) {
-			target.getPlayer().sendMessage(M.msg + "Your rank is now " + rank.getColoredName() + M.msg + ".");
+		if(rank == Rank.DEFAULT){
+			sender.sendMessage(M.error("You can't modify the default rank."));
+			return;
 		}
+		if(!rank.playersCanAssign && sender instanceof Player){
+			sender.sendMessage(M.error("This rank can't be assigned in-game."));
+			return;
+		}
+		if(target.getSecondsUntilExpiry(rank) == -1L){
+			sender.sendMessage(M.error(target.getLatestUsername() + " already has rank " + rank.getColoredName()
+					+ M.err + " permanently."));
+			return;
+		}
+		
+		target.addRankPermanent(rank);
 		manager.save(target);
 		target.updateDisplayName();
 		
-		ProfileRankChangeEvent event = new ProfileRankChangeEvent(target, oldRank, rank);
-		manager.plugin.getServer().getPluginManager().callEvent(event);
+		sender.sendMessage(M.msg + "You permanently added rank " + rank.getColoredName() + M.msg + " to " + M.elm
+				+ target.getLatestUsername());
+		/*if(target.isOnline() && !sender.getName().equals(target.getOnlinePlayerName())) {
+			target.getPlayer().sendMessage(M.msg + "You now have rank " + rank.getColoredName() + M.msg + ".");
+		}*/
 		
 		String senderName = sender instanceof Player ? sender.getName() : M.CONSOLE_NAME;
-		String rankUpdateMessage = M.elm + senderName + M.msg + " set " + M.elm + target.getLatestUsername() + M.msg + "'s rank to " + rank.getColoredName() + M.msg + ".";
+		String rankUpdateMessage = M.elm + senderName + M.msg + " added rank " + rank.getColoredName()
+				+ M.msg + " to " + M.elm + target.getLatestUsername();
 		Log.toCS(rankUpdateMessage);
-		for(Profile profile : manager.plugin.getProfileManager().getOnlineProfiles()){
+		for(Profile profile : manager.getOnlineProfiles()){
 			if(SEE_RANK_UPDATES.has(profile) && profile != target && profile.getPlayer() != sender){
 				profile.sendMessage(rankUpdateMessage);
 			}
@@ -84,15 +97,24 @@ public final class RankSetCommand extends Command<Core,ProfileManager> {
 		
 		Player pluginMessageSender = sender instanceof Player ? (Player)sender : PlayerUtil.getAnyPlayer();
 		if(pluginMessageSender == null){
-			sender.sendMessage(M.err + M.BOLD + "WARNING!" + M.err + " No players are online this instance. If the player is online another instance, the rank update will likely be overwritten.");
+			sender.sendMessage(M.err + M.BOLD + "WARNING!" + M.err + " No players are online this instance." +
+					" If the player is online another instance, the rank update will likely be overwritten.");
 			return;
 		}
-		manager.getProfileRankUpdatePMSC().send(pluginMessageSender, target, senderName);
+		manager.getProfileRanksUpdatePMSC().send(pluginMessageSender, target, rank, ProfileRanksUpdateEvent.Action.ADD,
+				-1L, senderName);
 	}
 	
 	@Override
 	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
-		return serverTabComplete(profile.getPlayer(), args, label);
+		switch(args.length){
+			case 1:
+				return networkPlayers(args[0]);
+			case 2:
+				return Rank.getRankNames(args[1]);
+			default:
+				return Collections.emptyList();
+		}
 	}
 	
 	@Override

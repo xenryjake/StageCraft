@@ -51,7 +51,8 @@ public final class EssentialsIntegration extends Handler<Core,IntegrationManager
 	
 	@EventHandler
 	public void on(VanishStatusChangeEvent event){
-		Player player = event.getAffected().getBase();
+		// essentials bug: controller and affected are swapped when this event is called
+		Player player = event.getController().getBase();
 		if(player == null){
 			return;
 		}

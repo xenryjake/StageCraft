@@ -5,6 +5,7 @@ import com.xenry.stagecraft.command.Command;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
 import com.xenry.stagecraft.punishment.PunishmentManager;
+import com.xenry.stagecraft.util.Cooldown;
 import com.xenry.stagecraft.util.M;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -25,8 +26,11 @@ import java.util.List;
  */
 public final class DisconnectCommand extends Command<Core,PunishmentManager> {
 	
+	private final Cooldown confirms;
+	
 	public DisconnectCommand(PunishmentManager manager){
-		super(manager, Rank.HEAD_MOD, "disconnect", "discon");
+		super(manager, Rank.ADMIN, "disconnect", "discon");
+		confirms = new Cooldown(15000, null);
 	}
 	
 	@Override
@@ -35,13 +39,25 @@ public final class DisconnectCommand extends Command<Core,PunishmentManager> {
 	}
 	
 	@Override
-	protected void serverPerform(CommandSender sender, String[] args, String label) {
+	protected void serverPerform(@NotNull CommandSender sender, String[] args, String label) {
 		if(args.length < 1){
 			sender.sendMessage(M.usage("/" + label + " <player> [message]"));
 			return;
 		}
 		Player target = null;
-		if(!args[0].equals("**")){
+		if(args[0].equals("**")){
+			if(sender instanceof Player){
+				Player player = (Player)sender;
+				if(confirms.canUse(player)){
+					confirms.use(player);
+					player.sendMessage(M.msg + "Are you sure you want to disconnect ALL PLAYERS? Type " + M.elm
+							+ "/" + label + " **" + M.msg + " again to confirm.");
+					return;
+				}else{
+					confirms.removeRecharge(player);
+				}
+			}
+		}else{
 			target = Bukkit.getPlayer(args[0]);
 			if(target == null){
 				sender.sendMessage(M.playerNotFound(args[0]));

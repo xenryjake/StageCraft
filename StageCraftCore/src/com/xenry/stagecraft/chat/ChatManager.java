@@ -1,10 +1,7 @@
 package com.xenry.stagecraft.chat;
 import com.xenry.stagecraft.Manager;
 import com.xenry.stagecraft.Core;
-import com.xenry.stagecraft.chat.commands.BroadcastCommand;
-import com.xenry.stagecraft.chat.commands.FakeMessageCommand;
-import com.xenry.stagecraft.chat.commands.SayCommand;
-import com.xenry.stagecraft.chat.commands.StaffChatCommand;
+import com.xenry.stagecraft.chat.commands.*;
 import com.xenry.stagecraft.chat.commands.privatemessage.MessageCommand;
 import com.xenry.stagecraft.chat.commands.privatemessage.ReplyCommand;
 import com.xenry.stagecraft.chat.emotes.Emote;
@@ -12,15 +9,16 @@ import com.xenry.stagecraft.chat.emotes.EmotesCommand;
 import com.xenry.stagecraft.command.Access;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
+import com.xenry.stagecraft.util.Cooldown;
 import com.xenry.stagecraft.util.Log;
 import com.xenry.stagecraft.util.M;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.*;
-import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * StageCraft created by Henry Blasingame (Xenry) on 6/21/20
@@ -31,17 +29,22 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
  */
 public final class ChatManager extends Manager<Core> {
 	
-	public static final Access COLOR_ACCESS = Rank.HEAD_MOD;
+	public static final Access COLOR_ACCESS = Rank.ADMIN;
 	public static final String PM_REPLY_KEY = "**REPLY**";
 	
 	private Rank chatRank = Rank.MEMBER;
+	private Channel publicChannel;
 	
 	private String globalChatPrefix;
 	
 	private PlayerChatPMSC playerChatPMSC;
 	private PrivateMessagePMSC privateMessagePMSC;
-	private StaffChatPMSC staffChatPMSC;
 	private BroadcastPMSC broadcastPMSC;
+	
+	private final Cooldown defaultCooldown = new Cooldown(0, null);
+	private final Cooldown premiumCooldown = new Cooldown(0, null);
+	private final Access premiumCooldownAccess = new Access.Any(Rank.PREMIUM, Rank.MOD);
+	private final Access noCooldownAccess = Rank.MOD;
 	
 	public ChatManager(Core plugin){
 		super("Chat", plugin);
@@ -55,15 +58,13 @@ public final class ChatManager extends Manager<Core> {
 		privateMessagePMSC = new PrivateMessagePMSC(this);
 		plugin.getPluginMessageManager().registerSubChannel(privateMessagePMSC);
 		
-		staffChatPMSC = new StaffChatPMSC(this);
-		plugin.getPluginMessageManager().registerSubChannel(staffChatPMSC);
-		
 		broadcastPMSC = new BroadcastPMSC(this);
 		plugin.getPluginMessageManager().registerSubChannel(broadcastPMSC);
 		
 		registerCommand(new BroadcastCommand(this));
 		registerCommand(new FakeMessageCommand(this));
 		registerCommand(new StaffChatCommand(this));
+		registerCommand(new AdminChatCommand(this));
 		registerCommand(new MessageCommand(this));
 		registerCommand(new ReplyCommand(this));
 		registerCommand(new SayCommand(this));
@@ -71,6 +72,12 @@ public final class ChatManager extends Manager<Core> {
 		registerCommand(new EmotesCommand(this));
 		
 		setGlobalChatPrefix(plugin.getConfig().getString("global-chat-prefix", ""));
+		try{
+			setPublicChannel(Channel.valueOf(plugin.getConfig().getString("public-chat-channel", Channel.GLOBAL.name())));
+		}catch(Exception exception){
+			Log.warn("Invalid public-chat-channel. Setting to " + Channel.GLOBAL.name() + ".");
+			setPublicChannel(Channel.GLOBAL);
+		}
 	}
 	
 	public PlayerChatPMSC getPlayerChatPMSC() {
@@ -79,10 +86,6 @@ public final class ChatManager extends Manager<Core> {
 	
 	public PrivateMessagePMSC getPrivateMessagePMSC() {
 		return privateMessagePMSC;
-	}
-	
-	public StaffChatPMSC getStaffChatPMSC() {
-		return staffChatPMSC;
 	}
 	
 	public BroadcastPMSC getBroadcastPMSC() {
@@ -100,47 +103,49 @@ public final class ChatManager extends Manager<Core> {
 			Log.warn("Player tried to chat, but profile was not found.");
 			return;
 		}
-		if(!profile.check(chatRank)){
+		event.setCancelled(true);
+		Channel channel = publicChannel;
+		if(!publicChannel.access.has(profile)){
+			player.sendMessage(M.error("You don't have permission to speak in this channel."));
+			return;
+		}
+		if(channel.isPublic && !chatRank.has(profile)){
 			player.sendMessage(M.error("The chat is currently silenced to a rank above you."));
 			Log.info("[Chat Attempt] " + event.getPlayer().getName() + ": " + event.getMessage());
-			event.setCancelled(true);
 			return;
 		}
+		if(!noCooldownAccess.has(profile)){
+			Cooldown cooldown = premiumCooldownAccess.has(profile) ? premiumCooldown : defaultCooldown;
+			if(!cooldown.use(profile)){
+				player.sendMessage(M.err + "Please slow down.");
+				return;
+			}
+		}
 		
-		PublicChatEvent chatEvent = new PublicChatEvent(event.isAsynchronous(), profile, globalChatPrefix,
-				profile.getDisplayName(), event.getMessage());
+		ChatEvent chatEvent = new ChatEvent(event.isAsynchronous(), channel, profile, event.getMessage());
 		plugin.getServer().getPluginManager().callEvent(chatEvent);
 		if(chatEvent.isCancelled()){
-			event.setCancelled(true);
 			return;
 		}
-		if(COLOR_ACCESS.has(profile)){
-			chatEvent.setMessage(ChatColor.translateAlternateColorCodes('&', chatEvent.getMessage()));
-		}
-		if(Emote.EMOTE_ACCESS.has(profile)){
-			chatEvent.setMessage(Emote.replaceEmotes(chatEvent.getMessage(), ChatColor.WHITE));
-		}
-		
-		HoverEvent he = new HoverEvent(HoverEvent.Action.SHOW_TEXT,
-				new Text(TextComponent.fromLegacyText("§rMessage " + chatEvent.getDisplayName())));
-		ClickEvent ce = new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/msg " + player.getName() + " ");
-		BaseComponent[] message = new ComponentBuilder()
-				.append(TextComponent.fromLegacyText("§r" + chatEvent.getPrefix()
-						+ (chatEvent.prefixContainsText() ? " " : "")))
-				.append(TextComponent.fromLegacyText(chatEvent.getDisplayName())).event(he).event(ce)
-				.append(TextComponent.fromLegacyText(M.DGRAY + ":§r ")).event((ClickEvent)null).event((HoverEvent)null)
-				.append(TextComponent.fromLegacyText(chatEvent.getMessage(), ChatColor.WHITE)).create();
-		playerChatPMSC.send(player, message);
-		Log.toCS(message);
-		event.setCancelled(true);
-		//event.setFormat("§r" + chatEvent.getPrefix() + (chatEvent.prefixContainsText() ? " " : "")
-		// + chatEvent.getDisplayName() + "§8:§r %2$s");
+		sendChat(player, channel, channel.format(this, profile, chatEvent.getMessage()));
+	}
+	
+	/**
+	 * Send a message in the specified channel
+	 * @param pluginMessageSender the player used to send the plugin message (any player)
+	 * @param channel the channel for the message
+	 * @param message the message to send (fully formatted)
+	 */
+	public void sendChat(Player pluginMessageSender, Channel channel, BaseComponent[] message){
+		playerChatPMSC.send(pluginMessageSender, channel, message);
+		//Log.toCS(new ComponentBuilder("[#" + channel.name() + "] ").append(message).create());
 	}
 	
 	/**
 	 * Get the rank required to use chat
 	 * @return minimum rank
 	 */
+	@Deprecated
 	public Rank getChatRank() {
 		return chatRank;
 	}
@@ -149,6 +154,7 @@ public final class ChatManager extends Manager<Core> {
 	 * Set the rank required to use chat
 	 * @param chatRank minimum rank
 	 */
+	@Deprecated
 	public void setChatRank(Rank chatRank) {
 		this.chatRank = chatRank;
 	}
@@ -162,7 +168,7 @@ public final class ChatManager extends Manager<Core> {
 	}
 	
 	/**
-	 * Set the global chat prefix
+	 * Set the global chat prefix. This does NOT save to the config file.
 	 * @param globalChatPrefix the prefix
 	 */
 	public void setGlobalChatPrefix(String globalChatPrefix) {
@@ -170,66 +176,39 @@ public final class ChatManager extends Manager<Core> {
 				ChatColor.translateAlternateColorCodes('&', globalChatPrefix);
 	}
 	
-	/* *
-	 * Send a private message
-	 * @param to sender of message (null if console)
-	 * @param from recipient of message (null if console)
-	 * @param message message to be sent
-	 * /
-	@Deprecated
-	public void sendPrivateMessage(@Nullable Profile to, @Nullable Profile from, String message) {
-		if(to == from) {
-			if(from == null) {
-				Log.toCS(M.error("You can't message yourself."));
-			} else {
-				from.sendMessage(M.error("You can't message yourself."));
-			}
+	/**
+	 * Get the public chat channel
+	 * @return the channel
+	 */
+	public Channel getPublicChannel() {
+		return publicChannel;
+	}
+	
+	/**
+	 * Set the public chat channel. This does NOT save to the config file.
+	 * @param publicChannel the channel
+	 */
+	public void setPublicChannel(Channel publicChannel){
+		this.publicChannel = publicChannel;
+	}
+	
+	/*public void handleServerPrivateMessage(@NotNull CommandSender from, String targetName, String message){
+		Player pluginMessageSender = PlayerUtil.getAnyPlayer();
+		if(pluginMessageSender == null){
+			from.sendMessage(M.error("There are no players on this server. Please try again on another server or the proxy."));
 			return;
 		}
-		PrivateMessageEvent event = new PrivateMessageEvent(from, to, message);
+		PrivateMessageEvent event = new PrivateMessageEvent(null, targetName, message);
 		plugin.getServer().getPluginManager().callEvent(event);
-		if(event.isCancelled()) {
+		if(event.isCancelled()){
 			return;
 		}
-		message = event.getMessage();
-		
-		if(from == null || COLOR_ACCESS.has(from)) {
-			message = ChatColor.translateAlternateColorCodes('&', message);
-		}
-		if(from == null || Emote.EMOTE_ACCESS.has(from)) {
-			message = Emote.replaceEmotes(message, ChatColor.WHITE);
-		}
-		
-		CommandSender toCS = to == null ? plugin.getServer().getConsoleSender() : to.getPlayer();
-		CommandSender fromCS = from == null ? plugin.getServer().getConsoleSender() : from.getPlayer();
-		boolean useDisplayName = toCS instanceof Player && fromCS instanceof Player;
-		
-		String toName = to == null ? M.CONSOLE_NAME : to.getLatestUsername();
-		String fromName = from == null ? M.CONSOLE_NAME : from.getLatestUsername();
-		String toDisplayName = to == null ? M.CONSOLE_NAME : to.getColorlessDisplayName();
-		String fromDisplayName = from == null ? M.CONSOLE_NAME : from.getColorlessDisplayName();
-		
-		Log.info("[PM] " + fromName + " to " + toName + ": " + message);
-		toCS.sendMessage("§b" + (useDisplayName ? fromDisplayName : fromName) + "§b » You: §f" + message);
-		fromCS.sendMessage("§b" + "You » " + (useDisplayName ? toDisplayName : toName) + "§b: §f" + message);
-
-		conversations.put(toName, new ConversationEntry(fromName, System.currentTimeMillis() + 3600000));
-		conversations.put(fromName, new ConversationEntry(toName, System.currentTimeMillis() + 3600000));
-		/*for(Player player : Bukkit.getOnlinePlayers()){
-			Profile socialSpy = plugin.getProfileManager().getProfile(player);
-			if(socialSpy != null && socialSpy != to && socialSpy != from && socialSpy.getSetting(Setting.SOCIAL_SPY)
-					&& SocialSpyCommand.ACCESS.has(socialSpy)){
-				socialSpy.sendMessage(M.DGRAY + "[PM] " + fromName + " to " + toName + ": " + message);
-			}
-		}
+		message = ChatColor.translateAlternateColorCodes('&', event.getMessage());
+		message = Emote.replaceAllEmotes(message);
+		privateMessagePMSC.send(pluginMessageSender, M.CONSOLE_NAME, targetName, message);
 	}*/
 	
-	public void handlePrivateMessage(Profile from, String targetName, String message){
-		if(from.getLatestUsername().equals(targetName)){
-			from.sendMessage(M.error("You can't message yourself."));
-			return;
-		}
-		
+	public void handlePrivateMessage(@NotNull Profile from, String targetName, String message){
 		PrivateMessageEvent event = new PrivateMessageEvent(from, targetName, message);
 		plugin.getServer().getPluginManager().callEvent(event);
 		if(event.isCancelled()) {
@@ -240,11 +219,10 @@ public final class ChatManager extends Manager<Core> {
 		if(COLOR_ACCESS.has(from)) {
 			message = ChatColor.translateAlternateColorCodes('&', message);
 		}
-		if(Emote.EMOTE_ACCESS.has(from)) {
-			message = Emote.replaceEmotes(message, ChatColor.WHITE);
-		}
+		message = Emote.replaceEmotes(message, ChatColor.WHITE, from);
 		
-		privateMessagePMSC.send(from.getPlayer(), targetName, message);
+		privateMessagePMSC.send(from.getPlayer(), from.getLatestUsername(), targetName, message);
 	}
+	
 	
 }

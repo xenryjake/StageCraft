@@ -1,4 +1,5 @@
 package com.xenry.stagecraft;
+import com.xenry.stagecraft.chat.Channel;
 import com.xenry.stagecraft.chat.ChatManager;
 import com.xenry.stagecraft.command.CommandManager;
 import com.xenry.stagecraft.hologram.HologramManager;
@@ -163,6 +164,13 @@ public final class Core extends StageCraftPlugin {
 		Log.info("Setting beta-features is: " + betaFeaturesEnabled);
 		
 		chatManager.setGlobalChatPrefix(getConfig().getString("global-chat-prefix", ""));
+		
+		try{
+			chatManager.setPublicChannel(Channel.valueOf(getConfig().getString("public-chat-channel", Channel.GLOBAL.name())));
+		}catch(Exception exception){
+			Log.warn("Invalid public-chat-channel. Setting to " + Channel.GLOBAL.name() + ".");
+			chatManager.setPublicChannel(Channel.GLOBAL);
+		}
 	}
 	
 }

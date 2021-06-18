@@ -47,9 +47,6 @@ commands:
   survival:
     description: "Go to survival"
     aliases: [sv]
-  skyblock:
-    description: "Go to skyblock"
-    aliases: [sb]
   fun:
     description: "Go to fun"
   evacuate:

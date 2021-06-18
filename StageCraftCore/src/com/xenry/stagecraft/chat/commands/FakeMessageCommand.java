@@ -28,48 +28,83 @@ import java.util.List;
 public final class FakeMessageCommand extends Command<Core,ChatManager> {
 	
 	public FakeMessageCommand(ChatManager manager){
-		super(manager, Rank.HEAD_MOD, true, "fm", "lfm");
+		super(manager, Rank.ADMIN, "fm", "lfm");
 	}
 	
 	@Override
 	protected void playerPerform(Profile profile, String[] args, String label) {
-		doFakeMessage(profile.getPlayer(), args, label, Emote.EMOTE_ACCESS.has(profile), ChatManager.COLOR_ACCESS.has(profile));
+		Player player = profile.getPlayer();
+		if(args.length < 1){
+			player.sendMessage(M.usage("/" + label + " <message>"));
+			return;
+		}
+		if(label.startsWith("l")){
+			doLocal(player, profile, args);
+		}else{
+			doGlobal(player, profile, args);
+		}
 	}
 	
 	@Override
 	protected void serverPerform(CommandSender sender, String[] args, String label) {
-		doFakeMessage(sender, args, label, true, true);
-	}
-	
-	private void doFakeMessage(CommandSender sender, String[] args, String label, boolean emotes, boolean colors){
 		if(args.length < 1){
 			sender.sendMessage(M.usage("/" + label + " <message>"));
 			return;
 		}
+		if(label.startsWith("l")){
+			doLocal(sender, null, args);
+		}else{
+			doGlobal(sender, null, args);
+		}
+	}
+	
+	private void doGlobal(CommandSender sender, Profile profile, String[] args){
+		if(args.length < 1){
+			sender.sendMessage(M.usage("/fm <message>"));
+			return;
+		}
 		
 		String message = Joiner.on(' ').join(args).replaceAll("\\\\n", "\n");
-		if(colors){
+		if(profile == null){
 			message = ChatColor.translateAlternateColorCodes('&', message);
-		}
-		if(emotes){
-			message = Emote.replaceEmotes(message, ChatColor.WHITE);
-		}
-		if(label.startsWith("l")){
-			Bukkit.broadcastMessage(message);
+			message = Emote.replaceAllEmotes(message, ChatColor.WHITE);
 		}else{
-			Player pluginMessageSender;
-			if(sender instanceof Player){
-				pluginMessageSender = (Player)sender;
-			}else{
-				pluginMessageSender = PlayerUtil.getAnyPlayer();
-				if(pluginMessageSender == null){
-					sender.sendMessage(M.error("There are no players on this server. Please try again on another server or the proxy."));
-					return;
-				}
+			if(ChatManager.COLOR_ACCESS.has(profile)){
+				message = ChatColor.translateAlternateColorCodes('&', message);
 			}
-			Log.toCS(message);
-			manager.getBroadcastPMSC().send(pluginMessageSender, TextComponent.fromLegacyText(message, ChatColor.WHITE));
+			message = Emote.replaceEmotes(message, ChatColor.WHITE, profile);
 		}
+		Player pluginMessageSender;
+		if(sender instanceof Player){
+			pluginMessageSender = (Player)sender;
+		}else{
+			pluginMessageSender = PlayerUtil.getAnyPlayer();
+			if(pluginMessageSender == null){
+				sender.sendMessage(M.error("There are no players on this server. Please try again on another server or the proxy."));
+				return;
+			}
+		}
+		Log.toCS(message);
+		manager.getBroadcastPMSC().send(pluginMessageSender, TextComponent.fromLegacyText(message, ChatColor.WHITE));
+	}
+	
+	private void doLocal(CommandSender sender, Profile profile, String[] args){
+		if(args.length < 1){
+			sender.sendMessage(M.usage("/lfm <message>"));
+			return;
+		}
+		
+		String message = Joiner.on(' ').join(args).replaceAll("\\\\n", "\n");
+		if(profile == null){
+			message = ChatColor.translateAlternateColorCodes('&', message);
+			message = Emote.replaceAllEmotes(message, ChatColor.WHITE);
+		}else{
+			if(ChatManager.COLOR_ACCESS.has(profile)){
+				message = ChatColor.translateAlternateColorCodes('&', message);
+			}
+			message = Emote.replaceEmotes(message, ChatColor.WHITE, profile);
+		}
+		Bukkit.broadcastMessage(message);
 	}
 	
 	@Override

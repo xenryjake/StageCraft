@@ -15,7 +15,9 @@ import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
@@ -94,15 +96,22 @@ public final class LookupCommand extends Command<Core,ProfileManager> {
 		PlayerState state = manager.plugin.getServerManager().getPlayerState(profile.getUUID());
 		boolean onlineLocal = profile.isOnline();
 		boolean onlineGlobal = state != null;
-
+		
 		sender.sendMessage(M.msg + "Profile of " + M.elm + profile.getLatestUsername() + M.msg + ":");
 		sender.sendMessage(M.arrow("UUID: " + M.WHITE + profile.getUUID()));
-		sender.sendMessage(M.arrow("Rank: " + profile.getRank().getColoredName()));
-		sender.sendMessage(M.arrow("Logged Usernames: " + M.elm + profile.getUsernames().size() + M.gry + M.ITALIC + " (/lookup " + profile.getLatestUsername() + " names)"));
+		sender.sendMessage(M.arrow("Main Rank: " + profile.getMainRank().getColoredName()));
 		sender.sendMessage(M.arrow("Total Playtime: " + M.WHITE + TimeUtil.simplerString(profile.getTotalPlaytime())));
 		sender.sendMessage(M.arrow("Nickname: " + profile.getDisplayName()));
 		if(detailedAccess){
 			sender.sendMessage(M.arrow("Address: " + M.WHITE + profile.getLatestAddress()));
+		}
+		if(onlineLocal){
+			Player player = profile.getPlayer();
+			Location loc = player.getLocation();
+			sender.sendMessage(M.arrow("Gamemode: " + M.WHITE + player.getGameMode().name().toLowerCase()));
+			sender.sendMessage(M.arrow("Location: " + M.WHITE + loc.getBlockX() + M.DGRAY + ", " + M.WHITE
+					+ loc.getBlockY() + M.DGRAY + ", " + M.WHITE + loc.getBlockZ()
+					+ M.gry + " (" + loc.getWorld().getName() + ")"));
 		}
 		if(onlineGlobal){
 			sender.sendMessage(M.arrow("AFK: " + M.yesNo(state.isAFK())));
@@ -123,7 +132,7 @@ public final class LookupCommand extends Command<Core,ProfileManager> {
 			}
 		}else{
 			cb.append("Offline").color(ChatColor.RED);
-			long time = profile.getMostRecentLogout();
+			long time = profile.getSecondsSinceLastLogout(manager.plugin.getServerName());
 			cb.append(" (").color(M.msg).append(TimeUtil.simplerString(time)).color(M.elm).append(")").color(M.msg);
 		}
 		sender.sendMessage(cb.create());

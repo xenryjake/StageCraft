@@ -56,7 +56,7 @@ public final class BetaFeaturesCommand extends Command<Core,ServerManager> {
 		sender.sendMessage(M.msg + "Beta features are now " + M.enabledDisabled(enabled) + M.msg + ".");
 		for(Player player : Bukkit.getOnlinePlayers()){
 			if(access.has(player)){
-				player.sendMessage(M.elm + sender.getName() + M.enabledDisabled(enabled)
+				player.sendMessage(M.elm + sender.getName() + " " + M.enabledDisabled(enabled)
 						+ M.msg + " beta features.");
 			}
 		}

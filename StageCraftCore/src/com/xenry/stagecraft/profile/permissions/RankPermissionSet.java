@@ -29,7 +29,12 @@ public class RankPermissionSet extends PermissionSet {
 	
 	@Override
 	public boolean appliesTo(Profile profile){
-		return appliesTo(profile.getRank());
+		for(Rank rank : profile.getRanks()){
+			if(appliesTo(rank)){
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	@Override

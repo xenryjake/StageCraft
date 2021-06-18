@@ -2,7 +2,6 @@ package com.xenry.stagecraft.punishment;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.util.BungeeUtil;
 import com.xenry.stagecraft.util.M;
-import com.xenry.stagecraft.util.PlayerUtil;
 import org.bukkit.entity.Player;
 
 /**
@@ -24,14 +23,14 @@ public class RemotePunishmentExecution extends PunishmentExecution {
 		Punishment.Type type = punishment.getType();
 		Player punishedPlayer = punished.getPlayer();
 		if(punishedPlayer != null){
-			if(type == Punishment.Type.MUTE){
-				punishedPlayer.sendMessage(punishment.getMessage());
-			}else{
-				punishedPlayer.kickPlayer(punishment.getMessage());
-				Player player = PlayerUtil.getAnyPlayer();
-				if(player != null && punishedByName != null){
-					BungeeUtil.message(player, punishedByName, M.elm + punishedPlayer.getName() + M.msg + " was kicked from " + manager.getCore().getServerName());
+			if(type.kickPlayer){
+				if(punishedByName != null){
+					BungeeUtil.message(punishedPlayer, punishedByName, M.elm + punishedPlayer.getName() + M.msg
+							+ " was disconnected from " + manager.getCore().getServerName());
 				}
+				punishedPlayer.kickPlayer(punishment.getMessage());
+			}else{
+				punishedPlayer.sendMessage(punishment.getMessage());
 			}
 		}
 		broadcastMessage();

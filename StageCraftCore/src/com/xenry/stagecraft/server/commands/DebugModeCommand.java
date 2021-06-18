@@ -56,7 +56,7 @@ public final class DebugModeCommand extends Command<Core,ServerManager> {
 		sender.sendMessage(M.msg + "Debug mode is now " + M.enabledDisabled(enabled) + M.msg + ".");
 		for(Player player : Bukkit.getOnlinePlayers()){
 			if(access.has(player)){
-				player.sendMessage(M.elm + sender.getName() + M.enabledDisabled(enabled)
+				player.sendMessage(M.elm + sender.getName() + " " + M.enabledDisabled(enabled)
 						+ M.msg + " debug mode");
 			}
 		}

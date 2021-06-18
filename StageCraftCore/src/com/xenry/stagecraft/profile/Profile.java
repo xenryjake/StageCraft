@@ -1,6 +1,5 @@
 package com.xenry.stagecraft.profile;
 import com.xenry.stagecraft.Core;
-import com.xenry.stagecraft.util.Log;
 import com.xenry.stagecraft.util.time.TimeUtil;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.entity.Player;
@@ -40,10 +39,13 @@ public class Profile extends GenericProfile {
 		put("lastPlaytimeUpdates", new HashMap<String,Long>());
 		put("playtimes", new HashMap<String,Long>());
 		
-		put("rank", Rank.MEMBER.toString());
+		put("ranks", new HashMap<String,Long>()); // holds ranks and timestamp at which they expire (-1 is never)
+		
 		put("settings", new HashMap<String,Boolean>());
 		put("nick", "none");
-		put("nameColor", Rank.MEMBER.getColor().getName());
+		put("nameColor", Rank.DEFAULT.getColor().getName());
+		
+		put("hasAcceptedRules", false);
 	}
 	
 	public Profile(UUID uuid, String name, InetSocketAddress socketAddress){
@@ -93,7 +95,7 @@ public class Profile extends GenericProfile {
 	
 	public String getColorlessDisplayName(){
 		String name = getNick();
-		return name.equals("none") ? getLatestUsername() : name;
+		return name.equals("none") ? getLatestUsername() : ChatColor.stripColor(name);
 	}
 	
 	public String getLatestUsername(){
@@ -193,7 +195,7 @@ public class Profile extends GenericProfile {
 	
 	public long getSecondsSinceLastLogin(String serverName){
 		long last = getLastLogin(serverName);
-		if(last < 0){
+		if(last <= 0){
 			return -1;
 		}
 		return TimeUtil.nowSeconds() - last;
@@ -230,14 +232,23 @@ public class Profile extends GenericProfile {
 		put("lastLogouts", lastLogouts);
 	}
 	
+	/**
+	 * Get the number of seconds since the player last logged out of a specified server
+	 * @param serverName the server
+	 * @return the number of seconds
+	 */
 	public long getSecondsSinceLastLogout(String serverName){
 		long last = getLastLogout(serverName);
-		if(last < 0){
+		if(last <= 0){
 			return -1;
 		}
 		return TimeUtil.nowSeconds() - last;
 	}
 	
+	/**
+	 * Get the timestamp (in seconds) of the most recent server logout
+	 * @return the timestamp in seconds
+	 */
 	public long getMostRecentLogout(){
 		long value = 0;
 		for(Long l : getLastLogouts().values()){
@@ -249,7 +260,7 @@ public class Profile extends GenericProfile {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public HashMap<String,Long> getLastPlaytimeUpdates(){
+	private HashMap<String,Long> getLastPlaytimeUpdates(){
 		Object obj = get("lastPlaytimeUpdates");
 		if(obj instanceof HashMap){
 			return (HashMap<String,Long>)obj;
@@ -259,18 +270,18 @@ public class Profile extends GenericProfile {
 		}
 	}
 	
-	public long getLastPlaytimeUpdate(String serverName){
+	private long getLastPlaytimeUpdate(String serverName){
 		return getLastPlaytimeUpdates().getOrDefault(serverName, 0L);
 	}
 	
-	public void setLastPlaytimeUpdate(String serverName, long timestamp){
+	private void setLastPlaytimeUpdate(String serverName, long timestamp){
 		HashMap<String,Long> lastPlaytimeUpdates = getLastPlaytimeUpdates();
 		lastPlaytimeUpdates.put(serverName, timestamp);
 		put("lastPlaytimeUpdates", lastPlaytimeUpdates);
 	}
 	
 	@SuppressWarnings("unchecked")
-	public HashMap<String,Long> getPlaytimes(){
+	private HashMap<String,Long> getPlaytimes(){
 		Object obj = get("playtimes");
 		if(obj instanceof HashMap){
 			return (HashMap<String,Long>)obj;
@@ -284,8 +295,15 @@ public class Profile extends GenericProfile {
 		return getPlaytimes().getOrDefault(serverName, 0L);
 	}
 	
+	/**
+	 * Get the playtime on a specific server of the user, in seconds
+	 * @param serverName the name of the server
+	 * @return the number of seconds
+	 */
 	public long getPlaytime(String serverName){
-		updatePlaytime(serverName);
+		if(serverName.equalsIgnoreCase(Core.getInstance().getServerName())){
+			updateLocalPlaytime();
+		}
 		return getPlaytimeValue(serverName);
 	}
 	
@@ -299,7 +317,8 @@ public class Profile extends GenericProfile {
 		setPlaytime(serverName, getPlaytimeValue(serverName) + time);
 	}
 	
-	public void updatePlaytime(String serverName){
+	public void updateLocalPlaytime(){
+		String serverName = Core.getInstance().getServerName();
 		long now = TimeUtil.nowSeconds();
 		long lastUpdate = getLastPlaytimeUpdate(serverName);
 		if(lastUpdate > 0L && isOnline()){
@@ -308,10 +327,10 @@ public class Profile extends GenericProfile {
 		setLastPlaytimeUpdate(serverName, now);
 	}
 	
-	public void updateLocalPlaytime(){
-		updatePlaytime(Core.getInstance().getServerName());
-	}
-	
+	/**
+	 * Get the total network-wide playtime of the user, in seconds
+	 * @return the number of seconds
+	 */
 	public long getTotalPlaytime(){
 		updateLocalPlaytime();
 		long total = 0;
@@ -321,25 +340,204 @@ public class Profile extends GenericProfile {
 		return total;
 	}
 	
-	public Rank getRank(){
-		Object obj = get("rank");
-		if(obj instanceof String){
-			try{
-				return Rank.valueOf((String)obj);
-			}catch(Exception ignored){}
+	@SuppressWarnings("unchecked")
+	private HashMap<String,Long> getRankExpiries(){
+		Object obj = get("ranks");
+		if(obj instanceof HashMap){
+			return (HashMap<String,Long>)obj;
+		}else{
+			put("ranks", new HashMap<String,Long>());
+			return getRankExpiries();
 		}
-		put("rank", Rank.MEMBER.toString());
-		return getRank();
 	}
 	
-	public void setRank(Rank rank){
-		put("rank", rank.toString());
+	/**
+	 * Get the timestamp (in seconds) the rank will expire.
+	 * This method will trigger rank expiration.
+	 * @param rank the rank to check
+	 * @return the timestamp, in seconds. -1 for never
+	 */
+	public long getExpiry(Rank rank){
+		HashMap<String,Long> rankMap = getRankExpiries();
+		if(!rankMap.containsKey(rank.name())){
+			return 0L;
+		}
+		long expiry = rankMap.getOrDefault(rank.name(), 0L);
+		if(expiry == -1L){
+			return -1L;
+		}
+		long now = TimeUtil.nowSeconds();
+		if(expiry <= now){
+			setRankExpiry(rank, 0L, true);
+			return 0L;
+		}else{
+			return expiry;
+		}
 	}
 	
+	/**
+	 * Get the number of seconds until the given rank expires.
+	 * This method will trigger rank expiration.
+	 * @param rank the rank to check
+	 * @return the number of seconds until the rank expires, -1 for never
+	 */
+	public long getSecondsUntilExpiry(Rank rank){
+		HashMap<String,Long> rankMap = getRankExpiries();
+		if(!rankMap.containsKey(rank.name())){
+			return 0L;
+		}
+		long expiry = rankMap.getOrDefault(rank.name(), 0L);
+		if(expiry == -1L){
+			return -1L;
+		}
+		long now = TimeUtil.nowSeconds();
+		if(expiry <= now){
+			setRankExpiry(rank, 0L, true);
+			return 0L;
+		}else{
+			return expiry - now;
+		}
+	}
+	
+	/**
+	 * Get a list of the ranks the players has.
+	 * This method will trigger rank expiration.
+	 * @return the list of ranks the player has
+	 */
+	public List<Rank> getRanks(){
+		HashMap<String,Long> rankMap = getRankExpiries();
+		List<Rank> ranks = new ArrayList<>();
+		for(Map.Entry<String,Long> entry : rankMap.entrySet()){
+			Rank rank;
+			try{
+				rank = Rank.valueOf(entry.getKey());
+			}catch(Exception ex){
+				continue;
+			}
+			long expiry = entry.getValue();
+			if(expiry != -1L && expiry <= TimeUtil.nowSeconds()){
+				setRankExpiry(rank, 0L, true);
+				return getRanks();
+			}else{
+				ranks.add(rank);
+			}
+		}
+		ranks.add(Rank.DEFAULT);
+		return ranks;
+	}
+	
+	/**
+	 * Get the highest-weighted rank the player has.
+	 * This method will trigger rank expiration.
+	 * @return the highest-weighted rank
+	 */
+	public Rank getMainRank(){
+		Rank bestRank = Rank.DEFAULT;
+		for(Rank rank : getRanks()){
+			if(rank.getWeight() > bestRank.getWeight()){
+				bestRank = rank;
+			}
+		}
+		return bestRank;
+	}
+	
+	/**
+	 * Check if the player has a rank explicitly assigned to them. This should
+	 * not be used for permission checks as it does not consider rank inheritance.
+	 * This method will trigger rank expiration.
+	 * @param rank the rank to check
+	 * @return if the player has the rank
+	 */
+	public boolean hasRankExplicit(Rank rank){
+		return getRanks().contains(rank);
+	}
+	
+	/**
+	 * Check if the user has Access to this rank.
+	 * This method will trigger rank expiration.
+	 * @param rank the rank to check
+	 * @return if the user has access
+	 */
 	public boolean check(Rank rank){
-		return getRank().check(rank);
+		for(Rank userRank : getRanks()){
+			if(userRank.check(rank)){
+				return true;
+			}
+		}
+		return false;
 	}
 	
+	private void setRankExpiry(Rank rank, long expiry, boolean autoExpire){
+		if(rank == Rank.DEFAULT){
+			return;
+		}
+		HashMap<String,Long> rankMap = getRankExpiries();
+		ProfileRanksUpdateEvent.Action action = null;
+		if(expiry != -1L && expiry <= TimeUtil.nowSeconds()){
+			if(rankMap.containsKey(rank.name())){
+				action = autoExpire ? ProfileRanksUpdateEvent.Action.EXPIRE
+						: ProfileRanksUpdateEvent.Action.REMOVE;
+			}
+			rankMap.remove(rank.name());
+		}else{
+			if(!rankMap.containsKey(rank.name())){
+				action = ProfileRanksUpdateEvent.Action.ADD;
+			}
+			rankMap.put(rank.name(), expiry);
+		}
+		put("ranks", rankMap);
+		if(action != null){
+			ProfileRanksUpdateEvent.Action finalAction = action;
+			coreProfileManager.plugin.getServer().getScheduler().runTask(coreProfileManager.plugin, () ->
+					coreProfileManager.plugin.getServer().getPluginManager().callEvent(
+							new ProfileRanksUpdateEvent(this, rank, finalAction)));
+		}
+	}
+	
+	/**
+	 * Permanently add a rank, unless later removed manually
+	 * @param rank the rank to add
+	 */
+	public void addRankPermanent(Rank rank){
+		setRankExpiry(rank, -1L, false);
+	}
+	
+	/**
+	 * Increase (or decrease) the timestamp of rank expiry by a given number of seconds.
+	 * If the user does not have this rank, the rank will be given to the user for the number of seconds.
+	 * @param rank the rank to adjust
+	 * @param adjustment the amount to adjust the expiry by
+	 */
+	public void rankTemporarily(Rank rank, long adjustment){
+		HashMap<String,Long> rankMap = getRankExpiries();
+		if(!rankMap.containsKey(rank.name())){
+			if(adjustment > 0){
+				setRankExpiry(rank, TimeUtil.nowSeconds() + adjustment, false);
+			}
+			return;
+		}
+		long current = rankMap.get(rank.name());
+		long expiry = current + adjustment;
+		if(expiry > 0){
+			setRankExpiry(rank, expiry, false);
+		}else{
+			setRankExpiry(rank, 0L, false);
+		}
+	}
+	
+	/**
+	 * Immediately remove a rank from a user.
+	 * @param rank the rank to remove
+	 */
+	public void removeRank(Rank rank){
+		setRankExpiry(rank, 0L, false);
+	}
+	
+	/**
+	 * Get a list of known usernames for a player.
+	 * Only includes names the user has logged into the server with.
+	 * @return the list of names
+	 */
 	@SuppressWarnings("unchecked")
 	public List<String> getUsernames(){
 		Object obj = get("usernames");
@@ -353,6 +551,10 @@ public class Profile extends GenericProfile {
 		}
 	}
 	
+	/**
+	 * Get a list of known addresses for a player.
+	 * @return the list of addresses
+	 */
 	@SuppressWarnings("unchecked")
 	public List<String> getAddresses(){
 		Object obj = get("addresses");
@@ -407,7 +609,7 @@ public class Profile extends GenericProfile {
 		put("nick", nick);
 	}
 	
-	public ChatColor getNameColor(){
+	/*public ChatColor getNameColor(){
 		Object obj = get("nameColor");
 		if(obj instanceof String){
 			ChatColor color;
@@ -415,22 +617,40 @@ public class Profile extends GenericProfile {
 				color = ChatColor.of((String)obj);
 			}catch(Exception ex){
 				Log.warn(getLatestUsername() + "'s name color is invalid in the database.");
-				setNameColor(getRank().getColor());
-				return getRank().getColor();
+				setNameColor(getMainRank().getColor());
+				return getMainRank().getColor();
 			}
-			if(!getRank().getAvailableColors().contains(color)){
-				setNameColor(getRank().getColor());
-				return getRank().getColor();
+			if(!getMainRank().getAvailableColors().contains(color)){
+				setNameColor(getMainRank().getColor());
+				return getMainRank().getColor();
 			}
 			return color;
 		}else{
-			put("nameColor", getRank().getColor().getName());
+			put("nameColor", getMainRank().getColor().getName());
 			return getNameColor();
 		}
+	}*/
+	
+	public ChatColor getNameColor(){
+		return getMainRank().getColor();
 	}
 	
 	public void setNameColor(ChatColor color){
 		put("nameColor", color.getName());
+	}
+	
+	public boolean hasAcceptedRules(){
+		Object obj = get("hasAcceptedRules");
+		if(obj instanceof Boolean){
+			return (Boolean)obj;
+		}else{
+			put("hasAcceptedRules", false);
+			return hasAcceptedRules();
+		}
+	}
+	
+	public void setHasAcceptedRules(boolean hasAcceptedRules){
+		put("hasAcceptedRules", hasAcceptedRules);
 	}
 	
 }

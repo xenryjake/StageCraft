@@ -12,8 +12,6 @@ import org.bukkit.entity.Player;
 
 import java.util.List;
 
-import static com.xenry.stagecraft.punishment.PunishmentExecution.VIEW_ALERTS;
-
 /**
  * StageCraft created by Henry Blasingame (Xenry) on 10/31/20
  * The content in this file and all related files are
@@ -61,7 +59,7 @@ public final class PunishmentRemovePMSC extends PluginMessageSubChannel<Core,Pun
 		String message = M.elm + modName + M.msg + " has removed " + M.elm + targetName + M.msg + "'s " + type.name + "s.";
 		for(Player player : Bukkit.getOnlinePlayers()){
 			Profile profile = manager.plugin.getProfileManager().getProfile(player);
-			if(profile != null && VIEW_ALERTS.has(profile) && !player.getName().equals(modName)){
+			if(profile != null && PunishmentExecution.VIEW_ALERTS.has(profile) && !player.getName().equals(modName)){
 				player.sendMessage(message);
 			}
 		}

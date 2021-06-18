@@ -21,32 +21,18 @@ import java.util.List;
 public final class ReplyCommand extends Command<Core,ChatManager> {
 	
 	public ReplyCommand(ChatManager manager){
-		super(manager, Rank.MEMBER, true, "reply", "respond", "r");
+		super(manager, Rank.MEMBER, "reply", "respond", "r");
 	}
-	
-	/*@Override
-	protected void serverPerform(CommandSender sender, String[] args, String label) {
-		if(args.length < 1){
-			sender.sendMessage(M.usage("/" + label + " <message>"));
-			return;
-		}
-		String name = manager.getConversation(M.CONSOLE_NAME);
-		if(name == null){
-			sender.sendMessage(M.error("You haven't messaged anyone recently."));
-			return;
-		}
-		Player to = Bukkit.getPlayer(name);
-		if(to == null){
-			sender.sendMessage(M.error("The player who you last messaged isn't online."));
-			return;
-		}
-		String msg = Joiner.on(' ').join(args);
-		manager.sendPrivateMessage(manager.plugin.getProfileManager().getProfile(to), null, msg);
-	}*/
 	
 	@Override
 	protected void serverPerform(CommandSender sender, String[] args, String label) {
-		onlyForPlayers(sender);
+		/*if(args.length < 1){
+			sender.sendMessage(M.usage("/" + label + " <message>"));
+			return;
+		}
+		String msg = Joiner.on(' ').join(args);
+		manager.handleServerPrivateMessage(sender, ChatManager.PM_REPLY_KEY, msg);*/
+		sender.sendMessage(M.error("Please use the proxy to send direct messages from console."));
 	}
 	
 	@Override
@@ -55,23 +41,7 @@ public final class ReplyCommand extends Command<Core,ChatManager> {
 			profile.sendMessage(M.usage("/" + label + " <message>"));
 			return;
 		}
-		/*String name = manager.getConversation(profile.getLatestUsername());
-		if(name == null){
-			profile.sendMessage(M.error("You haven't messaged anyone recently."));
-			return;
-		}
-		Player to;
-		if(name.equals(M.CONSOLE_NAME)){
-			to = null;
-		}else{
-			to = Bukkit.getPlayer(name);
-			if(to == null){
-				profile.sendMessage(M.error("The player who you last messaged isn't online."));
-				return;
-			}
-		}*/
 		String msg = Joiner.on(' ').join(args);
-		//manager.sendPrivateMessage(manager.plugin.getProfileManager().getProfile(to), profile, msg);
 		manager.handlePrivateMessage(profile, ChatManager.PM_REPLY_KEY, msg);
 	}
 	

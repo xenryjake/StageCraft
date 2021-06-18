@@ -30,13 +30,13 @@ import java.util.List;
 public final class MuteCommand extends Command<Core,PunishmentManager> {
 	
 	public MuteCommand(PunishmentManager manager) {
-		super(manager, Rank.MOD, "mute");
+		super(manager, Rank.MOD, "mute", "tempmute");
 	}
 	
 	@Override
 	protected void playerPerform(Profile profile, String[] args, String label) {
 		Player player = profile.getPlayer();
-		doMute(player, args, label, profile.getUUID(), player);
+		doMute(player, args, label, profile.getUUID(), player, !Punishment.CAN_PUNISH_WITHOUT_REASON.has(profile));
 	}
 	
 	@Override
@@ -47,10 +47,11 @@ public final class MuteCommand extends Command<Core,PunishmentManager> {
 			sender.sendMessage(ChatColor.DARK_RED + "WARNING! " + M.err + "No players are online this instance. If the player is online another instance, changes will not take effect until the player switches servers or relogs.");
 			sender.sendMessage("");
 		}
-		doMute(sender, args, label, M.CONSOLE_NAME, pmscSender);
+		doMute(sender, args, label, M.CONSOLE_NAME, pmscSender, false);
 	}
 	
-	private void doMute(CommandSender sender, String[] args, String label, String punishedBy, Player pmscSender) {
+	private void doMute(CommandSender sender, String[] args, String label, String punishedBy, Player pmscSender,
+						boolean requiresReason) {
 		if(args.length < 2) {
 			sender.sendMessage(M.usage("/" + label + " <player> <duration> [reason]"));
 			return;
@@ -89,6 +90,9 @@ public final class MuteCommand extends Command<Core,PunishmentManager> {
 		String reason = "";
 		if(args.length > 2) {
 			reason = Joiner.on(' ').join(Arrays.copyOfRange(args, 2, args.length));
+		}else if(requiresReason){
+			sender.sendMessage(M.error("You must specify a reason."));
+			return;
 		}
 		Punishment mute = new Punishment(Punishment.Type.MUTE, target.getUUID(), punishedBy, reason, duration == -1 ? -1 : TimeUtil.nowSeconds() + duration, duration);
 		LocalPunishmentExecution execution = new LocalPunishmentExecution(manager, mute, sender, pmscSender);

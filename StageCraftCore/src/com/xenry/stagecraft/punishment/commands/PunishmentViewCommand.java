@@ -72,6 +72,12 @@ public final class PunishmentViewCommand extends Command<Core,PunishmentManager>
 			case "mutes":
 				type = Punishment.Type.MUTE;
 				break;
+			case "warn":
+			case "warns":
+			case "warning":
+			case "warnings":
+				type = Punishment.Type.WARNING;
+				break;
 			default:
 				sender.sendMessage(M.error("Invalid punishment type: " + args[1]));
 				return;
@@ -134,7 +140,7 @@ public final class PunishmentViewCommand extends Command<Core,PunishmentManager>
 			case 1:
 				return networkPlayers(args[0]);
 			case 2:
-				return filter(Arrays.asList("ban", "mute", "kick"), args[0]);
+				return filter(Arrays.asList("ban", "mute", "kick", "warning"), args[0]);
 			default:
 				return Collections.emptyList();
 		}

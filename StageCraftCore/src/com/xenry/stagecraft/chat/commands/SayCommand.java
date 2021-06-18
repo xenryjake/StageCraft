@@ -6,7 +6,6 @@ import com.xenry.stagecraft.chat.emotes.Emote;
 import com.xenry.stagecraft.command.Command;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.Rank;
-import com.xenry.stagecraft.util.Log;
 import com.xenry.stagecraft.util.M;
 import com.xenry.stagecraft.util.PlayerUtil;
 import net.md_5.bungee.api.ChatColor;
@@ -29,7 +28,7 @@ import java.util.List;
 public final class SayCommand extends Command<Core,ChatManager> {
 	
 	public SayCommand(ChatManager manager){
-		super(manager, Rank.MEMBER, true, "say");
+		super(manager, Rank.MEMBER, "say");
 	}
 	
 	@Override
@@ -59,13 +58,11 @@ public final class SayCommand extends Command<Core,ChatManager> {
 		}
 		
 		String message = ChatColor.translateAlternateColorCodes('&', Joiner.on(' ').join(args));
-		message = Emote.replaceEmotes(message, ChatColor.WHITE);
+		message = Emote.replaceAllEmotes(message, ChatColor.WHITE);
 		BaseComponent[] components = new ComponentBuilder(M.CONSOLE_NAME).color(ChatColor.YELLOW).bold(false)
 				.append(": ").color(ChatColor.DARK_GRAY).bold(false)
 				.append(TextComponent.fromLegacyText(message)).create();
-		//Bukkit.broadcastMessage("§e§lServer§8:§r " + message);
-		manager.getBroadcastPMSC().send(pluginMessageSender, components);
-		Log.toCS(components);
+		manager.sendChat(pluginMessageSender, manager.getPublicChannel(), components);
 	}
 	
 	@Override

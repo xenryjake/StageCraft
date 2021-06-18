@@ -27,7 +27,7 @@ import java.util.List;
 public final class NickCommand extends Command<Core,ProfileManager> {
 	
 	public NickCommand(ProfileManager manager){
-		super(manager, Rank.HEAD_MOD, "nick", "nickname");
+		super(manager, Rank.ADMIN, "nick", "nickname");
 	}
 	
 	@Override

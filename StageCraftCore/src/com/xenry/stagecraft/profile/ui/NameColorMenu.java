@@ -47,7 +47,8 @@ public final class NameColorMenu extends Menu<Core,ProfileManager> {
 			is.setItemMeta(im);
 			contents.set(0, 8, Button.closeInventoryButton(is));
 		}
-		for(ChatColor color : profile.getRank().getAvailableColors()){
+		//todo update multirank
+		for(ChatColor color : profile.getMainRank().getAvailableColors()){
 			ItemStack is = new ItemStack(chatColorToMaterial(color));
 			ItemMeta im = is.getItemMeta();
 			im.setDisplayName(color + color.getName());

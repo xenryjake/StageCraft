@@ -20,8 +20,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Collections;
 import java.util.List;
 
-import static com.xenry.stagecraft.profile.commands.LookupCommand.SENSITIVE_VIEW_ACCESS;
-
 /**
  * StageCraft created by Henry Blasingame (Xenry) on 6/27/20
  * The content in this file and all related files are
@@ -34,12 +32,12 @@ public final class SeenCommand extends Command<Core,ProfileManager> {
 	public static final Access DETAILED_VIEW_ACCESS = Rank.MOD;
 	
 	public SeenCommand(ProfileManager manager){
-		super(manager, Rank.MEMBER, "seen");
+		super(manager, Rank.PREMIUM, "seen");
 	}
 	
 	@Override
 	protected void playerPerform(Profile profile, String[] args, String label) {
-		doCommand(profile.getPlayer(), args, label, DETAILED_VIEW_ACCESS.has(profile), SENSITIVE_VIEW_ACCESS.has(profile));
+		doCommand(profile.getPlayer(), args, label, DETAILED_VIEW_ACCESS.has(profile), LookupCommand.SENSITIVE_VIEW_ACCESS.has(profile));
 	}
 	
 	@Override
@@ -85,7 +83,7 @@ public final class SeenCommand extends Command<Core,ProfileManager> {
 			}
 		}else{
 			cb.append("offline").color(ChatColor.RED);
-			long time = target.getMostRecentLogout();
+			long time = target.getSecondsSinceLastLogout(manager.plugin.getServerName());
 			cb.append(" (").color(M.msg).append(TimeUtil.simplerString(time)).color(M.elm).append(")").color(M.msg);
 		}
 		sender.sendMessage(cb.create());

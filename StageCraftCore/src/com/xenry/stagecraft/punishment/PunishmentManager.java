@@ -5,7 +5,7 @@ import com.mongodb.DBCursor;
 import com.xenry.stagecraft.Manager;
 import com.xenry.stagecraft.Core;
 import com.xenry.stagecraft.chat.PrivateMessageEvent;
-import com.xenry.stagecraft.chat.PublicChatEvent;
+import com.xenry.stagecraft.chat.ChatEvent;
 import com.xenry.stagecraft.profile.GenericProfile;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.punishment.commands.*;
@@ -60,6 +60,7 @@ public final class PunishmentManager extends Manager<Core> {
 		registerCommand(new KickCommand(this));
 		registerCommand(new MuteCommand(this));
 		registerCommand(new BanCommand(this));
+		registerCommand(new WarnCommand(this));
 	}
 	
 	public PunishmentPMSC getPunishmentPMSC() {
@@ -145,7 +146,7 @@ public final class PunishmentManager extends Manager<Core> {
 	}
 	
 	@EventHandler
-	public void onChat(PublicChatEvent event){
+	public void onChat(ChatEvent event){
 		Profile profile = event.getProfile();
 		Punishment mute = getOutstandingPunishment(profile, Punishment.Type.MUTE);
 		if(mute != null){

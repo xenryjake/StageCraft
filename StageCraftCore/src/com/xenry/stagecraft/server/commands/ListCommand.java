@@ -26,7 +26,7 @@ import java.util.*;
  */
 public final class ListCommand extends Command<Core,ServerManager> {
 	
-	public static final Access SEE_VANISHED = Rank.HEAD_MOD;
+	public static final Access SEE_VANISHED = Rank.ADMIN;
 	
 	public ListCommand(ServerManager manager){
 		super(manager, Rank.MEMBER, "list", "who", "online", "ls");

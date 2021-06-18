@@ -30,10 +30,12 @@ public class LocalPunishmentExecution extends PunishmentExecution {
 		manager.addPunishment(punishment);
 		Player punishedPlayer = punished.getPlayer();
 		if(punishedPlayer != null){
-			if(type == Punishment.Type.MUTE){
-				punishedPlayer.sendMessage(punishment.getMessage());
-			}else{
+			if(type.kickPlayer){
 				punishedPlayer.kickPlayer(punishment.getMessage());
+				punishedBy.sendMessage(M.elm + punishedPlayer.getName() + M.msg + " was disconnected from "
+						+ manager.getCore().getServerName());
+			}else{
+				punishedPlayer.sendMessage(punishment.getMessage());
 			}
 		}
 		sendMessageToPunisher();
@@ -46,7 +48,7 @@ public class LocalPunishmentExecution extends PunishmentExecution {
 	private void sendMessageToPunisher(){
 		Punishment.Type type = punishment.getType();
 		punishedBy.sendMessage(M.msg + "You have " + M.elm + type.verb + M.msg + " player " + M.elm + punished.getLatestUsername() + M.msg + ":");
-		if(type != Punishment.Type.KICK){
+		if(type.isTimed()){
 			punishedBy.sendMessage(M.arrow("Duration: " + M.WHITE + TimeUtil.simplerString(punishment.getDurationSeconds())));
 		}
 		if(!punishment.getReason().trim().isEmpty()) {

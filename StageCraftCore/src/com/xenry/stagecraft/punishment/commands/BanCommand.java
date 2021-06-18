@@ -30,13 +30,13 @@ import java.util.List;
 public final class BanCommand extends Command<Core,PunishmentManager> {
 	
 	public BanCommand(PunishmentManager manager){
-		super(manager, Rank.MOD, "ban");
+		super(manager, Rank.MOD, "ban", "tempban");
 	}
 	
 	@Override
 	protected void playerPerform(Profile profile, String[] args, String label) {
 		Player player = profile.getPlayer();
-		doBan(player, args, label, profile.getUUID(), player);
+		doBan(player, args, label, profile.getUUID(), player, !Punishment.CAN_PUNISH_WITHOUT_REASON.has(profile));
 	}
 	
 	@Override
@@ -47,10 +47,11 @@ public final class BanCommand extends Command<Core,PunishmentManager> {
 			sender.sendMessage(ChatColor.DARK_RED + "WARNING! " + M.err + "No players are online this instance. If the player is online another instance, changes will not take effect until the player switches servers or relogs.");
 			sender.sendMessage("");
 		}
-		doBan(sender, args, label, M.CONSOLE_NAME, pmscSender);
+		doBan(sender, args, label, M.CONSOLE_NAME, pmscSender, false);
 	}
 	
-	private void doBan(CommandSender sender, String[] args, String label, String punishedBy, Player pmscSender) {
+	private void doBan(CommandSender sender, String[] args, String label, String punishedBy, Player pmscSender,
+					   boolean requiresReason) {
 		if(args.length < 2) {
 			sender.sendMessage(M.usage("/" + label + " <player> <duration> [reason]"));
 			return;
@@ -89,6 +90,9 @@ public final class BanCommand extends Command<Core,PunishmentManager> {
 		String reason = "";
 		if(args.length > 2) {
 			reason = Joiner.on(' ').join(Arrays.copyOfRange(args, 2, args.length));
+		}else if(requiresReason){
+			sender.sendMessage(M.error("You must specify a reason."));
+			return;
 		}
 		Punishment ban = new Punishment(Punishment.Type.BAN, target.getUUID(), punishedBy, reason, duration == -1 ? -1 : TimeUtil.nowSeconds() + duration, duration);
 		LocalPunishmentExecution execution = new LocalPunishmentExecution(manager, ban, sender, pmscSender);

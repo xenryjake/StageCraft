@@ -36,7 +36,7 @@ public final class BungeeUtil {
 	
 	public static void connectOther(Player sender, @NotNull String playerName, @NotNull String serverName){
 		ByteArrayDataOutput out = ByteStreams.newDataOutput();
-		out.writeUTF("Connect");
+		out.writeUTF("ConnectOther");
 		out.writeUTF(playerName);
 		out.writeUTF(serverName);
 		sender.sendPluginMessage(Core.getInstance(), "BungeeCord", out.toByteArray());
@@ -44,7 +44,7 @@ public final class BungeeUtil {
 	
 	public static void message(Player sender, @NotNull String playerName, @NotNull String message){
 		ByteArrayDataOutput out = ByteStreams.newDataOutput();
-		out.writeUTF("Connect");
+		out.writeUTF("Message");
 		out.writeUTF(playerName);
 		out.writeUTF(message);
 		sender.sendPluginMessage(Core.getInstance(), "BungeeCord", out.toByteArray());

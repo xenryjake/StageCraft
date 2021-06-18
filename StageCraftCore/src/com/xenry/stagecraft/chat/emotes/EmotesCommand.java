@@ -3,7 +3,13 @@ import com.xenry.stagecraft.Core;
 import com.xenry.stagecraft.chat.ChatManager;
 import com.xenry.stagecraft.command.Command;
 import com.xenry.stagecraft.profile.Profile;
+import com.xenry.stagecraft.profile.Rank;
 import com.xenry.stagecraft.util.M;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
@@ -20,22 +26,25 @@ import java.util.List;
  */
 public final class EmotesCommand extends Command<Core,ChatManager> {
 	
-	public static final int EMOTES_PER_PAGE = 10;
+	public static final int EMOTES_PER_PAGE = 9;
 	
 	public EmotesCommand(ChatManager manager){
-		super(manager, Emote.EMOTE_ACCESS, true, "emotes", "emotelist", "emote");
+		super(manager, Rank.MEMBER, "emotes", "emotelist", "emote");
 	}
 	
 	@Override
 	protected void playerPerform(Profile profile, String[] args, String label) {
-		serverPerform(profile.getPlayer(), args, label);
+		sendList(profile.getPlayer(), args, Emote.getAvailableEmotes(profile));
 	}
 	
 	@Override
 	protected void serverPerform(CommandSender sender, String[] args, String label) {
-		List<Emote> emotes = Arrays.asList(Emote.values());
+		sendList(sender, args, Arrays.asList(Emote.values()));
+	}
+	
+	private void sendList(CommandSender sender, String[] args, List<Emote> emotes){
 		if(emotes.size() == 0){
-			sender.sendMessage(M.error("There are no emotes set."));
+			sender.sendMessage(M.error("You don't have access to any emotes."));
 			return;
 		}
 		int page = 1;
@@ -43,11 +52,13 @@ public final class EmotesCommand extends Command<Core,ChatManager> {
 			try{
 				page = Integer.parseInt(args[0]);
 			}catch(Exception ex){
-				sender.sendMessage(M.error("Please enter a valid integer."));
+				sender.sendMessage(M.error("Please enter a valid page number."));
 				return;
 			}
 		}
-		
+		if(page < 1){
+			page = 1;
+		}
 		int maxPages = (int) Math.ceil(emotes.size() / (double)EMOTES_PER_PAGE);
 		if(page > maxPages){
 			page = maxPages;
@@ -55,23 +66,38 @@ public final class EmotesCommand extends Command<Core,ChatManager> {
 		int firstWarp = (page-1) * EMOTES_PER_PAGE;
 		int emotesOnThisPage = Math.min(emotes.size() - firstWarp, EMOTES_PER_PAGE);
 		List<Emote> emotesToDisplay = emotes.subList(firstWarp, firstWarp + emotesOnThisPage);
-		StringBuilder sb = new StringBuilder();
+		
+		ComponentBuilder cb = new ComponentBuilder();
+		if(emotes.size() > EMOTES_PER_PAGE){
+			cb.append("Your emotes, page ").color(M.msg).append(page + " ").color(M.elm).append("of")
+					.color(M.msg).append(" " + maxPages + " ").color(M.elm).append("[PREV]");
+			if(page > 1){
+				cb.color(M.GREEN).bold(true);
+				cb.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/emotes " + (page - 1)));
+				cb.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text("Page " + (page - 1))));
+			}else{
+				cb.color(M.DGRAY).bold(false);
+			}
+			cb.append(" ").reset().append("[NEXT]");
+			if(page < maxPages){
+				cb.color(M.GREEN).bold(true);
+				cb.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/emotes " + (page + 1)));
+				cb.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text("Page " + (page + 1))));
+			}else{
+				cb.color(M.DGRAY).bold(false);
+			}
+		}else{
+			cb.append("Your emotes:").color(M.msg);
+		}
 		for(Emote emote : emotesToDisplay){
 			if(emote.keywords.length == 0){
 				continue;
 			}
-			sb.append("§r").append(M.arrow("§r")).append(emote.keywords[0]).append(M.gry).append(" - §r").append(emote.replacement).append("\n");
+			cb.append("\n » ").color(M.DGRAY).bold(true).append(emote.keywords[0]).color(M.WHITE).bold(false)
+					.append(" - ").color(M.gry).append(TextComponent.fromLegacyText(emote.replacement, M.WHITE))
+					.reset();
 		}
-		String emoteString = sb.toString().trim();
-		if(emoteString.endsWith(",")){
-			emoteString = emoteString.substring(0, emoteString.length() - 1);
-		}
-		
-		if(emotes.size() > EMOTES_PER_PAGE){
-			sender.sendMessage(M.msg + "Showing emotes, page " + M.elm + page + M.msg + " of " + M.elm + maxPages + M.msg + " (" + M.elm + (firstWarp+1) + M.msg + "-" + M.elm + (firstWarp + emotesOnThisPage) + M.msg + " of " + M.elm + emotes.size() + M.msg + " emotes):\n" + emoteString);
-		}else{
-			sender.sendMessage(M.msg + "Showing all emotes:\n" + emoteString);
-		}
+		sender.sendMessage(cb.create());
 	}
 	
 	@Override

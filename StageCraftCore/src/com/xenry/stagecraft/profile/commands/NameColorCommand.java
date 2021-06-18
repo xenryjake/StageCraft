@@ -23,12 +23,13 @@ import java.util.List;
  */
 public final class NameColorCommand extends Command<Core,ProfileManager> {
 	
-	public static final Access OTHERS = Rank.HEAD_MOD;
+	public static final Access OTHERS = Rank.ADMIN;
 	
 	// todo add admin ability to change others
+	// todo update to multi-rank
 	
 	public NameColorCommand(ProfileManager manager){
-		super(manager, Rank.MEMBER, "namecolor");
+		super(manager, Access.FALSE, "namecolor");
 	}
 	
 	@Override
@@ -45,7 +46,7 @@ public final class NameColorCommand extends Command<Core,ProfileManager> {
 			profile.sendMessage(M.error("Invalid color: " + args[0]));
 			return;
 		}
-		if(!profile.getRank().getAvailableColors().contains(color)){
+		if(!profile.getMainRank().getAvailableColors().contains(color)){
 			profile.sendMessage(M.error("You don't have access to " + color + color.getName() + M.err + "."));
 			return;
 		}
@@ -67,7 +68,7 @@ public final class NameColorCommand extends Command<Core,ProfileManager> {
 	@Override
 	protected @NotNull List<String> playerTabComplete(Profile profile, String[] args, String label) {
 		if(args.length == 1){
-			return filter(profile.getRank().getAvailableColorNames(), args[0]);
+			return filter(profile.getMainRank().getAvailableColorNames(), args[0]);
 		}else if(args.length == 2 && OTHERS.has(profile)){
 			return networkPlayers(args[1]);
 		}else{

@@ -25,20 +25,24 @@ import java.util.List;
  * All content in this file may not be used without written consent of Henry Jake.
  */
 public final class BroadcastCommand extends Command<Core,ChatManager> {
-
+	
 	public BroadcastCommand(ChatManager manager){
-		super(manager, Rank.MOD, true, "broadcast", "bc", "bcast");
+		super(manager, Rank.MOD, "broadcast", "bc", "bcast");
 	}
 	
 	@Override
 	protected void playerPerform(Profile profile, String[] args, String label) {
-		serverPerform(profile.getPlayer(), args, label);
+		doBroadcast(profile.getPlayer(), profile, args);
 	}
 	
 	@Override
 	protected void serverPerform(CommandSender sender, String[] args, String label) {
+		doBroadcast(sender, null, args);
+	}
+	
+	private void doBroadcast(CommandSender sender, Profile profile, String[] args){
 		if(args.length < 1){
-			sender.sendMessage(M.usage("/" + label + " <message>"));
+			sender.sendMessage(M.usage("/broadcast <message>"));
 			return;
 		}
 		Player pluginMessageSender;
@@ -51,22 +55,20 @@ public final class BroadcastCommand extends Command<Core,ChatManager> {
 				return;
 			}
 		}
-		
 		String message = Joiner.on(' ').join(args);
 		if(ChatManager.COLOR_ACCESS.has(sender)){
 			message = ChatColor.translateAlternateColorCodes('&', message);
 		}
-		if(Emote.EMOTE_ACCESS.has(sender)){
-			message = Emote.replaceEmotes(message, ChatColor.RED);
+		if(profile == null){
+			message = Emote.replaceAllEmotes(message, ChatColor.RED);
+		}else{
+			message = Emote.replaceEmotes(message, ChatColor.RED, profile);
 		}
 		BaseComponent[] components = new ComponentBuilder(sender instanceof Player ? sender.getName() : M.CONSOLE_NAME)
 				.color(ChatColor.YELLOW).bold(true)
 				.append(": ").color(ChatColor.DARK_GRAY).bold(false)
 				.append(TextComponent.fromLegacyText(message, ChatColor.RED))
 				.color(ChatColor.RED).bold(false).create();
-		//BungeeUtil.messageRawAll(sender.getPlayer(), components);
-		//Bukkit.broadcastMessage("§b§l" + player.getName() + "§8: §d" + message);
-		
 		manager.getBroadcastPMSC().send(pluginMessageSender, components);
 	}
 	

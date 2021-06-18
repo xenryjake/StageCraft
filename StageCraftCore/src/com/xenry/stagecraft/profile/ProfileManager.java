@@ -40,7 +40,7 @@ public final class ProfileManager extends Manager<Core> {
 	private final DBCollection collection;
 	private final HashMap<String,Profile> profiles;
 	private final PermissionHandler permissionsHandler;
-	private final ProfileRankUpdatePMSC profileRankUpdatePMSC;
+	private final ProfileRanksUpdatePMSC profileRanksUpdatePMSC;
 	private final ProfileNameInfoUpdatePMSC profileNameInfoUpdatePMSC;
 	
 	public ProfileManager(Core plugin){
@@ -52,7 +52,7 @@ public final class ProfileManager extends Manager<Core> {
 		GenericProfile.coreProfileManager = this;
 		
 		permissionsHandler = new PermissionHandler(this);
-		profileRankUpdatePMSC = new ProfileRankUpdatePMSC(this);
+		profileRanksUpdatePMSC = new ProfileRanksUpdatePMSC(this);
 		profileNameInfoUpdatePMSC = new ProfileNameInfoUpdatePMSC(this);
 	}
 	
@@ -63,7 +63,7 @@ public final class ProfileManager extends Manager<Core> {
 		registerCommand(new PermTestCommand(this));
 		
 		plugin.getPluginMessageManager().registerSubChannel(new PlayerWillSwitchPMSC(this));
-		plugin.getPluginMessageManager().registerSubChannel(profileRankUpdatePMSC);
+		plugin.getPluginMessageManager().registerSubChannel(profileRanksUpdatePMSC);
 		plugin.getPluginMessageManager().registerSubChannel(profileNameInfoUpdatePMSC);
 		
 		registerCommand(new RankCommand(this));
@@ -86,8 +86,8 @@ public final class ProfileManager extends Manager<Core> {
 		return permissionsHandler;
 	}
 	
-	public ProfileRankUpdatePMSC getProfileRankUpdatePMSC() {
-		return profileRankUpdatePMSC;
+	public ProfileRanksUpdatePMSC getProfileRanksUpdatePMSC() {
+		return profileRanksUpdatePMSC;
 	}
 	
 	public ProfileNameInfoUpdatePMSC getProfileNameInfoUpdatePMSC() {
@@ -231,7 +231,7 @@ public final class ProfileManager extends Manager<Core> {
 	public void onJoin(PlayerJoinEvent event){
 		Player player = event.getPlayer();
 		Profile profile = getProfile(player);
-		//player.setPlayerListHeader("§9§lStage§a§lCraft");
+		//player.setPlayerListHeader("§9§lMine§a§lTogether");
 		//player.setPlayerListFooter("§8§o" + plugin.getServerName());
 		event.setJoinMessage(null);
 		if(profile == null){
@@ -258,7 +258,7 @@ public final class ProfileManager extends Manager<Core> {
 			return;
 		}
 		profile.setLastLogout(plugin.getServerName(), TimeUtil.nowSeconds());
-		profile.updatePlaytime(plugin.getServerName());
+		profile.updateLocalPlaytime();
 		save(profile);
 		profiles.remove(profile.getUUID());
 		//event.setQuitMessage(" §c-§7 " + player.getDisplayName());
@@ -274,6 +274,11 @@ public final class ProfileManager extends Manager<Core> {
 	public void onVanish(VanishChangeEvent event){
 		event.profile.setVanished(event.state);
 		plugin.getServerManager().sendStateUpdate(event.profile.getPlayer(), event.profile);
+	}
+	
+	@EventHandler
+	public void onRanksUpdate(ProfileRanksUpdateEvent event){
+		event.getProfile().updateDisplayName();
 	}
 	
 }

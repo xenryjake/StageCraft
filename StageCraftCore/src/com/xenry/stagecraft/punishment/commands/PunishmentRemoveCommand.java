@@ -66,6 +66,12 @@ public final class PunishmentRemoveCommand extends Command<Core,PunishmentManage
 			case "kicks":
 				sender.sendMessage(M.error("Kicks cannot be removed."));
 				return;
+			case "warn":
+			case "warns":
+			case "warning":
+			case "warnings":
+				sender.sendMessage(M.error("Warnings cannot be removed."));
+				return;
 			case "ban":
 			case "bans":
 				type = Punishment.Type.BAN;

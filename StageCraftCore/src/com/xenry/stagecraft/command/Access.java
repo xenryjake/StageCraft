@@ -31,12 +31,12 @@ public interface Access {
 	Access FALSE = new Access() {
 		@Override
 		public boolean has(@NotNull Profile profile) {
-			return true;
+			return false;
 		}
 		
 		@Override
 		public boolean has(@NotNull CommandSender sender) {
-			return true;
+			return false;
 		}
 	};
 	

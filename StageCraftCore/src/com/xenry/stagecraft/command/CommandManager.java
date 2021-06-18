@@ -14,6 +14,7 @@ import org.bukkit.event.server.ServerCommandEvent;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -28,6 +29,9 @@ public final class CommandManager extends Manager<Core> implements TabExecutor {
 	
 	protected final List<Command<?,?>> commands;
 	private final SudoPMSC sudoPMSC;
+	
+	private final List<String> defaultNamespacePrefixes = Arrays.asList("minecraft:", "bukkit:", "spigot:", "paper:");
+	private final List<String> unsafeForPlayers = Arrays.asList("op", "minecraft:op", "deop", "minecraft:deop");
 	
 	public CommandManager(Core plugin){
 		super("Commands", plugin);
@@ -126,6 +130,11 @@ public final class CommandManager extends Manager<Core> implements TabExecutor {
 			return;
 		}
 		String label = split[0].toLowerCase();
+		if(unsafeForPlayers.contains(label)){
+			event.getPlayer().sendMessage(M.error("This command isn't available for players."));
+			event.setCancelled(true);
+			return;
+		}
 		String[] args = new String[split.length - 1];
 		System.arraycopy(split, 1, args, 0, split.length - 1);
 		Command<?,?> cmd = getCommand(label);

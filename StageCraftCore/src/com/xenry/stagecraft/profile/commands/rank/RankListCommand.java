@@ -12,7 +12,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * StageCraft created by Henry Blasingame (Xenry) on 6/23/20
+ * MineTogether created by Henry Blasingame (Xenry) on 6/23/20
  * The content in this file and all related files are
  * Copyright (C) 2020 Henry Blasingame.
  * Usage of this content without written consent of Henry Blasingame
@@ -21,7 +21,7 @@ import java.util.List;
 public final class RankListCommand extends Command<Core,ProfileManager> {
 	
 	public RankListCommand(ProfileManager manager) {
-		super(manager, Rank.HEAD_MOD, "list");
+		super(manager, Rank.ADMIN, "list");
 	}
 	
 	@Override
@@ -33,7 +33,7 @@ public final class RankListCommand extends Command<Core,ProfileManager> {
 	protected void serverPerform(CommandSender sender, String[] args, String label) {
 		sender.sendMessage(M.msg + "Available ranks:");
 		for(Rank rank : Rank.values()){
-			sender.sendMessage(M.arrow(rank.getColoredName() + M.gry + " (" + rank.getWeight() + ")"));
+			sender.sendMessage(M.arrow(rank.getColoredName() + M.DGRAY + " (" + rank.getWeight() + ")"));
 		}
 	}
 	

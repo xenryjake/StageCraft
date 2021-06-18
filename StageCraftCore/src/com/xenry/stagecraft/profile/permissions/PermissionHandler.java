@@ -3,7 +3,7 @@ import com.xenry.stagecraft.Core;
 import com.xenry.stagecraft.Handler;
 import com.xenry.stagecraft.profile.Profile;
 import com.xenry.stagecraft.profile.ProfileManager;
-import com.xenry.stagecraft.profile.ProfileRankChangeEvent;
+import com.xenry.stagecraft.profile.ProfileRanksUpdateEvent;
 import com.xenry.stagecraft.profile.Rank;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -52,31 +52,6 @@ public final class PermissionHandler extends Handler<Core,ProfileManager> {
 			perms.set("minecraft.commands.whitelist", true);
 			registerPermissionSet(perms);
 		}{
-			PermissionSet perms = new RankPermissionSet("global:PREMIUM_MOD", Rank.PREMIUM_MOD);
-			perms.set("stagecraft.rank.premium_mod", true);
-			registerPermissionSet(perms);
-		}{
-			PermissionSet perms = new RankPermissionSet("global:ELITE_MOD", Rank.ELITE_MOD);
-			perms.set("stagecraft.rank.elite_mod", true);
-			registerPermissionSet(perms);
-		}{
-			PermissionSet perms = new RankPermissionSet("global:HEAD_MOD", Rank.HEAD_MOD);
-			perms.set("stagecraft.rank.head_mod", true);
-			perms.set("essentials.vanish", true);
-			perms.set("essentials.vanish.pvp", true);
-			perms.set("essentials.vanish.see", true);
-			perms.set("essentials.vanish.effect", true);
-			perms.set("essentials.vanish.interact", true);
-			registerPermissionSet(perms);
-		}{
-			PermissionSet perms = new RankPermissionSet("global:PREMIUM_HEAD_MOD", Rank.PREMIUM_HEAD_MOD);
-			perms.set("stagecraft.rank.premium_head_mod", true);
-			registerPermissionSet(perms);
-		}{
-			PermissionSet perms = new RankPermissionSet("global:ELITE_HEAD_MOD", Rank.ELITE_HEAD_MOD);
-			perms.set("stagecraft.rank.elite_head_mod", true);
-			registerPermissionSet(perms);
-		}{
 			PermissionSet perms = new RankPermissionSet("global:ADMIN", Rank.ADMIN);
 			perms.set("stagecraft.rank.admin", true);
 			perms.set("essentials.invsee.preventmodify", true);
@@ -86,6 +61,7 @@ public final class PermissionHandler extends Handler<Core,ProfileManager> {
 			perms.set("bukkit.command.op", true);
 			perms.set("minecraft.command.deop", true);
 			perms.set("minecraft.command.op", true);
+			perms.set("essentials.invsee.preventmodify", true);
 			registerPermissionSet(perms);
 		}
 	}
@@ -151,7 +127,7 @@ public final class PermissionHandler extends Handler<Core,ProfileManager> {
 	}
 	
 	@EventHandler
-	public void onRankChange(ProfileRankChangeEvent event){
+	public void onRankChange(ProfileRanksUpdateEvent event){
 		Player player = event.getProfile().getPlayer();
 		if(player != null){
 			assignPermissions(player);

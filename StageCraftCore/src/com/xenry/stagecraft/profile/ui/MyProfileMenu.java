@@ -50,7 +50,7 @@ public final class MyProfileMenu extends Menu<Core,ProfileManager> {
 		}{
 			ItemStack is = new ItemStack(Material.DIAMOND);
 			ItemMeta im = is.getItemMeta();
-			im.setDisplayName(M.msg + "Rank: " + profile.getRank().getColoredName());
+			im.setDisplayName(M.msg + "Main Rank: " + profile.getMainRank().getColoredName());
 			is.setItemMeta(im);
 			contents.set(3, 2, new Item(is));
 		}{
@@ -90,7 +90,7 @@ public final class MyProfileMenu extends Menu<Core,ProfileManager> {
 		{
 			ItemStack is = new ItemStack(Material.DIAMOND);
 			ItemMeta im = is.getItemMeta();
-			im.setDisplayName(M.msg + "Rank: " + profile.getRank().getColoredName());
+			im.setDisplayName(M.msg + "Main Rank: " + profile.getMainRank().getColoredName());
 			is.setItemMeta(im);
 			contents.set(3, 2, new Item(is));
 		}{
